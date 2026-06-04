@@ -1,4 +1,4 @@
-#include "bsp/Stm32Timing.hpp"
+#include "bsp/f4/Stm32Timing.hpp"
 
 #include "stm32f4xx_hal.h"
 

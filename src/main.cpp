@@ -1,4 +1,8 @@
+#if defined(STM32G431xx)
+#include "stm32g4xx_hal.h"
+#else
 #include "stm32f4xx_hal.h"
+#endif
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -13,9 +17,16 @@
 #include "app/HeartbeatTask.hpp"
 #include "app/TelemetryMockTask.hpp"
 #include "app/WatchdogTask.hpp"
-#include "bsp/Stm32Gpio.hpp"
-#include "bsp/Stm32Timing.hpp"
-#include "bsp/Stm32Uart.hpp"
+
+#if defined(STM32G431xx)
+#include "bsp/g4/Stm32G4Gpio.hpp"
+#include "bsp/g4/Stm32G4Timing.hpp"
+#include "bsp/g4/Stm32G4Uart.hpp"
+#else
+#include "bsp/f4/Stm32Gpio.hpp"
+#include "bsp/f4/Stm32Timing.hpp"
+#include "bsp/f4/Stm32Uart.hpp"
+#endif
 
 void SystemClock_Config(void);
 static void Board_GPIO_Init(void);
@@ -47,9 +58,17 @@ void targetSafeFail(void* context)
 }
 
 UART_HandleTypeDef huart2 = {};
+
+#if defined(STM32G431xx)
+bsp::Stm32G4Timing targetTiming;
+bsp::Stm32G4Uart targetTelemetryUart(&huart2);
+bsp::Stm32G4Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
+#else
 bsp::Stm32Timing targetTiming;
 bsp::Stm32Uart targetTelemetryUart(&huart2);
 bsp::Stm32Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
+#endif
+
 core::TaskHealthRegistry<> systemTaskHealth;
 core::FaultLog<> systemFaultLog;
 core::Watchdog<> systemWatchdog(targetTiming,
@@ -109,6 +128,45 @@ int main(void)
 
 void SystemClock_Config(void)
 {
+#if defined(STM32G431xx)
+    RCC_OscInitTypeDef osc = {};
+    RCC_ClkInitTypeDef clk = {};
+
+    __HAL_RCC_PWR_CLK_ENABLE();
+    HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+    osc.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    osc.HSIState = RCC_HSI_ON;
+    osc.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    osc.PLL.PLLState = RCC_PLL_ON;
+    osc.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+    osc.PLL.PLLM = RCC_PLLM_DIV4;
+    osc.PLL.PLLN = 85;
+    osc.PLL.PLLP = RCC_PLLP_DIV2;
+    osc.PLL.PLLQ = RCC_PLLQ_DIV2;
+    osc.PLL.PLLR = RCC_PLLR_DIV2;
+
+    if (HAL_RCC_OscConfig(&osc) != HAL_OK)
+    {
+        core::requestSystemReset();
+    }
+
+    clk.ClockType = RCC_CLOCKTYPE_HCLK |
+                    RCC_CLOCKTYPE_SYSCLK |
+                    RCC_CLOCKTYPE_PCLK1 |
+                    RCC_CLOCKTYPE_PCLK2;
+    clk.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    clk.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    clk.APB1CLKDivider = RCC_HCLK_DIV1;
+    clk.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if (HAL_RCC_ClockConfig(&clk, FLASH_LATENCY_4) != HAL_OK)
+    {
+        core::requestSystemReset();
+    }
+
+    HAL_NVIC_SetPriority(SysTick_IRQn, 15U, 0U);
+#else
     RCC_OscInitTypeDef osc = {};
     RCC_ClkInitTypeDef clk = {};
 
@@ -147,6 +205,7 @@ void SystemClock_Config(void)
     HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000U);
     HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
     HAL_NVIC_SetPriority(SysTick_IRQn, 15U, 0U);
+#endif
 }
 
 static void Board_GPIO_Init(void)
@@ -160,7 +219,11 @@ static void Board_USART2_Init(void)
     __HAL_RCC_GPIOA_CLK_ENABLE();
 
     GPIO_InitTypeDef gpio = {};
+#if defined(STM32G431xx)
+    gpio.Pin = GPIO_PIN_2;
+#else
     gpio.Pin = GPIO_PIN_2 | GPIO_PIN_3;
+#endif
     gpio.Mode = GPIO_MODE_AF_PP;
     gpio.Pull = GPIO_PULLUP;
     gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -172,14 +235,35 @@ static void Board_USART2_Init(void)
     huart2.Init.WordLength = UART_WORDLENGTH_8B;
     huart2.Init.StopBits = UART_STOPBITS_1;
     huart2.Init.Parity = UART_PARITY_NONE;
+#if defined(STM32G431xx)
+    huart2.Init.Mode = UART_MODE_TX;
+#else
     huart2.Init.Mode = UART_MODE_TX_RX;
+#endif
     huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+#if defined(STM32G431xx)
+    huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+    huart2.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+    huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+#endif
 
     if (HAL_UART_Init(&huart2) != HAL_OK)
     {
         core::requestSystemReset();
     }
+
+#if defined(STM32G431xx)
+    if (HAL_UARTEx_SetTxFifoThreshold(&huart2, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+    {
+        core::requestSystemReset();
+    }
+
+    if (HAL_UARTEx_DisableFifoMode(&huart2) != HAL_OK)
+    {
+        core::requestSystemReset();
+    }
+#endif
 }
 
 extern "C" void vApplicationGetIdleTaskMemory(StaticTask_t** ppxIdleTaskTCBBuffer,

@@ -1,4 +1,4 @@
-#include "bsp/Stm32Uart.hpp"
+#include "bsp/f4/Stm32Uart.hpp"
 
 #include "stm32f4xx_hal.h"
 

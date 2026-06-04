@@ -1,12 +1,12 @@
-#include "bsp/Stm32Gpio.hpp"
+#include "bsp/g4/Stm32G4Gpio.hpp"
 
-#include "stm32f4xx_hal.h"
+#include "stm32g4xx_hal.h"
 
 namespace
 {
 
 constexpr uint8_t MaxInterruptPins = 16U;
-bsp::Stm32Gpio* interruptPins[MaxInterruptPins] = {};
+bsp::Stm32G4Gpio* interruptPins[MaxInterruptPins] = {};
 
 uint8_t pinToIndex(uint16_t pin)
 {
@@ -40,13 +40,13 @@ uint32_t edgeToMode(hal::GpioInterruptEdge edge)
 namespace bsp
 {
 
-Stm32Gpio::Stm32Gpio(void* gpioPort, uint16_t gpioPin)
+Stm32G4Gpio::Stm32G4Gpio(void* gpioPort, uint16_t gpioPin)
     : port(gpioPort),
       pin(gpioPin)
 {
 }
 
-void Stm32Gpio::initializeOutput(bool initialHigh)
+void Stm32G4Gpio::initializeOutput(bool initialHigh)
 {
     GPIO_InitTypeDef init = {};
     init.Pin = pin;
@@ -65,7 +65,7 @@ void Stm32Gpio::initializeOutput(bool initialHigh)
     }
 }
 
-void Stm32Gpio::initializeInput()
+void Stm32G4Gpio::initializeInput()
 {
     GPIO_InitTypeDef init = {};
     init.Pin = pin;
@@ -75,29 +75,29 @@ void Stm32Gpio::initializeInput()
     HAL_GPIO_Init(static_cast<GPIO_TypeDef*>(port), &init);
 }
 
-void Stm32Gpio::setHigh()
+void Stm32G4Gpio::setHigh()
 {
     HAL_GPIO_WritePin(static_cast<GPIO_TypeDef*>(port), pin, GPIO_PIN_SET);
 }
 
-void Stm32Gpio::setLow()
+void Stm32G4Gpio::setLow()
 {
     HAL_GPIO_WritePin(static_cast<GPIO_TypeDef*>(port), pin, GPIO_PIN_RESET);
 }
 
-void Stm32Gpio::toggle()
+void Stm32G4Gpio::toggle()
 {
     HAL_GPIO_TogglePin(static_cast<GPIO_TypeDef*>(port), pin);
 }
 
-bool Stm32Gpio::read() const
+bool Stm32G4Gpio::read() const
 {
     return HAL_GPIO_ReadPin(static_cast<GPIO_TypeDef*>(port), pin) == GPIO_PIN_SET;
 }
 
-bool Stm32Gpio::setInterrupt(hal::GpioInterruptEdge edge,
-                             hal::GpioInterruptCallback callback,
-                             void* context)
+bool Stm32G4Gpio::setInterrupt(hal::GpioInterruptEdge edge,
+                               hal::GpioInterruptCallback callback,
+                               void* context)
 {
     if (callback == nullptr)
     {
@@ -124,7 +124,7 @@ bool Stm32Gpio::setInterrupt(hal::GpioInterruptEdge edge,
     return true;
 }
 
-void Stm32Gpio::clearInterrupt()
+void Stm32G4Gpio::clearInterrupt()
 {
     const uint8_t index = pinToIndex(pin);
     if (index < MaxInterruptPins && interruptPins[index] == this)
@@ -136,12 +136,12 @@ void Stm32Gpio::clearInterrupt()
     interruptContext = nullptr;
 }
 
-bool Stm32Gpio::matchesPin(uint16_t gpioPin) const
+bool Stm32G4Gpio::matchesPin(uint16_t gpioPin) const
 {
     return pin == gpioPin;
 }
 
-void Stm32Gpio::dispatchInterrupt()
+void Stm32G4Gpio::dispatchInterrupt()
 {
     if (interruptCallback != nullptr)
     {
