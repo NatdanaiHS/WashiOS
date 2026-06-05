@@ -292,6 +292,18 @@ public:
     {
         ++totalCount;
     }
+
+    void overwriteRetainedStateWithGarbageForTest(uint32_t seed)
+    {
+        uint8_t* const bytes = reinterpret_cast<uint8_t*>(this);
+        uint32_t value = seed;
+
+        for (std::size_t i = 0U; i < sizeof(*this); ++i)
+        {
+            value = (value * 1664525UL) + 1013904223UL;
+            bytes[i] = static_cast<uint8_t>((value >> 24U) & 0xFFU);
+        }
+    }
 #endif
 };
 

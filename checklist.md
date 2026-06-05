@@ -16,7 +16,7 @@ Stage 2 is **100% Completed**.
 
 | Pipeline | Result |
 |---|---:|
-| `pio test -e native` | 19/19 SITL tests passed |
+| `pio test -e native` | 23/23 SITL tests passed |
 | `pio run -e genericSTM32F411RE` | Passed |
 | `pio run -e nucleo_g431rb` | Passed |
 | `pio run -e nucleo_g431rb_stress` | Passed |

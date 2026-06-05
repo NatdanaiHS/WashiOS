@@ -11,6 +11,7 @@
 #include "MockTiming.hpp"
 #include "MockUart.hpp"
 #include "SitlRuntime.hpp"
+#include "BootFailSafe.hpp"
 #include "FaultLog.hpp"
 #include "TMR.hpp"
 #include "TaskHealth.hpp"
@@ -28,6 +29,17 @@ void tearDown()
 namespace
 {
 
+struct CriticalSectionProbe
+{
+    uint32_t enterCount;
+    uint32_t exitCount;
+    uint32_t maxDepth;
+    uint32_t depth;
+    bool underflow;
+};
+
+CriticalSectionProbe criticalProbe = {};
+
 struct InterruptCounter
 {
     uint32_t count;
@@ -37,6 +49,21 @@ struct SafeFailCounter
 {
     uint32_t count;
 };
+
+struct HardwareRefreshCounter
+{
+    uint32_t count;
+};
+
+struct BootRecoveryCounter
+{
+    uint32_t count;
+};
+
+void resetCriticalProbe()
+{
+    criticalProbe = {};
+}
 
 void countInterrupt(void* context)
 {
@@ -50,6 +77,26 @@ void countInterrupt(void* context)
 void countSafeFail(void* context)
 {
     SafeFailCounter* const counter = static_cast<SafeFailCounter*>(context);
+    if (counter != nullptr)
+    {
+        ++counter->count;
+    }
+}
+
+void countHardwareRefresh(void* context)
+{
+    HardwareRefreshCounter* const counter =
+        static_cast<HardwareRefreshCounter*>(context);
+    if (counter != nullptr)
+    {
+        ++counter->count;
+    }
+}
+
+void countBootRecovery(void* context)
+{
+    BootRecoveryCounter* const counter =
+        static_cast<BootRecoveryCounter*>(context);
     if (counter != nullptr)
     {
         ++counter->count;
@@ -375,6 +422,145 @@ void test_fault_log_wraps_deterministically()
     TEST_ASSERT_EQUAL_UINT32(0U, log.totalEvents());
 }
 
+void test_fault_log_rejects_garbage_and_bit_flip_retained_state()
+{
+    core::FaultLog<4> log;
+    core::FaultEvent event = {};
+
+    log.overwriteRetainedStateWithGarbageForTest(0xC05A1EEDUL);
+
+    TEST_ASSERT_FALSE(log.recoverRetainedState());
+    TEST_ASSERT_EQUAL_size_t(0U, log.size());
+    TEST_ASSERT_EQUAL_UINT32(0U, log.totalEvents());
+    TEST_ASSERT_FALSE(log.latest(event));
+
+    TEST_ASSERT_TRUE(log.record(core::FaultEventType::WatchdogTimeout,
+                                500U,
+                                7U,
+                                0xCAFEU,
+                                0U));
+    TEST_ASSERT_TRUE(log.recoverRetainedState());
+
+    log.corruptRetainedStateForTest();
+
+    TEST_ASSERT_FALSE(log.recoverRetainedState());
+    TEST_ASSERT_EQUAL_size_t(0U, log.size());
+    TEST_ASSERT_EQUAL_UINT32(0U, log.totalEvents());
+    TEST_ASSERT_FALSE(log.read(0U, event));
+}
+
+void test_watchdog_blocks_refresh_for_single_starved_critical_task()
+{
+    test_mocks::MockTiming timing;
+    core::FaultLog<> log;
+    core::TaskHealthRegistry<4> registry;
+    SafeFailCounter safeFailCounter = {0U};
+    HardwareRefreshCounter refreshCounter = {0U};
+    core::Watchdog<4> watchdog(timing,
+                               registry,
+                               log,
+                               countSafeFail,
+                               &safeFailCounter,
+                               countHardwareRefresh,
+                               &refreshCounter);
+    core::FaultEvent event = {};
+
+    TEST_ASSERT_TRUE(registry.registerTask(1U, 100U, true, timing.getSystemTick()));
+    TEST_ASSERT_TRUE(registry.registerTask(2U, 100U, true, timing.getSystemTick()));
+    TEST_ASSERT_TRUE(registry.registerTask(3U, 100U, true, timing.getSystemTick()));
+    TEST_ASSERT_TRUE(registry.areAllCriticalTasksHealthy());
+
+    timing.delayMs(50U);
+    TEST_ASSERT_TRUE(registry.checkIn(1U, timing.getSystemTick()));
+    TEST_ASSERT_TRUE(registry.checkIn(2U, timing.getSystemTick()));
+    TEST_ASSERT_TRUE(registry.checkIn(3U, timing.getSystemTick()));
+    (void)watchdog.poll();
+    TEST_ASSERT_EQUAL_UINT32(1U, refreshCounter.count);
+
+    timing.delayMs(101U);
+    TEST_ASSERT_TRUE(registry.checkIn(1U, timing.getSystemTick()));
+    TEST_ASSERT_TRUE(registry.checkIn(3U, timing.getSystemTick()));
+
+    const core::TaskHealthEvaluation result = watchdog.poll();
+
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(core::TaskHealthStatus::CriticalFailure),
+                          static_cast<int>(result.status));
+    TEST_ASSERT_EQUAL_UINT8(2U, result.firstFailedTaskId);
+    TEST_ASSERT_FALSE(registry.areAllCriticalTasksHealthy());
+    TEST_ASSERT_EQUAL_UINT32(1U, refreshCounter.count);
+    TEST_ASSERT_EQUAL_UINT32(1U, safeFailCounter.count);
+    TEST_ASSERT_EQUAL_size_t(3U, log.size());
+    TEST_ASSERT_TRUE(log.latest(event));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(core::FaultEventType::SafeFail),
+                          static_cast<int>(event.type));
+}
+
+void test_health_summary_mask_critical_sections_under_interleaving()
+{
+    core::TaskHealthRegistry<4> registry;
+    core::FaultLog<4> log;
+    constexpr uint32_t ExpectedHealthyMask = (1UL << 1U) | (1UL << 2U);
+
+    resetCriticalProbe();
+    TEST_ASSERT_TRUE(registry.registerTask(1U, 1000U, true, 0U));
+    TEST_ASSERT_TRUE(registry.registerTask(2U, 1000U, true, 0U));
+    TEST_ASSERT_TRUE(registry.registerTask(3U, 10U, false, 0U));
+
+    for (uint32_t i = 0U; i < 512U; ++i)
+    {
+        const uint64_t nowMs = static_cast<uint64_t>(i + 1U);
+        TEST_ASSERT_TRUE(registry.checkIn(1U, nowMs));
+        TEST_ASSERT_TRUE(registry.checkIn(2U, nowMs));
+
+        if ((i & 1U) == 0U)
+        {
+            (void)registry.evaluate(nowMs + 20U, log);
+        }
+        else
+        {
+            TEST_ASSERT_TRUE(registry.checkIn(3U, nowMs));
+        }
+
+        const uint32_t mask = registry.healthSummaryMask();
+        TEST_ASSERT_EQUAL_UINT32(ExpectedHealthyMask, mask & ExpectedHealthyMask);
+        TEST_ASSERT_EQUAL_UINT32(0U, mask & ~(ExpectedHealthyMask | (1UL << 3U)));
+        TEST_ASSERT_FALSE(criticalProbe.underflow);
+        TEST_ASSERT_EQUAL_UINT32(criticalProbe.enterCount, criticalProbe.exitCount);
+        TEST_ASSERT_EQUAL_UINT32(0U, criticalProbe.depth);
+    }
+
+    TEST_ASSERT_TRUE(criticalProbe.enterCount >= (512U * 3U));
+    TEST_ASSERT_TRUE(criticalProbe.maxDepth >= 1U);
+}
+
+void test_boot_task_start_failure_records_safefail_and_recovery()
+{
+    core::FaultLog<4> log;
+    BootRecoveryCounter recoveryCounter = {0U};
+    core::FaultEvent event = {};
+
+    TEST_ASSERT_FALSE(core::handleBootTaskStartFailure(false,
+                                                       log,
+                                                       42U,
+                                                       countBootRecovery,
+                                                       &recoveryCounter));
+    TEST_ASSERT_EQUAL_UINT32(1U, recoveryCounter.count);
+    TEST_ASSERT_EQUAL_size_t(1U, log.size());
+    TEST_ASSERT_EQUAL_UINT32(1U, log.totalEvents());
+    TEST_ASSERT_TRUE(log.latest(event));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(core::FaultEventType::SafeFail),
+                          static_cast<int>(event.type));
+    TEST_ASSERT_EQUAL_UINT64(42U, event.timestampMs);
+
+    TEST_ASSERT_TRUE(core::handleBootTaskStartFailure(true,
+                                                      log,
+                                                      100U,
+                                                      countBootRecovery,
+                                                      &recoveryCounter));
+    TEST_ASSERT_EQUAL_UINT32(1U, recoveryCounter.count);
+    TEST_ASSERT_EQUAL_size_t(1U, log.size());
+}
+
 void test_sitl_runtime_nominal_tasks_check_in_without_watchdog_intervention()
 {
     test_mocks::SitlRuntime runtime;
@@ -499,6 +685,33 @@ void test_sitl_runtime_telemetry_task_emits_real_frames()
 
 } /* namespace */
 
+namespace core
+{
+
+void testEnterCriticalSection()
+{
+    ++criticalProbe.enterCount;
+    ++criticalProbe.depth;
+    if (criticalProbe.depth > criticalProbe.maxDepth)
+    {
+        criticalProbe.maxDepth = criticalProbe.depth;
+    }
+}
+
+void testExitCriticalSection()
+{
+    if (criticalProbe.depth == 0U)
+    {
+        criticalProbe.underflow = true;
+        return;
+    }
+
+    --criticalProbe.depth;
+    ++criticalProbe.exitCount;
+}
+
+} /* namespace core */
+
 int main()
 {
     UNITY_BEGIN();
@@ -516,6 +729,10 @@ int main()
     RUN_TEST(test_watchdog_critical_timeout_safe_fails_once);
     RUN_TEST(test_watchdog_noncritical_timeout_logs_without_safe_fail);
     RUN_TEST(test_fault_log_wraps_deterministically);
+    RUN_TEST(test_fault_log_rejects_garbage_and_bit_flip_retained_state);
+    RUN_TEST(test_watchdog_blocks_refresh_for_single_starved_critical_task);
+    RUN_TEST(test_health_summary_mask_critical_sections_under_interleaving);
+    RUN_TEST(test_boot_task_start_failure_records_safefail_and_recovery);
     RUN_TEST(test_sitl_runtime_nominal_tasks_check_in_without_watchdog_intervention);
     RUN_TEST(test_sitl_runtime_stalled_telemetry_triggers_safe_fail);
     RUN_TEST(test_telemetry_frame_nominal_packing_and_crc);

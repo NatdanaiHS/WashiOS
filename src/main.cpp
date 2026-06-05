@@ -7,6 +7,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#include "BootFailSafe.hpp"
 #include "FaultLog.hpp"
 #include "CrcProfiler.hpp"
 #include "IUart.hpp"
@@ -79,6 +80,12 @@ void refreshHardwareWatchdog(void* context)
 #else
     (void)context;
 #endif
+}
+
+void requestBootRecovery(void* context)
+{
+    (void)context;
+    core::requestSystemReset();
 }
 
 UART_HandleTypeDef huart2 = {};
@@ -173,14 +180,15 @@ int main(void)
     tasksStarted = stressTestTask.Start("Stress", WASHIOS_STRESS_PRIORITY) && tasksStarted;
 #endif
 
-    if (!tasksStarted)
+    if (!core::handleBootTaskStartFailure(tasksStarted,
+                                          systemFaultLog,
+                                          targetTiming.getSystemTick(),
+                                          requestBootRecovery,
+                                          nullptr))
     {
-        (void)systemFaultLog.record(core::FaultEventType::SafeFail,
-                                    targetTiming.getSystemTick(),
-                                    0U,
-                                    0U,
-                                    0U);
-        core::requestSystemReset();
+        for (;;)
+        {
+        }
     }
 
     vTaskStartScheduler();

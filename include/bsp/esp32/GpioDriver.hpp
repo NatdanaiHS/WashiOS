@@ -27,8 +27,6 @@ private:
     uint8_t pin;
     mutable bool state;
     mutable bool initialized;
-    hal::GpioInterruptCallback interruptCallback;
-    void* interruptContext;
 };
 
 } /* namespace bsp::esp32 */

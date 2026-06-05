@@ -8,9 +8,7 @@ namespace bsp::esp32
 GpioDriver::GpioDriver(uint8_t pinNumber)
     : pin(pinNumber),
       state(false),
-      initialized(false),
-      interruptCallback(nullptr),
-      interruptContext(nullptr)
+      initialized(false)
 {
 }
 
@@ -52,20 +50,13 @@ bool GpioDriver::setInterrupt(hal::GpioInterruptEdge edge,
                               void* context)
 {
     (void)edge;
-    if (callback == nullptr)
-    {
-        return false;
-    }
-
-    interruptCallback = callback;
-    interruptContext = context;
-    return true;
+    (void)callback;
+    (void)context;
+    return false;
 }
 
 void GpioDriver::clearInterrupt()
 {
-    interruptCallback = nullptr;
-    interruptContext = nullptr;
 }
 
 void GpioDriver::initializePin() const
