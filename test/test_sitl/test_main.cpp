@@ -366,6 +366,13 @@ void test_fault_log_wraps_deterministically()
     TEST_ASSERT_EQUAL_UINT32(3U, event.detailCode);
     TEST_ASSERT_TRUE(log.read(2U, event));
     TEST_ASSERT_EQUAL_UINT32(4U, event.detailCode);
+    TEST_ASSERT_TRUE(log.recoverRetainedState());
+
+    log.corruptRetainedStateForTest();
+
+    TEST_ASSERT_FALSE(log.recoverRetainedState());
+    TEST_ASSERT_EQUAL_size_t(0U, log.size());
+    TEST_ASSERT_EQUAL_UINT32(0U, log.totalEvents());
 }
 
 void test_sitl_runtime_nominal_tasks_check_in_without_watchdog_intervention()

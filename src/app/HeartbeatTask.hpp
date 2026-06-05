@@ -28,6 +28,13 @@ public:
         led = indicatorLed;
     }
 
+#if defined(WASHIOS_STRESS_TEST)
+    void SetHealthReportingEnabled(bool enabled)
+    {
+        healthReportingEnabled = enabled;
+    }
+#endif
+
 protected:
     void Run() override
     {
@@ -45,9 +52,18 @@ private:
     hal::ITiming* timingSource = nullptr;
     hal::IGPIO* led = nullptr;
     core::TaskId healthTaskId = 0U;
+#if defined(WASHIOS_STRESS_TEST)
+    volatile bool healthReportingEnabled = true;
+#endif
 
     void checkIn()
     {
+#if defined(WASHIOS_STRESS_TEST)
+        if (!healthReportingEnabled)
+        {
+            return;
+        }
+#endif
         if (healthRegistry != nullptr && timingSource != nullptr)
         {
             (void)healthRegistry->checkIn(healthTaskId, timingSource->getSystemTick());

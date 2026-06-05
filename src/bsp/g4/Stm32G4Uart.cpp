@@ -64,13 +64,34 @@ bool Stm32G4Uart::readBuffer(uint8_t* buffer,
         return true;
     }
 
-    (void)buffer;
-    (void)timeout_ms;
-    return false;
+    UART_HandleTypeDef* const uart = static_cast<UART_HandleTypeDef*>(handle);
+    if (uart->RxState != HAL_UART_STATE_READY)
+    {
+        return false;
+    }
+
+    return HAL_UART_Receive(uart,
+                            buffer,
+                            static_cast<uint16_t>(length),
+                            boundedTimeout(timeout_ms)) == HAL_OK;
 }
 
 std::size_t Stm32G4Uart::available() const
 {
+#if defined(UART_FLAG_RXNE_RXFNE)
+    constexpr uint32_t ReceiveDataReadyFlag = UART_FLAG_RXNE_RXFNE;
+#elif defined(UART_FLAG_RXNE)
+    constexpr uint32_t ReceiveDataReadyFlag = UART_FLAG_RXNE;
+#else
+    constexpr uint32_t ReceiveDataReadyFlag = 0U;
+#endif
+
+    if (handle != nullptr && ReceiveDataReadyFlag != 0U)
+    {
+        UART_HandleTypeDef* const uart = static_cast<UART_HandleTypeDef*>(handle);
+        return (__HAL_UART_GET_FLAG(uart, ReceiveDataReadyFlag) != RESET) ? 1U : 0U;
+    }
+
     return 0U;
 }
 

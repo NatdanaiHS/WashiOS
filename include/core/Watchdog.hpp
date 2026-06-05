@@ -11,6 +11,7 @@ namespace core
 {
 
 using SafeFailCallback = void (*)(void* context);
+using HardwareWatchdogRefreshCallback = void (*)(void* context);
 
 template<std::size_t RegistryCapacity = 8, std::size_t LogCapacity = 32>
 class Watchdog
@@ -20,12 +21,16 @@ public:
              TaskHealthRegistry<RegistryCapacity>& taskRegistry,
              FaultLog<LogCapacity>& faultLog,
              SafeFailCallback callback,
-             void* callbackContext)
+             void* callbackContext,
+             HardwareWatchdogRefreshCallback refreshCallback = nullptr,
+             void* refreshContext = nullptr)
         : timing(timingSource),
           registry(taskRegistry),
           log(faultLog),
           safeFailCallback(callback),
-          safeFailContext(callbackContext)
+          safeFailContext(callbackContext),
+          hardwareRefreshCallback(refreshCallback),
+          hardwareRefreshContext(refreshContext)
     {
     }
 
@@ -53,6 +58,12 @@ public:
             }
         }
 
+        if (registry.areAllCriticalTasksHealthy() &&
+            hardwareRefreshCallback != nullptr)
+        {
+            hardwareRefreshCallback(hardwareRefreshContext);
+        }
+
         return result;
     }
 
@@ -62,6 +73,8 @@ private:
     FaultLog<LogCapacity>& log;
     SafeFailCallback safeFailCallback;
     void* safeFailContext;
+    HardwareWatchdogRefreshCallback hardwareRefreshCallback;
+    void* hardwareRefreshContext;
 };
 
 } /* namespace core */

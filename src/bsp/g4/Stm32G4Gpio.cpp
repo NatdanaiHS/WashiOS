@@ -110,6 +110,11 @@ bool Stm32G4Gpio::setInterrupt(hal::GpioInterruptEdge edge,
         return false;
     }
 
+    if (interruptPins[index] != nullptr && interruptPins[index] != this)
+    {
+        return false;
+    }
+
     GPIO_InitTypeDef init = {};
     init.Pin = pin;
     init.Mode = edgeToMode(edge);

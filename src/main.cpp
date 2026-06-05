@@ -8,8 +8,10 @@
 #include "task.h"
 
 #include "FaultLog.hpp"
+#include "CrcProfiler.hpp"
 #include "IUart.hpp"
 #include "ITiming.hpp"
+#include "MemoryConfig.hpp"
 #include "SystemReset.hpp"
 #include "TaskHealth.hpp"
 #include "Watchdog.hpp"
@@ -17,6 +19,9 @@
 #include "app/HeartbeatTask.hpp"
 #include "app/TelemetryMockTask.hpp"
 #include "app/WatchdogTask.hpp"
+#if defined(WASHIOS_STRESS_TEST)
+#include "tasks/StressTestTask.hpp"
+#endif
 
 #if defined(STM32G431xx)
 #include "bsp/g4/Stm32G4Gpio.hpp"
@@ -31,6 +36,9 @@
 void SystemClock_Config(void);
 static void Board_GPIO_Init(void);
 static void Board_USART2_Init(void);
+#if defined(STM32G431xx)
+static void Board_IWDG_Init(void);
+#endif
 
 namespace
 {
@@ -54,12 +62,29 @@ void targetSafeFail(void* context)
                                0U);
     }
 
+#if !defined(STM32G431xx)
     core::requestSystemReset();
+#endif
+}
+
+void refreshHardwareWatchdog(void* context)
+{
+#if defined(STM32G431xx)
+    IWDG_HandleTypeDef* const watchdog =
+        static_cast<IWDG_HandleTypeDef*>(context);
+    if (watchdog != nullptr)
+    {
+        (void)HAL_IWDG_Refresh(watchdog);
+    }
+#else
+    (void)context;
+#endif
 }
 
 UART_HandleTypeDef huart2 = {};
 
 #if defined(STM32G431xx)
+IWDG_HandleTypeDef hiwdg = {};
 bsp::Stm32G4Timing targetTiming;
 bsp::Stm32G4Uart targetTelemetryUart(&huart2);
 bsp::Stm32G4Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
@@ -70,12 +95,19 @@ bsp::Stm32Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
 #endif
 
 core::TaskHealthRegistry<> systemTaskHealth;
-core::FaultLog<> systemFaultLog;
+core::FaultLog<> systemFaultLog WASHIOS_RETAINED;
 core::Watchdog<> systemWatchdog(targetTiming,
                                 systemTaskHealth,
                                 systemFaultLog,
                                 targetSafeFail,
-                                &systemFaultLog);
+                                &systemFaultLog,
+                                refreshHardwareWatchdog,
+#if defined(STM32G431xx)
+                                &hiwdg
+#else
+                                nullptr
+#endif
+);
 core::WatchdogRunner<> systemWatchdogRunner(targetTiming,
                                             systemWatchdog,
                                             WatchdogPollPeriodMs);
@@ -85,6 +117,14 @@ core::WatchdogRunner<> systemWatchdogRunner(targetTiming,
 static HeartbeatTask heartbeatTask;
 static TelemetryMockTask telemetryTask;
 static WatchdogTask<> watchdogTask(systemWatchdogRunner, WatchdogTaskDelayMs);
+#if defined(WASHIOS_STRESS_TEST)
+static StressTestTask stressTestTask;
+
+extern "C" void WashiStress_SubmitCommand(uint32_t command)
+{
+    stressTestTask.SubmitCommand(command);
+}
+#endif
 
 int main(void)
 {
@@ -94,6 +134,10 @@ int main(void)
     Board_USART2_Init();
     targetTiming.initialize();
     heartbeatLed.initializeOutput(false);
+    (void)systemFaultLog.recoverRetainedState();
+#if defined(WASHIOS_PROFILE_CRC)
+    core::initializeCrc32Profiler();
+#endif
 
     const uint64_t startupTimeMs = targetTiming.getSystemTick();
     (void)systemTaskHealth.registerTask(HeartbeatTaskId,
@@ -114,14 +158,44 @@ int main(void)
                                   TelemetryTaskId);
     telemetryTask.ConfigureTelemetry(&systemFaultLog,
                                      &targetTelemetryUart);
+#if defined(WASHIOS_STRESS_TEST)
+    stressTestTask.Configure(&targetTiming, &heartbeatTask);
+#endif
 
-    heartbeatTask.Start("Heartbeat", tskIDLE_PRIORITY + 1);
-    telemetryTask.Start("Telemetry", tskIDLE_PRIORITY + 2);
-    watchdogTask.Start("Watchdog", configMAX_PRIORITIES - 1U);
+#if defined(STM32G431xx)
+    Board_IWDG_Init();
+#endif
+
+    bool tasksStarted = heartbeatTask.Start("Heartbeat", tskIDLE_PRIORITY + 1);
+    tasksStarted = telemetryTask.Start("Telemetry", tskIDLE_PRIORITY + 2) && tasksStarted;
+    tasksStarted = watchdogTask.Start("Watchdog", configMAX_PRIORITIES - 1U) && tasksStarted;
+#if defined(WASHIOS_STRESS_TEST)
+    tasksStarted = stressTestTask.Start("Stress", WASHIOS_STRESS_PRIORITY) && tasksStarted;
+#endif
+
+    if (!tasksStarted)
+    {
+        (void)systemFaultLog.record(core::FaultEventType::SafeFail,
+                                    targetTiming.getSystemTick(),
+                                    0U,
+                                    0U,
+                                    0U);
+        core::requestSystemReset();
+    }
 
     vTaskStartScheduler();
 
-    while (1)
+    /* The scheduler is not expected to return. Reaching this block means
+       kernel start-up failed after task creation, so force a deterministic
+       recovery path instead of spinning silently. */
+    (void)systemFaultLog.record(core::FaultEventType::SafeFail,
+                                targetTiming.getSystemTick(),
+                                0U,
+                                0U,
+                                0U);
+    core::requestSystemReset();
+
+    for (;;)
     {
     }
 }
@@ -135,9 +209,10 @@ void SystemClock_Config(void)
     __HAL_RCC_PWR_CLK_ENABLE();
     HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-    osc.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    osc.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_LSI;
     osc.HSIState = RCC_HSI_ON;
     osc.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    osc.LSIState = RCC_LSI_ON;
     osc.PLL.PLLState = RCC_PLL_ON;
     osc.PLL.PLLSource = RCC_PLLSOURCE_HSI;
     osc.PLL.PLLM = RCC_PLLM_DIV4;
@@ -207,6 +282,21 @@ void SystemClock_Config(void)
     HAL_NVIC_SetPriority(SysTick_IRQn, 15U, 0U);
 #endif
 }
+
+#if defined(STM32G431xx)
+static void Board_IWDG_Init(void)
+{
+    hiwdg.Instance = IWDG;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_16;
+    hiwdg.Init.Reload = 3999U;
+    hiwdg.Init.Window = IWDG_WINDOW_DISABLE;
+
+    if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+    {
+        core::requestSystemReset();
+    }
+}
+#endif
 
 static void Board_GPIO_Init(void)
 {

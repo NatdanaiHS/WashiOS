@@ -163,6 +163,7 @@ public:
     {
         uint32_t mask = 0U;
 
+        taskENTER_CRITICAL();
         for (std::size_t i = 0; i < Capacity; ++i)
         {
             if (entries[i].registered && entries[i].healthy && entries[i].id < 32U)
@@ -170,8 +171,34 @@ public:
                 mask |= (1UL << entries[i].id);
             }
         }
+        taskEXIT_CRITICAL();
 
         return mask;
+    }
+
+    bool areAllCriticalTasksHealthy() const
+    {
+        bool hasCriticalTask = false;
+        bool allCriticalTasksHealthy = true;
+
+        taskENTER_CRITICAL();
+        for (std::size_t i = 0; i < Capacity; ++i)
+        {
+            if (!entries[i].registered || !entries[i].critical)
+            {
+                continue;
+            }
+
+            hasCriticalTask = true;
+            if (!entries[i].healthy)
+            {
+                allCriticalTasksHealthy = false;
+                break;
+            }
+        }
+        taskEXIT_CRITICAL();
+
+        return hasCriticalTask && allCriticalTasksHealthy;
     }
 
 private:
