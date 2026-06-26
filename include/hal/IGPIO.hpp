@@ -18,9 +18,10 @@ enum class GpioInterruptEdge
  *
  * The callback receives an opaque user context pointer supplied during
  * registration. Implementations shall invoke it from the target-appropriate
- * interrupt or deferred-interrupt context without allocating memory.
+ * interrupt or deferred-interrupt context without allocating memory or
+ * throwing exceptions.
  */
-using GpioInterruptCallback = void (*)(void* context);
+using GpioInterruptCallback = void (*)(void* context) noexcept;
 
 /**
  * @brief Abstract interface for a General Purpose Input/Output pin.
@@ -36,7 +37,7 @@ public:
     /**
      * @brief Default virtual destructor for safe destruction through interface pointers.
      */
-    virtual ~IGPIO() = default;
+    virtual ~IGPIO() noexcept = default;
 
     /**
      * @brief Set the physical pin output state to logic HIGH.
@@ -44,7 +45,7 @@ public:
      * Implementations shall drive the associated pin to the electrical level
      * defined as logic HIGH for the target hardware.
      */
-    virtual void setHigh() = 0;
+    virtual void setHigh() noexcept = 0;
 
     /**
      * @brief Set the physical pin output state to logic LOW.
@@ -52,7 +53,7 @@ public:
      * Implementations shall drive the associated pin to the electrical level
      * defined as logic LOW for the target hardware.
      */
-    virtual void setLow() = 0;
+    virtual void setLow() noexcept = 0;
 
     /**
      * @brief Invert the current physical output state of the pin.
@@ -60,7 +61,7 @@ public:
      * Implementations shall toggle the output latch or equivalent hardware
      * state associated with the pin.
      */
-    virtual void toggle() = 0;
+    virtual void toggle() noexcept = 0;
 
     /**
      * @brief Read the current physical state of the pin.
@@ -68,7 +69,7 @@ public:
      * @return true if the pin is currently at logic HIGH; false if the pin is
      *         currently at logic LOW.
      */
-    virtual bool read() const = 0;
+    virtual bool read() const noexcept = 0;
 
     /**
      * @brief Register an interrupt callback for a selected pin edge.
@@ -86,12 +87,12 @@ public:
      */
     virtual bool setInterrupt(GpioInterruptEdge edge,
                               GpioInterruptCallback callback,
-                              void* context) = 0;
+                              void* context) noexcept = 0;
 
     /**
      * @brief Clear the currently registered interrupt callback.
      */
-    virtual void clearInterrupt() = 0;
+    virtual void clearInterrupt() noexcept = 0;
 };
 
 } /* namespace hal */

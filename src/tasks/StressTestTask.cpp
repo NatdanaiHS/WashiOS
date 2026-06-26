@@ -1,1 +1,0 @@
-#include "tasks/StressTestTask.hpp"

@@ -1,8 +1,5 @@
 param(
-    [string]$Environment = "nucleo_g431rb",
-    [uint32]$MeasuredCrcMaxCycles = 0,
-    [uint32]$MeasuredCrcBytes = 0,
-    [uint32]$CpuHz = 170000000
+    [string]$Environment = "nucleo_g431rb"
 )
 
 $ErrorActionPreference = "Stop"
@@ -45,13 +42,6 @@ $dynamicAllocationDisabled = ($freertosConfig -match "configSUPPORT_DYNAMIC_ALLO
 $zeroHeapConfigured = ($freertosConfig -match "configTOTAL_HEAP_SIZE\s+\(\s*\(\s*size_t\s*\)\s*0\s*\)").Count -gt 0
 $heapBytes = if ($dynamicAllocationDisabled -and $zeroHeapConfigured) { 0 } else { "CHECK_CONFIG" }
 
-$crcLatency = "No runtime CRC cycle sample supplied"
-if ($MeasuredCrcMaxCycles -gt 0 -and $CpuHz -gt 0) {
-    $latencyUs = ($MeasuredCrcMaxCycles * 1000000.0) / $CpuHz
-    $crcLatency = ("{0} cycles over {1} bytes = {2:N3} us @ {3:N0} Hz" -f `
-        $MeasuredCrcMaxCycles, $MeasuredCrcBytes, $latencyUs, $CpuHz)
-}
-
 Write-Host ""
 Write-Host "WashiOS Resource Profile"
 Write-Host "========================"
@@ -62,4 +52,3 @@ Write-Host ("  .data                  : {0} bytes" -f $dataBytes)
 Write-Host ("  .bss                   : {0} bytes" -f $bssBytes)
 Write-Host ("  .noinit retained RAM   : {0} bytes" -f $noinitBytes)
 Write-Host ("Dynamic Heap Consumption : {0} bytes" -f $heapBytes)
-Write-Host ("CRC-32 Max Latency       : {0}" -f $crcLatency)

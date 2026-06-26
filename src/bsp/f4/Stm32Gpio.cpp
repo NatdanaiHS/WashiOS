@@ -75,29 +75,29 @@ void Stm32Gpio::initializeInput()
     HAL_GPIO_Init(static_cast<GPIO_TypeDef*>(port), &init);
 }
 
-void Stm32Gpio::setHigh()
+void Stm32Gpio::setHigh() noexcept
 {
     HAL_GPIO_WritePin(static_cast<GPIO_TypeDef*>(port), pin, GPIO_PIN_SET);
 }
 
-void Stm32Gpio::setLow()
+void Stm32Gpio::setLow() noexcept
 {
     HAL_GPIO_WritePin(static_cast<GPIO_TypeDef*>(port), pin, GPIO_PIN_RESET);
 }
 
-void Stm32Gpio::toggle()
+void Stm32Gpio::toggle() noexcept
 {
     HAL_GPIO_TogglePin(static_cast<GPIO_TypeDef*>(port), pin);
 }
 
-bool Stm32Gpio::read() const
+bool Stm32Gpio::read() const noexcept
 {
     return HAL_GPIO_ReadPin(static_cast<GPIO_TypeDef*>(port), pin) == GPIO_PIN_SET;
 }
 
 bool Stm32Gpio::setInterrupt(hal::GpioInterruptEdge edge,
                              hal::GpioInterruptCallback callback,
-                             void* context)
+                             void* context) noexcept
 {
     if (callback == nullptr)
     {
@@ -124,7 +124,7 @@ bool Stm32Gpio::setInterrupt(hal::GpioInterruptEdge edge,
     return true;
 }
 
-void Stm32Gpio::clearInterrupt()
+void Stm32Gpio::clearInterrupt() noexcept
 {
     const uint8_t index = pinToIndex(pin);
     if (index < MaxInterruptPins && interruptPins[index] == this)

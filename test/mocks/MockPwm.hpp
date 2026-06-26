@@ -11,7 +11,7 @@ template<uint8_t ChannelCount = 8>
 class MockPwm final : public hal::IPwm
 {
 public:
-    bool setFrequency(uint8_t channelId, uint32_t hz) override
+    bool setFrequency(uint8_t channelId, uint32_t hz) noexcept override
     {
         if (!isValidChannel(channelId) || hz == 0U)
         {
@@ -22,7 +22,7 @@ public:
         return true;
     }
 
-    bool setDutyCycle(uint8_t channelId, float percentage) override
+    bool setDutyCycle(uint8_t channelId, float percentage) noexcept override
     {
         if (!isValidChannel(channelId) || percentage < 0.0F || percentage > 100.0F)
         {
@@ -33,7 +33,7 @@ public:
         return true;
     }
 
-    void start(uint8_t channelId) override
+    void start(uint8_t channelId) noexcept override
     {
         if (isValidChannel(channelId))
         {
@@ -41,7 +41,7 @@ public:
         }
     }
 
-    void stop(uint8_t channelId) override
+    void stop(uint8_t channelId) noexcept override
     {
         if (isValidChannel(channelId))
         {
@@ -51,7 +51,7 @@ public:
     }
 
     bool getChannelState(uint8_t channelId,
-                         hal::PwmChannelState& outState) const override
+                         hal::PwmChannelState& outState) const noexcept override
     {
         if (!isValidChannel(channelId))
         {

@@ -20,7 +20,7 @@ public:
     /**
      * @brief Default virtual destructor for safe destruction through interface pointers.
      */
-    virtual ~ITiming() = default;
+    virtual ~ITiming() noexcept = default;
 
     /**
      * @brief Get the current system uptime in milliseconds.
@@ -30,7 +30,7 @@ public:
      *
      * @return Current system uptime in milliseconds.
      */
-    virtual uint64_t getSystemTick() const = 0;
+    virtual uint64_t getSystemTick() const noexcept = 0;
 
     /**
      * @brief Block execution for a specified number of milliseconds.
@@ -40,7 +40,7 @@ public:
      *
      * @param ms Delay duration in milliseconds.
      */
-    virtual void delayMs(uint32_t ms) = 0;
+    virtual void delayMs(uint32_t ms) noexcept = 0;
 
     /**
      * @brief Block execution for a specified number of microseconds.
@@ -50,7 +50,7 @@ public:
      *
      * @param us Delay duration in microseconds.
      */
-    virtual void delayUs(uint32_t us) = 0;
+    virtual void delayUs(uint32_t us) noexcept = 0;
 };
 
 } /* namespace hal */

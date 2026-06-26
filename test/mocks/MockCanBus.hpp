@@ -12,14 +12,14 @@ template<std::size_t QueueCapacity = 16>
 class MockCanBus final : public hal::ICanBus
 {
 public:
-    bool begin(uint32_t baudRate) override
+    bool begin(uint32_t baudRate) noexcept override
     {
         configuredBaudRate = baudRate;
         state = hal::CanBusState::Ready;
         return baudRate > 0U;
     }
 
-    bool transmit(const hal::CanFrame& frame, uint32_t timeout_ms) override
+    bool transmit(const hal::CanFrame& frame, uint32_t timeout_ms) noexcept override
     {
         if (state != hal::CanBusState::Ready || forcedFailure || forcedTimeout ||
             timeout_ms == 0U || frame.dataLength > 8U || txCount >= QueueCapacity)
@@ -36,7 +36,7 @@ public:
         return true;
     }
 
-    bool receive(hal::CanFrame& frame, uint32_t timeout_ms) override
+    bool receive(hal::CanFrame& frame, uint32_t timeout_ms) noexcept override
     {
         if (state != hal::CanBusState::Ready || forcedFailure || forcedTimeout ||
             timeout_ms == 0U || rxCount == 0U)
@@ -48,7 +48,7 @@ public:
         return true;
     }
 
-    bool setFilter(uint32_t targetMessageId, uint32_t mask) override
+    bool setFilter(uint32_t targetMessageId, uint32_t mask) noexcept override
     {
         filterId = targetMessageId;
         filterMask = mask;
@@ -56,12 +56,12 @@ public:
         return true;
     }
 
-    hal::CanBusState getState() const override
+    hal::CanBusState getState() const noexcept override
     {
         return state;
     }
 
-    void recoverBus() override
+    void recoverBus() noexcept override
     {
         if (state == hal::CanBusState::BusOff || state == hal::CanBusState::Error)
         {

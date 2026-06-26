@@ -13,7 +13,7 @@ class MockAdc final : public hal::IAdc
 public:
     bool readRaw(uint8_t channelId,
                  uint16_t& outRawValue,
-                 uint32_t timeout_ms) override
+                 uint32_t timeout_ms) noexcept override
     {
         if (!isValidChannel(channelId) || status != hal::AdcStatus::Ready ||
             forcedTimeout || timeout_ms == 0U)
@@ -27,7 +27,7 @@ public:
 
     bool readVoltage(uint8_t channelId,
                      float& outVoltage,
-                     uint32_t timeout_ms) override
+                     uint32_t timeout_ms) noexcept override
     {
         uint16_t raw = 0;
         if (!readRaw(channelId, raw, timeout_ms))
@@ -40,7 +40,7 @@ public:
         return true;
     }
 
-    bool setResolution(uint8_t bits) override
+    bool setResolution(uint8_t bits) noexcept override
     {
         if (bits < 8U || bits > 16U)
         {
@@ -51,7 +51,7 @@ public:
         return true;
     }
 
-    hal::AdcStatus getStatus() const override
+    hal::AdcStatus getStatus() const noexcept override
     {
         return status;
     }

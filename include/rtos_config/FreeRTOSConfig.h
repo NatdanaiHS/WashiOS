@@ -1,5 +1,9 @@
 #pragma once
 
+#if defined(__cplusplus) && defined(__EXCEPTIONS)
+#error "WashiOS must be built with C++ exceptions disabled (-fno-exceptions)."
+#endif
+
 #include <stdint.h>
 
 #ifdef __cplusplus

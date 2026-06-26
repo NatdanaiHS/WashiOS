@@ -24,7 +24,7 @@ uint32_t Stm32G4Uart::boundedTimeout(uint32_t timeoutMs)
 
 bool Stm32G4Uart::writeBuffer(const uint8_t* data,
                               std::size_t length,
-                              uint32_t timeout_ms)
+                              uint32_t timeout_ms) noexcept
 {
     if ((data == nullptr && length > 0U) || handle == nullptr ||
         length > MaxHalTransferLength)
@@ -51,7 +51,7 @@ bool Stm32G4Uart::writeBuffer(const uint8_t* data,
 
 bool Stm32G4Uart::readBuffer(uint8_t* buffer,
                              std::size_t length,
-                             uint32_t timeout_ms)
+                             uint32_t timeout_ms) noexcept
 {
     if ((buffer == nullptr && length > 0U) || handle == nullptr ||
         length > MaxHalTransferLength)
@@ -76,7 +76,7 @@ bool Stm32G4Uart::readBuffer(uint8_t* buffer,
                             boundedTimeout(timeout_ms)) == HAL_OK;
 }
 
-std::size_t Stm32G4Uart::available() const
+std::size_t Stm32G4Uart::available() const noexcept
 {
 #if defined(UART_FLAG_RXNE_RXFNE)
     constexpr uint32_t ReceiveDataReadyFlag = UART_FLAG_RXNE_RXFNE;
@@ -95,7 +95,7 @@ std::size_t Stm32G4Uart::available() const
     return 0U;
 }
 
-void Stm32G4Uart::flush()
+void Stm32G4Uart::flush() noexcept
 {
     if (handle != nullptr)
     {
@@ -108,7 +108,7 @@ void Stm32G4Uart::flush()
     }
 }
 
-void Stm32G4Uart::setBaudRate(uint32_t baudRate)
+void Stm32G4Uart::setBaudRate(uint32_t baudRate) noexcept
 {
     if (handle != nullptr)
     {

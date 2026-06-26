@@ -15,15 +15,15 @@ public:
     void initializeOutput(bool initialHigh);
     void initializeInput();
 
-    void setHigh() override;
-    void setLow() override;
-    void toggle() override;
-    bool read() const override;
+    void setHigh() noexcept override;
+    void setLow() noexcept override;
+    void toggle() noexcept override;
+    bool read() const noexcept override;
 
     bool setInterrupt(hal::GpioInterruptEdge edge,
                       hal::GpioInterruptCallback callback,
-                      void* context) override;
-    void clearInterrupt() override;
+                      void* context) noexcept override;
+    void clearInterrupt() noexcept override;
 
     bool matchesPin(uint16_t gpioPin) const;
     void dispatchInterrupt();

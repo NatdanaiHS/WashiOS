@@ -21,6 +21,14 @@ enum class FaultEventType
     SafeFail
 };
 
+enum class RetainedStateRecoveryStatus
+{
+    RecoveredWithEntries,
+    ValidEmpty,
+    ColdStart,
+    Corrupt
+};
+
 struct FaultEvent
 {
     FaultEventType type;
@@ -72,15 +80,22 @@ public:
 
     bool recoverRetainedState()
     {
-        if (!hasValidRetainedState())
+        const RetainedStateRecoveryStatus status = recoverRetainedStateWithStatus();
+        return status == RetainedStateRecoveryStatus::RecoveredWithEntries;
+    }
+
+    RetainedStateRecoveryStatus recoverRetainedStateWithStatus()
+    {
+        const RetainedStateRecoveryStatus status = classifyRetainedState();
+        if (status == RetainedStateRecoveryStatus::ColdStart ||
+            status == RetainedStateRecoveryStatus::Corrupt)
         {
             taskENTER_CRITICAL();
             initializeEmptyRetainedState();
             taskEXIT_CRITICAL();
-            return false;
         }
 
-        return storedCount > 0U;
+        return status;
     }
 
     std::size_t size() const
@@ -153,7 +168,7 @@ private:
             0x9B64C2B0UL, 0x86D3D2D4UL, 0xA00AE278UL, 0xBDBDF21CUL
         };
 
-        crc ^= static_cast<uint32_t>(value);
+        crc ^= static_cast<uint32_t>(value); 
         crc = (crc >> 4U) ^ Crc32NibbleTable[crc & 0x0FUL];
         crc = (crc >> 4U) ^ Crc32NibbleTable[crc & 0x0FUL];
         return crc;
@@ -233,36 +248,49 @@ private:
 
     bool hasValidRetainedState() const
     {
+        const RetainedStateRecoveryStatus status = classifyRetainedState();
+        return status == RetainedStateRecoveryStatus::RecoveredWithEntries ||
+               status == RetainedStateRecoveryStatus::ValidEmpty;
+    }
+
+    RetainedStateRecoveryStatus classifyRetainedState() const
+    {
         if (signature != WASHIOS_MAGIC_SIGNATURE)
         {
-            return false;
+            return RetainedStateRecoveryStatus::ColdStart;
         }
 
         if (checksum != calculateChecksum())
         {
-            return false;
+            return RetainedStateRecoveryStatus::Corrupt;
         }
 
         if (Capacity == 0U)
         {
-            return writeIndex == 0U && storedCount == 0U && totalCount == 0U;
+            if (writeIndex == 0U && storedCount == 0U && totalCount == 0U)
+            {
+                return RetainedStateRecoveryStatus::ValidEmpty;
+            }
+
+            return RetainedStateRecoveryStatus::Corrupt;
         }
 
         if (writeIndex >= Capacity || storedCount > Capacity ||
             totalCount < storedCount)
         {
-            return false;
+            return RetainedStateRecoveryStatus::Corrupt;
         }
 
         for (std::size_t i = 0U; i < storedCount; ++i)
         {
             if (!isValidEventType(entries[physicalIndex(i)].type))
             {
-                return false;
+                return RetainedStateRecoveryStatus::Corrupt;
             }
         }
 
-        return true;
+        return (storedCount > 0U) ? RetainedStateRecoveryStatus::RecoveredWithEntries :
+                                    RetainedStateRecoveryStatus::ValidEmpty;
     }
 
     static std::size_t advance(std::size_t index)

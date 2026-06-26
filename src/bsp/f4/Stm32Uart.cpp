@@ -12,7 +12,7 @@ Stm32Uart::Stm32Uart(void* uartHandle)
 
 bool Stm32Uart::writeBuffer(const uint8_t* data,
                             std::size_t length,
-                            uint32_t timeout_ms)
+                            uint32_t timeout_ms) noexcept
 {
     if ((data == nullptr && length > 0U) || handle == nullptr)
     {
@@ -32,7 +32,7 @@ bool Stm32Uart::writeBuffer(const uint8_t* data,
 
 bool Stm32Uart::readBuffer(uint8_t* buffer,
                            std::size_t length,
-                           uint32_t timeout_ms)
+                           uint32_t timeout_ms) noexcept
 {
     if ((buffer == nullptr && length > 0U) || handle == nullptr)
     {
@@ -50,12 +50,12 @@ bool Stm32Uart::readBuffer(uint8_t* buffer,
                             timeout_ms) == HAL_OK;
 }
 
-std::size_t Stm32Uart::available() const
+std::size_t Stm32Uart::available() const noexcept
 {
     return 0U;
 }
 
-void Stm32Uart::flush()
+void Stm32Uart::flush() noexcept
 {
     if (handle != nullptr)
     {
@@ -65,7 +65,7 @@ void Stm32Uart::flush()
     }
 }
 
-void Stm32Uart::setBaudRate(uint32_t baudRate)
+void Stm32Uart::setBaudRate(uint32_t baudRate) noexcept
 {
     if (handle != nullptr)
     {

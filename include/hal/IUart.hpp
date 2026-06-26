@@ -20,7 +20,7 @@ public:
     /**
      * @brief Default virtual destructor for safe destruction through interface pointers.
      */
-    virtual ~IUart() = default;
+    virtual ~IUart() noexcept = default;
 
     /**
      * @brief Transmit a sequence of bytes over the UART interface.
@@ -37,7 +37,7 @@ public:
      */
     virtual bool writeBuffer(const uint8_t* data,
                              std::size_t length,
-                             uint32_t timeout_ms) = 0;
+                             uint32_t timeout_ms) noexcept = 0;
 
     /**
      * @brief Receive a specific number of bytes from the UART interface.
@@ -54,14 +54,14 @@ public:
      */
     virtual bool readBuffer(uint8_t* buffer,
                             std::size_t length,
-                            uint32_t timeout_ms) = 0;
+                            uint32_t timeout_ms) noexcept = 0;
 
     /**
      * @brief Get the number of bytes currently available for reading.
      *
      * @return Number of received bytes waiting in the hardware or software buffer.
      */
-    virtual std::size_t available() const = 0;
+    virtual std::size_t available() const noexcept = 0;
 
     /**
      * @brief Flush the UART interface.
@@ -69,14 +69,14 @@ public:
      * Implementations shall discard unread receive data and wait for any
      * ongoing transmission to complete.
      */
-    virtual void flush() = 0;
+    virtual void flush() noexcept = 0;
 
     /**
      * @brief Configure the UART communication speed.
      *
      * @param baudRate Requested baud rate in bits per second.
      */
-    virtual void setBaudRate(uint32_t baudRate) = 0;
+    virtual void setBaudRate(uint32_t baudRate) noexcept = 0;
 };
 
 } /* namespace hal */

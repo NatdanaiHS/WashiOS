@@ -12,9 +12,9 @@ class Stm32Timing final : public hal::ITiming
 public:
     void initialize();
 
-    uint64_t getSystemTick() const override;
-    void delayMs(uint32_t ms) override;
-    void delayUs(uint32_t us) override;
+    uint64_t getSystemTick() const noexcept override;
+    void delayMs(uint32_t ms) noexcept override;
+    void delayUs(uint32_t us) noexcept override;
 
 private:
     bool dwtReady = false;

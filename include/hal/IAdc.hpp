@@ -29,7 +29,7 @@ public:
     /**
      * @brief Default virtual destructor for safe destruction through interface pointers.
      */
-    virtual ~IAdc() = default;
+    virtual ~IAdc() noexcept = default;
 
     /**
      * @brief Read a raw digital conversion value from an ADC channel.
@@ -46,7 +46,7 @@ public:
      */
     virtual bool readRaw(uint8_t channelId,
                          uint16_t& outRawValue,
-                         uint32_t timeout_ms) = 0;
+                         uint32_t timeout_ms) noexcept = 0;
 
     /**
      * @brief Read a scaled voltage value from an ADC channel.
@@ -63,7 +63,7 @@ public:
      */
     virtual bool readVoltage(uint8_t channelId,
                              float& outVoltage,
-                             uint32_t timeout_ms) = 0;
+                             uint32_t timeout_ms) noexcept = 0;
 
     /**
      * @brief Configure the ADC conversion resolution.
@@ -75,14 +75,14 @@ public:
      *
      * @return true if the resolution was accepted; false otherwise.
      */
-    virtual bool setResolution(uint8_t bits) = 0;
+    virtual bool setResolution(uint8_t bits) noexcept = 0;
 
     /**
      * @brief Get the current ADC status without allocating memory.
      *
      * @return Current hardware-neutral ADC status.
      */
-    virtual AdcStatus getStatus() const = 0;
+    virtual AdcStatus getStatus() const noexcept = 0;
 };
 
 } /* namespace hal */

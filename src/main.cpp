@@ -9,7 +9,6 @@
 
 #include "BootFailSafe.hpp"
 #include "FaultLog.hpp"
-#include "CrcProfiler.hpp"
 #include "IUart.hpp"
 #include "ITiming.hpp"
 #include "MemoryConfig.hpp"
@@ -21,7 +20,7 @@
 #include "app/TelemetryMockTask.hpp"
 #include "app/WatchdogTask.hpp"
 #if defined(WASHIOS_STRESS_TEST)
-#include "tasks/StressTestTask.hpp"
+#include "stress/StressTestTask.hpp"
 #endif
 
 #if defined(STM32G431xx)
@@ -142,10 +141,6 @@ int main(void)
     targetTiming.initialize();
     heartbeatLed.initializeOutput(false);
     (void)systemFaultLog.recoverRetainedState();
-#if defined(WASHIOS_PROFILE_CRC)
-    core::initializeCrc32Profiler();
-#endif
-
     const uint64_t startupTimeMs = targetTiming.getSystemTick();
     (void)systemTaskHealth.registerTask(HeartbeatTaskId,
                                         HeartbeatDeadlineMs,

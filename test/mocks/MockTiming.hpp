@@ -10,18 +10,18 @@ namespace test_mocks
 class MockTiming final : public hal::ITiming
 {
 public:
-    uint64_t getSystemTick() const override
+    uint64_t getSystemTick() const noexcept override
     {
         return tickMs;
     }
 
-    void delayMs(uint32_t ms) override
+    void delayMs(uint32_t ms) noexcept override
     {
         tickMs += ms;
         tickUs += static_cast<uint64_t>(ms) * 1000ULL;
     }
 
-    void delayUs(uint32_t us) override
+    void delayUs(uint32_t us) noexcept override
     {
         tickUs += us;
         tickMs = tickUs / 1000ULL;

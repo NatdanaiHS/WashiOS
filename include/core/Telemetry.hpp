@@ -4,7 +4,6 @@
 #include <cstdint>
 
 #include "FaultLog.hpp"
-#include "CrcProfiler.hpp"
 #include "TaskHealth.hpp"
 
 namespace core
@@ -118,11 +117,7 @@ inline uint32_t computeTelemetryCrc(TelemetryFrame frame)
     std::size_t length = 0U;
     frame.crc32 = 0U;
     (void)serializeTelemetryFrame(frame, buffer, sizeof(buffer), length);
-#if defined(WASHIOS_PROFILE_CRC)
-    return crc32Profiled(buffer, TelemetryFrameWireSize - sizeof(uint32_t));
-#else
     return crc32(buffer, TelemetryFrameWireSize - sizeof(uint32_t));
-#endif
 }
 
 inline bool finalizeTelemetryFrame(TelemetryFrame& frame)

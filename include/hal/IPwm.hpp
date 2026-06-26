@@ -29,7 +29,7 @@ public:
     /**
      * @brief Default virtual destructor for safe destruction through interface pointers.
      */
-    virtual ~IPwm() = default;
+    virtual ~IPwm() noexcept = default;
 
     /**
      * @brief Configure the base frequency of a PWM output channel.
@@ -42,7 +42,7 @@ public:
      *
      * @return true if the requested frequency was supported and applied; false otherwise.
      */
-    virtual bool setFrequency(uint8_t channelId, uint32_t hz) = 0;
+    virtual bool setFrequency(uint8_t channelId, uint32_t hz) noexcept = 0;
 
     /**
      * @brief Configure the active duty cycle of a PWM output channel.
@@ -55,14 +55,14 @@ public:
      *
      * @return true if the duty cycle value was valid and applied; false otherwise.
      */
-    virtual bool setDutyCycle(uint8_t channelId, float percentage) = 0;
+    virtual bool setDutyCycle(uint8_t channelId, float percentage) noexcept = 0;
 
     /**
      * @brief Enable PWM output on the specified channel.
      *
      * @param channelId Platform-defined PWM channel identifier.
      */
-    virtual void start(uint8_t channelId) = 0;
+    virtual void start(uint8_t channelId) noexcept = 0;
 
     /**
      * @brief Disable PWM output on the specified channel.
@@ -72,7 +72,7 @@ public:
      *
      * @param channelId Platform-defined PWM channel identifier.
      */
-    virtual void stop(uint8_t channelId) = 0;
+    virtual void stop(uint8_t channelId) noexcept = 0;
 
     /**
      * @brief Read back the current state of a PWM output channel.
@@ -83,7 +83,7 @@ public:
      * @return true if the channel exists and state was returned; false otherwise.
      */
     virtual bool getChannelState(uint8_t channelId,
-                                 PwmChannelState& outState) const = 0;
+                                 PwmChannelState& outState) const noexcept = 0;
 };
 
 } /* namespace hal */

@@ -1,6 +1,18 @@
 #pragma once
 
-#if defined(NATIVE) || defined(WASHIOS_ENABLE_TEST_HOOKS)
+#if defined(WASHIOS_BARE_METAL)
+#ifndef taskENTER_CRITICAL
+#define taskENTER_CRITICAL() do { } while (0)
+#endif
+
+#ifndef taskEXIT_CRITICAL
+#define taskEXIT_CRITICAL() do { } while (0)
+#endif
+
+#ifndef taskDISABLE_INTERRUPTS
+#define taskDISABLE_INTERRUPTS() do { } while (0)
+#endif
+#elif defined(NATIVE) || defined(WASHIOS_ENABLE_TEST_HOOKS)
 #if defined(WASHIOS_ENABLE_TEST_HOOKS)
 namespace core
 {

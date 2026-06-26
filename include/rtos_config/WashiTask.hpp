@@ -23,7 +23,7 @@ public:
     /**
      * @brief Construct a task object with no active FreeRTOS task handle.
      */
-    WashiTask() : xTaskBuffer(), xStack(), xTaskHandle(nullptr)
+    WashiTask() : xTaskBuffer(), xStack(), taskHandle(nullptr)
     {
     }
 
@@ -42,15 +42,15 @@ public:
      */
     bool Start(const char* pcName, UBaseType_t uxPriority)
     {
-        xTaskHandle = xTaskCreateStatic(&WashiTask::TaskRoutine,
-                                        pcName,
-                                        StackDepth,
-                                        this,
-                                        uxPriority,
-                                        xStack,
-                                        &xTaskBuffer);
+        taskHandle = xTaskCreateStatic(&WashiTask::TaskRoutine,
+                                       pcName,
+                                       StackDepth,
+                                       this,
+                                       uxPriority,
+                                       xStack,
+                                       &xTaskBuffer);
 
-        return (xTaskHandle != nullptr);
+        return (taskHandle != nullptr);
     }
 
 protected:
@@ -65,7 +65,7 @@ protected:
 private:
     StaticTask_t xTaskBuffer;
     StackType_t xStack[StackDepth];
-    TaskHandle_t xTaskHandle;
+    TaskHandle_t taskHandle;
 
     /**
      * @brief FreeRTOS-compatible task entry point.

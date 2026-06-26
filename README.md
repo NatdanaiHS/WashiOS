@@ -1,8 +1,8 @@
 # WashiOS
 
-WashiOS is a deterministic, resource-bounded embedded flight software foundation for small-satellite and mission-critical avionics experiments. It is built around static allocation, retained fault telemetry, task-health supervision, watchdog-enforced recovery, and portable board-support boundaries across STM32, RP2040, ESP32, and native host simulation targets.
+WashiOS is a deterministic, resource-bounded embedded flight software foundation for small-satellite and mission-critical avionics experiments. It is built around static allocation, retained fault telemetry, task-health supervision, watchdog-enforced recovery, and portable board-support boundaries across STM32 and native host simulation targets.
 
-The primary flight-like reference target is **ST NUCLEO-G431RB / STM32G431RB**. Portability targets currently include **STM32F411RE**, **Raspberry Pi Pico RP2040**, and **ESP32 Dev Module**.
+The primary flight-like reference target is **ST NUCLEO-G431RB / STM32G431RB**. The current portability target is **STM32F411RE**; native host simulation is used for safety-kernel regression tests.
 
 ## Project Goals
 
@@ -22,7 +22,7 @@ WashiOS is organized as a five-layer architecture:
 | 2 | Core Safety Kernel | Fault log, TMR, CRC, task health, watchdog policy, boot fail-safe |
 | 3 | RTOS / Static Tasking | FreeRTOS static task stacks and TCBs |
 | 4 | Hardware Abstraction | GPIO, UART, timing, ADC, CAN, I2C, SPI, PWM interfaces |
-| 5 | BSP / Silicon | STM32 HAL, Arduino RP2040, Arduino ESP32 implementations |
+| 5 | BSP / Silicon | STM32 HAL implementations |
 
 Core code lives under `include/core/` and is intentionally hardware-neutral. Target-specific code is contained under `src/bsp/` and `include/bsp/`.
 
@@ -54,7 +54,7 @@ Relevant files:
 
 - `include/core/FaultLog.hpp`
 - `include/bsp/CrossPlatformConfig.hpp`
-- `ldscripts/STM32G431RBTX_FLASH.ld`
+- `include/ldscripts/STM32G431RBTX_FLASH.ld`
 
 ### Triple Modular Redundancy
 
@@ -120,8 +120,6 @@ Relevant file:
 | `nucleo_g431rb` | STM32G431RB | Primary flight-like STM32G4 build |
 | `nucleo_g431rb_stress` | STM32G431RB | Stress/profiling build with CRC profiling |
 | `genericSTM32F411RE` | STM32F411RE | STM32F4 portability build |
-| `raspberrypi_pico` | RP2040 | Arduino RP2040 portability build |
-| `esp32_dev` | ESP32 | Arduino ESP32 portability build |
 | `native` | Host | Unity SITL test environment |
 
 ## Build And Test
@@ -137,13 +135,13 @@ pio test -e native
 Build all firmware targets:
 
 ```powershell
-pio run -e genericSTM32F411RE -e nucleo_g431rb -e nucleo_g431rb_stress -e raspberrypi_pico -e esp32_dev
+pio run -e genericSTM32F411RE -e nucleo_g431rb -e nucleo_g431rb_stress
 ```
 
 Clean all firmware target outputs:
 
 ```powershell
-pio run -t clean -e genericSTM32F411RE -e nucleo_g431rb -e nucleo_g431rb_stress -e raspberrypi_pico -e esp32_dev
+pio run -t clean -e genericSTM32F411RE -e nucleo_g431rb -e nucleo_g431rb_stress
 ```
 
 ## Verification Status
@@ -151,7 +149,7 @@ pio run -t clean -e genericSTM32F411RE -e nucleo_g431rb -e nucleo_g431rb_stress 
 Current verified baseline:
 
 - Native SITL: **23/23 tests passed**
-- Firmware builds: **5/5 targets passed**
+- Firmware builds: **3/3 STM32 targets passed**
 - WashiOS-controlled heap usage: **0 bytes**
 
 The SITL suite covers:
@@ -177,13 +175,12 @@ src/
   app/              Flight application tasks
   bsp/              Target-specific BSP implementations
   core/             Optional profiling implementation
-  tasks/            Stress/profiling task
+  stress/           Stress/profiling task
 test/
   mocks/            Host-side HAL and runtime mocks
   test_sitl/        Unity SITL regression suite
 lib/
   FreeRTOS/         Integrated FreeRTOS source subset
-ldscripts/          STM32G4 retained-memory linker script
 scripts/            PlatformIO build guard scripts
 ```
 

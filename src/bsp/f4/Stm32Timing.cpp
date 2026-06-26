@@ -13,17 +13,17 @@ void Stm32Timing::initialize()
     dwtReady = (DWT->CTRL & DWT_CTRL_CYCCNTENA_Msk) != 0U;
 }
 
-uint64_t Stm32Timing::getSystemTick() const
+uint64_t Stm32Timing::getSystemTick() const noexcept
 {
     return HAL_GetTick();
 }
 
-void Stm32Timing::delayMs(uint32_t ms)
+void Stm32Timing::delayMs(uint32_t ms) noexcept
 {
     HAL_Delay(ms);
 }
 
-void Stm32Timing::delayUs(uint32_t us)
+void Stm32Timing::delayUs(uint32_t us) noexcept
 {
     if (!dwtReady)
     {

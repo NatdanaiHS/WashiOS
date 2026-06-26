@@ -65,7 +65,7 @@ void resetCriticalProbe()
     criticalProbe = {};
 }
 
-void countInterrupt(void* context)
+void countInterrupt(void* context) noexcept
 {
     InterruptCounter* const counter = static_cast<InterruptCounter*>(context);
     if (counter != nullptr)
@@ -165,13 +165,29 @@ void test_i2c_timeout_and_nominal_read_write()
 
     TEST_ASSERT_TRUE(i2c.write(0x42U, writeData, sizeof(writeData), 10U));
     TEST_ASSERT_EQUAL_UINT16(0x42U, i2c.getLastAddress());
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(hal::I2cBusState::Ready),
+                          static_cast<int>(i2c.getState()));
 
     TEST_ASSERT_TRUE(i2c.setReadData(readData, sizeof(readData)));
     TEST_ASSERT_TRUE(i2c.read(0x42U, buffer, sizeof(buffer), 10U));
     TEST_ASSERT_EQUAL_UINT8(0x10U, buffer[0]);
     TEST_ASSERT_EQUAL_UINT8(0x20U, buffer[1]);
 
+    buffer[0] = 0U;
+    buffer[1] = 0U;
+    TEST_ASSERT_TRUE(i2c.writeRead(0x42U,
+                                   writeData,
+                                   sizeof(writeData),
+                                   buffer,
+                                   sizeof(buffer),
+                                   10U));
+    TEST_ASSERT_EQUAL_UINT32(1U, i2c.getWriteReadCount());
+    TEST_ASSERT_EQUAL_UINT8(0x10U, buffer[0]);
+    TEST_ASSERT_EQUAL_UINT8(0x20U, buffer[1]);
+
     i2c.setForcedTimeout(true);
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(hal::I2cBusState::BusLocked),
+                          static_cast<int>(i2c.getState()));
     TEST_ASSERT_FALSE(i2c.read(0x42U, buffer, sizeof(buffer), 10U));
 }
 
@@ -185,6 +201,8 @@ void test_spi_transfer_and_timeout()
     spi.setFrequency(1000000U);
     spi.selectChip(2U);
     TEST_ASSERT_TRUE(spi.isSelected(2U));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(hal::SpiBusState::Ready),
+                          static_cast<int>(spi.getState()));
     TEST_ASSERT_TRUE(spi.setResponse(response, sizeof(response)));
     TEST_ASSERT_TRUE(spi.transfer(tx, rx, sizeof(rx), 10U));
     TEST_ASSERT_EQUAL_UINT8(4U, rx[0]);
@@ -192,7 +210,14 @@ void test_spi_transfer_and_timeout()
     TEST_ASSERT_EQUAL_UINT8(6U, rx[2]);
 
     spi.setForcedTimeout(true);
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(hal::SpiBusState::Error),
+                          static_cast<int>(spi.getState()));
     TEST_ASSERT_FALSE(spi.transfer(tx, rx, sizeof(rx), 10U));
+    spi.resetBus();
+    TEST_ASSERT_EQUAL_UINT32(1U, spi.getResetCount());
+    TEST_ASSERT_FALSE(spi.isSelected(2U));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(hal::SpiBusState::Ready),
+                          static_cast<int>(spi.getState()));
 }
 
 void test_can_loopback_and_error_state()

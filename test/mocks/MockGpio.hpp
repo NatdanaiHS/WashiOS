@@ -8,35 +8,35 @@ namespace test_mocks
 class MockGpio final : public hal::IGPIO
 {
 public:
-    void setHigh() override
+    void setHigh() noexcept override
     {
         const bool previous = state;
         state = true;
         fireOnTransition(previous, state);
     }
 
-    void setLow() override
+    void setLow() noexcept override
     {
         const bool previous = state;
         state = false;
         fireOnTransition(previous, state);
     }
 
-    void toggle() override
+    void toggle() noexcept override
     {
         const bool previous = state;
         state = !state;
         fireOnTransition(previous, state);
     }
 
-    bool read() const override
+    bool read() const noexcept override
     {
         return state;
     }
 
     bool setInterrupt(hal::GpioInterruptEdge edge,
                       hal::GpioInterruptCallback callback,
-                      void* context) override
+                      void* context) noexcept override
     {
         if (callback == nullptr)
         {
@@ -50,7 +50,7 @@ public:
         return true;
     }
 
-    void clearInterrupt() override
+    void clearInterrupt() noexcept override
     {
         interruptEnabled = false;
         interruptCallback = nullptr;

@@ -14,7 +14,7 @@ class MockUart final : public hal::IUart
 public:
     bool writeBuffer(const uint8_t* data,
                      std::size_t length,
-                     uint32_t timeout_ms) override
+                     uint32_t timeout_ms) noexcept override
     {
         if ((data == nullptr && length > 0U) || forcedFailure || forcedTimeout ||
             (timeout_ms == 0U && length > 0U) || length > txRemaining())
@@ -34,7 +34,7 @@ public:
 
     bool readBuffer(uint8_t* buffer,
                     std::size_t length,
-                    uint32_t timeout_ms) override
+                    uint32_t timeout_ms) noexcept override
     {
         if ((buffer == nullptr && length > 0U) || forcedFailure || forcedTimeout ||
             (timeout_ms == 0U && length > 0U) || length > rxCount)
@@ -52,12 +52,12 @@ public:
         return true;
     }
 
-    std::size_t available() const override
+    std::size_t available() const noexcept override
     {
         return rxCount;
     }
 
-    void flush() override
+    void flush() noexcept override
     {
         rxHead = 0;
         rxTail = 0;
@@ -67,7 +67,7 @@ public:
         txCount = 0;
     }
 
-    void setBaudRate(uint32_t baudRate) override
+    void setBaudRate(uint32_t baudRate) noexcept override
     {
         configuredBaudRate = baudRate;
     }

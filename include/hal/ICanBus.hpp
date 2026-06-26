@@ -56,7 +56,7 @@ public:
     /**
      * @brief Default virtual destructor for safe destruction through interface pointers.
      */
-    virtual ~ICanBus() = default;
+    virtual ~ICanBus() noexcept = default;
 
     /**
      * @brief Initialize the CAN controller at the specified communication speed.
@@ -65,7 +65,7 @@ public:
      *
      * @return true if initialization completed successfully; false otherwise.
      */
-    virtual bool begin(uint32_t baudRate) = 0;
+    virtual bool begin(uint32_t baudRate) noexcept = 0;
 
     /**
      * @brief Transmit a CAN frame.
@@ -79,7 +79,7 @@ public:
      *
      * @return true if the frame was transmitted successfully; false otherwise.
      */
-    virtual bool transmit(const CanFrame& frame, uint32_t timeout_ms) = 0;
+    virtual bool transmit(const CanFrame& frame, uint32_t timeout_ms) noexcept = 0;
 
     /**
      * @brief Receive a CAN frame.
@@ -93,7 +93,7 @@ public:
      *
      * @return true if a frame was received successfully; false otherwise.
      */
-    virtual bool receive(CanFrame& frame, uint32_t timeout_ms) = 0;
+    virtual bool receive(CanFrame& frame, uint32_t timeout_ms) noexcept = 0;
 
     /**
      * @brief Configure a CAN hardware acceptance filter.
@@ -106,14 +106,14 @@ public:
      *
      * @return true if the filter was configured successfully; false otherwise.
      */
-    virtual bool setFilter(uint32_t targetMessageId, uint32_t mask) = 0;
+    virtual bool setFilter(uint32_t targetMessageId, uint32_t mask) noexcept = 0;
 
     /**
      * @brief Get the current controller state without allocating memory.
      *
      * @return Current hardware-neutral CAN bus state.
      */
-    virtual CanBusState getState() const = 0;
+    virtual CanBusState getState() const noexcept = 0;
 
     /**
      * @brief Trigger CAN bus fault recovery.
@@ -122,7 +122,7 @@ public:
      * the CAN controller enters a bus-off or equivalent fault state due to a
      * Single Event Upset or electrical interference.
      */
-    virtual void recoverBus() = 0;
+    virtual void recoverBus() noexcept = 0;
 };
 
 } /* namespace hal */
