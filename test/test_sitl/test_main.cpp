@@ -13,6 +13,7 @@
 #include "SitlRuntime.hpp"
 #include "BootFailSafe.hpp"
 #include "FaultLog.hpp"
+#include "FirmwareHealthMonitor.hpp"
 #include "TMR.hpp"
 #include "TaskHealth.hpp"
 #include "Telemetry.hpp"
@@ -58,6 +59,78 @@ struct HardwareRefreshCounter
 struct BootRecoveryCounter
 {
     uint32_t count;
+};
+
+struct MockFirmwareHealthStore final : public hal::IFirmwareHealthStore
+{
+    bool metadataValid = true;
+    bool slotBVectorValid = true;
+    bool expectedSlotCrcAvailable = true;
+    bool actualSlotCrcAvailable = true;
+    bool expectedBootloaderCrcAvailable = true;
+    bool actualBootloaderCrcAvailable = true;
+    uint32_t expectedSlotB = 0x12345678UL;
+    uint32_t actualSlotB = 0x12345678UL;
+    uint32_t expectedBootloader = 0xABCDEF01UL;
+    uint32_t actualBootloader = 0xABCDEF01UL;
+
+    bool isMetadataValid() const noexcept override
+    {
+        return metadataValid;
+    }
+
+    bool isSlotVectorValid(hal::FirmwareHealthSlot slot) const noexcept override
+    {
+        return slot == hal::FirmwareHealthSlot::SlotB && slotBVectorValid;
+    }
+
+    bool expectedSlotCrc(hal::FirmwareHealthSlot slot,
+                         uint32_t& outCrc) const noexcept override
+    {
+        if (slot != hal::FirmwareHealthSlot::SlotB ||
+            !expectedSlotCrcAvailable)
+        {
+            return false;
+        }
+
+        outCrc = expectedSlotB;
+        return true;
+    }
+
+    bool calculateSlotCrc(hal::FirmwareHealthSlot slot,
+                          uint32_t& outCrc) const noexcept override
+    {
+        if (slot != hal::FirmwareHealthSlot::SlotB ||
+            !actualSlotCrcAvailable)
+        {
+            return false;
+        }
+
+        outCrc = actualSlotB;
+        return true;
+    }
+
+    bool expectedBootloaderCrc(uint32_t& outCrc) const noexcept override
+    {
+        if (!expectedBootloaderCrcAvailable)
+        {
+            return false;
+        }
+
+        outCrc = expectedBootloader;
+        return true;
+    }
+
+    bool calculateBootloaderCrc(uint32_t& outCrc) const noexcept override
+    {
+        if (!actualBootloaderCrcAvailable)
+        {
+            return false;
+        }
+
+        outCrc = actualBootloader;
+        return true;
+    }
 };
 
 void resetCriticalProbe()
@@ -686,6 +759,46 @@ void test_telemetry_crc_detects_corruption()
     TEST_ASSERT_FALSE(core::validateTelemetryBuffer(buffer, length));
 }
 
+void test_firmware_health_monitor_accepts_ready_fallback_slot()
+{
+    MockFirmwareHealthStore store;
+    core::FaultLog<4> log;
+    core::FirmwareHealthMonitor<4> monitor(store, log);
+
+    const core::FirmwareHealthResult result =
+        monitor.checkFallbackReadiness(1000U, 9U);
+
+    TEST_ASSERT_TRUE(result.metadataValid);
+    TEST_ASSERT_TRUE(result.fallbackSlotValid);
+    TEST_ASSERT_TRUE(result.bootloaderValid);
+    TEST_ASSERT_EQUAL_UINT32(core::FirmwareHealthOk, result.detailCode);
+    TEST_ASSERT_EQUAL_size_t(0U, log.size());
+}
+
+void test_firmware_health_monitor_logs_slot_b_crc_mismatch()
+{
+    MockFirmwareHealthStore store;
+    store.actualSlotB ^= 0x1UL;
+    core::FaultLog<4> log;
+    core::FirmwareHealthMonitor<4> monitor(store, log);
+    core::FaultEvent event = {};
+
+    const core::FirmwareHealthResult result =
+        monitor.checkFallbackReadiness(2000U, 9U);
+
+    TEST_ASSERT_TRUE(result.metadataValid);
+    TEST_ASSERT_FALSE(result.fallbackSlotValid);
+    TEST_ASSERT_FALSE(result.bootloaderValid);
+    TEST_ASSERT_EQUAL_UINT32(core::FirmwareHealthSlotCrcMismatch,
+                             result.detailCode);
+    TEST_ASSERT_TRUE(log.latest(event));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(core::FaultEventType::SafeFail),
+                          static_cast<int>(event.type));
+    TEST_ASSERT_EQUAL_UINT32(core::FirmwareHealthSlotCrcMismatch,
+                             event.detailCode);
+    TEST_ASSERT_EQUAL_UINT8(9U, event.taskId);
+}
+
 void test_sitl_runtime_telemetry_task_emits_real_frames()
 {
     test_mocks::SitlRuntime runtime;
@@ -762,6 +875,8 @@ int main()
     RUN_TEST(test_sitl_runtime_stalled_telemetry_triggers_safe_fail);
     RUN_TEST(test_telemetry_frame_nominal_packing_and_crc);
     RUN_TEST(test_telemetry_crc_detects_corruption);
+    RUN_TEST(test_firmware_health_monitor_accepts_ready_fallback_slot);
+    RUN_TEST(test_firmware_health_monitor_logs_slot_b_crc_mismatch);
     RUN_TEST(test_sitl_runtime_telemetry_task_emits_real_frames);
     return UNITY_END();
 }

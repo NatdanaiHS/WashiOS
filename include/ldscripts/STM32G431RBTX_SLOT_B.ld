@@ -1,12 +1,10 @@
 /*
 ******************************************************************************
 **
-** @file        : STM32G431RBTX_FLASH.ld
+** @file        : STM32G431RBTX_SLOT_B.ld
 **
-** @brief       : Linker script for STM32G431RBTx, derived from PlatformIO's
-**                STM32CubeIDE-generated default script with an explicit
-**                NOLOAD .noinit section for retained fault telemetry.
-**                Application image is constrained to WashiBoot Slot A.
+** @brief       : Linker script for WashiOS application image in WashiBoot
+**                Slot B on STM32G431RB.
 **
 ******************************************************************************
 */
@@ -21,7 +19,7 @@ _Min_Stack_Size = 0x400;
 MEMORY
 {
   RAM    (xrw) : ORIGIN = 0x20000000, LENGTH = 32K
-  FLASH  (rx)  : ORIGIN = 0x08004000, LENGTH = 56K
+  FLASH  (rx)  : ORIGIN = 0x08012000, LENGTH = 56K
 }
 
 SECTIONS
