@@ -19,6 +19,8 @@ constexpr uint32_t DetailBootLoopLimit = 0xB0010002UL;
 constexpr uint32_t DetailPriorCriticalFault = 0xB0010003UL;
 constexpr uint32_t DetailInvalidVectorTable = 0xB0010004UL;
 constexpr uint32_t DetailFirmwareCrcMismatch = 0xB0010005UL;
+constexpr uint32_t DetailNoValidFirmwareSlot = 0xB0010006UL;
+constexpr uint32_t DetailInvalidSlotState = 0xB0010007UL;
 
 class BootPolicy
 {
@@ -42,44 +44,54 @@ public:
     {
         const core::RetainedStateRecoveryStatus recoveryStatus =
             faultLog.recoverRetainedStateWithStatus();
-        (void)recoverBootMetadata(metadata, fallbackExpectedCrc);
+        const bool metadataRecovered =
+            recoverBootMetadata(metadata, fallbackExpectedCrc);
         normalizeConfirmedBoot(metadata);
 
         if (recoveryStatus == core::RetainedStateRecoveryStatus::Corrupt)
         {
             safeFail(DetailFaultLogRecoveryFailed);
+            return;
+        }
+
+        if (!metadataRecovered)
+        {
+            noteBootFailure(metadata, DetailFaultLogRecoveryFailed);
         }
 
         if (metadata.boot_count > MaxUnconfirmedBootAttempts)
         {
             safeFail(DetailBootLoopLimit);
+            return;
         }
 
         if (hasPriorCriticalFault())
         {
             safeFail(DetailPriorCriticalFault);
+            return;
         }
 
-        if (!flashMap.isApplicationVectorValid())
+        const BootSlot activeSlot = activeBootSlot();
+        const BootSlot fallbackSlot = otherBootSlot(activeSlot);
+
+        uint32_t activeFailReason = 0U;
+        if (isSlotBootable(activeSlot, activeFailReason))
         {
-            safeFail(DetailInvalidVectorTable);
+            bootSlot(activeSlot);
+            return;
         }
+        noteBootFailure(metadata, activeFailReason);
 
-        const volatile uint8_t* const application =
-            reinterpret_cast<const volatile uint8_t*>(flashMap.applicationBase());
-        const uint32_t runtimeCrc = crc32(application, flashMap.applicationLength());
-        const uint32_t expectedCrc = expectedFirmwareCrc(metadata, fallbackExpectedCrc);
-
-        if (runtimeCrc != expectedCrc)
+        uint32_t fallbackFailReason = 0U;
+        if (isSlotBootable(fallbackSlot, fallbackFailReason))
         {
-            safeFail(DetailFirmwareCrcMismatch);
+            activateBootSlot(metadata, fallbackSlot);
+            bootSlot(fallbackSlot);
+            return;
         }
+        noteBootFailure(metadata, fallbackFailReason);
 
-        noteBootAttempt(metadata);
-        platform.prepareForApplicationJump();
-        platform.jumpToApplication(flashMap.applicationBase());
-
-        safeFail(DetailInvalidVectorTable);
+        safeFail(DetailNoValidFirmwareSlot);
     }
 
 private:
@@ -89,6 +101,74 @@ private:
     BootMetadata& metadata;
     core::FaultLog<>& faultLog;
     uint32_t fallbackExpectedCrc;
+
+    static hal::FirmwareSlot toHalSlot(BootSlot slot)
+    {
+        return (slot == BootSlot::SlotB) ? hal::FirmwareSlot::SlotB :
+                                           hal::FirmwareSlot::SlotA;
+    }
+
+    BootSlot activeBootSlot() const
+    {
+        return (metadata.active_slot == static_cast<uint32_t>(BootSlot::SlotB)) ?
+            BootSlot::SlotB :
+            BootSlot::SlotA;
+    }
+
+    static BootSlot otherBootSlot(BootSlot slot)
+    {
+        return (slot == BootSlot::SlotB) ? BootSlot::SlotA : BootSlot::SlotB;
+    }
+
+    bool isSlotBootable(BootSlot slot, uint32_t& failReason) const
+    {
+        failReason = 0U;
+        const uint32_t slotState = firmwareSlotState(metadata, slot);
+        if (!isBootableFirmwareSlotState(slotState))
+        {
+            failReason = DetailInvalidSlotState;
+            return false;
+        }
+
+        const hal::FirmwareSlot halSlot = toHalSlot(slot);
+        if (!flashMap.isSlotVectorValid(halSlot))
+        {
+            failReason = DetailInvalidVectorTable;
+            return false;
+        }
+
+        const uint32_t expectedCrc =
+            expectedFirmwareCrcForSlot(metadata, slot, fallbackExpectedCrc);
+        if (!isExpectedCrcProvisioned(expectedCrc))
+        {
+            failReason = DetailFirmwareCrcMismatch;
+            return false;
+        }
+
+        const volatile uint8_t* const application =
+            reinterpret_cast<const volatile uint8_t*>(flashMap.slotBase(halSlot));
+        const uint32_t runtimeCrc = crc32(application, flashMap.slotLength(halSlot));
+        if (runtimeCrc != expectedCrc)
+        {
+            failReason = DetailFirmwareCrcMismatch;
+            return false;
+        }
+
+        return true;
+    }
+
+    void bootSlot(BootSlot slot)
+    {
+        noteBootAttempt(metadata, slot);
+        platform.prepareForApplicationJump();
+        platform.jumpToApplication(flashMap.slotBase(toHalSlot(slot)));
+
+#if defined(WASHIBOOT_ENABLE_TEST_HOOKS)
+        return;
+#else
+        safeFail(DetailInvalidVectorTable);
+#endif
+    }
 
     bool hasPriorCriticalFault() const
     {
@@ -113,6 +193,7 @@ private:
 
     void safeFail(uint32_t detailCode)
     {
+        noteBootFailure(metadata, detailCode);
         (void)faultLog.record(core::FaultEventType::SafeFail,
                               0U,
                               0U,
@@ -120,9 +201,11 @@ private:
                               0U);
         beacon.enterSafeLoop();
 
+#if !defined(WASHIBOOT_ENABLE_TEST_HOOKS)
         for (;;)
         {
         }
+#endif
     }
 };
 
