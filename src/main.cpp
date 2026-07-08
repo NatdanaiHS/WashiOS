@@ -17,6 +17,9 @@
 #include "Watchdog.hpp"
 #include "WatchdogRunner.hpp"
 #include "app/HeartbeatTask.hpp"
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+#include "app/LaserTelemetryTask.hpp"
+#endif
 #include "app/TelemetryMockTask.hpp"
 #include "app/WatchdogTask.hpp"
 #if defined(WASHIOS_STRESS_TEST)
@@ -45,8 +48,14 @@ namespace
 
 constexpr core::TaskId HeartbeatTaskId = 1U;
 constexpr core::TaskId TelemetryTaskId = 2U;
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+constexpr core::TaskId LaserTelemetryTaskId = 3U;
+#endif
 constexpr uint32_t HeartbeatDeadlineMs = 1500U;
 constexpr uint32_t TelemetryDeadlineMs = 800U;
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+constexpr uint32_t LaserTelemetryDeadlineMs = 2000U;
+#endif
 constexpr uint32_t WatchdogPollPeriodMs = 100U;
 constexpr uint32_t WatchdogTaskDelayMs = 50U;
 
@@ -94,6 +103,10 @@ IWDG_HandleTypeDef hiwdg = {};
 bsp::Stm32G4Timing targetTiming;
 bsp::Stm32G4Uart targetTelemetryUart(&huart2);
 bsp::Stm32G4Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
+#if defined(WASHIOS_LASERCOM_TEST)
+bsp::Stm32G4Gpio laserTxPin(GPIOA, GPIO_PIN_6);
+comms::LaserPdmTx laserTransport(laserTxPin, targetTiming);
+#endif
 #else
 bsp::Stm32Timing targetTiming;
 bsp::Stm32Uart targetTelemetryUart(&huart2);
@@ -123,6 +136,9 @@ core::WatchdogRunner<> systemWatchdogRunner(targetTiming,
 static HeartbeatTask heartbeatTask;
 static TelemetryMockTask telemetryTask;
 static WatchdogTask<> watchdogTask(systemWatchdogRunner, WatchdogTaskDelayMs);
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+static LaserTelemetryTask laserTelemetryTask;
+#endif
 #if defined(WASHIOS_STRESS_TEST)
 static StressTestTask stressTestTask;
 
@@ -140,6 +156,9 @@ int main(void)
     Board_USART2_Init();
     targetTiming.initialize();
     heartbeatLed.initializeOutput(false);
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+    laserTxPin.initializeOutput(false);
+#endif
     (void)systemFaultLog.recoverRetainedState();
     const uint64_t startupTimeMs = targetTiming.getSystemTick();
     (void)systemTaskHealth.registerTask(HeartbeatTaskId,
@@ -150,6 +169,12 @@ int main(void)
                                         TelemetryDeadlineMs,
                                         true,
                                         startupTimeMs);
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+    (void)systemTaskHealth.registerTask(LaserTelemetryTaskId,
+                                        LaserTelemetryDeadlineMs,
+                                        true,
+                                        startupTimeMs);
+#endif
 
     heartbeatTask.ConfigureHealth(&systemTaskHealth,
                                   &targetTiming,
@@ -160,6 +185,13 @@ int main(void)
                                   TelemetryTaskId);
     telemetryTask.ConfigureTelemetry(&systemFaultLog,
                                      &targetTelemetryUart);
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+    laserTelemetryTask.ConfigureHealth(&systemTaskHealth,
+                                       &targetTiming,
+                                       LaserTelemetryTaskId);
+    laserTelemetryTask.ConfigureTelemetry(&systemFaultLog,
+                                         &laserTransport);
+#endif
 #if defined(WASHIOS_STRESS_TEST)
     stressTestTask.Configure(&targetTiming, &heartbeatTask);
 #endif
@@ -171,6 +203,9 @@ int main(void)
     bool tasksStarted = heartbeatTask.Start("Heartbeat", tskIDLE_PRIORITY + 1);
     tasksStarted = telemetryTask.Start("Telemetry", tskIDLE_PRIORITY + 2) && tasksStarted;
     tasksStarted = watchdogTask.Start("Watchdog", configMAX_PRIORITIES - 1U) && tasksStarted;
+#if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
+    tasksStarted = laserTelemetryTask.Start("LaserTelemetry", tskIDLE_PRIORITY + 1) && tasksStarted;
+#endif
 #if defined(WASHIOS_STRESS_TEST)
     tasksStarted = stressTestTask.Start("Stress", WASHIOS_STRESS_PRIORITY) && tasksStarted;
 #endif

@@ -13,11 +13,14 @@
 #include "SitlRuntime.hpp"
 #include "BootFailSafe.hpp"
 #include "FaultLog.hpp"
+#include "FsoFrame.hpp"
 #include "FirmwareHealthMonitor.hpp"
+#include "LaserPdmTx.hpp"
 #include "TMR.hpp"
 #include "TaskHealth.hpp"
 #include "Telemetry.hpp"
 #include "Watchdog.hpp"
+#include "app/LaserTelemetryTask.hpp"
 
 void setUp()
 {
@@ -130,6 +133,81 @@ struct MockFirmwareHealthStore final : public hal::IFirmwareHealthStore
 
         outCrc = actualBootloader;
         return true;
+    }
+};
+
+struct GpioTransition
+{
+    bool state;
+    uint64_t timestampUs;
+};
+
+class RecordingGpio final : public hal::IGPIO
+{
+public:
+    explicit RecordingGpio(const test_mocks::MockTiming& timingSource)
+        : timing(timingSource)
+    {
+    }
+
+    void setHigh() noexcept override
+    {
+        record(true);
+    }
+
+    void setLow() noexcept override
+    {
+        record(false);
+    }
+
+    void toggle() noexcept override
+    {
+        record(!state);
+    }
+
+    bool read() const noexcept override
+    {
+        return state;
+    }
+
+    bool setInterrupt(hal::GpioInterruptEdge edge,
+                      hal::GpioInterruptCallback callback,
+                      void* context) noexcept override
+    {
+        (void)edge;
+        (void)callback;
+        (void)context;
+        return false;
+    }
+
+    void clearInterrupt() noexcept override
+    {
+    }
+
+    std::size_t count() const
+    {
+        return transitionCount;
+    }
+
+    const GpioTransition& transition(std::size_t index) const
+    {
+        return transitions[index];
+    }
+
+private:
+    const test_mocks::MockTiming& timing;
+    bool state = false;
+    GpioTransition transitions[4096] = {};
+    std::size_t transitionCount = 0U;
+
+    void record(bool nextState)
+    {
+        state = nextState;
+        if (transitionCount < (sizeof(transitions) / sizeof(transitions[0])))
+        {
+            transitions[transitionCount] = {nextState, timing.getTickUs()};
+            ++transitionCount;
+        }
     }
 };
 
@@ -759,6 +837,89 @@ void test_telemetry_crc_detects_corruption()
     TEST_ASSERT_FALSE(core::validateTelemetryBuffer(buffer, length));
 }
 
+void test_fso_frame_data_serialization_and_crc8()
+{
+    const uint8_t payload[3] = {0x12U, 0x34U, 0x56U};
+    comms::FsoFrame frame = {};
+    uint8_t buffer[comms::FsoMaxWireSize] = {};
+    std::size_t length = 0U;
+
+    TEST_ASSERT_TRUE(comms::buildFsoDataFrame(0x7BU, payload, sizeof(payload), frame));
+    TEST_ASSERT_EQUAL_UINT8(comms::FsoFrameData, frame.type);
+    TEST_ASSERT_EQUAL_UINT8(0x7BU, frame.sequence);
+    TEST_ASSERT_EQUAL_UINT8(sizeof(payload), frame.length);
+    TEST_ASSERT_EQUAL_UINT8(0x1CU, frame.crc);
+
+    TEST_ASSERT_TRUE(comms::serializeFsoFrame(frame, buffer, sizeof(buffer), length));
+    TEST_ASSERT_EQUAL_size_t(9U, length);
+    TEST_ASSERT_EQUAL_UINT8(0xAAU, buffer[0]);
+    TEST_ASSERT_EQUAL_UINT8(0x55U, buffer[1]);
+    TEST_ASSERT_EQUAL_UINT8(0x03U, buffer[2]);
+    TEST_ASSERT_EQUAL_UINT8(0x7BU, buffer[3]);
+    TEST_ASSERT_EQUAL_UINT8(0x03U, buffer[4]);
+    TEST_ASSERT_EQUAL_UINT8(0x12U, buffer[5]);
+    TEST_ASSERT_EQUAL_UINT8(0x34U, buffer[6]);
+    TEST_ASSERT_EQUAL_UINT8(0x56U, buffer[7]);
+    TEST_ASSERT_EQUAL_UINT8(0x1CU, buffer[8]);
+}
+
+void test_fso_frame_rejects_oversized_payload()
+{
+    uint8_t payload[comms::FsoMaxPayloadSize + 1U] = {};
+    comms::FsoFrame frame = {};
+
+    TEST_ASSERT_FALSE(comms::buildFsoDataFrame(1U, payload, sizeof(payload), frame));
+}
+
+void test_laser_pdm_tx_uses_msb_first_pulse_widths()
+{
+    test_mocks::MockTiming timing;
+    RecordingGpio gpio(timing);
+    comms::LaserPdmTx tx(gpio, timing);
+    const uint8_t byte = 0x80U;
+
+    TEST_ASSERT_TRUE(tx.sendBuffer(&byte, sizeof(byte)));
+    TEST_ASSERT_EQUAL_size_t(17U, gpio.count());
+    TEST_ASSERT_TRUE(gpio.transition(0U).state);
+    TEST_ASSERT_FALSE(gpio.transition(1U).state);
+    TEST_ASSERT_EQUAL_UINT64(400U,
+                             gpio.transition(1U).timestampUs -
+                             gpio.transition(0U).timestampUs);
+    TEST_ASSERT_TRUE(gpio.transition(2U).state);
+    TEST_ASSERT_EQUAL_UINT64(200U,
+                             gpio.transition(2U).timestampUs -
+                             gpio.transition(1U).timestampUs);
+    TEST_ASSERT_FALSE(gpio.transition(3U).state);
+    TEST_ASSERT_EQUAL_UINT64(200U,
+                             gpio.transition(3U).timestampUs -
+                             gpio.transition(2U).timestampUs);
+}
+
+void test_laser_telemetry_task_emits_repeated_fso_telemetry_frames()
+{
+    test_mocks::MockTiming timing;
+    RecordingGpio gpio(timing);
+    comms::LaserPdmTx tx(gpio, timing);
+    core::FaultLog<> faultLog;
+    core::TaskHealthRegistry<> registry;
+    LaserTelemetryTask task;
+
+    TEST_ASSERT_TRUE(registry.registerTask(1U, 1200U, true, timing.getSystemTick()));
+    TEST_ASSERT_TRUE(registry.registerTask(3U, 2000U, true, timing.getSystemTick()));
+    task.ConfigureHealth(&registry, &timing, 3U);
+    task.ConfigureTelemetry(&faultLog, &tx);
+
+    TEST_ASSERT_TRUE(task.RunOnce());
+    TEST_ASSERT_EQUAL_UINT32(1U, task.laserTelemetryCount);
+    TEST_ASSERT_TRUE(registry.isHealthy(3U));
+
+    const std::size_t expectedFrameLength =
+        comms::FsoHeaderSize + core::TelemetryFrameWireSize + comms::FsoCrcSize;
+    const std::size_t expectedTransitions =
+        (expectedFrameLength * 8U * 2U + 1U) * LaserTelemetryTask::FrameRepeats;
+    TEST_ASSERT_EQUAL_size_t(expectedTransitions, gpio.count());
+}
+
 void test_firmware_health_monitor_accepts_ready_fallback_slot()
 {
     MockFirmwareHealthStore store;
@@ -875,6 +1036,10 @@ int main()
     RUN_TEST(test_sitl_runtime_stalled_telemetry_triggers_safe_fail);
     RUN_TEST(test_telemetry_frame_nominal_packing_and_crc);
     RUN_TEST(test_telemetry_crc_detects_corruption);
+    RUN_TEST(test_fso_frame_data_serialization_and_crc8);
+    RUN_TEST(test_fso_frame_rejects_oversized_payload);
+    RUN_TEST(test_laser_pdm_tx_uses_msb_first_pulse_widths);
+    RUN_TEST(test_laser_telemetry_task_emits_repeated_fso_telemetry_frames);
     RUN_TEST(test_firmware_health_monitor_accepts_ready_fallback_slot);
     RUN_TEST(test_firmware_health_monitor_logs_slot_b_crc_mismatch);
     RUN_TEST(test_sitl_runtime_telemetry_task_emits_real_frames);
