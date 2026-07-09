@@ -192,7 +192,3 @@ scripts/            PlatformIO build guard scripts
 - Add native SITL tests for new safety behavior.
 - Run `pio test -e native` and all firmware builds before delivery.
 - Treat retained memory, watchdog refresh, and boot fail-safe paths as mission-critical.
-
-## License
-
-No explicit license file is currently included. Add a license before publishing this repository publicly.
