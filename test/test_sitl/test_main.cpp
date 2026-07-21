@@ -16,6 +16,9 @@
 #include "FsoFrame.hpp"
 #include "FirmwareHealthMonitor.hpp"
 #include "LaserPdmTx.hpp"
+#include "PayloadLinkController.hpp"
+#include "PayloadProtocol.hpp"
+#include "FixedTextWriter.hpp"
 #include "TMR.hpp"
 #include "TaskHealth.hpp"
 #include "Telemetry.hpp"
@@ -882,17 +885,47 @@ void test_laser_pdm_tx_uses_msb_first_pulse_widths()
     TEST_ASSERT_EQUAL_size_t(17U, gpio.count());
     TEST_ASSERT_TRUE(gpio.transition(0U).state);
     TEST_ASSERT_FALSE(gpio.transition(1U).state);
-    TEST_ASSERT_EQUAL_UINT64(400U,
+    TEST_ASSERT_EQUAL_UINT64(comms::LaserPdmLongPulseUs,
                              gpio.transition(1U).timestampUs -
                              gpio.transition(0U).timestampUs);
     TEST_ASSERT_TRUE(gpio.transition(2U).state);
-    TEST_ASSERT_EQUAL_UINT64(200U,
+    TEST_ASSERT_EQUAL_UINT64(comms::LaserPdmGapUs,
                              gpio.transition(2U).timestampUs -
                              gpio.transition(1U).timestampUs);
     TEST_ASSERT_FALSE(gpio.transition(3U).state);
-    TEST_ASSERT_EQUAL_UINT64(200U,
+    TEST_ASSERT_EQUAL_UINT64(comms::LaserPdmShortPulseUs,
                              gpio.transition(3U).timestampUs -
                              gpio.transition(2U).timestampUs);
+}
+
+void test_laser_pdm_tx_emits_sync_pulse_train()
+{
+    test_mocks::MockTiming timing;
+    RecordingGpio gpio(timing);
+    comms::LaserPdmTx tx(gpio, timing);
+
+    TEST_ASSERT_TRUE(tx.sendSyncPulses(3U, 100000U, 100000U));
+    TEST_ASSERT_EQUAL_size_t(6U, gpio.count());
+
+    for (std::size_t i = 0U; i < 3U; ++i)
+    {
+        const std::size_t highIndex = i * 2U;
+        const std::size_t lowIndex = highIndex + 1U;
+        TEST_ASSERT_TRUE(gpio.transition(highIndex).state);
+        TEST_ASSERT_FALSE(gpio.transition(lowIndex).state);
+        TEST_ASSERT_EQUAL_UINT64(
+            100000U,
+            gpio.transition(lowIndex).timestampUs -
+                gpio.transition(highIndex).timestampUs);
+
+        if (i < 2U)
+        {
+            TEST_ASSERT_EQUAL_UINT64(
+                100000U,
+                gpio.transition(highIndex + 2U).timestampUs -
+                    gpio.transition(lowIndex).timestampUs);
+        }
+    }
 }
 
 void test_laser_telemetry_task_emits_repeated_fso_telemetry_frames()
@@ -910,7 +943,7 @@ void test_laser_telemetry_task_emits_repeated_fso_telemetry_frames()
     task.ConfigureTelemetry(&faultLog, &tx);
 
     TEST_ASSERT_TRUE(task.RunOnce());
-    TEST_ASSERT_EQUAL_UINT32(1U, task.laserTelemetryCount);
+    TEST_ASSERT_EQUAL_UINT32(1U, task.telemetryCount());
     TEST_ASSERT_TRUE(registry.isHealthy(3U));
 
     const std::size_t expectedFrameLength =
@@ -982,6 +1015,207 @@ void test_sitl_runtime_telemetry_task_emits_real_frames()
     TEST_ASSERT_EQUAL_UINT32(1000U, core::readU32Le(secondFrame, 8U));
 }
 
+void test_payload_protocol_known_request_vector_and_round_trip()
+{
+    uint8_t buffer[comms::PayloadWireSize] = {};
+    comms::PayloadFrame frame = {};
+
+    TEST_ASSERT_TRUE(comms::encodePollRequest(0x12345678UL, buffer, sizeof(buffer)));
+    TEST_ASSERT_EQUAL_HEX8(0x57U, buffer[0U]);
+    TEST_ASSERT_EQUAL_HEX8(0x50U, buffer[1U]);
+    TEST_ASSERT_EQUAL_HEX8(0x78U, buffer[4U]);
+    TEST_ASSERT_EQUAL_HEX8(0x12U, buffer[7U]);
+    TEST_ASSERT_EQUAL_HEX32(0x02EFD6AAUL,
+                            comms::payloadReadU32Le(buffer, comms::PayloadCrcOffset));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::Ok),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer),
+                                                                     frame)));
+    TEST_ASSERT_EQUAL_UINT32(0x12345678UL, frame.sequence);
+    TEST_ASSERT_EQUAL_UINT16(0U, frame.payloadLength);
+}
+
+void test_payload_protocol_telemetry_round_trip()
+{
+    const comms::PayloadTelemetry expected = {
+        12345U, 77U, -1250, comms::PayloadMode::BadCrc
+    };
+    uint8_t buffer[comms::PayloadWireSize] = {};
+    comms::PayloadFrame frame = {};
+    comms::PayloadTelemetry actual = {};
+
+    TEST_ASSERT_TRUE(comms::encodeTelemetryResponse(9U, expected, buffer, sizeof(buffer)));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::Ok),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer),
+                                                                     frame)));
+    TEST_ASSERT_TRUE(comms::decodePayloadTelemetry(frame, actual));
+    TEST_ASSERT_EQUAL_UINT32(expected.uptimeMs, actual.uptimeMs);
+    TEST_ASSERT_EQUAL_UINT32(expected.sampleCounter, actual.sampleCounter);
+    TEST_ASSERT_EQUAL_INT32(expected.simulatedSensorMilliunits,
+                            actual.simulatedSensorMilliunits);
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(expected.mode), static_cast<int>(actual.mode));
+}
+
+void test_payload_protocol_rejects_invalid_header_length_and_crc()
+{
+    uint8_t buffer[comms::PayloadWireSize] = {};
+    comms::PayloadFrame frame = {};
+    TEST_ASSERT_TRUE(comms::encodePollRequest(1U, buffer, sizeof(buffer)));
+
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadSize),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer) - 1U,
+                                                                     frame)));
+
+    buffer[0U] = 0U;
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadSync),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer), frame)));
+    TEST_ASSERT_TRUE(comms::encodePollRequest(1U, buffer, sizeof(buffer)));
+    buffer[2U] = 2U;
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadVersion),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer), frame)));
+    TEST_ASSERT_TRUE(comms::encodePollRequest(1U, buffer, sizeof(buffer)));
+    buffer[3U] = 0x22U;
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadType),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer), frame)));
+    TEST_ASSERT_TRUE(comms::encodePollRequest(1U, buffer, sizeof(buffer)));
+    buffer[8U] = 1U;
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadLength),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer), frame)));
+    TEST_ASSERT_TRUE(comms::encodePollRequest(1U, buffer, sizeof(buffer)));
+    buffer[12U] ^= 0x01U;
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadCrc),
+                          static_cast<int>(comms::decodePayloadFrame(buffer,
+                                                                     sizeof(buffer), frame)));
+}
+
+void test_payload_decoder_handles_fragmentation_and_resynchronizes()
+{
+    uint8_t good[comms::PayloadWireSize] = {};
+    comms::PayloadFrameDecoder decoder;
+    TEST_ASSERT_TRUE(comms::encodePollRequest(5U, good, sizeof(good)));
+
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadDecodeEvent::None),
+                          static_cast<int>(decoder.consume(0x00U)));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadDecodeEvent::None),
+                          static_cast<int>(decoder.consume(comms::PayloadSync0)));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadDecodeEvent::None),
+                          static_cast<int>(decoder.consume(0x00U)));
+
+    for (std::size_t i = 0U; i + 1U < sizeof(good); ++i)
+    {
+        TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadDecodeEvent::None),
+                              static_cast<int>(decoder.consume(good[i])));
+    }
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadDecodeEvent::FrameReady),
+                          static_cast<int>(decoder.consume(good[sizeof(good) - 1U])));
+
+    good[12U] ^= 1U;
+    for (std::size_t i = 0U; i + 1U < sizeof(good); ++i)
+    {
+        (void)decoder.consume(good[i]);
+    }
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadDecodeEvent::FrameRejected),
+                          static_cast<int>(decoder.consume(good[sizeof(good) - 1U])));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadCrc),
+                          static_cast<int>(decoder.validationResult()));
+}
+
+void test_payload_link_goes_offline_rejects_stale_and_recovers()
+{
+    comms::PayloadLinkController controller;
+    uint8_t request[comms::PayloadWireSize] = {};
+    uint8_t response[comms::PayloadWireSize] = {};
+    comms::PayloadTelemetry telemetry = {1500U, 3U, 25125, comms::PayloadMode::Normal};
+
+    TEST_ASSERT_TRUE(controller.preparePoll(0U, request, sizeof(request)));
+    controller.service(100U);
+    TEST_ASSERT_TRUE(controller.preparePoll(500U, request, sizeof(request)));
+    controller.service(600U);
+    TEST_ASSERT_TRUE(controller.preparePoll(1000U, request, sizeof(request)));
+    controller.service(1100U);
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadLinkState::Offline),
+                          static_cast<int>(controller.state()));
+    TEST_ASSERT_EQUAL_UINT32(3U, controller.stats().timeouts);
+
+    TEST_ASSERT_TRUE(comms::encodeTelemetryResponse(2U, telemetry,
+                                                     response, sizeof(response)));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadSequence),
+                          static_cast<int>(controller.acceptResponse(response,
+                                                                     sizeof(response), 1200U)));
+    TEST_ASSERT_EQUAL_UINT32(1U, controller.stats().sequenceRejects);
+
+    TEST_ASSERT_TRUE(controller.preparePoll(1500U, request, sizeof(request)));
+    TEST_ASSERT_TRUE(comms::encodeTelemetryResponse(3U, telemetry,
+                                                     response, sizeof(response)));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::Ok),
+                          static_cast<int>(controller.acceptResponse(response,
+                                                                     sizeof(response), 1510U)));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadLinkState::Online),
+                          static_cast<int>(controller.state()));
+    TEST_ASSERT_EQUAL_UINT32(1U, controller.stats().recoveries);
+    TEST_ASSERT_EQUAL_UINT32(3U, controller.latestTelemetry().sampleCounter);
+}
+
+void test_payload_link_counts_crc_rejection_without_accepting_response()
+{
+    comms::PayloadLinkController controller;
+    comms::PayloadTelemetry telemetry = {};
+    uint8_t request[comms::PayloadWireSize] = {};
+    uint8_t response[comms::PayloadWireSize] = {};
+
+    TEST_ASSERT_TRUE(controller.preparePoll(0U, request, sizeof(request)));
+    TEST_ASSERT_TRUE(comms::encodeTelemetryResponse(0U, telemetry,
+                                                     response, sizeof(response)));
+    response[comms::PayloadCrcOffset] ^= 1U;
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadValidationResult::BadCrc),
+                          static_cast<int>(controller.acceptResponse(response,
+                                                                     sizeof(response), 1U)));
+    TEST_ASSERT_EQUAL_UINT32(1U, controller.stats().crcRejects);
+    TEST_ASSERT_EQUAL_UINT32(0U, controller.stats().responsesOk);
+}
+
+void test_payload_offline_does_not_make_running_task_unhealthy()
+{
+    test_mocks::MockTiming timing;
+    core::TaskHealthRegistry<> registry;
+    core::FaultLog<> faultLog;
+    core::TaskHealthReporter<> reporter;
+    comms::PayloadLinkController controller;
+    uint8_t request[comms::PayloadWireSize] = {};
+
+    TEST_ASSERT_TRUE(registry.registerTask(4U, 200U, true, 0U));
+    reporter.configure(&registry, &timing, 4U);
+    TEST_ASSERT_TRUE(controller.preparePoll(0U, request, sizeof(request)));
+    controller.service(100U);
+    TEST_ASSERT_TRUE(controller.preparePoll(500U, request, sizeof(request)));
+    controller.service(600U);
+    TEST_ASSERT_TRUE(controller.preparePoll(1000U, request, sizeof(request)));
+    controller.service(1100U);
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(comms::PayloadLinkState::Offline),
+                          static_cast<int>(controller.state()));
+
+    timing.setTickMs(1100U);
+    TEST_ASSERT_TRUE(reporter.checkIn());
+    const core::TaskHealthEvaluation result = registry.evaluate(1200U, faultLog);
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(core::TaskHealthStatus::Healthy),
+                          static_cast<int>(result.status));
+}
+
+void test_fixed_text_writer_is_bounded_and_formats_signed_values()
+{
+    core::FixedTextWriter<13U> writer;
+    TEST_ASSERT_TRUE(writer.append("v="));
+    TEST_ASSERT_TRUE(writer.appendI32(-2147483647 - 1));
+    TEST_ASSERT_EQUAL_size_t(13U, writer.size());
+    TEST_ASSERT_FALSE(writer.appendChar('x'));
+}
+
 } /* namespace */
 
 namespace core
@@ -1039,9 +1273,18 @@ int main()
     RUN_TEST(test_fso_frame_data_serialization_and_crc8);
     RUN_TEST(test_fso_frame_rejects_oversized_payload);
     RUN_TEST(test_laser_pdm_tx_uses_msb_first_pulse_widths);
+    RUN_TEST(test_laser_pdm_tx_emits_sync_pulse_train);
     RUN_TEST(test_laser_telemetry_task_emits_repeated_fso_telemetry_frames);
     RUN_TEST(test_firmware_health_monitor_accepts_ready_fallback_slot);
     RUN_TEST(test_firmware_health_monitor_logs_slot_b_crc_mismatch);
     RUN_TEST(test_sitl_runtime_telemetry_task_emits_real_frames);
+    RUN_TEST(test_payload_protocol_known_request_vector_and_round_trip);
+    RUN_TEST(test_payload_protocol_telemetry_round_trip);
+    RUN_TEST(test_payload_protocol_rejects_invalid_header_length_and_crc);
+    RUN_TEST(test_payload_decoder_handles_fragmentation_and_resynchronizes);
+    RUN_TEST(test_payload_link_goes_offline_rejects_stale_and_recovers);
+    RUN_TEST(test_payload_link_counts_crc_rejection_without_accepting_response);
+    RUN_TEST(test_payload_offline_does_not_make_running_task_unhealthy);
+    RUN_TEST(test_fixed_text_writer_is_bounded_and_formats_signed_values);
     return UNITY_END();
 }

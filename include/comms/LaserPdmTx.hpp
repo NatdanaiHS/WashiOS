@@ -9,9 +9,9 @@
 namespace comms
 {
 
-constexpr uint32_t LaserPdmShortPulseUs = 200U;
-constexpr uint32_t LaserPdmLongPulseUs = 400U;
-constexpr uint32_t LaserPdmGapUs = 200U;
+constexpr uint32_t LaserPdmShortPulseUs = 2000U;
+constexpr uint32_t LaserPdmLongPulseUs = 4000U;
+constexpr uint32_t LaserPdmGapUs = 2000U;
 
 class LaserPdmTx
 {
@@ -36,6 +36,27 @@ public:
         }
 
         output.setLow();
+        return true;
+    }
+
+    bool sendSyncPulses(uint8_t repeats,
+                        uint32_t highDurationUs,
+                        uint32_t lowDurationUs) noexcept
+    {
+        if (repeats == 0U)
+        {
+            output.setLow();
+            return true;
+        }
+
+        for (uint8_t repeat = 0U; repeat < repeats; ++repeat)
+        {
+            output.setHigh();
+            timing.delayUs(highDurationUs);
+            output.setLow();
+            timing.delayUs(lowDurationUs);
+        }
+
         return true;
     }
 

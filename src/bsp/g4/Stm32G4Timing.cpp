@@ -1,5 +1,7 @@
 #include "bsp/g4/Stm32G4Timing.hpp"
 
+#include "FreeRTOS.h"
+#include "task.h"
 #include "stm32g4xx_hal.h"
 
 namespace bsp
@@ -15,6 +17,11 @@ void Stm32G4Timing::initialize()
 
 uint64_t Stm32G4Timing::getSystemTick() const noexcept
 {
+    if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
+    {
+        return static_cast<uint64_t>(xTaskGetTickCount());
+    }
+
     return HAL_GetTick();
 }
 

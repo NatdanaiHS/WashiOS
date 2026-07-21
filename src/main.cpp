@@ -17,6 +17,9 @@
 #include "Watchdog.hpp"
 #include "WatchdogRunner.hpp"
 #include "app/HeartbeatTask.hpp"
+#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+#include "app/PayloadLinkTask.hpp"
+#endif
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
 #include "app/LaserTelemetryTask.hpp"
 #endif
@@ -27,6 +30,7 @@
 #endif
 
 #if defined(STM32G431xx)
+#include "bsp/g4/Stm32G4BoardUart.hpp"
 #include "bsp/g4/Stm32G4Gpio.hpp"
 #include "bsp/g4/Stm32G4Timing.hpp"
 #include "bsp/g4/Stm32G4Uart.hpp"
@@ -38,7 +42,9 @@
 
 void SystemClock_Config(void);
 static void Board_GPIO_Init(void);
+#if !defined(STM32G431xx)
 static void Board_USART2_Init(void);
+#endif
 #if defined(STM32G431xx)
 static void Board_IWDG_Init(void);
 #endif
@@ -48,6 +54,9 @@ namespace
 
 constexpr core::TaskId HeartbeatTaskId = 1U;
 constexpr core::TaskId TelemetryTaskId = 2U;
+#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+constexpr core::TaskId PayloadLinkTaskId = TelemetryTaskId;
+#endif
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
 constexpr core::TaskId LaserTelemetryTaskId = 3U;
 #endif
@@ -97,11 +106,17 @@ void requestBootRecovery(void* context)
 }
 
 UART_HandleTypeDef huart2 = {};
+#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+UART_HandleTypeDef huart1 = {};
+#endif
 
 #if defined(STM32G431xx)
 IWDG_HandleTypeDef hiwdg = {};
 bsp::Stm32G4Timing targetTiming;
 bsp::Stm32G4Uart targetTelemetryUart(&huart2);
+#if defined(WASHIOS_PAYLOAD_DEMO)
+bsp::Stm32G4Uart targetPayloadUart(&huart1);
+#endif
 bsp::Stm32G4Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
 #if defined(WASHIOS_LASERCOM_TEST)
 bsp::Stm32G4Gpio laserTxPin(GPIOA, GPIO_PIN_6);
@@ -134,7 +149,15 @@ core::WatchdogRunner<> systemWatchdogRunner(targetTiming,
 } /* namespace */
 
 static HeartbeatTask heartbeatTask;
+#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+static PayloadLinkTask payloadLinkTask(targetPayloadUart,
+                                       targetTelemetryUart,
+                                       targetTiming,
+                                       systemTaskHealth,
+                                       PayloadLinkTaskId);
+#else
 static TelemetryMockTask telemetryTask;
+#endif
 static WatchdogTask<> watchdogTask(systemWatchdogRunner, WatchdogTaskDelayMs);
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
 static LaserTelemetryTask laserTelemetryTask;
@@ -153,7 +176,24 @@ int main(void)
     HAL_Init();
     SystemClock_Config();
     Board_GPIO_Init();
+#if defined(STM32G431xx)
+    if (!bsp::initializeG4DebugUart(&huart2))
+    {
+        core::requestSystemReset();
+    }
+#if defined(WASHIOS_PAYLOAD_DEMO)
+    if (!bsp::initializeG4PayloadUart(&huart1))
+    {
+        core::requestSystemReset();
+    }
+    if (!targetPayloadUart.enableInterruptReceive())
+    {
+        core::requestSystemReset();
+    }
+#endif
+#else
     Board_USART2_Init();
+#endif
     targetTiming.initialize();
     heartbeatLed.initializeOutput(false);
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
@@ -180,11 +220,13 @@ int main(void)
                                   &targetTiming,
                                   HeartbeatTaskId);
     heartbeatTask.ConfigureLed(&heartbeatLed);
+#if !defined(WASHIOS_PAYLOAD_DEMO)
     telemetryTask.ConfigureHealth(&systemTaskHealth,
                                   &targetTiming,
                                   TelemetryTaskId);
     telemetryTask.ConfigureTelemetry(&systemFaultLog,
                                      &targetTelemetryUart);
+#endif
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
     laserTelemetryTask.ConfigureHealth(&systemTaskHealth,
                                        &targetTiming,
@@ -201,7 +243,11 @@ int main(void)
 #endif
 
     bool tasksStarted = heartbeatTask.Start("Heartbeat", tskIDLE_PRIORITY + 1);
+#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+    tasksStarted = payloadLinkTask.Start("PayloadLink", tskIDLE_PRIORITY + 2) && tasksStarted;
+#else
     tasksStarted = telemetryTask.Start("Telemetry", tskIDLE_PRIORITY + 2) && tasksStarted;
+#endif
     tasksStarted = watchdogTask.Start("Watchdog", configMAX_PRIORITIES - 1U) && tasksStarted;
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
     tasksStarted = laserTelemetryTask.Start("LaserTelemetry", tskIDLE_PRIORITY + 1) && tasksStarted;
@@ -341,17 +387,14 @@ static void Board_GPIO_Init(void)
     __HAL_RCC_GPIOA_CLK_ENABLE();
 }
 
+#if !defined(STM32G431xx)
 static void Board_USART2_Init(void)
 {
     __HAL_RCC_USART2_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
 
     GPIO_InitTypeDef gpio = {};
-#if defined(STM32G431xx)
-    gpio.Pin = GPIO_PIN_2;
-#else
     gpio.Pin = GPIO_PIN_2 | GPIO_PIN_3;
-#endif
     gpio.Mode = GPIO_MODE_AF_PP;
     gpio.Pull = GPIO_PULLUP;
     gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -363,36 +406,17 @@ static void Board_USART2_Init(void)
     huart2.Init.WordLength = UART_WORDLENGTH_8B;
     huart2.Init.StopBits = UART_STOPBITS_1;
     huart2.Init.Parity = UART_PARITY_NONE;
-#if defined(STM32G431xx)
-    huart2.Init.Mode = UART_MODE_TX;
-#else
     huart2.Init.Mode = UART_MODE_TX_RX;
-#endif
     huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-#if defined(STM32G431xx)
-    huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-    huart2.Init.ClockPrescaler = UART_PRESCALER_DIV1;
-    huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-#endif
 
     if (HAL_UART_Init(&huart2) != HAL_OK)
     {
         core::requestSystemReset();
     }
 
-#if defined(STM32G431xx)
-    if (HAL_UARTEx_SetTxFifoThreshold(&huart2, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
-    {
-        core::requestSystemReset();
-    }
-
-    if (HAL_UARTEx_DisableFifoMode(&huart2) != HAL_OK)
-    {
-        core::requestSystemReset();
-    }
-#endif
 }
+#endif
 
 extern "C" void vApplicationGetIdleTaskMemory(StaticTask_t** ppxIdleTaskTCBBuffer,
                                               StackType_t** ppxIdleTaskStackBuffer,

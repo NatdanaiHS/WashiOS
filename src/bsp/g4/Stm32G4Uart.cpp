@@ -6,6 +6,7 @@ namespace
 {
 
 constexpr std::size_t MaxHalTransferLength = 0xFFFFU;
+bsp::Stm32G4Uart* usart1Owner = nullptr;
 
 } /* namespace */
 
@@ -64,6 +65,11 @@ bool Stm32G4Uart::readBuffer(uint8_t* buffer,
         return true;
     }
 
+    if (interruptReceiveEnabled)
+    {
+        return readBuffered(buffer, length, timeout_ms);
+    }
+
     UART_HandleTypeDef* const uart = static_cast<UART_HandleTypeDef*>(handle);
     if (uart->RxState != HAL_UART_STATE_READY)
     {
@@ -78,6 +84,14 @@ bool Stm32G4Uart::readBuffer(uint8_t* buffer,
 
 std::size_t Stm32G4Uart::available() const noexcept
 {
+    if (interruptReceiveEnabled)
+    {
+        const std::size_t head = receiveHead;
+        const std::size_t tail = receiveTail;
+        return (head >= tail) ? (head - tail) :
+                               (ReceiveBufferCapacity - tail + head);
+    }
+
 #if defined(UART_FLAG_RXNE_RXFNE)
     constexpr uint32_t ReceiveDataReadyFlag = UART_FLAG_RXNE_RXFNE;
 #elif defined(UART_FLAG_RXNE)
@@ -118,4 +132,84 @@ void Stm32G4Uart::setBaudRate(uint32_t baudRate) noexcept
     }
 }
 
+bool Stm32G4Uart::enableInterruptReceive() noexcept
+{
+    if (handle == nullptr)
+    {
+        return false;
+    }
+
+    UART_HandleTypeDef* const uart = static_cast<UART_HandleTypeDef*>(handle);
+    if (uart->Instance != USART1 || usart1Owner != nullptr)
+    {
+        return false;
+    }
+
+    receiveHead = 0U;
+    receiveTail = 0U;
+    usart1Owner = this;
+    interruptReceiveEnabled = true;
+
+    __HAL_UART_CLEAR_OREFLAG(uart);
+    __HAL_UART_CLEAR_FEFLAG(uart);
+    __HAL_UART_CLEAR_NEFLAG(uart);
+    __HAL_UART_ENABLE_IT(uart, UART_IT_RXNE);
+    __HAL_UART_ENABLE_IT(uart, UART_IT_ERR);
+    HAL_NVIC_SetPriority(USART1_IRQn, 6U, 0U);
+    HAL_NVIC_EnableIRQ(USART1_IRQn);
+    return true;
+}
+
+void Stm32G4Uart::handleInterrupt() noexcept
+{
+    UART_HandleTypeDef* const uart = static_cast<UART_HandleTypeDef*>(handle);
+    const uint32_t status = uart->Instance->ISR;
+
+    if ((status & USART_ISR_RXNE_RXFNE) != 0U)
+    {
+        const uint8_t byte = static_cast<uint8_t>(uart->Instance->RDR);
+        const std::size_t next = (receiveHead + 1U) % ReceiveBufferCapacity;
+        if (next != receiveTail)
+        {
+            receiveBuffer[receiveHead] = byte;
+            receiveHead = next;
+        }
+    }
+
+    const uint32_t errors = status & (USART_ISR_ORE | USART_ISR_FE | USART_ISR_NE);
+    if (errors != 0U)
+    {
+        uart->Instance->ICR = USART_ICR_ORECF | USART_ICR_FECF | USART_ICR_NECF;
+    }
+}
+
+bool Stm32G4Uart::readBuffered(uint8_t* buffer,
+                               std::size_t length,
+                               uint32_t timeoutMs) noexcept
+{
+    const uint32_t start = HAL_GetTick();
+    std::size_t count = 0U;
+    while (count < length)
+    {
+        if (receiveTail != receiveHead)
+        {
+            buffer[count++] = receiveBuffer[receiveTail];
+            receiveTail = (receiveTail + 1U) % ReceiveBufferCapacity;
+        }
+        else if (static_cast<uint32_t>(HAL_GetTick() - start) >= boundedTimeout(timeoutMs))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 } /* namespace bsp */
+
+extern "C" void USART1_IRQHandler()
+{
+    if (usart1Owner != nullptr)
+    {
+        usart1Owner->handleInterrupt();
+    }
+}

@@ -7,23 +7,23 @@
 #include "FaultLog.hpp"
 #include "ITiming.hpp"
 #include "IUart.hpp"
-#include "TaskHealth.hpp"
+#include "TaskHealthReporter.hpp"
 #include "Telemetry.hpp"
 #include "WashiTask.hpp"
 
 class TelemetryMockTask final : public rtos_config::WashiTask<512>
 {
 public:
-    volatile uint32_t telemetry_count = 0;
-
     void ConfigureHealth(core::TaskHealthRegistry<>* registry,
                          hal::ITiming* timing,
                          core::TaskId taskId)
     {
+        healthReporter.configure(registry, timing, taskId);
         healthRegistry = registry;
         timingSource = timing;
-        healthTaskId = taskId;
     }
+
+    uint32_t telemetryCount() const { return telemetryCounter; }
 
     void ConfigureTelemetry(core::FaultLog<>* faults,
                             hal::IUart* transport)
@@ -37,7 +37,7 @@ protected:
     {
         for (;;)
         {
-            ++telemetry_count;
+            ++telemetryCounter;
             checkIn();
             sendTelemetry();
             vTaskDelay(pdMS_TO_TICKS(500));
@@ -46,18 +46,16 @@ protected:
 
 private:
     core::TaskHealthRegistry<>* healthRegistry = nullptr;
+    core::TaskHealthReporter<> healthReporter;
     hal::ITiming* timingSource = nullptr;
     core::FaultLog<>* faultLog = nullptr;
     hal::IUart* telemetryTransport = nullptr;
-    core::TaskId healthTaskId = 0U;
     uint32_t telemetrySequence = 0U;
+    uint32_t telemetryCounter = 0U;
 
     void checkIn()
     {
-        if (healthRegistry != nullptr && timingSource != nullptr)
-        {
-            (void)healthRegistry->checkIn(healthTaskId, timingSource->getSystemTick());
-        }
+        (void)healthReporter.checkIn();
     }
 
     void sendTelemetry()

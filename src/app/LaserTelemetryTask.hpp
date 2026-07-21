@@ -7,7 +7,7 @@
 #include "ITiming.hpp"
 #include "LaserPdmTx.hpp"
 #include "FsoFrame.hpp"
-#include "TaskHealth.hpp"
+#include "TaskHealthReporter.hpp"
 #include "Telemetry.hpp"
 
 #if !defined(WASHIOS_ENABLE_TEST_HOOKS)
@@ -25,17 +25,23 @@ class LaserTelemetryTask final : public rtos_config::WashiTask<768>
 public:
     static constexpr uint32_t PeriodMs = 1000U;
     static constexpr uint8_t FrameRepeats = 4U;
-
-    volatile uint32_t laserTelemetryCount = 0U;
+#if defined(WASHIOS_LASERCOM_ASCII_TEST)
+    static constexpr uint8_t SyncRepeats = 3U;
+    static constexpr uint32_t SyncHighUs = 100000U;
+    static constexpr uint32_t SyncLowUs = 100000U;
+    static constexpr uint8_t MessageRepeats = 1U;
+#endif
 
     void ConfigureHealth(core::TaskHealthRegistry<>* registry,
                          hal::ITiming* timing,
                          core::TaskId taskId)
     {
+        healthReporter.configure(registry, timing, taskId);
         healthRegistry = registry;
         timingSource = timing;
-        healthTaskId = taskId;
     }
+
+    uint32_t telemetryCount() const { return laserTelemetryCounter; }
 
     void ConfigureTelemetry(core::FaultLog<>* faults,
                             comms::LaserPdmTx* laserTransport)
@@ -46,7 +52,7 @@ public:
 
     bool RunOnce()
     {
-        ++laserTelemetryCount;
+        ++laserTelemetryCounter;
         checkIn();
         return sendTelemetry();
     }
@@ -65,18 +71,16 @@ protected:
 
 private:
     core::TaskHealthRegistry<>* healthRegistry = nullptr;
+    core::TaskHealthReporter<> healthReporter;
     hal::ITiming* timingSource = nullptr;
     core::FaultLog<>* faultLog = nullptr;
     comms::LaserPdmTx* transport = nullptr;
-    core::TaskId healthTaskId = 0U;
     uint8_t telemetrySequence = 0U;
+    uint32_t laserTelemetryCounter = 0U;
 
     void checkIn()
     {
-        if (healthRegistry != nullptr && timingSource != nullptr)
-        {
-            (void)healthRegistry->checkIn(healthTaskId, timingSource->getSystemTick());
-        }
+        (void)healthReporter.checkIn();
     }
 
     bool sendTelemetry()
@@ -87,6 +91,26 @@ private:
             return false;
         }
 
+#if defined(WASHIOS_LASERCOM_ASCII_TEST)
+        static constexpr uint8_t Message[] =
+            "SVD is Diamond in Linear Algebra\r\n";
+
+        if (!transport->sendSyncPulses(SyncRepeats, SyncHighUs, SyncLowUs))
+        {
+            return false;
+        }
+
+        for (uint8_t repeat = 0U; repeat < MessageRepeats; ++repeat)
+        {
+            if (!transport->sendBuffer(Message, sizeof(Message) - 1U))
+            {
+                return false;
+            }
+        }
+
+        ++telemetrySequence;
+        return true;
+#else
         core::TelemetryFrame telemetryFrame = {};
         uint8_t telemetryBuffer[core::TelemetryFrameWireSize] = {};
         std::size_t telemetryLength = 0U;
@@ -138,5 +162,6 @@ private:
 
         ++telemetrySequence;
         return true;
+#endif
     }
 };

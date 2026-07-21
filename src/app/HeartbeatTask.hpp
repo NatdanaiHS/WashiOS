@@ -6,22 +6,20 @@
 #include "task.h"
 #include "IGPIO.hpp"
 #include "ITiming.hpp"
-#include "TaskHealth.hpp"
+#include "TaskHealthReporter.hpp"
 #include "WashiTask.hpp"
 
 class HeartbeatTask final : public rtos_config::WashiTask<256>
 {
 public:
-    volatile uint32_t heartbeat_count = 0;
-
     void ConfigureHealth(core::TaskHealthRegistry<>* registry,
                          hal::ITiming* timing,
                          core::TaskId taskId)
     {
-        healthRegistry = registry;
-        timingSource = timing;
-        healthTaskId = taskId;
+        healthReporter.configure(registry, timing, taskId);
     }
+
+    uint32_t heartbeatCount() const { return heartbeatCounter; }
 
     void ConfigureLed(hal::IGPIO* indicatorLed)
     {
@@ -40,7 +38,7 @@ protected:
     {
         for (;;)
         {
-            ++heartbeat_count;
+            ++heartbeatCounter;
             toggleLed();
             checkIn();
             vTaskDelay(pdMS_TO_TICKS(1000));
@@ -48,10 +46,9 @@ protected:
     }
 
 private:
-    core::TaskHealthRegistry<>* healthRegistry = nullptr;
-    hal::ITiming* timingSource = nullptr;
+    core::TaskHealthReporter<> healthReporter;
     hal::IGPIO* led = nullptr;
-    core::TaskId healthTaskId = 0U;
+    uint32_t heartbeatCounter = 0U;
 #if defined(WASHIOS_STRESS_TEST)
     volatile bool healthReportingEnabled = true;
 #endif
@@ -64,10 +61,7 @@ private:
             return;
         }
 #endif
-        if (healthRegistry != nullptr && timingSource != nullptr)
-        {
-            (void)healthRegistry->checkIn(healthTaskId, timingSource->getSystemTick());
-        }
+        (void)healthReporter.checkIn();
     }
 
     void toggleLed()
