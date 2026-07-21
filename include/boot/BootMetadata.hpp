@@ -120,6 +120,13 @@ inline bool isBootableFirmwareSlotState(uint32_t value)
            value == static_cast<uint32_t>(FirmwareSlotState::Confirmed);
 }
 
+inline uint32_t defaultFirmwareSlotState(uint32_t expectedCrc)
+{
+    return isExpectedCrcProvisioned(expectedCrc) ?
+        static_cast<uint32_t>(FirmwareSlotState::Confirmed) :
+        static_cast<uint32_t>(FirmwareSlotState::Empty);
+}
+
 inline void initializeBootMetadata(BootMetadata& metadata, uint32_t defaultExpectedCrc)
 {
     metadata.boot_count = 0U;
@@ -128,9 +135,7 @@ inline void initializeBootMetadata(BootMetadata& metadata, uint32_t defaultExpec
     metadata.active_slot = static_cast<uint32_t>(BootSlot::SlotA);
     metadata.slot_a_crc32 = defaultExpectedCrc;
     metadata.slot_b_crc32 = InvalidExpectedCrc0;
-    metadata.slot_a_state = isExpectedCrcProvisioned(defaultExpectedCrc) ?
-        static_cast<uint32_t>(FirmwareSlotState::Valid) :
-        static_cast<uint32_t>(FirmwareSlotState::Empty);
+    metadata.slot_a_state = defaultFirmwareSlotState(defaultExpectedCrc);
     metadata.slot_b_state = static_cast<uint32_t>(FirmwareSlotState::Empty);
     metadata.last_boot_slot = static_cast<uint32_t>(BootSlot::SlotA);
     metadata.last_fail_reason = 0U;
@@ -147,9 +152,7 @@ inline void migrateLegacyBootMetadata(BootMetadata& metadata, uint32_t defaultEx
     metadata.active_slot = static_cast<uint32_t>(BootSlot::SlotA);
     metadata.slot_a_crc32 = expectedCrc;
     metadata.slot_b_crc32 = InvalidExpectedCrc0;
-    metadata.slot_a_state = isExpectedCrcProvisioned(expectedCrc) ?
-        static_cast<uint32_t>(FirmwareSlotState::Valid) :
-        static_cast<uint32_t>(FirmwareSlotState::Empty);
+    metadata.slot_a_state = defaultFirmwareSlotState(expectedCrc);
     metadata.slot_b_state = static_cast<uint32_t>(FirmwareSlotState::Empty);
     metadata.last_boot_slot = static_cast<uint32_t>(BootSlot::SlotA);
     metadata.last_fail_reason = 0U;
@@ -164,6 +167,44 @@ inline bool hasSaneBootMetadataFields(const BootMetadata& metadata)
            isValidFirmwareSlotState(metadata.slot_b_state);
 }
 
+inline bool seedDefaultSlotAIfUnprovisioned(BootMetadata& metadata,
+                                            uint32_t defaultExpectedCrc)
+{
+    if (!isExpectedCrcProvisioned(defaultExpectedCrc))
+    {
+        return false;
+    }
+
+    bool changed = false;
+    bool seededSlotA = false;
+    if (!isExpectedCrcProvisioned(metadata.expected_firmware_crc32))
+    {
+        metadata.expected_firmware_crc32 = defaultExpectedCrc;
+        changed = true;
+    }
+
+    if (!isExpectedCrcProvisioned(metadata.slot_a_crc32))
+    {
+        metadata.slot_a_crc32 = defaultExpectedCrc;
+        changed = true;
+        seededSlotA = true;
+    }
+
+    if (seededSlotA || !isBootableFirmwareSlotState(metadata.slot_a_state))
+    {
+        metadata.slot_a_state = static_cast<uint32_t>(FirmwareSlotState::Confirmed);
+        metadata.boot_count = 0U;
+        changed = true;
+    }
+
+    if (changed)
+    {
+        commitBootMetadata(metadata);
+    }
+
+    return changed;
+}
+
 inline bool recoverBootMetadata(BootMetadata& metadata, uint32_t defaultExpectedCrc)
 {
     if (hasValidBootMetadata(metadata))
@@ -174,6 +215,7 @@ inline bool recoverBootMetadata(BootMetadata& metadata, uint32_t defaultExpected
             return false;
         }
 
+        (void)seedDefaultSlotAIfUnprovisioned(metadata, defaultExpectedCrc);
         return true;
     }
 

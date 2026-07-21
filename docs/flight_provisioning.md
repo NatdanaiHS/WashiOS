@@ -31,5 +31,20 @@ it to deterministic A/B selection:
 - If no slot is valid, WashiBoot records `SafeFail` and enters the beacon safe
   loop.
 
+## Development Provisioning Workflow
+
+The `nucleo_g431rb` bootloader build provisions Slot A from the latest
+WashiOS-Core `nucleo_g431rb` ELF artifact:
+
+1. Build WashiOS-Core `nucleo_g431rb`.
+2. Build and upload WashiBoot `nucleo_g431rb`.
+3. Upload the same WashiOS-Core `nucleo_g431rb` image to Slot A.
+
+The bootloader pre-build script converts the Slot A ELF to a temporary binary,
+validates that its vector table targets `0x08004000`, then injects the CRC-32
+and image length as compile-time defaults. The bootloader validates only the
+provisioned image length, so stale flash bytes after the application image do
+not block a valid development image.
+
 Signed firmware, anti-rollback counters, and golden rescue images are deferred
 to the next security milestone.

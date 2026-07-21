@@ -30,13 +30,15 @@ public:
                hal::IBeacon& beaconRef,
                BootMetadata& metadataRef,
                core::FaultLog<>& faultLogRef,
-               uint32_t defaultExpectedCrc)
+               uint32_t defaultExpectedCrc,
+               std::size_t defaultSlotACrcLength = 0U)
         : flashMap(flashMapRef),
           platform(platformRef),
           beacon(beaconRef),
           metadata(metadataRef),
           faultLog(faultLogRef),
-          fallbackExpectedCrc(defaultExpectedCrc)
+          fallbackExpectedCrc(defaultExpectedCrc),
+          fallbackSlotACrcLength(defaultSlotACrcLength)
     {
     }
 
@@ -59,7 +61,7 @@ public:
             noteBootFailure(metadata, DetailFaultLogRecoveryFailed);
         }
 
-        if (metadata.boot_count > MaxUnconfirmedBootAttempts)
+        if (isPendingBootAttemptLimitExceeded())
         {
             safeFail(DetailBootLoopLimit);
             return;
@@ -101,6 +103,7 @@ private:
     BootMetadata& metadata;
     core::FaultLog<>& faultLog;
     uint32_t fallbackExpectedCrc;
+    std::size_t fallbackSlotACrcLength;
 
     static hal::FirmwareSlot toHalSlot(BootSlot slot)
     {
@@ -120,7 +123,59 @@ private:
         return (slot == BootSlot::SlotB) ? BootSlot::SlotA : BootSlot::SlotB;
     }
 
-    bool isSlotBootable(BootSlot slot, uint32_t& failReason) const
+    bool isPendingBootAttemptLimitExceeded() const
+    {
+        return firmwareSlotState(metadata, activeBootSlot()) ==
+                   static_cast<uint32_t>(FirmwareSlotState::Pending) &&
+               metadata.boot_count > MaxUnconfirmedBootAttempts;
+    }
+
+    std::size_t crcLengthForSlot(BootSlot slot, uint32_t expectedCrc) const
+    {
+        const hal::FirmwareSlot halSlot = toHalSlot(slot);
+        const std::size_t slotLength = flashMap.slotLength(halSlot);
+
+        if (slot == BootSlot::SlotA &&
+            expectedCrc == fallbackExpectedCrc &&
+            fallbackSlotACrcLength > 0U &&
+            fallbackSlotACrcLength <= slotLength)
+        {
+            return fallbackSlotACrcLength;
+        }
+
+        return slotLength;
+    }
+
+    bool slotMatchesCrc(BootSlot slot, uint32_t expectedCrc) const
+    {
+        const hal::FirmwareSlot halSlot = toHalSlot(slot);
+        const volatile uint8_t* const application =
+            reinterpret_cast<const volatile uint8_t*>(flashMap.slotBase(halSlot));
+        const uint32_t runtimeCrc =
+            crc32(application, crcLengthForSlot(slot, expectedCrc));
+
+        return runtimeCrc == expectedCrc;
+    }
+
+    bool canTryDefaultSlotACrc(BootSlot slot, uint32_t expectedCrc) const
+    {
+        return slot == BootSlot::SlotA &&
+               isExpectedCrcProvisioned(fallbackExpectedCrc) &&
+               fallbackExpectedCrc != expectedCrc &&
+               fallbackSlotACrcLength > 0U &&
+               fallbackSlotACrcLength <= flashMap.slotLength(toHalSlot(slot));
+    }
+
+    void adoptDefaultSlotACrc()
+    {
+        metadata.expected_firmware_crc32 = fallbackExpectedCrc;
+        metadata.slot_a_crc32 = fallbackExpectedCrc;
+        metadata.slot_a_state = static_cast<uint32_t>(FirmwareSlotState::Confirmed);
+        metadata.boot_count = 0U;
+        commitBootMetadata(metadata);
+    }
+
+    bool isSlotBootable(BootSlot slot, uint32_t& failReason)
     {
         failReason = 0U;
         const uint32_t slotState = firmwareSlotState(metadata, slot);
@@ -145,16 +200,20 @@ private:
             return false;
         }
 
-        const volatile uint8_t* const application =
-            reinterpret_cast<const volatile uint8_t*>(flashMap.slotBase(halSlot));
-        const uint32_t runtimeCrc = crc32(application, flashMap.slotLength(halSlot));
-        if (runtimeCrc != expectedCrc)
+        if (slotMatchesCrc(slot, expectedCrc))
         {
-            failReason = DetailFirmwareCrcMismatch;
-            return false;
+            return true;
         }
 
-        return true;
+        if (canTryDefaultSlotACrc(slot, expectedCrc) &&
+            slotMatchesCrc(slot, fallbackExpectedCrc))
+        {
+            adoptDefaultSlotACrc();
+            return true;
+        }
+
+        failReason = DetailFirmwareCrcMismatch;
+        return false;
     }
 
     void bootSlot(BootSlot slot)

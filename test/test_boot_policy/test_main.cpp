@@ -112,6 +112,11 @@ uint32_t slotCrc(const uint8_t* slot)
     return boot::crc32(slot, TestSlotLength);
 }
 
+uint32_t slotCrcLength(const uint8_t* slot, std::size_t length)
+{
+    return boot::crc32(slot, length);
+}
+
 void configureMetadata(boot::BootMetadata& metadata,
                        boot::BootSlot activeSlot,
                        uint32_t slotACrc,
@@ -142,6 +147,9 @@ void test_legacy_metadata_migrates_to_current_version()
     TEST_ASSERT_EQUAL_UINT32(static_cast<uint32_t>(boot::BootSlot::SlotA),
                              metadata.active_slot);
     TEST_ASSERT_EQUAL_UINT32(0x12345678UL, metadata.slot_a_crc32);
+    TEST_ASSERT_EQUAL_UINT32(
+        static_cast<uint32_t>(boot::FirmwareSlotState::Confirmed),
+        metadata.slot_a_state);
 }
 
 void test_corrupt_metadata_initializes_safe_default()
@@ -155,6 +163,24 @@ void test_corrupt_metadata_initializes_safe_default()
     TEST_ASSERT_EQUAL_UINT32(static_cast<uint32_t>(boot::BootSlot::SlotA),
                              metadata.active_slot);
     TEST_ASSERT_EQUAL_UINT32(0x2468ACE0UL, metadata.slot_a_crc32);
+    TEST_ASSERT_EQUAL_UINT32(
+        static_cast<uint32_t>(boot::FirmwareSlotState::Confirmed),
+        metadata.slot_a_state);
+}
+
+void test_valid_empty_metadata_adopts_provisioned_default()
+{
+    boot::BootMetadata metadata = {};
+    boot::initializeBootMetadata(metadata, 0U);
+
+    TEST_ASSERT_TRUE(boot::hasValidBootMetadata(metadata));
+    TEST_ASSERT_TRUE(boot::recoverBootMetadata(metadata, 0x13572468UL));
+
+    TEST_ASSERT_EQUAL_UINT32(0x13572468UL, metadata.expected_firmware_crc32);
+    TEST_ASSERT_EQUAL_UINT32(0x13572468UL, metadata.slot_a_crc32);
+    TEST_ASSERT_EQUAL_UINT32(
+        static_cast<uint32_t>(boot::FirmwareSlotState::Confirmed),
+        metadata.slot_a_state);
 }
 
 void test_slot_a_valid_boots_slot_a()
@@ -182,6 +208,118 @@ void test_slot_a_valid_boots_slot_a()
     TEST_ASSERT_EQUAL_UINT32(0U, beacon.safeLoopCount);
     TEST_ASSERT_EQUAL_UINT32(static_cast<uint32_t>(boot::BootSlot::SlotA),
                              metadata.last_boot_slot);
+}
+
+void test_default_slot_a_crc_uses_provisioned_image_length()
+{
+    fillSlot(slotA, 0x50U);
+    fillSlot(slotB, 0x80U);
+    MockFlashMap flashMap;
+    MockBootPlatform platform;
+    MockBeacon beacon;
+    boot::BootMetadata metadata = {};
+    core::FaultLog<> faultLog;
+    faultLog.clear();
+    constexpr std::size_t ProvisionedLength = 16U;
+    const uint32_t provisionedCrc = slotCrcLength(slotA, ProvisionedLength);
+    boot::initializeBootMetadata(metadata, provisionedCrc);
+
+    boot::BootPolicy policy(flashMap,
+                            platform,
+                            beacon,
+                            metadata,
+                            faultLog,
+                            provisionedCrc,
+                            ProvisionedLength);
+    policy.run();
+
+    TEST_ASSERT_EQUAL_UINT32(1U, platform.prepareCount);
+    TEST_ASSERT_EQUAL_UINT64(
+        static_cast<uint64_t>(flashMap.slotBase(hal::FirmwareSlot::SlotA)),
+        static_cast<uint64_t>(platform.jumpedVector));
+    TEST_ASSERT_EQUAL_UINT32(0U, beacon.safeLoopCount);
+}
+
+void test_confirmed_slot_ignores_unconfirmed_boot_limit()
+{
+    fillSlot(slotA, 0x60U);
+    fillSlot(slotB, 0x90U);
+    MockFlashMap flashMap;
+    MockBootPlatform platform;
+    MockBeacon beacon;
+    boot::BootMetadata metadata = {};
+    core::FaultLog<> faultLog;
+    faultLog.clear();
+    configureMetadata(metadata,
+                      boot::BootSlot::SlotA,
+                      slotCrc(slotA),
+                      slotCrc(slotB));
+    metadata.boot_count = boot::MaxUnconfirmedBootAttempts + 1U;
+    metadata.slot_a_state = static_cast<uint32_t>(boot::FirmwareSlotState::Confirmed);
+    boot::commitBootMetadata(metadata);
+
+    boot::BootPolicy policy(flashMap, platform, beacon, metadata, faultLog, 0U);
+    policy.run();
+
+    TEST_ASSERT_EQUAL_UINT32(1U, platform.prepareCount);
+    TEST_ASSERT_EQUAL_UINT32(0U, beacon.safeLoopCount);
+}
+
+void test_pending_slot_over_attempt_limit_enters_safe_loop()
+{
+    fillSlot(slotA, 0x70U);
+    fillSlot(slotB, 0xA0U);
+    MockFlashMap flashMap;
+    MockBootPlatform platform;
+    MockBeacon beacon;
+    boot::BootMetadata metadata = {};
+    core::FaultLog<> faultLog;
+    faultLog.clear();
+    configureMetadata(metadata,
+                      boot::BootSlot::SlotA,
+                      slotCrc(slotA),
+                      slotCrc(slotB));
+    metadata.boot_count = boot::MaxUnconfirmedBootAttempts + 1U;
+    metadata.slot_a_state = static_cast<uint32_t>(boot::FirmwareSlotState::Pending);
+    boot::commitBootMetadata(metadata);
+
+    boot::BootPolicy policy(flashMap, platform, beacon, metadata, faultLog, 0U);
+    policy.run();
+
+    TEST_ASSERT_EQUAL_UINT32(0U, platform.prepareCount);
+    TEST_ASSERT_EQUAL_UINT32(1U, beacon.safeLoopCount);
+    TEST_ASSERT_EQUAL_UINT32(boot::DetailBootLoopLimit, metadata.last_fail_reason);
+}
+
+void test_stale_slot_a_crc_adopts_matching_default_image()
+{
+    fillSlot(slotA, 0x78U);
+    fillSlot(slotB, 0xA8U);
+    MockFlashMap flashMap;
+    MockBootPlatform platform;
+    MockBeacon beacon;
+    boot::BootMetadata metadata = {};
+    core::FaultLog<> faultLog;
+    faultLog.clear();
+    constexpr std::size_t ProvisionedLength = 24U;
+    const uint32_t provisionedCrc = slotCrcLength(slotA, ProvisionedLength);
+    configureMetadata(metadata,
+                      boot::BootSlot::SlotA,
+                      slotCrc(slotA) ^ 0x1UL,
+                      slotCrc(slotB));
+
+    boot::BootPolicy policy(flashMap,
+                            platform,
+                            beacon,
+                            metadata,
+                            faultLog,
+                            provisionedCrc,
+                            ProvisionedLength);
+    policy.run();
+
+    TEST_ASSERT_EQUAL_UINT32(1U, platform.prepareCount);
+    TEST_ASSERT_EQUAL_UINT32(0U, beacon.safeLoopCount);
+    TEST_ASSERT_EQUAL_UINT32(provisionedCrc, metadata.slot_a_crc32);
 }
 
 void test_slot_a_crc_failure_falls_back_to_slot_b()
@@ -276,7 +414,12 @@ int main()
     UNITY_BEGIN();
     RUN_TEST(test_legacy_metadata_migrates_to_current_version);
     RUN_TEST(test_corrupt_metadata_initializes_safe_default);
+    RUN_TEST(test_valid_empty_metadata_adopts_provisioned_default);
     RUN_TEST(test_slot_a_valid_boots_slot_a);
+    RUN_TEST(test_default_slot_a_crc_uses_provisioned_image_length);
+    RUN_TEST(test_confirmed_slot_ignores_unconfirmed_boot_limit);
+    RUN_TEST(test_pending_slot_over_attempt_limit_enters_safe_loop);
+    RUN_TEST(test_stale_slot_a_crc_adopts_matching_default_image);
     RUN_TEST(test_slot_a_crc_failure_falls_back_to_slot_b);
     RUN_TEST(test_slot_a_invalid_vector_falls_back_to_slot_b);
     RUN_TEST(test_both_slots_fail_enter_safe_loop_and_record_fault);

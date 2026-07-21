@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <cstdint>
 
 #include "stm32g4xx_hal.h"
@@ -11,6 +12,10 @@
 
 #if !defined(WASHIBOOT_DEFAULT_EXPECTED_CRC32)
 #define WASHIBOOT_DEFAULT_EXPECTED_CRC32 0x00000000UL
+#endif
+
+#if !defined(WASHIBOOT_DEFAULT_SLOT_A_CRC_LENGTH)
+#define WASHIBOOT_DEFAULT_SLOT_A_CRC_LENGTH 0UL
 #endif
 
 #if defined(__GNUC__)
@@ -41,7 +46,8 @@ int main()
                             beacon,
                             bootMetadata,
                             systemFaultLog,
-                            static_cast<uint32_t>(WASHIBOOT_DEFAULT_EXPECTED_CRC32));
+                            static_cast<uint32_t>(WASHIBOOT_DEFAULT_EXPECTED_CRC32),
+                            static_cast<std::size_t>(WASHIBOOT_DEFAULT_SLOT_A_CRC_LENGTH));
     policy.run();
 
     for (;;)
