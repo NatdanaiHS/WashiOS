@@ -1,0 +1,21 @@
+# PlatformIO and compiler outputs
+.pio/
+.pioenvs/
+.piolibdeps/
+*.elf
+*.bin
+*.hex
+*.uf2
+*.map
+*.o
+*.a
+*.d
+
+# Local IDE/workspace state
+.vscode/
+*.code-workspace
+
+# Host-local environment overrides
+.env
+.env.*
+!.env.example

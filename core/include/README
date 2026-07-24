@@ -1,0 +1,8 @@
+
+WashiOS public headers live here.
+
+- `core/`: hardware-neutral safety kernel code.
+- `hal/`: hardware abstraction contracts used by mission tasks and core code.
+- `bsp/`: STM32 board-support headers.
+- `rtos_config/`: static FreeRTOS configuration and task wrapper.
+- `ldscripts/`: target linker scripts, including retained-memory placement.

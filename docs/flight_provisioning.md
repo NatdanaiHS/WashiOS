@@ -33,12 +33,13 @@ it to deterministic A/B selection:
 
 ## Development Provisioning Workflow
 
-The `nucleo_g431rb` bootloader build provisions Slot A from the latest
+The monorepo layout keeps WashiBoot under `bootloader/` and WashiOS-Core under
+`core/`. The `nucleo_g431rb` bootloader build provisions Slot A from the latest
 WashiOS-Core `nucleo_g431rb` ELF artifact:
 
-1. Build WashiOS-Core `nucleo_g431rb`.
-2. Build and upload WashiBoot `nucleo_g431rb`.
-3. Upload the same WashiOS-Core `nucleo_g431rb` image to Slot A.
+1. From `core/`, build WashiOS-Core `nucleo_g431rb`.
+2. From `bootloader/`, build and upload WashiBoot `nucleo_g431rb`.
+3. From `core/`, upload the same WashiOS-Core `nucleo_g431rb` image to Slot A.
 
 The bootloader pre-build script converts the Slot A ELF to a temporary binary,
 validates that its vector table targets `0x08004000`, then injects the CRC-32

@@ -1,0 +1,9 @@
+
+This directory contains vendored third-party code used by WashiOS.
+
+- `FreeRTOS/`: the minimal FreeRTOS kernel subset used by STM32 Cortex-M4F
+  targets. WashiOS uses static allocation and does not rely on runtime heap
+  allocation in flight-controlled paths.
+
+Keep this directory focused on audited dependencies. Project application,
+core, HAL, and BSP code should live under `src/` and `include/`.

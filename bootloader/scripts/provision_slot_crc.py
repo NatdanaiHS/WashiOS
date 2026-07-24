@@ -87,7 +87,7 @@ def validate_vector_table(data, slot_base, slot_length):
 
 slot_a_elf = project_path(
     "custom_washiboot_slot_a_elf",
-    "../washios-core/.pio/build/nucleo_g431rb/firmware.elf",
+    "../core/.pio/build/nucleo_g431rb/firmware.elf",
 )
 slot_a_base = project_int("custom_washiboot_slot_a_base", "0x08004000")
 slot_a_length = project_int("custom_washiboot_slot_a_length", "0xE000")
@@ -95,7 +95,7 @@ slot_a_length = project_int("custom_washiboot_slot_a_length", "0xE000")
 if not slot_a_elf.exists():
     raise SystemExit(
         "WashiBoot provisioning failed: Slot A firmware ELF was not found at "
-        f"{slot_a_elf}. Build WashiOS-Core env nucleo_g431rb first."
+        f"{slot_a_elf}. Build the matching core environment first."
     )
 
 build_dir = Path(env.subst("$BUILD_DIR"))
