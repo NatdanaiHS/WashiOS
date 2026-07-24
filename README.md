@@ -70,16 +70,30 @@ This project demonstrates a lightweight safety-oriented STM32 firmware stack:
     test_native.ps1
 ```
 
+The PowerShell helpers are self-contained with respect to PlatformIO paths and
+OpenOCD ST-Link transport selection. They locate `pio`/`platformio` from `PATH`
+or the user's PlatformIO installation, locate the matching OpenOCD package, and
+select either modern `swd` or legacy `hla_swd` from the installed ST-Link
+configuration. Do not edit PlatformIO's installed `platform.py` when moving the
+repository to another machine.
+
+On Windows, the `flash_*.cmd` launchers also bypass per-machine PowerShell
+execution-policy differences. For example:
+
+```bat
+tools\flash_payload_demo.cmd
+```
+
 ## Quick Start: Laser Communication Demo
 
 From the repository root:
 
 ```powershell
 .\tools\build_lasercom.ps1
-.\tools\flash_lasercom.ps1
+.\tools\flash_lasercom.cmd
 ```
 
-Manual commands:
+Manual build commands:
 
 ```powershell
 cd core
@@ -87,11 +101,12 @@ pio run -e nucleo_g431rb_lasercom
 
 cd ..\bootloader
 pio run -e nucleo_g431rb_lasercom
-pio run -e nucleo_g431rb_lasercom -t upload
-
-cd ..\core
-pio run -e nucleo_g431rb_lasercom -t upload
 ```
+
+Use `tools\flash_lasercom.cmd` for programming. The helper deliberately writes
+the core without resetting, then writes and starts the matching CRC-provisioned
+bootloader. Directly uploading the bootloader before the core can start a
+mismatched image between programming steps.
 
 The laser communication demo uses:
 
@@ -131,9 +146,9 @@ From the repository root:
 
 ```powershell
 .\tools\build_payload_demo.ps1
-.\tools\flash_payload_demo.ps1
+.\tools\flash_payload_demo.cmd
 .\tools\build_payload_responder.ps1
-.\tools\flash_payload_responder.ps1
+.\tools\flash_payload_responder.cmd
 ```
 
 The payload UART demo uses:

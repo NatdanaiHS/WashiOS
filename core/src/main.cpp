@@ -49,6 +49,10 @@ static void Board_USART2_Init(void);
 static void Board_IWDG_Init(void);
 #endif
 
+#if defined(STM32G431xx)
+extern "C" uint32_t g_pfnVectors[];
+#endif
+
 namespace
 {
 
@@ -173,6 +177,17 @@ extern "C" void WashiStress_SubmitCommand(uint32_t command)
 
 int main(void)
 {
+#if defined(STM32G431xx)
+    /* The application is linked into a WashiBoot slot rather than at the
+       hardware boot address. Establish the application's vector table here
+       as well as in the bootloader handoff so startup remains correct after
+       any reset/debug/programming path. */
+    SCB->VTOR = static_cast<uint32_t>(
+        reinterpret_cast<uintptr_t>(g_pfnVectors));
+    __DSB();
+    __ISB();
+#endif
+
     HAL_Init();
     SystemClock_Config();
     Board_GPIO_Init();

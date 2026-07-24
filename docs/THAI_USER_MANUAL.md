@@ -257,9 +257,9 @@ pio test -e native
 ```text
 1. build core environment ที่ต้องการ
 2. build bootloader environment ที่ตรงกัน
-3. upload bootloader
-4. upload core application
-5. reset board
+3. upload core application โดยยังไม่ reset
+4. upload bootloader ที่มี CRC ตรงกัน
+5. reset board หนึ่งครั้งเพื่อเริ่มระบบ
 ```
 
 ---
@@ -315,11 +315,11 @@ cd <repo-root>
 ```text
 1. build core lasercom
 2. build bootloader lasercom พร้อม CRC ล่าสุด
-3. upload bootloader
-4. upload core application
+3. upload core application โดยยังไม่ reset
+4. upload bootloader พร้อม CRC ล่าสุด แล้ว reset เพื่อเริ่มระบบ
 ```
 
-### 10.3 วิธี build/upload เอง
+### 10.3 วิธี build เองและ upload อย่างปลอดภัย
 
 ถ้าไม่ใช้ script:
 
@@ -329,13 +329,12 @@ pio run -e nucleo_g431rb_lasercom
 
 cd <repo-root>\bootloader
 pio run -e nucleo_g431rb_lasercom
-pio run -e nucleo_g431rb_lasercom -t upload
 
-cd <repo-root>\core
-pio run -e nucleo_g431rb_lasercom -t upload
+cd <repo-root>
+.\tools\flash_lasercom.cmd
 ```
 
-หลัง upload เสร็จ ให้กด reset ที่บอร์ด
+ตัว flash helper จะ upload core ก่อนโดยไม่ reset จากนั้น upload bootloader ที่มี CRC ตรงกันและเริ่มระบบ
 
 ### 10.4 สิ่งที่ควรเห็น
 
@@ -479,7 +478,7 @@ cd <repo-root>
 .\tools\flash_payload_demo.ps1
 ```
 
-สคริปต์นี้จะ build `core/`, build `bootloader/` พร้อม CRC ล่าสุด, upload bootloader แล้ว upload core application ลงบอร์ด G431
+สคริปต์นี้จะ build `core/`, build `bootloader/` พร้อม CRC ล่าสุด, upload core โดยไม่ reset แล้ว upload bootloader เป็นขั้นสุดท้ายก่อนเริ่มระบบบนบอร์ด G431
 
 ### 11.3 Flash ฝั่ง payload responder G474
 

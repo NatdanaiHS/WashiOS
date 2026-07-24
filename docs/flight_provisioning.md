@@ -38,8 +38,10 @@ The monorepo layout keeps WashiBoot under `bootloader/` and WashiOS-Core under
 WashiOS-Core `nucleo_g431rb` ELF artifact:
 
 1. From `core/`, build WashiOS-Core `nucleo_g431rb`.
-2. From `bootloader/`, build and upload WashiBoot `nucleo_g431rb`.
-3. From `core/`, upload the same WashiOS-Core `nucleo_g431rb` image to Slot A.
+2. From `bootloader/`, build WashiBoot `nucleo_g431rb` so its provisioned CRC
+   matches that exact core image.
+3. Upload the WashiOS-Core image to Slot A without resetting the target.
+4. Upload WashiBoot last, then reset once to start the matched image.
 
 The bootloader pre-build script converts the Slot A ELF to a temporary binary,
 validates that its vector table targets `0x08004000`, then injects the CRC-32

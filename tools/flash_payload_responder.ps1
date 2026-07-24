@@ -4,14 +4,21 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
+$PayloadDirectory = Join-Path $RepoRoot "demo-payload"
+. (Join-Path $PSScriptRoot "WashiTools.ps1")
 
-Write-Host "Uploading demo payload responder to the G474 payload board."
-Push-Location (Join-Path $RepoRoot "demo-payload")
+Write-Host "Building demo payload responder for the G474 payload board."
+Push-Location $PayloadDirectory
 try {
-    pio run -e $PayloadEnv -t upload
+    Invoke-WashiPlatformIO -Arguments @("run", "-e", $PayloadEnv)
 }
 finally {
     Pop-Location
 }
+
+Write-Host "Uploading demo payload responder to the G474 payload board."
+Invoke-WashiOpenOcdFlash `
+    -ProjectDirectory $PayloadDirectory `
+    -Environment $PayloadEnv
 
 Write-Host "Demo payload responder flashed."

@@ -5,11 +5,12 @@ param(
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot "WashiTools.ps1")
 
 Write-Host "Building WashiOS-Core environment: $CoreEnv"
 Push-Location (Join-Path $RepoRoot "core")
 try {
-    pio run -e $CoreEnv
+    Invoke-WashiPlatformIO -Arguments @("run", "-e", $CoreEnv)
 }
 finally {
     Pop-Location
@@ -18,7 +19,7 @@ finally {
 Write-Host "Building WashiBoot environment: $BootloaderEnv"
 Push-Location (Join-Path $RepoRoot "bootloader")
 try {
-    pio run -e $BootloaderEnv
+    Invoke-WashiPlatformIO -Arguments @("run", "-e", $BootloaderEnv)
 }
 finally {
     Pop-Location

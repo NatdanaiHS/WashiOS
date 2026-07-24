@@ -904,8 +904,8 @@ Example conceptual flow:
 1. From `core/`, build WashiOS-Core env nucleo_g431rb_payload_demo.
 2. From `bootloader/`, build Bootloader env nucleo_g431rb_payload_demo.
 3. Bootloader script reads the core ELF, validates Slot A vector table, computes CRC, and injects build defines.
-4. Upload bootloader.
-5. Upload application image to Slot A.
+4. Upload the application image to Slot A without resetting.
+5. Upload the matching bootloader last, then reset once.
 6. From `demo-payload/`, build and upload env nucleo_g474re to the G474 payload board.
 ```
 

@@ -51,6 +51,27 @@ def paragraph(text: str = "", style: str | None = None, num_id: int | None = Non
     return f"<w:p><w:pPr>{''.join(ppr)}</w:pPr>{runs}</w:p>"
 
 
+def cover(title: str) -> str:
+    return f"""
+<w:p><w:pPr><w:spacing w:before="1800" w:after="220"/><w:jc w:val="center"/></w:pPr>
+  {r("คู่มือทางเทคนิค • TECHNICAL HANDBOOK", bold=True, size=20)}
+</w:p>
+<w:p><w:pPr><w:spacing w:after="140"/><w:jc w:val="center"/></w:pPr>
+  {r(title, bold=True, size=46)}
+</w:p>
+<w:p><w:pPr><w:spacing w:after="900"/><w:jc w:val="center"/></w:pPr>
+  {r("Build • Flash • Diagnose • Create Payload Tasks", size=25)}
+</w:p>
+<w:p><w:pPr><w:spacing w:after="90"/><w:jc w:val="center"/></w:pPr>
+  {r("Branch: monorepo-migration", bold=True, size=22)}
+</w:p>
+<w:p><w:pPr><w:spacing w:after="180"/><w:jc w:val="center"/></w:pPr>
+  {r("ฉบับปรับปรุง 24 กรกฎาคม 2026", italic=True, size=21)}
+</w:p>
+<w:p><w:pPr><w:pageBreakBefore/></w:pPr></w:p>
+"""
+
+
 def inline_runs(text: str) -> str:
     parts = re.split(r"(`[^`]+`|\*\*[^*]+\*\*)", text)
     out = []
@@ -83,7 +104,8 @@ def table(rows: list[list[str]]) -> str:
                 f"<w:start w:w=\"120\" w:type=\"dxa\"/><w:end w:w=\"120\" w:type=\"dxa\"/></w:tcMar>{fill}</w:tcPr>"
                 f"<w:p><w:pPr><w:spacing w:after=\"80\" w:line=\"300\" w:lineRule=\"auto\"/></w:pPr>{inline_runs_bold(text, bold)}</w:p></w:tc>"
             )
-        trs.append(f"<w:tr>{''.join(cells)}</w:tr>")
+        repeat = "<w:tblHeader/>" if i == 0 else ""
+        trs.append(f"<w:tr><w:trPr>{repeat}<w:cantSplit/></w:trPr>{''.join(cells)}</w:tr>")
     return (
         '<w:tbl><w:tblPr><w:tblW w:w="9360" w:type="dxa"/><w:tblInd w:w="120" w:type="dxa"/>'
         '<w:tblBorders><w:top w:val="single" w:sz="4" w:color="C7D2E2"/>'
@@ -97,13 +119,18 @@ def table(rows: list[list[str]]) -> str:
 
 
 def inline_runs_bold(text: str, bold: bool) -> str:
-    return "".join(r(part, bold=bold) for part in [text])
+    if bold:
+        return r(re.sub(r"[`*]", "", text), bold=True)
+    return inline_runs(text)
 
 
 def code_block(text: str) -> str:
     paras = []
-    for line in text.rstrip("\n").splitlines() or [""]:
-        paras.append(f'<w:p><w:pPr><w:pStyle w:val="CodeBlock"/></w:pPr>{r(line, code=True, size=18)}</w:p>')
+    lines = text.rstrip("\n").splitlines() or [""]
+    keep_together = len(lines) <= 12
+    for index, line in enumerate(lines):
+        keep = "<w:keepNext/>" if keep_together and index < len(lines) - 1 else ""
+        paras.append(f'<w:p><w:pPr><w:pStyle w:val="CodeBlock"/>{keep}<w:keepLines/></w:pPr>{r(line, code=True, size=18)}</w:p>')
     return "".join(paras)
 
 
@@ -121,15 +148,15 @@ def parse_markdown(md: str) -> str:
                 i += 1
             body.append(code_block("\n".join(buf)))
         elif line.startswith("# "):
-            body.append(paragraph(line[2:].strip(), "Title"))
+            body.append(cover(line[2:].strip()))
         elif line.startswith("## "):
             body.append(paragraph(line[3:].strip(), "Heading1"))
         elif line.startswith("### "):
             body.append(paragraph(line[4:].strip(), "Heading2"))
         elif line.startswith("- "):
-            body.append(paragraph(line[2:].strip(), "Normal", num_id=1))
+            body.append(paragraph("•  " + line[2:].strip(), "Normal"))
         elif re.match(r"^\d+\. ", line):
-            body.append(paragraph(re.sub(r"^\d+\. ", "", line).strip(), "Normal", num_id=2))
+            body.append(paragraph(line.strip(), "Normal"))
         elif line.startswith("|"):
             rows = []
             while i < len(lines) and lines[i].startswith("|"):
@@ -176,14 +203,41 @@ def numbering_xml() -> str:
 def document_xml(body: str) -> str:
     sect = """
     <w:sectPr>
+      <w:headerReference w:type="default" r:id="rId3"/>
+      <w:headerReference w:type="even" r:id="rId5"/>
+      <w:headerReference w:type="first" r:id="rId7"/>
+      <w:footerReference w:type="default" r:id="rId4"/>
+      <w:footerReference w:type="even" r:id="rId6"/>
+      <w:footerReference w:type="first" r:id="rId8"/>
       <w:pgSz w:w="12240" w:h="15840"/>
-      <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/>
+      <w:pgMar w:top="1440" w:right="1440" w:bottom="1800" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/>
       <w:cols w:space="720"/>
       <w:docGrid w:linePitch="360"/>
     </w:sectPr>
     """
     return f"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="{NS['w']}" xmlns:r="{NS['r']}"><w:body>{body}{sect}</w:body></w:document>"""
+
+
+def header_xml() -> str:
+    return f"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:hdr xmlns:w="{NS['w']}" xmlns:r="{NS['r']}">
+  <w:p><w:pPr><w:jc w:val="right"/><w:pBdr><w:bottom w:val="single" w:sz="6" w:space="4" w:color="B8C7D9"/></w:pBdr></w:pPr>
+    {r("WashiOS FlightStack  |  คู่มือส่งมอบและพัฒนา", bold=True, size=18)}
+  </w:p>
+</w:hdr>"""
+
+
+def footer_xml() -> str:
+    return f"""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:ftr xmlns:w="{NS['w']}" xmlns:r="{NS['r']}">
+  <w:p><w:pPr><w:jc w:val="center"/></w:pPr>
+    {r("monorepo-migration  •  หน้า ", size=17)}
+    <w:r><w:fldChar w:fldCharType="begin"/></w:r>
+    <w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r>
+    <w:r><w:fldChar w:fldCharType="end"/></w:r>
+  </w:p>
+</w:ftr>"""
 
 
 def make_docx() -> None:
@@ -196,6 +250,12 @@ def make_docx() -> None:
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
   <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
   <Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/>
+  <Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>
+  <Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
+  <Override PartName="/word/header2.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>
+  <Override PartName="/word/footer2.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
+  <Override PartName="/word/header3.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>
+  <Override PartName="/word/footer3.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
 </Types>"""
     rels = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
@@ -205,6 +265,12 @@ def make_docx() -> None:
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
   <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/>
+  <Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/>
+  <Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/>
+  <Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header2.xml"/>
+  <Relationship Id="rId6" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer2.xml"/>
+  <Relationship Id="rId7" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header3.xml"/>
+  <Relationship Id="rId8" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer3.xml"/>
 </Relationships>"""
     with zipfile.ZipFile(DOCX, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("[Content_Types].xml", content_types)
@@ -213,6 +279,12 @@ def make_docx() -> None:
         z.writestr("word/document.xml", document_xml(body))
         z.writestr("word/styles.xml", styles_xml())
         z.writestr("word/numbering.xml", numbering_xml())
+        z.writestr("word/header1.xml", header_xml())
+        z.writestr("word/footer1.xml", footer_xml())
+        z.writestr("word/header2.xml", header_xml())
+        z.writestr("word/footer2.xml", footer_xml())
+        z.writestr("word/header3.xml", header_xml())
+        z.writestr("word/footer3.xml", footer_xml())
 
 
 if __name__ == "__main__":

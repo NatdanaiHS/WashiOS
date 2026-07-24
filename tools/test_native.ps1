@@ -1,10 +1,11 @@
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot "WashiTools.ps1")
 
 Write-Host "Running bootloader native tests."
 Push-Location (Join-Path $RepoRoot "bootloader")
 try {
-    pio test -e native
+    Invoke-WashiPlatformIO -Arguments @("test", "-e", "native")
 }
 finally {
     Pop-Location
@@ -13,7 +14,7 @@ finally {
 Write-Host "Running core native tests."
 Push-Location (Join-Path $RepoRoot "core")
 try {
-    pio test -e native
+    Invoke-WashiPlatformIO -Arguments @("test", "-e", "native")
 }
 finally {
     Pop-Location
