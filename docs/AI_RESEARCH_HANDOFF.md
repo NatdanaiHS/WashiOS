@@ -2,7 +2,7 @@
 
 Generated for another AI agent to understand the current project state and help with research/paper preparation.
 
-Date: 2026-07-24
+Last verified: 2026-07-31
 
 ## One-Sentence Summary
 
@@ -10,11 +10,11 @@ This project is a lightweight STM32-based embedded flight-software prototype tha
 
 ## Repository Layout
 
-The project has been reorganized into a monorepo-style workspace. The local
-workspace root is:
+The project is organized as a monorepo-style workspace. Use the repository
+root rather than a machine-specific absolute path:
 
 ```text
-C:\MyOS\WashiOS\Bootloader
+<repo-root>
 ```
 
 Important directories:
@@ -27,41 +27,35 @@ docs/        user manual, research handoff, provisioning notes
 tools/       PowerShell helper scripts
 ```
 
-The folder is still named `Bootloader` locally because that was the original
-repository name, but its contents are now arranged as an integrated
-FlightStack repository.
+The repository folder name is not part of the build contract. Scripts resolve
+paths relative to the repository so the workspace can be moved between
+machines.
 
 ## Git State
 
 ### Repository
 
-Remote:
+Verified baseline on 31 July 2026:
 
 ```text
-https://github.com/NatdanaiHS/BootloaderForWashiOS.git
+Branch: monorepo-migration
+Commit: 8df7062 Fix portable flashing and expand Thai handoff manual
+Remote tracking branch: origin/monorepo-migration
 ```
 
-Main branch before restructuring:
-
-```text
-main
-```
-
-Latest pushed commit before restructuring:
-
-```text
-8a139a0 Add A/B boot provisioning policy
-```
-
-After restructuring, the working tree contains a monorepo layout and should be
-committed/pushed as the next integration commit.
+Automated verification at that baseline plus the documentation/tooling cleanup
+records 11/11 WashiBoot native tests, 38/38 core native tests, six core STM32
+build environments, three matching WashiBoot builds, and one G474 responder
+build. See `docs/DELIVERY_STATUS_TH.md` for exact commands and remaining
+handoff limitations.
 
 ### Imported Core Snapshot
 
-The `core/` directory was imported from the previous sibling repository:
+The `core/` directory was imported from a previous sibling repository. The
+historical local checkout path is not required by the current build:
 
 ```text
-C:\MyOS\WashiOS\WashiOS-Core
+<historical-core-checkout>
 ```
 
 Previous remote:
@@ -84,10 +78,10 @@ Imported commit:
 
 ### Imported Demo Payload Snapshot
 
-The `demo-payload/` directory was imported from:
+The `demo-payload/` directory was imported from a historical local checkout:
 
 ```text
-C:\MyOS\Demo-Payload
+<historical-demo-payload-checkout>
 ```
 
 It was not a git repository when inspected. It targets `nucleo_g474re` and

@@ -71,7 +71,7 @@ WashiOS-FlightStack/
 ในเครื่องปัจจุบัน root ของ repo คือ:
 
 ```text
-C:\MyOS\WashiOS\Bootloader
+<repo-root>
 ```
 
 ถึงชื่อ folder ด้านนอกยังชื่อ `Bootloader` แต่ภายในถูกจัดเป็น system repo แล้ว โดยมี `bootloader/` และ `core/` อยู่ข้างใน
@@ -85,7 +85,7 @@ C:\MyOS\WashiOS\Bootloader
 เช่น ถ้าเครื่องปัจจุบันใช้ path เดิม:
 
 ```text
-<repo-root> = C:\MyOS\WashiOS\Bootloader
+<repo-root> = repository root on the current machine
 ```
 
 ---

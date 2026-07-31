@@ -118,7 +118,10 @@ Relevant file:
 | Environment | Target | Purpose |
 |---|---|---|
 | `nucleo_g431rb` | STM32G431RB | Primary flight-like STM32G4 build |
+| `nucleo_g431rb_slot_b` | STM32G431RB | Slot B linker-layout validation |
 | `nucleo_g431rb_stress` | STM32G431RB | Stress/profiling build with CRC profiling |
+| `nucleo_g431rb_lasercom` | STM32G431RB | GPIO optical telemetry demo |
+| `nucleo_g431rb_payload_demo` | STM32G431RB | UART payload-supervision demo |
 | `genericSTM32F411RE` | STM32F411RE | STM32F4 portability build |
 | `native` | Host | Unity SITL test environment |
 
@@ -148,9 +151,13 @@ pio run -t clean -e genericSTM32F411RE -e nucleo_g431rb -e nucleo_g431rb_stress
 
 Current verified baseline:
 
-- Native SITL: **23/23 tests passed**
-- Firmware builds: **3/3 STM32 targets passed**
+- Native SITL: **38/38 tests passed**
+- Core firmware builds: **6/6 STM32 environments passed**
 - WashiOS-controlled heap usage: **0 bytes**
+
+This baseline was re-verified on 31 July 2026. The repository-level delivery
+status also records the 11/11 WashiBoot tests, three matching bootloader
+builds, and the demo-payload responder build.
 
 The SITL suite covers:
 

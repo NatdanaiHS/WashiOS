@@ -57,7 +57,7 @@ This project demonstrates a lightweight safety-oriented STM32 firmware stack:
     src/
     docs/
   docs/
-    THAI_USER_MANUAL.md
+    WashiOS_User_Manual_TH.md
     AI_RESEARCH_HANDOFF.md
     flight_provisioning.md
   tools/
@@ -192,13 +192,25 @@ If the core firmware changes, rebuild the bootloader so the provisioned CRC stay
 Start here:
 
 ```text
-docs/THAI_USER_MANUAL.md
+docs/WashiOS_User_Manual_TH.md
 ```
 
 Research/paper handoff:
 
 ```text
 docs/AI_RESEARCH_HANDOFF.md
+```
+
+Delivery readiness and the verified baseline:
+
+```text
+docs/DELIVERY_STATUS_TH.md
+```
+
+Internship presentation order and speaker notes:
+
+```text
+docs/PRESENTATION_GUIDE_TH.md
 ```
 
 Bootloader provisioning notes:
