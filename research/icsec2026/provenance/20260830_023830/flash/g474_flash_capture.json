@@ -1,0 +1,16 @@
+{
+  "actual_byte_count": 524288,
+  "address_end_inclusive": "0x0807FFFF",
+  "address_start": "0x08000000",
+  "board": "NUCLEO-G474RE",
+  "finished_host_time": "2026-08-29T19:39:57.684163+00:00",
+  "openocd_exit_code": 0,
+  "operation": "init; targets; halt; dump_image {C:/WashiOS/research/icsec2026/provenance/20260830_023830/flash/g474_full_flash_0x08000000_0x80000.bin} 0x08000000 0x80000; resume; shutdown;",
+  "requested_byte_count": 524288,
+  "safety": "No program, erase, unprotect, option-byte, or reset command issued.",
+  "schema_version": 1,
+  "sha256": "0DC52660B6AD976BE217387791C554AD45CAE9ACE1D8C6BF265C3972B521A4E1",
+  "started_host_time": "2026-08-29T19:39:53.301160+00:00",
+  "status": "COMPLETE",
+  "stlink_serial": "0041003D3234510F37333934"
+}

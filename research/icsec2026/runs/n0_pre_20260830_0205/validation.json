@@ -1,0 +1,151 @@
+{
+  "all_status_online": true,
+  "counter_deltas": {
+    "crc": 0,
+    "recovery": 0,
+    "seq": 0,
+    "timeout": 0
+  },
+  "duration_s": 65.0,
+  "failures": [],
+  "normal_command_host_time": "2026-08-29T19:08:30.162152+00:00",
+  "ok_strictly_increasing": true,
+  "phase": "pre",
+  "prohibited_markers": [],
+  "status_count": 13,
+  "status_records": [
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:08:32.367445+00:00",
+      "ok": 1835,
+      "polls": 2200,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:08:37.352899+00:00",
+      "ok": 1845,
+      "polls": 2210,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:08:42.342002+00:00",
+      "ok": 1855,
+      "polls": 2220,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:08:47.334763+00:00",
+      "ok": 1865,
+      "polls": 2230,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:08:52.321124+00:00",
+      "ok": 1875,
+      "polls": 2240,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:08:57.322790+00:00",
+      "ok": 1885,
+      "polls": 2250,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:09:02.309793+00:00",
+      "ok": 1895,
+      "polls": 2260,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:09:07.293567+00:00",
+      "ok": 1905,
+      "polls": 2270,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:09:12.279988+00:00",
+      "ok": 1915,
+      "polls": 2280,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:09:17.270311+00:00",
+      "ok": 1925,
+      "polls": 2290,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:09:22.259419+00:00",
+      "ok": 1935,
+      "polls": 2300,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:09:27.252973+00:00",
+      "ok": 1945,
+      "polls": 2310,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    },
+    {
+      "crc": 9,
+      "host_time": "2026-08-29T19:09:32.243064+00:00",
+      "ok": 1955,
+      "polls": 2320,
+      "recovery": 4,
+      "seq": 8,
+      "state": "ONLINE",
+      "timeout": 365
+    }
+  ],
+  "valid": true,
+  "window_end_host_time": "2026-08-29T19:09:35.224436+00:00",
+  "window_start_host_time": "2026-08-29T19:08:30.223898+00:00"
+}

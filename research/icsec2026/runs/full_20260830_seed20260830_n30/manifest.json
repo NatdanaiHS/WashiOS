@@ -1,0 +1,3633 @@
+{
+  "baud": 115200,
+  "branch_commit": "ae891a70ca961d247b5fd5ac487271caf2fc881f",
+  "campaign": "full_20260830_seed20260830_n30",
+  "finished_host_time": "2026-08-29T19:24:09.230811+00:00",
+  "g431_port": "COM8",
+  "g474_port": "COM7",
+  "literal_status_warning": "heartbeat=OK watchdog=OK are literal status strings and are not independently measured states",
+  "measurement_definitions": {
+    "activation": "G474 [PAYLOAD] MODE=<fault> confirmation",
+    "bad_crc_detection": "first G431 PAYLOAD_REJECT reason=CRC after injection",
+    "delayed_detection": "first G431 PAYLOAD_TIMEOUT or PAYLOAD_OFFLINE after injection; based on inspected 250 ms responder delay and 100 ms controller deadline",
+    "recovery_time_ms": "G431 PAYLOAD_RECOVERED host time minus MODE NORMAL command-send host time; only populated when NORMAL confirmation is also observed",
+    "restart_marker": "G431 PAYLOAD_LINK_START after injection; absence is not proof that no MCU reset occurred",
+    "silent_detection": "first G431 PAYLOAD_TIMEOUT or PAYLOAD_OFFLINE after injection"
+  },
+  "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
+  "repetitions": 30,
+  "schema_version": 1,
+  "seed": 20260830,
+  "started_host_time": "2026-08-29T19:10:07.329971+00:00",
+  "state_history": [
+    {
+      "host_time": "2026-08-29T19:10:07.377912+00:00",
+      "run_id": "R001_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:08.936752+00:00",
+      "run_id": "R001_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:10:09.590943+00:00",
+      "run_id": "R001_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:10:09.592027+00:00",
+      "run_id": "R001_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:10:09.626266+00:00",
+      "run_id": "R001_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:13.627791+00:00",
+      "run_id": "R001_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:13.878806+00:00",
+      "run_id": "R001_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:10:16.880355+00:00",
+      "run_id": "R001_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:16.882693+00:00",
+      "run_id": "R002_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:18.439871+00:00",
+      "run_id": "R002_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:10:18.762663+00:00",
+      "run_id": "R002_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:10:18.763669+00:00",
+      "run_id": "R002_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:10:18.819269+00:00",
+      "run_id": "R002_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:22.821063+00:00",
+      "run_id": "R002_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:22.879372+00:00",
+      "run_id": "R002_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:10:25.881426+00:00",
+      "run_id": "R002_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:25.883431+00:00",
+      "run_id": "R003_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:27.441728+00:00",
+      "run_id": "R003_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:10:27.980338+00:00",
+      "run_id": "R003_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:10:27.981662+00:00",
+      "run_id": "R003_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:10:28.012702+00:00",
+      "run_id": "R003_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:32.014704+00:00",
+      "run_id": "R003_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:32.076680+00:00",
+      "run_id": "R003_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:10:35.078364+00:00",
+      "run_id": "R003_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:35.081680+00:00",
+      "run_id": "R004_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:36.643334+00:00",
+      "run_id": "R004_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:10:37.820520+00:00",
+      "run_id": "R004_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:10:37.821525+00:00",
+      "run_id": "R004_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:10:37.852089+00:00",
+      "run_id": "R004_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:41.853624+00:00",
+      "run_id": "R004_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:41.912692+00:00",
+      "run_id": "R004_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:10:44.915199+00:00",
+      "run_id": "R004_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:44.917205+00:00",
+      "run_id": "R005_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:46.473022+00:00",
+      "run_id": "R005_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:10:47.605432+00:00",
+      "run_id": "R005_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:10:47.606437+00:00",
+      "run_id": "R005_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:10:47.659443+00:00",
+      "run_id": "R005_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:51.660957+00:00",
+      "run_id": "R005_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:51.727914+00:00",
+      "run_id": "R005_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:10:54.729843+00:00",
+      "run_id": "R005_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:10:54.731848+00:00",
+      "run_id": "R006_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:10:56.292743+00:00",
+      "run_id": "R006_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:10:57.240295+00:00",
+      "run_id": "R006_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:10:57.241301+00:00",
+      "run_id": "R006_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:10:57.283110+00:00",
+      "run_id": "R006_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:01.284833+00:00",
+      "run_id": "R006_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:01.345943+00:00",
+      "run_id": "R006_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:11:04.347747+00:00",
+      "run_id": "R006_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:04.349752+00:00",
+      "run_id": "R007_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:05.905389+00:00",
+      "run_id": "R007_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:11:06.439035+00:00",
+      "run_id": "R007_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:11:06.440040+00:00",
+      "run_id": "R007_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:11:06.478482+00:00",
+      "run_id": "R007_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:10.479893+00:00",
+      "run_id": "R007_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:10.786228+00:00",
+      "run_id": "R007_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:11:13.788225+00:00",
+      "run_id": "R007_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:13.789608+00:00",
+      "run_id": "R008_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:15.343841+00:00",
+      "run_id": "R008_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:11:16.211356+00:00",
+      "run_id": "R008_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:11:16.212361+00:00",
+      "run_id": "R008_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:11:16.276362+00:00",
+      "run_id": "R008_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:20.277980+00:00",
+      "run_id": "R008_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:20.287054+00:00",
+      "run_id": "R008_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:11:23.288881+00:00",
+      "run_id": "R008_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:23.290891+00:00",
+      "run_id": "R009_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:24.847088+00:00",
+      "run_id": "R009_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:11:25.717643+00:00",
+      "run_id": "R009_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:11:25.718647+00:00",
+      "run_id": "R009_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:11:25.785212+00:00",
+      "run_id": "R009_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:29.787734+00:00",
+      "run_id": "R009_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:29.845941+00:00",
+      "run_id": "R009_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:11:32.848497+00:00",
+      "run_id": "R009_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:32.850502+00:00",
+      "run_id": "R010_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:34.414369+00:00",
+      "run_id": "R010_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:11:35.444170+00:00",
+      "run_id": "R010_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:11:35.445174+00:00",
+      "run_id": "R010_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:11:35.480178+00:00",
+      "run_id": "R010_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:39.482091+00:00",
+      "run_id": "R010_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:39.538066+00:00",
+      "run_id": "R010_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:11:42.539895+00:00",
+      "run_id": "R010_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:42.541905+00:00",
+      "run_id": "R011_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:44.097388+00:00",
+      "run_id": "R011_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:11:44.594255+00:00",
+      "run_id": "R011_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:11:44.596259+00:00",
+      "run_id": "R011_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:11:44.655100+00:00",
+      "run_id": "R011_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:48.656994+00:00",
+      "run_id": "R011_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:48.709156+00:00",
+      "run_id": "R011_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:11:51.710876+00:00",
+      "run_id": "R011_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:51.713882+00:00",
+      "run_id": "R012_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:53.228379+00:00",
+      "run_id": "R012_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:11:53.770414+00:00",
+      "run_id": "R012_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:11:53.771417+00:00",
+      "run_id": "R012_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:11:53.792496+00:00",
+      "run_id": "R012_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:11:57.794573+00:00",
+      "run_id": "R012_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:11:57.847064+00:00",
+      "run_id": "R012_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:12:00.848973+00:00",
+      "run_id": "R012_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:00.852485+00:00",
+      "run_id": "R013_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:02.412442+00:00",
+      "run_id": "R013_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:12:03.345486+00:00",
+      "run_id": "R013_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:12:03.347491+00:00",
+      "run_id": "R013_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:12:03.410744+00:00",
+      "run_id": "R013_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:07.414231+00:00",
+      "run_id": "R013_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:07.605861+00:00",
+      "run_id": "R013_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:12:10.608565+00:00",
+      "run_id": "R013_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:10.610570+00:00",
+      "run_id": "R014_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:12.178120+00:00",
+      "run_id": "R014_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:12:12.997008+00:00",
+      "run_id": "R014_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:12:12.998012+00:00",
+      "run_id": "R014_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:12:13.058173+00:00",
+      "run_id": "R014_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:17.060576+00:00",
+      "run_id": "R014_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:17.120314+00:00",
+      "run_id": "R014_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:12:20.122271+00:00",
+      "run_id": "R014_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:20.125779+00:00",
+      "run_id": "R015_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:21.682112+00:00",
+      "run_id": "R015_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:12:21.965752+00:00",
+      "run_id": "R015_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:12:21.966755+00:00",
+      "run_id": "R015_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:12:22.013071+00:00",
+      "run_id": "R015_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:26.015186+00:00",
+      "run_id": "R015_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:26.034705+00:00",
+      "run_id": "R015_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:12:29.036850+00:00",
+      "run_id": "R015_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:29.039858+00:00",
+      "run_id": "R016_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:30.555817+00:00",
+      "run_id": "R016_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:12:30.818438+00:00",
+      "run_id": "R016_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:12:30.819443+00:00",
+      "run_id": "R016_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:12:30.869620+00:00",
+      "run_id": "R016_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:34.871275+00:00",
+      "run_id": "R016_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:35.058762+00:00",
+      "run_id": "R016_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:12:38.060983+00:00",
+      "run_id": "R016_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:38.063989+00:00",
+      "run_id": "R017_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:39.620674+00:00",
+      "run_id": "R017_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:12:40.021782+00:00",
+      "run_id": "R017_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:12:40.022787+00:00",
+      "run_id": "R017_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:12:40.052937+00:00",
+      "run_id": "R017_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:44.055041+00:00",
+      "run_id": "R017_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:44.120045+00:00",
+      "run_id": "R017_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:12:47.122040+00:00",
+      "run_id": "R017_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:47.126044+00:00",
+      "run_id": "R018_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:48.674111+00:00",
+      "run_id": "R018_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:12:49.118253+00:00",
+      "run_id": "R018_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:12:49.119258+00:00",
+      "run_id": "R018_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:12:49.172261+00:00",
+      "run_id": "R018_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:53.174492+00:00",
+      "run_id": "R018_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:53.239944+00:00",
+      "run_id": "R018_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:12:56.242266+00:00",
+      "run_id": "R018_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:12:56.244271+00:00",
+      "run_id": "R019_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:12:57.803638+00:00",
+      "run_id": "R019_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:12:58.812602+00:00",
+      "run_id": "R019_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:12:58.814608+00:00",
+      "run_id": "R019_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:12:58.873118+00:00",
+      "run_id": "R019_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:02.875154+00:00",
+      "run_id": "R019_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:02.934489+00:00",
+      "run_id": "R019_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:13:05.936724+00:00",
+      "run_id": "R019_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:05.939035+00:00",
+      "run_id": "R020_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:07.447928+00:00",
+      "run_id": "R020_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:13:08.111985+00:00",
+      "run_id": "R020_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:13:08.113989+00:00",
+      "run_id": "R020_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:13:08.132888+00:00",
+      "run_id": "R020_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:12.134835+00:00",
+      "run_id": "R020_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:12.147838+00:00",
+      "run_id": "R020_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:13:15.150144+00:00",
+      "run_id": "R020_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:15.153152+00:00",
+      "run_id": "R021_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:16.719924+00:00",
+      "run_id": "R021_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:13:17.008096+00:00",
+      "run_id": "R021_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:13:17.009187+00:00",
+      "run_id": "R021_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:13:17.033201+00:00",
+      "run_id": "R021_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:21.035841+00:00",
+      "run_id": "R021_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:21.050314+00:00",
+      "run_id": "R021_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:13:24.052428+00:00",
+      "run_id": "R021_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:24.055937+00:00",
+      "run_id": "R022_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:25.564403+00:00",
+      "run_id": "R022_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:13:26.181253+00:00",
+      "run_id": "R022_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:13:26.182556+00:00",
+      "run_id": "R022_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:13:26.189554+00:00",
+      "run_id": "R022_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:30.191957+00:00",
+      "run_id": "R022_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:30.252826+00:00",
+      "run_id": "R022_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:13:33.255147+00:00",
+      "run_id": "R022_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:33.259538+00:00",
+      "run_id": "R023_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:34.812896+00:00",
+      "run_id": "R023_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:13:35.350573+00:00",
+      "run_id": "R023_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:13:35.351577+00:00",
+      "run_id": "R023_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:13:35.374579+00:00",
+      "run_id": "R023_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:39.377053+00:00",
+      "run_id": "R023_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:39.430976+00:00",
+      "run_id": "R023_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:13:42.433289+00:00",
+      "run_id": "R023_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:42.435470+00:00",
+      "run_id": "R024_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:43.945989+00:00",
+      "run_id": "R024_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:13:44.224123+00:00",
+      "run_id": "R024_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:13:44.225128+00:00",
+      "run_id": "R024_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:13:44.283129+00:00",
+      "run_id": "R024_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:48.285308+00:00",
+      "run_id": "R024_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:48.395157+00:00",
+      "run_id": "R024_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:13:51.397738+00:00",
+      "run_id": "R024_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:51.400746+00:00",
+      "run_id": "R025_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:52.928393+00:00",
+      "run_id": "R025_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:13:54.108406+00:00",
+      "run_id": "R025_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:13:54.109917+00:00",
+      "run_id": "R025_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:13:54.147917+00:00",
+      "run_id": "R025_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:13:58.150491+00:00",
+      "run_id": "R025_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:13:58.197516+00:00",
+      "run_id": "R025_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:14:01.200171+00:00",
+      "run_id": "R025_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:01.203183+00:00",
+      "run_id": "R026_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:02.737448+00:00",
+      "run_id": "R026_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:14:03.164914+00:00",
+      "run_id": "R026_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:14:03.165921+00:00",
+      "run_id": "R026_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:14:03.202430+00:00",
+      "run_id": "R026_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:07.204592+00:00",
+      "run_id": "R026_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:07.250895+00:00",
+      "run_id": "R026_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:14:10.253439+00:00",
+      "run_id": "R026_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:10.255446+00:00",
+      "run_id": "R027_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:11.782744+00:00",
+      "run_id": "R027_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:14:12.625871+00:00",
+      "run_id": "R027_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:14:12.627876+00:00",
+      "run_id": "R027_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:14:12.689880+00:00",
+      "run_id": "R027_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:16.692231+00:00",
+      "run_id": "R027_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:16.732252+00:00",
+      "run_id": "R027_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:14:19.734541+00:00",
+      "run_id": "R027_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:19.737546+00:00",
+      "run_id": "R028_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:21.268238+00:00",
+      "run_id": "R028_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:14:22.076088+00:00",
+      "run_id": "R028_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:14:22.077196+00:00",
+      "run_id": "R028_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:14:22.111705+00:00",
+      "run_id": "R028_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:26.115060+00:00",
+      "run_id": "R028_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:26.159064+00:00",
+      "run_id": "R028_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:14:29.161242+00:00",
+      "run_id": "R028_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:29.164756+00:00",
+      "run_id": "R029_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:30.696240+00:00",
+      "run_id": "R029_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:14:31.822368+00:00",
+      "run_id": "R029_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:14:31.823763+00:00",
+      "run_id": "R029_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:14:31.856759+00:00",
+      "run_id": "R029_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:35.859669+00:00",
+      "run_id": "R029_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:35.904692+00:00",
+      "run_id": "R029_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:14:38.908176+00:00",
+      "run_id": "R029_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:38.911187+00:00",
+      "run_id": "R030_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:40.441740+00:00",
+      "run_id": "R030_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:14:41.284956+00:00",
+      "run_id": "R030_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:14:41.286961+00:00",
+      "run_id": "R030_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:14:41.340472+00:00",
+      "run_id": "R030_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:45.343701+00:00",
+      "run_id": "R030_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:45.390711+00:00",
+      "run_id": "R030_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:14:48.393582+00:00",
+      "run_id": "R030_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:48.396055+00:00",
+      "run_id": "R031_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:49.924153+00:00",
+      "run_id": "R031_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:14:50.263229+00:00",
+      "run_id": "R031_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:14:50.264737+00:00",
+      "run_id": "R031_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:14:50.325248+00:00",
+      "run_id": "R031_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:54.327513+00:00",
+      "run_id": "R031_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:54.369027+00:00",
+      "run_id": "R031_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:14:57.371586+00:00",
+      "run_id": "R031_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:14:57.374592+00:00",
+      "run_id": "R032_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:14:58.909179+00:00",
+      "run_id": "R032_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:14:59.259581+00:00",
+      "run_id": "R032_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:14:59.261585+00:00",
+      "run_id": "R032_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:14:59.310093+00:00",
+      "run_id": "R032_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:03.312708+00:00",
+      "run_id": "R032_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:03.358711+00:00",
+      "run_id": "R032_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:15:06.361609+00:00",
+      "run_id": "R032_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:06.364923+00:00",
+      "run_id": "R033_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:07.895711+00:00",
+      "run_id": "R033_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:15:08.882378+00:00",
+      "run_id": "R033_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:15:08.884384+00:00",
+      "run_id": "R033_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:15:08.927898+00:00",
+      "run_id": "R033_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:12.930465+00:00",
+      "run_id": "R033_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:12.975469+00:00",
+      "run_id": "R033_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:15:15.977975+00:00",
+      "run_id": "R033_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:15.980648+00:00",
+      "run_id": "R034_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:17.512308+00:00",
+      "run_id": "R034_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:15:17.781358+00:00",
+      "run_id": "R034_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:15:17.783364+00:00",
+      "run_id": "R034_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:15:17.846873+00:00",
+      "run_id": "R034_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:21.849270+00:00",
+      "run_id": "R034_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:21.902573+00:00",
+      "run_id": "R034_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:15:24.905285+00:00",
+      "run_id": "R034_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:24.908295+00:00",
+      "run_id": "R035_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:26.432434+00:00",
+      "run_id": "R035_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:15:27.269856+00:00",
+      "run_id": "R035_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:15:27.271865+00:00",
+      "run_id": "R035_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:15:27.334374+00:00",
+      "run_id": "R035_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:31.337189+00:00",
+      "run_id": "R035_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:31.387704+00:00",
+      "run_id": "R035_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:15:34.390292+00:00",
+      "run_id": "R035_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:34.393808+00:00",
+      "run_id": "R036_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:35.926717+00:00",
+      "run_id": "R036_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:15:36.732315+00:00",
+      "run_id": "R036_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:15:36.734403+00:00",
+      "run_id": "R036_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:15:36.767402+00:00",
+      "run_id": "R036_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:40.770715+00:00",
+      "run_id": "R036_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:40.816723+00:00",
+      "run_id": "R036_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:15:43.819543+00:00",
+      "run_id": "R036_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:43.822551+00:00",
+      "run_id": "R037_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:45.358765+00:00",
+      "run_id": "R037_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:15:46.518542+00:00",
+      "run_id": "R037_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:15:46.520056+00:00",
+      "run_id": "R037_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:15:46.574566+00:00",
+      "run_id": "R037_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:50.577231+00:00",
+      "run_id": "R037_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:50.626248+00:00",
+      "run_id": "R037_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:15:53.628569+00:00",
+      "run_id": "R037_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:53.631086+00:00",
+      "run_id": "R038_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:55.158826+00:00",
+      "run_id": "R038_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:15:55.627032+00:00",
+      "run_id": "R038_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:15:55.629037+00:00",
+      "run_id": "R038_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:15:55.675038+00:00",
+      "run_id": "R038_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:15:59.678187+00:00",
+      "run_id": "R038_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:15:59.724698+00:00",
+      "run_id": "R038_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:16:02.727726+00:00",
+      "run_id": "R038_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:02.731239+00:00",
+      "run_id": "R039_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:04.255709+00:00",
+      "run_id": "R039_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:16:04.901772+00:00",
+      "run_id": "R039_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:16:04.904285+00:00",
+      "run_id": "R039_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:16:04.966798+00:00",
+      "run_id": "R039_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:08.969691+00:00",
+      "run_id": "R039_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:09.020207+00:00",
+      "run_id": "R039_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:16:12.022846+00:00",
+      "run_id": "R039_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:12.025852+00:00",
+      "run_id": "R040_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:13.556738+00:00",
+      "run_id": "R040_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:16:14.281600+00:00",
+      "run_id": "R040_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:16:14.283116+00:00",
+      "run_id": "R040_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:16:14.335634+00:00",
+      "run_id": "R040_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:18.338703+00:00",
+      "run_id": "R040_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:18.579746+00:00",
+      "run_id": "R040_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:16:21.582792+00:00",
+      "run_id": "R040_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:21.586800+00:00",
+      "run_id": "R041_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:23.115452+00:00",
+      "run_id": "R041_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:16:23.835170+00:00",
+      "run_id": "R041_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:16:23.837679+00:00",
+      "run_id": "R041_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:16:23.890680+00:00",
+      "run_id": "R041_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:27.894201+00:00",
+      "run_id": "R041_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:27.938715+00:00",
+      "run_id": "R041_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:16:30.941299+00:00",
+      "run_id": "R041_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:30.944305+00:00",
+      "run_id": "R042_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:32.469962+00:00",
+      "run_id": "R042_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:16:33.258333+00:00",
+      "run_id": "R042_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:16:33.260338+00:00",
+      "run_id": "R042_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:16:33.312336+00:00",
+      "run_id": "R042_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:37.315578+00:00",
+      "run_id": "R042_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:37.364597+00:00",
+      "run_id": "R042_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:16:40.367577+00:00",
+      "run_id": "R042_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:40.371096+00:00",
+      "run_id": "R043_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:41.903829+00:00",
+      "run_id": "R043_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:16:42.561382+00:00",
+      "run_id": "R043_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:16:42.563903+00:00",
+      "run_id": "R043_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:16:42.617944+00:00",
+      "run_id": "R043_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:46.621166+00:00",
+      "run_id": "R043_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:46.666188+00:00",
+      "run_id": "R043_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:16:49.668834+00:00",
+      "run_id": "R043_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:49.673032+00:00",
+      "run_id": "R044_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:51.198166+00:00",
+      "run_id": "R044_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:16:51.802729+00:00",
+      "run_id": "R044_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:16:51.804240+00:00",
+      "run_id": "R044_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:16:51.830107+00:00",
+      "run_id": "R044_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:55.832505+00:00",
+      "run_id": "R044_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:16:55.854686+00:00",
+      "run_id": "R044_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:16:58.858692+00:00",
+      "run_id": "R044_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:16:58.862201+00:00",
+      "run_id": "R045_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:00.374833+00:00",
+      "run_id": "R045_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:17:01.590798+00:00",
+      "run_id": "R045_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:17:01.592804+00:00",
+      "run_id": "R045_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:17:01.641272+00:00",
+      "run_id": "R045_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:05.644392+00:00",
+      "run_id": "R045_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:05.665654+00:00",
+      "run_id": "R045_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:17:08.668982+00:00",
+      "run_id": "R045_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:08.671988+00:00",
+      "run_id": "R046_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:10.184866+00:00",
+      "run_id": "R046_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:17:11.345690+00:00",
+      "run_id": "R046_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:17:11.348692+00:00",
+      "run_id": "R046_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:17:11.392541+00:00",
+      "run_id": "R046_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:15.395571+00:00",
+      "run_id": "R046_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:15.423077+00:00",
+      "run_id": "R046_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:17:18.426563+00:00",
+      "run_id": "R046_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:18.429866+00:00",
+      "run_id": "R047_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:19.997266+00:00",
+      "run_id": "R047_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:17:21.098305+00:00",
+      "run_id": "R047_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:17:21.100310+00:00",
+      "run_id": "R047_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:17:21.125309+00:00",
+      "run_id": "R047_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:25.127912+00:00",
+      "run_id": "R047_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:25.143915+00:00",
+      "run_id": "R047_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:17:28.146735+00:00",
+      "run_id": "R047_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:28.152245+00:00",
+      "run_id": "R048_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:29.711738+00:00",
+      "run_id": "R048_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:17:29.965894+00:00",
+      "run_id": "R048_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:17:29.968403+00:00",
+      "run_id": "R048_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:17:30.031314+00:00",
+      "run_id": "R048_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:34.034074+00:00",
+      "run_id": "R048_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:34.043652+00:00",
+      "run_id": "R048_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:17:37.046639+00:00",
+      "run_id": "R048_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:37.049767+00:00",
+      "run_id": "R049_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:38.566735+00:00",
+      "run_id": "R049_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:17:39.274541+00:00",
+      "run_id": "R049_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:17:39.276790+00:00",
+      "run_id": "R049_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:17:39.331232+00:00",
+      "run_id": "R049_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:43.334596+00:00",
+      "run_id": "R049_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:43.405804+00:00",
+      "run_id": "R049_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:17:46.409168+00:00",
+      "run_id": "R049_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:46.412171+00:00",
+      "run_id": "R050_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:47.964934+00:00",
+      "run_id": "R050_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:17:48.826520+00:00",
+      "run_id": "R050_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:17:48.828527+00:00",
+      "run_id": "R050_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:17:48.858844+00:00",
+      "run_id": "R050_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:52.861600+00:00",
+      "run_id": "R050_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:52.869604+00:00",
+      "run_id": "R050_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:17:55.872398+00:00",
+      "run_id": "R050_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:17:55.877403+00:00",
+      "run_id": "R051_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:17:57.437332+00:00",
+      "run_id": "R051_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:17:58.094469+00:00",
+      "run_id": "R051_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:17:58.096786+00:00",
+      "run_id": "R051_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:17:58.131630+00:00",
+      "run_id": "R051_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:02.134342+00:00",
+      "run_id": "R051_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:02.332362+00:00",
+      "run_id": "R051_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:18:05.336152+00:00",
+      "run_id": "R051_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:05.339156+00:00",
+      "run_id": "R052_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:06.909613+00:00",
+      "run_id": "R052_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:18:08.009506+00:00",
+      "run_id": "R052_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:18:08.011511+00:00",
+      "run_id": "R052_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:18:08.039527+00:00",
+      "run_id": "R052_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:12.042273+00:00",
+      "run_id": "R052_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:12.110828+00:00",
+      "run_id": "R052_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:18:15.113889+00:00",
+      "run_id": "R052_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:15.116893+00:00",
+      "run_id": "R053_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:16.682624+00:00",
+      "run_id": "R053_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:18:17.413009+00:00",
+      "run_id": "R053_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:18:17.415014+00:00",
+      "run_id": "R053_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:18:17.436600+00:00",
+      "run_id": "R053_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:21.439645+00:00",
+      "run_id": "R053_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:21.501510+00:00",
+      "run_id": "R053_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:18:24.504364+00:00",
+      "run_id": "R053_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:24.508370+00:00",
+      "run_id": "R054_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:26.068931+00:00",
+      "run_id": "R054_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:18:27.282885+00:00",
+      "run_id": "R054_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:18:27.284889+00:00",
+      "run_id": "R054_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:18:27.335265+00:00",
+      "run_id": "R054_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:31.338227+00:00",
+      "run_id": "R054_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:31.404199+00:00",
+      "run_id": "R054_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:18:34.407190+00:00",
+      "run_id": "R054_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:34.410196+00:00",
+      "run_id": "R055_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:35.976314+00:00",
+      "run_id": "R055_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:18:37.167177+00:00",
+      "run_id": "R055_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:18:37.169532+00:00",
+      "run_id": "R055_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:18:37.185587+00:00",
+      "run_id": "R055_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:41.188324+00:00",
+      "run_id": "R055_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:41.252255+00:00",
+      "run_id": "R055_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:18:44.255136+00:00",
+      "run_id": "R055_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:44.258434+00:00",
+      "run_id": "R056_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:45.826108+00:00",
+      "run_id": "R056_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:18:46.544764+00:00",
+      "run_id": "R056_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:18:46.547768+00:00",
+      "run_id": "R056_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:18:46.583277+00:00",
+      "run_id": "R056_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:50.586578+00:00",
+      "run_id": "R056_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:50.650142+00:00",
+      "run_id": "R056_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:18:53.653593+00:00",
+      "run_id": "R056_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:53.656598+00:00",
+      "run_id": "R057_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:55.226329+00:00",
+      "run_id": "R057_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:18:55.509239+00:00",
+      "run_id": "R057_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:18:55.511423+00:00",
+      "run_id": "R057_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:18:55.547683+00:00",
+      "run_id": "R057_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:18:59.550677+00:00",
+      "run_id": "R057_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:18:59.564348+00:00",
+      "run_id": "R057_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:19:02.567526+00:00",
+      "run_id": "R057_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:02.570530+00:00",
+      "run_id": "R058_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:04.134053+00:00",
+      "run_id": "R058_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:19:05.021347+00:00",
+      "run_id": "R058_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:19:05.023485+00:00",
+      "run_id": "R058_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:19:05.033478+00:00",
+      "run_id": "R058_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:09.036444+00:00",
+      "run_id": "R058_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:09.182239+00:00",
+      "run_id": "R058_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:19:12.185629+00:00",
+      "run_id": "R058_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:12.189638+00:00",
+      "run_id": "R059_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:13.747670+00:00",
+      "run_id": "R059_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:19:14.300563+00:00",
+      "run_id": "R059_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:19:14.303073+00:00",
+      "run_id": "R059_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:19:14.315578+00:00",
+      "run_id": "R059_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:18.318927+00:00",
+      "run_id": "R059_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:18.386001+00:00",
+      "run_id": "R059_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:19:21.389416+00:00",
+      "run_id": "R059_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:21.392711+00:00",
+      "run_id": "R060_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:22.947380+00:00",
+      "run_id": "R060_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:19:24.069438+00:00",
+      "run_id": "R060_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:19:24.071945+00:00",
+      "run_id": "R060_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:19:24.080946+00:00",
+      "run_id": "R060_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:28.084142+00:00",
+      "run_id": "R060_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:28.103382+00:00",
+      "run_id": "R060_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:19:31.106812+00:00",
+      "run_id": "R060_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:31.110820+00:00",
+      "run_id": "R061_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:32.673482+00:00",
+      "run_id": "R061_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:19:33.128494+00:00",
+      "run_id": "R061_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:19:33.131009+00:00",
+      "run_id": "R061_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:19:33.180989+00:00",
+      "run_id": "R061_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:37.184427+00:00",
+      "run_id": "R061_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:37.202210+00:00",
+      "run_id": "R061_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:19:40.205033+00:00",
+      "run_id": "R061_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:40.209038+00:00",
+      "run_id": "R062_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:41.771998+00:00",
+      "run_id": "R062_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:19:42.497928+00:00",
+      "run_id": "R062_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:19:42.499933+00:00",
+      "run_id": "R062_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:19:42.532896+00:00",
+      "run_id": "R062_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:46.536139+00:00",
+      "run_id": "R062_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:46.617757+00:00",
+      "run_id": "R062_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:19:49.621312+00:00",
+      "run_id": "R062_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:49.624638+00:00",
+      "run_id": "R063_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:51.193370+00:00",
+      "run_id": "R063_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:19:51.910911+00:00",
+      "run_id": "R063_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:19:51.913915+00:00",
+      "run_id": "R063_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:19:51.957469+00:00",
+      "run_id": "R063_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:55.960931+00:00",
+      "run_id": "R063_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:19:55.971035+00:00",
+      "run_id": "R063_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:19:58.974805+00:00",
+      "run_id": "R063_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:19:58.977809+00:00",
+      "run_id": "R064_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:00.538055+00:00",
+      "run_id": "R064_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:20:00.847172+00:00",
+      "run_id": "R064_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:20:00.849176+00:00",
+      "run_id": "R064_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:20:00.858887+00:00",
+      "run_id": "R064_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:04.861967+00:00",
+      "run_id": "R064_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:04.883484+00:00",
+      "run_id": "R064_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:20:07.886927+00:00",
+      "run_id": "R064_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:07.889931+00:00",
+      "run_id": "R065_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:09.405394+00:00",
+      "run_id": "R065_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:20:10.612770+00:00",
+      "run_id": "R065_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:20:10.618276+00:00",
+      "run_id": "R065_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:20:10.657077+00:00",
+      "run_id": "R065_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:14.660624+00:00",
+      "run_id": "R065_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:14.670637+00:00",
+      "run_id": "R065_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:20:17.673437+00:00",
+      "run_id": "R065_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:17.676963+00:00",
+      "run_id": "R066_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:19.238018+00:00",
+      "run_id": "R066_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:20:20.350180+00:00",
+      "run_id": "R066_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:20:20.353185+00:00",
+      "run_id": "R066_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:20:20.361186+00:00",
+      "run_id": "R066_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:24.364757+00:00",
+      "run_id": "R066_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:24.394542+00:00",
+      "run_id": "R066_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:20:27.398169+00:00",
+      "run_id": "R066_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:27.402487+00:00",
+      "run_id": "R067_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:28.972698+00:00",
+      "run_id": "R067_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:20:29.287572+00:00",
+      "run_id": "R067_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:20:29.290579+00:00",
+      "run_id": "R067_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:20:29.303719+00:00",
+      "run_id": "R067_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:33.307196+00:00",
+      "run_id": "R067_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:33.325158+00:00",
+      "run_id": "R067_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:20:36.328410+00:00",
+      "run_id": "R067_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:36.332702+00:00",
+      "run_id": "R068_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:37.898747+00:00",
+      "run_id": "R068_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:20:38.348090+00:00",
+      "run_id": "R068_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:20:38.350093+00:00",
+      "run_id": "R068_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:20:38.414528+00:00",
+      "run_id": "R068_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:42.417895+00:00",
+      "run_id": "R068_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:42.477660+00:00",
+      "run_id": "R068_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:20:45.481314+00:00",
+      "run_id": "R068_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:45.485320+00:00",
+      "run_id": "R069_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:47.049833+00:00",
+      "run_id": "R069_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:20:47.578095+00:00",
+      "run_id": "R069_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:20:47.580358+00:00",
+      "run_id": "R069_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:20:47.617714+00:00",
+      "run_id": "R069_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:51.620805+00:00",
+      "run_id": "R069_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:51.640809+00:00",
+      "run_id": "R069_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:20:54.643986+00:00",
+      "run_id": "R069_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:20:54.647992+00:00",
+      "run_id": "R070_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:20:56.210984+00:00",
+      "run_id": "R070_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:20:56.741379+00:00",
+      "run_id": "R070_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:20:56.744383+00:00",
+      "run_id": "R070_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:20:56.784703+00:00",
+      "run_id": "R070_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:00.788158+00:00",
+      "run_id": "R070_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:00.917043+00:00",
+      "run_id": "R070_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:21:03.921390+00:00",
+      "run_id": "R070_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:03.925395+00:00",
+      "run_id": "R071_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:05.484312+00:00",
+      "run_id": "R071_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:21:05.948221+00:00",
+      "run_id": "R071_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:21:05.951225+00:00",
+      "run_id": "R071_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:21:05.993133+00:00",
+      "run_id": "R071_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:09.996279+00:00",
+      "run_id": "R071_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:10.021269+00:00",
+      "run_id": "R071_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:21:13.024912+00:00",
+      "run_id": "R071_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:13.028039+00:00",
+      "run_id": "R072_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:14.594089+00:00",
+      "run_id": "R072_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:21:15.222249+00:00",
+      "run_id": "R072_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:21:15.225588+00:00",
+      "run_id": "R072_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:21:15.289891+00:00",
+      "run_id": "R072_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:19.294966+00:00",
+      "run_id": "R072_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:19.366492+00:00",
+      "run_id": "R072_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:21:22.370596+00:00",
+      "run_id": "R072_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:22.375600+00:00",
+      "run_id": "R073_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:23.928390+00:00",
+      "run_id": "R073_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:21:24.453983+00:00",
+      "run_id": "R073_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:21:24.456988+00:00",
+      "run_id": "R073_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:21:24.502463+00:00",
+      "run_id": "R073_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:28.506573+00:00",
+      "run_id": "R073_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:28.568795+00:00",
+      "run_id": "R073_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:21:31.572294+00:00",
+      "run_id": "R073_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:31.576300+00:00",
+      "run_id": "R074_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:33.131413+00:00",
+      "run_id": "R074_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:21:34.081553+00:00",
+      "run_id": "R074_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:21:34.084559+00:00",
+      "run_id": "R074_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:21:34.132990+00:00",
+      "run_id": "R074_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:38.136463+00:00",
+      "run_id": "R074_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:38.335501+00:00",
+      "run_id": "R074_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:21:41.339074+00:00",
+      "run_id": "R074_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:41.344393+00:00",
+      "run_id": "R075_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:42.857833+00:00",
+      "run_id": "R075_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:21:43.703998+00:00",
+      "run_id": "R075_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:21:43.707002+00:00",
+      "run_id": "R075_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:21:43.742758+00:00",
+      "run_id": "R075_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:47.747170+00:00",
+      "run_id": "R075_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:47.769529+00:00",
+      "run_id": "R075_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:21:50.772740+00:00",
+      "run_id": "R075_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:50.776822+00:00",
+      "run_id": "R076_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:52.345781+00:00",
+      "run_id": "R076_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:21:53.201741+00:00",
+      "run_id": "R076_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:21:53.204747+00:00",
+      "run_id": "R076_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:21:53.231745+00:00",
+      "run_id": "R076_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:21:57.235292+00:00",
+      "run_id": "R076_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:21:57.284894+00:00",
+      "run_id": "R076_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:22:00.288288+00:00",
+      "run_id": "R076_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:00.295294+00:00",
+      "run_id": "R077_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:01.819989+00:00",
+      "run_id": "R077_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:22:02.078587+00:00",
+      "run_id": "R077_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:22:02.082098+00:00",
+      "run_id": "R077_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:22:02.096612+00:00",
+      "run_id": "R077_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:06.100193+00:00",
+      "run_id": "R077_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:06.279022+00:00",
+      "run_id": "R077_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:22:09.282932+00:00",
+      "run_id": "R077_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:09.287445+00:00",
+      "run_id": "R078_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:10.809474+00:00",
+      "run_id": "R078_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:22:11.230480+00:00",
+      "run_id": "R078_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:22:11.233486+00:00",
+      "run_id": "R078_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:22:11.266601+00:00",
+      "run_id": "R078_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:15.270133+00:00",
+      "run_id": "R078_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:15.343255+00:00",
+      "run_id": "R078_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:22:18.350900+00:00",
+      "run_id": "R078_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:18.356903+00:00",
+      "run_id": "R079_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:19.921270+00:00",
+      "run_id": "R079_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:22:21.051677+00:00",
+      "run_id": "R079_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:22:21.061183+00:00",
+      "run_id": "R079_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:22:21.127307+00:00",
+      "run_id": "R079_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:25.130751+00:00",
+      "run_id": "R079_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:25.159032+00:00",
+      "run_id": "R079_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:22:28.163128+00:00",
+      "run_id": "R079_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:28.166637+00:00",
+      "run_id": "R080_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:29.678366+00:00",
+      "run_id": "R080_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:22:30.032742+00:00",
+      "run_id": "R080_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:22:30.035746+00:00",
+      "run_id": "R080_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:22:30.068750+00:00",
+      "run_id": "R080_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:34.072654+00:00",
+      "run_id": "R080_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:34.093658+00:00",
+      "run_id": "R080_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:22:37.097747+00:00",
+      "run_id": "R080_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:37.103751+00:00",
+      "run_id": "R081_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:38.622800+00:00",
+      "run_id": "R081_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:22:39.677311+00:00",
+      "run_id": "R081_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:22:39.680820+00:00",
+      "run_id": "R081_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:22:39.697821+00:00",
+      "run_id": "R081_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:43.701836+00:00",
+      "run_id": "R081_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:43.715981+00:00",
+      "run_id": "R081_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:22:46.719575+00:00",
+      "run_id": "R081_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:46.725084+00:00",
+      "run_id": "R082_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:48.239279+00:00",
+      "run_id": "R082_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:22:48.711280+00:00",
+      "run_id": "R082_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:22:48.714289+00:00",
+      "run_id": "R082_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:22:48.751704+00:00",
+      "run_id": "R082_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:52.755602+00:00",
+      "run_id": "R082_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:52.767109+00:00",
+      "run_id": "R082_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:22:55.770980+00:00",
+      "run_id": "R082_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:22:55.775985+00:00",
+      "run_id": "R083_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:22:57.288680+00:00",
+      "run_id": "R083_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:22:58.008263+00:00",
+      "run_id": "R083_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:22:58.011408+00:00",
+      "run_id": "R083_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:22:58.055805+00:00",
+      "run_id": "R083_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:02.059900+00:00",
+      "run_id": "R083_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:02.073672+00:00",
+      "run_id": "R083_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:23:05.077742+00:00",
+      "run_id": "R083_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:05.082250+00:00",
+      "run_id": "R084_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:06.593562+00:00",
+      "run_id": "R084_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:23:07.435578+00:00",
+      "run_id": "R084_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:23:07.438602+00:00",
+      "run_id": "R084_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:23:07.490110+00:00",
+      "run_id": "R084_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:11.494457+00:00",
+      "run_id": "R084_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:11.504549+00:00",
+      "run_id": "R084_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:23:14.508246+00:00",
+      "run_id": "R084_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:14.512250+00:00",
+      "run_id": "R085_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:16.030307+00:00",
+      "run_id": "R085_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:23:16.807219+00:00",
+      "run_id": "R085_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:23:16.810258+00:00",
+      "run_id": "R085_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:23:16.851116+00:00",
+      "run_id": "R085_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:20.855090+00:00",
+      "run_id": "R085_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:20.868093+00:00",
+      "run_id": "R085_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:23:23.872118+00:00",
+      "run_id": "R085_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:23.877123+00:00",
+      "run_id": "R086_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:25.392319+00:00",
+      "run_id": "R086_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:23:25.707679+00:00",
+      "run_id": "R086_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:23:25.710684+00:00",
+      "run_id": "R086_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:23:25.774150+00:00",
+      "run_id": "R086_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:29.778256+00:00",
+      "run_id": "R086_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:29.814937+00:00",
+      "run_id": "R086_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:23:32.818392+00:00",
+      "run_id": "R086_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:32.822395+00:00",
+      "run_id": "R087_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:34.393447+00:00",
+      "run_id": "R087_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:23:35.061286+00:00",
+      "run_id": "R087_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:23:35.064298+00:00",
+      "run_id": "R087_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:23:35.091298+00:00",
+      "run_id": "R087_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:39.095514+00:00",
+      "run_id": "R087_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:39.113517+00:00",
+      "run_id": "R087_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:23:42.117029+00:00",
+      "run_id": "R087_P02",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:42.122380+00:00",
+      "run_id": "R088_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:43.634182+00:00",
+      "run_id": "R088_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:23:43.937012+00:00",
+      "run_id": "R088_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:23:43.940016+00:00",
+      "run_id": "R088_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:23:43.958297+00:00",
+      "run_id": "R088_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:47.961697+00:00",
+      "run_id": "R088_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:48.033654+00:00",
+      "run_id": "R088_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:23:51.038276+00:00",
+      "run_id": "R088_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:51.042783+00:00",
+      "run_id": "R089_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:52.555757+00:00",
+      "run_id": "R089_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:23:53.128093+00:00",
+      "run_id": "R089_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:23:53.132098+00:00",
+      "run_id": "R089_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:23:53.196606+00:00",
+      "run_id": "R089_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:23:57.200752+00:00",
+      "run_id": "R089_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:23:57.214759+00:00",
+      "run_id": "R089_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:24:00.218853+00:00",
+      "run_id": "R089_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T19:24:00.222362+00:00",
+      "run_id": "R090_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:24:01.733058+00:00",
+      "run_id": "R090_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T19:24:02.163200+00:00",
+      "run_id": "R090_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T19:24:02.166204+00:00",
+      "run_id": "R090_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T19:24:02.190744+00:00",
+      "run_id": "R090_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T19:24:06.194353+00:00",
+      "run_id": "R090_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T19:24:06.223370+00:00",
+      "run_id": "R090_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T19:24:09.226807+00:00",
+      "run_id": "R090_P02",
+      "state": "FINALIZE"
+    }
+  ],
+  "status": "COMPLETE",
+  "timing": {
+    "confirm_timeout_s": 3.0,
+    "observe_s": 4.0,
+    "offset_max_s": 1.25,
+    "offset_min_s": 0.25,
+    "precondition_observe_s": 1.5,
+    "recovery_observe_s": 3.0
+  }
+}

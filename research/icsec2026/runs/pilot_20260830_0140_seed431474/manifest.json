@@ -1,0 +1,153 @@
+{
+  "baud": 115200,
+  "branch_commit": "ae891a70ca961d247b5fd5ac487271caf2fc881f",
+  "campaign": "pilot_20260830_0140_seed431474",
+  "finished_host_time": "2026-08-29T18:55:26.632814+00:00",
+  "g431_port": "COM8",
+  "g474_port": "COM7",
+  "literal_status_warning": "heartbeat=OK watchdog=OK are literal status strings and are not independently measured states",
+  "measurement_definitions": {
+    "activation": "G474 [PAYLOAD] MODE=<fault> confirmation",
+    "bad_crc_detection": "first G431 PAYLOAD_REJECT reason=CRC after injection",
+    "delayed_detection": "first G431 PAYLOAD_TIMEOUT or PAYLOAD_OFFLINE after injection; based on inspected 250 ms responder delay and 100 ms controller deadline",
+    "recovery_time_ms": "G431 PAYLOAD_RECOVERED host time minus MODE NORMAL command-send host time; only populated when NORMAL confirmation is also observed",
+    "restart_marker": "G431 PAYLOAD_LINK_START after injection; absence is not proof that no MCU reset occurred",
+    "silent_detection": "first G431 PAYLOAD_TIMEOUT or PAYLOAD_OFFLINE after injection"
+  },
+  "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
+  "repetitions": 1,
+  "schema_version": 1,
+  "seed": 431474,
+  "started_host_time": "2026-08-29T18:54:58.762937+00:00",
+  "state_history": [
+    {
+      "host_time": "2026-08-29T18:54:58.808389+00:00",
+      "run_id": "R001_P01",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T18:55:00.364197+00:00",
+      "run_id": "R001_P01",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T18:55:00.677571+00:00",
+      "run_id": "R001_P01",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T18:55:00.677571+00:00",
+      "run_id": "R001_P01",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T18:55:00.742152+00:00",
+      "run_id": "R001_P01",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T18:55:04.743656+00:00",
+      "run_id": "R001_P01",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T18:55:04.800166+00:00",
+      "run_id": "R001_P01",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T18:55:07.801532+00:00",
+      "run_id": "R001_P01",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T18:55:07.804542+00:00",
+      "run_id": "R002_P03",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T18:55:09.359199+00:00",
+      "run_id": "R002_P03",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T18:55:10.408045+00:00",
+      "run_id": "R002_P03",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T18:55:10.409554+00:00",
+      "run_id": "R002_P03",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T18:55:10.424060+00:00",
+      "run_id": "R002_P03",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T18:55:14.425278+00:00",
+      "run_id": "R002_P03",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T18:55:14.484393+00:00",
+      "run_id": "R002_P03",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T18:55:17.486056+00:00",
+      "run_id": "R002_P03",
+      "state": "FINALIZE"
+    },
+    {
+      "host_time": "2026-08-29T18:55:17.488230+00:00",
+      "run_id": "R003_P02",
+      "state": "PRECONDITION_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T18:55:19.048274+00:00",
+      "run_id": "R003_P02",
+      "state": "WAIT_RANDOM_OFFSET"
+    },
+    {
+      "host_time": "2026-08-29T18:55:19.554765+00:00",
+      "run_id": "R003_P02",
+      "state": "INJECT"
+    },
+    {
+      "host_time": "2026-08-29T18:55:19.555770+00:00",
+      "run_id": "R003_P02",
+      "state": "CONFIRM_ACTIVATION"
+    },
+    {
+      "host_time": "2026-08-29T18:55:19.606840+00:00",
+      "run_id": "R003_P02",
+      "state": "OBSERVE"
+    },
+    {
+      "host_time": "2026-08-29T18:55:23.609690+00:00",
+      "run_id": "R003_P02",
+      "state": "RESTORE_NORMAL"
+    },
+    {
+      "host_time": "2026-08-29T18:55:23.630707+00:00",
+      "run_id": "R003_P02",
+      "state": "OBSERVE_RECOVERY"
+    },
+    {
+      "host_time": "2026-08-29T18:55:26.632310+00:00",
+      "run_id": "R003_P02",
+      "state": "FINALIZE"
+    }
+  ],
+  "status": "COMPLETE",
+  "timing": {
+    "confirm_timeout_s": 3.0,
+    "observe_s": 4.0,
+    "offset_max_s": 1.25,
+    "offset_min_s": 0.25,
+    "precondition_observe_s": 1.5,
+    "recovery_observe_s": 3.0
+  }
+}

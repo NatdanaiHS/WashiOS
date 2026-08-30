@@ -1,0 +1,21 @@
+{
+  "bytes_after_compared_region": 515528,
+  "capture_byte_count": 524288,
+  "capture_file": "research\\icsec2026\\provenance\\20260830_023830\\flash\\g474_full_flash_0x08000000_0x80000.bin",
+  "capture_offset": 0,
+  "capture_sha256": "0DC52660B6AD976BE217387791C554AD45CAE9ACE1D8C6BF265C3972B521A4E1",
+  "captured_region_sha256": "351E62FCA5389070D393A9EAB973E48C4D8F9F1629483BDDCE063D673243A36C",
+  "differences_file": "research\\icsec2026\\provenance\\20260830_023830\\comparisons\\g474_packaged_application_differences.csv",
+  "differing_byte_count": 0,
+  "differing_range_count": 0,
+  "exact_match": true,
+  "expected_byte_count": 8760,
+  "expected_file": "research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\firmware\\g474_payload_firmware.bin",
+  "expected_sha256": "351E62FCA5389070D393A9EAB973E48C4D8F9F1629483BDDCE063D673243A36C",
+  "flash_address_end_exclusive": "0x08002238",
+  "flash_address_start": "0x08000000",
+  "label": "G474_packaged_application",
+  "non_ff_bytes_after_compared_region": 30101,
+  "non_ff_range_count_after_compared_region": 516,
+  "schema_version": 1
+}

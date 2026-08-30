@@ -1,0 +1,16 @@
+{
+  "actual_byte_count": 131072,
+  "address_end_inclusive": "0x0801FFFF",
+  "address_start": "0x08000000",
+  "board": "NUCLEO-G431RB",
+  "finished_host_time": "2026-08-29T19:39:44.208608+00:00",
+  "openocd_exit_code": 0,
+  "operation": "init; targets; halt; dump_image {C:/WashiOS/research/icsec2026/provenance/20260830_023830/flash/g431_full_flash_0x08000000_0x20000.bin} 0x08000000 0x20000; resume; shutdown;",
+  "requested_byte_count": 131072,
+  "safety": "No program, erase, unprotect, option-byte, or reset command issued.",
+  "schema_version": 1,
+  "sha256": "9D7B9B1439DCA29D434E768237BC78D5BE6737CAF481046C69B90ABA87A3BA1D",
+  "started_host_time": "2026-08-29T19:39:42.958721+00:00",
+  "status": "COMPLETE",
+  "stlink_serial": "005100243032511537333436"
+}

@@ -1,0 +1,21 @@
+{
+  "bytes_after_compared_region": 94668,
+  "capture_byte_count": 131072,
+  "capture_file": "research\\icsec2026\\provenance\\20260830_023830\\flash\\g431_full_flash_0x08000000_0x20000.bin",
+  "capture_offset": 16384,
+  "capture_sha256": "9D7B9B1439DCA29D434E768237BC78D5BE6737CAF481046C69B90ABA87A3BA1D",
+  "captured_region_sha256": "7C2C1B646AF312AB6766423D2BC228A5F11CFFB5F9B4BA23521D4610029DFE7F",
+  "differences_file": "research\\icsec2026\\provenance\\20260830_023830\\comparisons\\g431_application_rebuild_differences.csv",
+  "differing_byte_count": 0,
+  "differing_range_count": 0,
+  "exact_match": true,
+  "expected_byte_count": 20020,
+  "expected_file": "research\\icsec2026\\provenance\\20260830_023830\\rebuild\\g431_application\\firmware.bin",
+  "expected_sha256": "7C2C1B646AF312AB6766423D2BC228A5F11CFFB5F9B4BA23521D4610029DFE7F",
+  "flash_address_end_exclusive": "0x08008E34",
+  "flash_address_start": "0x08004000",
+  "label": "G431_rebuilt_payload_demo_application",
+  "non_ff_bytes_after_compared_region": 0,
+  "non_ff_range_count_after_compared_region": 0,
+  "schema_version": 1
+}

@@ -1,0 +1,13 @@
+{
+  "all_ff": true,
+  "byte_count": 94668,
+  "capture_file": "research\\icsec2026\\provenance\\20260830_023830\\flash\\g431_full_flash_0x08000000_0x20000.bin",
+  "flash_address_end_exclusive": "0x08020000",
+  "flash_address_start": "0x08008E34",
+  "label": "G431_flash_after_application_binary",
+  "non_ff_byte_count": 0,
+  "non_ff_range_count": 0,
+  "ranges_file": "research\\icsec2026\\provenance\\20260830_023830\\flash_layout\\g431_after_application_non_ff_ranges.csv",
+  "schema_version": 1,
+  "sha256": "6111EB3E3C797BB49B8727BCD85DBF1D7541328C75503EC610BDAE29C2C51983"
+}

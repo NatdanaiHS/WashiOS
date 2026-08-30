@@ -1,0 +1,13 @@
+{
+  "campaign": "full_20260830_seed20260830_n30",
+  "expected_per_fault": 30,
+  "expected_seed": 20260830,
+  "expected_total": 90,
+  "generated_host_time": "2026-08-29T19:26:24.094967+00:00",
+  "invalid_rows": 0,
+  "issues": [],
+  "plan_rows": 90,
+  "raw_files_checked": 180,
+  "result_rows": 90,
+  "valid": true
+}

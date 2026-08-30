@@ -1,0 +1,13 @@
+{
+  "all_ff": false,
+  "byte_count": 12352,
+  "capture_file": "research\\icsec2026\\provenance\\20260830_023830\\flash\\g431_full_flash_0x08000000_0x20000.bin",
+  "flash_address_end_exclusive": "0x08004000",
+  "flash_address_start": "0x08000FC0",
+  "label": "G431_unattributed_gap_between_bootloader_and_application",
+  "non_ff_byte_count": 12288,
+  "non_ff_range_count": 1,
+  "ranges_file": "research\\icsec2026\\provenance\\20260830_023830\\flash_layout\\g431_gap_non_ff_ranges.csv",
+  "schema_version": 1,
+  "sha256": "7183EBD7EE9A772072C394AE5DBF8599C4C5945B5CD52869846D5A501110D479"
+}

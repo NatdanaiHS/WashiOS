@@ -3,6 +3,7 @@
 
 #include "stm32g4xx_hal.h"
 #include "FixedTextWriter.hpp"
+#include "HostModeCommandParser.hpp"
 #include "PayloadProtocol.hpp"
 
 namespace
@@ -14,6 +15,8 @@ constexpr uint32_t ButtonDebounceMs = 50U;
 constexpr uint32_t DelayedResponseMs = 250U;
 constexpr uint32_t LinkStatusPeriodMs = 1000U;
 constexpr std::size_t LinkReceiveBufferCapacity = 128U;
+constexpr std::size_t DebugReceiveBufferCapacity = 64U;
+constexpr std::size_t MaxDebugBytesPerCycle = 32U;
 
 UART_HandleTypeDef debugUart = {};
 UART_HandleTypeDef linkUart = {};
@@ -21,8 +24,12 @@ comms::PayloadFrameDecoder requestDecoder;
 comms::PayloadMode currentMode = comms::PayloadMode::Normal;
 uint32_t sampleCounter = 0U;
 uint8_t linkReceiveBuffer[LinkReceiveBufferCapacity] = {};
+uint8_t debugReceiveBuffer[DebugReceiveBufferCapacity] = {};
 volatile std::size_t linkReceiveHead = 0U;
 volatile std::size_t linkReceiveTail = 0U;
+volatile std::size_t debugReceiveHead = 0U;
+volatile std::size_t debugReceiveTail = 0U;
+HostModeCommandParser hostCommandParser;
 uint32_t linkRxByteCount = 0U;
 volatile uint32_t linkUartErrorCount = 0U;
 uint32_t lastReportedLinkUartErrorCount = 0U;
@@ -113,6 +120,14 @@ void initializeDebugUart()
     debugUart.Instance = LPUART1;
     setCommonUartConfiguration(debugUart);
     if (!finishUartInitialization(debugUart)) safeFail();
+
+    __HAL_UART_CLEAR_OREFLAG(&debugUart);
+    __HAL_UART_CLEAR_FEFLAG(&debugUart);
+    __HAL_UART_CLEAR_NEFLAG(&debugUart);
+    __HAL_UART_ENABLE_IT(&debugUart, UART_IT_RXNE);
+    __HAL_UART_ENABLE_IT(&debugUart, UART_IT_ERR);
+    HAL_NVIC_SetPriority(LPUART1_IRQn, 6U, 0U);
+    HAL_NVIC_EnableIRQ(LPUART1_IRQn);
 }
 
 void initializeLinkUart()
@@ -179,6 +194,43 @@ void cycleMode()
     currentMode = static_cast<comms::PayloadMode>(
         (static_cast<uint8_t>(currentMode) + 1U) % 4U);
     logMode();
+}
+
+bool readDebugByte(uint8_t& byte)
+{
+    if (debugReceiveTail == debugReceiveHead)
+    {
+        return false;
+    }
+
+    byte = debugReceiveBuffer[debugReceiveTail];
+    debugReceiveTail = (debugReceiveTail + 1U) % DebugReceiveBufferCapacity;
+    return true;
+}
+
+void serviceHostCommands()
+{
+    for (std::size_t count = 0U; count < MaxDebugBytesPerCycle; ++count)
+    {
+        uint8_t byte = 0U;
+        if (!readDebugByte(byte))
+        {
+            return;
+        }
+
+        comms::PayloadMode selectedMode = currentMode;
+        const HostModeCommandParser::Event event =
+            hostCommandParser.consume(byte, selectedMode);
+        if (event == HostModeCommandParser::Event::ModeSelected)
+        {
+            currentMode = selectedMode;
+            logMode();
+        }
+        else if (event == HostModeCommandParser::Event::InvalidCommand)
+        {
+            logLiteral("[PAYLOAD] COMMAND_REJECTED\r\n");
+        }
+    }
 }
 
 void serviceButton(uint32_t nowMs)
@@ -296,6 +348,27 @@ void serviceLinkStatus(uint32_t nowMs)
 
 } /* namespace */
 
+extern "C" void LPUART1_IRQHandler()
+{
+    uint32_t status = debugUart.Instance->ISR;
+    while ((status & USART_ISR_RXNE_RXFNE) != 0U)
+    {
+        const uint8_t byte = static_cast<uint8_t>(debugUart.Instance->RDR);
+        const std::size_t next = (debugReceiveHead + 1U) % DebugReceiveBufferCapacity;
+        if (next != debugReceiveTail)
+        {
+            debugReceiveBuffer[debugReceiveHead] = byte;
+            debugReceiveHead = next;
+        }
+        status = debugUart.Instance->ISR;
+    }
+
+    if ((status & (USART_ISR_ORE | USART_ISR_FE | USART_ISR_NE)) != 0U)
+    {
+        debugUart.Instance->ICR = USART_ICR_ORECF | USART_ICR_FECF | USART_ICR_NECF;
+    }
+}
+
 extern "C" void USART1_IRQHandler()
 {
     uint32_t status = linkUart.Instance->ISR;
@@ -344,6 +417,7 @@ int main()
     {
         const uint32_t nowMs = HAL_GetTick();
         serviceButton(nowMs);
+        serviceHostCommands();
         serviceLink();
         serviceLinkStatus(nowMs);
         HAL_Delay(1U);
