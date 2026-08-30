@@ -33,6 +33,21 @@ class PlanTests(unittest.TestCase):
         for delay in extension.DELAYS_MS:
             self.assertEqual(3, sum(row.delay_ms == delay for row in plan))
 
+    def test_reviewed_amendment_preserves_ids_and_removes_only_unstarted_500(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            package = Path(temporary) / "package"
+            extension.prepare(package, 20260830, 5, MODULE.parents[3])
+            amended, decision_path = extension.create_scope_down_amendment(package)
+            rows = extension.read_amended_plan(amended)
+            dispositions = {row.run_id: disposition for row, disposition in rows}
+            self.assertEqual(27, len(rows))
+            self.assertEqual("COMPLETED_VALID_CARRY_FORWARD", dispositions["R001_B1_D110"])
+            self.assertEqual("RETAINED_INVALID_NO_RETRY", dispositions["R002_B1_D500"])
+            self.assertEqual("REMOVED_SCOPE_500_UNSTARTED", dispositions["R011_B2_D500"])
+            self.assertEqual("REMOVED_SCOPE_500_UNSTARTED", dispositions["R021_B3_D500"])
+            self.assertEqual(23, sum(value == "PLANNED_CONTINUATION" for value in dispositions.values()))
+            self.assertTrue(decision_path.is_file())
+
 
 class StatusTests(unittest.TestCase):
     def test_status_parser_and_prohibited_marker_collection(self):

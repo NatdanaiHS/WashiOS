@@ -181,6 +181,67 @@ def read_plan(path: Path) -> list[PlanRow]:
         ) for row in csv.DictReader(handle)]
 
 
+def create_scope_down_amendment(package: Path) -> tuple[Path, Path]:
+    original_path = package / "run_plan.csv"
+    original_hash = sha256_file(original_path)
+    if original_hash != "24AD8C20778472BFFC644557D2284D15A481804A1820BDA05A1827D3C88EBBDE":
+        raise RuntimeError("original plan hash does not match the reviewed plan")
+    original = read_plan(original_path)
+    amended_path = package / "amended_execution_plan.csv"
+    amendment_path = package / "plan_amendment.json"
+    rows = []
+    for row in original:
+        if row.block > 3:
+            continue
+        if row.run_id == "R001_B1_D110":
+            disposition = "COMPLETED_VALID_CARRY_FORWARD"
+        elif row.run_id == "R002_B1_D500":
+            disposition = "RETAINED_INVALID_NO_RETRY"
+        elif row.delay_ms == 500:
+            disposition = "REMOVED_SCOPE_500_UNSTARTED"
+        else:
+            disposition = "PLANNED_CONTINUATION"
+        rows.append({**dataclasses.asdict(row), "disposition": disposition})
+    fields = [field.name for field in dataclasses.fields(PlanRow)] + ["disposition"]
+    with amended_path.open("x", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader(); writer.writerows(rows)
+    amended_hash = sha256_file(amended_path)
+    block_four_five = [row.run_id for row in original if row.block > 3]
+    decision = {
+        "decision": "SCOPE_DOWN",
+        "decision_host_time": utc_now(),
+        "source": "research/icsec2026/NEXT_TASK.md research-review decision",
+        "original_plan_path": "run_plan.csv",
+        "original_plan_sha256": original_hash,
+        "amended_plan_path": "amended_execution_plan.csv",
+        "amended_plan_sha256": amended_hash,
+        "derivation": "Preserve original order and identifiers for blocks 1-3; carry R001 valid; retain R002 invalid without retry; remove only unstarted 500 ms rows R011 and R021; execute every other row through R027.",
+        "reason_500_removed": "At 500 ms the unchanged payload blocks for a controller poll period and drains queued polls before host commands, so NORMAL restoration and stabilization are not achievable without changing firmware semantics.",
+        "carried_valid_rows": ["R001_B1_D110"],
+        "retained_invalid_rows": ["R002_B1_D500"],
+        "removed_unstarted_500_rows": ["R011_B2_D500", "R021_B3_D500"],
+        "removed_blocks_4_5_rows": block_four_five,
+        "planned_continuation_rows": [row["run_id"] for row in rows if row["disposition"] == "PLANNED_CONTINUATION"],
+        "final_valid_target": {"delays_ms": [50, 90, 100, 110, 150, 250], "valid_per_delay": 3, "normal_controls": 6},
+        "r002_locked_log_sha256": {
+            "g431": "08022AE828B5AF1715BF9991FBCF8DF2B9D399263B90B64F131F2720D732EDF3",
+            "g474": "3062DA9486CE630E4821D075464766DFDFE863576288C3C4469F7F6A1F7E130D",
+        },
+    }
+    write_json(amendment_path, decision)
+    return amended_path, amendment_path
+
+
+def read_amended_plan(path: Path) -> list[tuple[PlanRow, str]]:
+    with path.open(newline="", encoding="utf-8") as handle:
+        return [(PlanRow(
+            row["run_id"], int(row["order_index"]), int(row["block"]),
+            row["condition"], int(row["delay_ms"]) if row["delay_ms"] else None,
+            float(row["observation_s"]),
+        ), row["disposition"]) for row in csv.DictReader(handle)]
+
+
 def status_record(event: SerialEvent) -> dict[str, object] | None:
     match = STATUS_RE.match(event.text)
     if match is None:
@@ -278,7 +339,14 @@ def marker_counts(events: list[SerialEvent]) -> dict[str, object]:
         "restart_markers": "[OBC] PAYLOAD_LINK_START",
         "poll_write_failure_markers": "[OBC] PAYLOAD_POLL_WRITE_FAILED",
     }
-    return {name: sum(needle in event.text for event in events) for name, needle in needles.items()}
+    result = {name: sum(needle in event.text for event in events) for name, needle in needles.items()}
+    result["accepted_normal_response_markers"] = sum(
+        "[OBC] PAYLOAD_ACCEPTED" in event.text and "mode=0" in event.text for event in events
+    )
+    result["accepted_delayed_response_markers"] = sum(
+        "[OBC] PAYLOAD_ACCEPTED" in event.text and "mode=3" in event.text for event in events
+    )
+    return result
 
 
 def run_nominal(package: Path, g431: SerialCapture, g474: SerialCapture,
@@ -559,6 +627,139 @@ def preflight_hardware(package: Path, g431_port: str, g474_port: str,
         g431.stop(); g474.stop(); g431_serial.close(); g474_serial.close()
 
 
+def recover_payload_only(package: Path, g431_port: str, g474_port: str,
+                         stlink_serial: str) -> int:
+    import serial  # type: ignore[import-not-found]
+    run_dir = package / "raw" / "recovery" / "PAYLOAD_ONLY_RESET_001"
+    g431_serial = serial.Serial(g431_port, 115200, timeout=0.05, write_timeout=1.0)
+    try:
+        g474_serial = serial.Serial(g474_port, 115200, timeout=0.05, write_timeout=1.0)
+    except Exception:
+        g431_serial.close(); raise
+    g431 = SerialCapture("g431", g431_serial); g474 = SerialCapture("g474", g474_serial)
+    g431.start(); g474.start(); handles = attach_pair(run_dir, g431, g474)
+    result: dict[str, object] = {
+        "run_id": "PAYLOAD_ONLY_RESET_001",
+        "purpose": "Exceptional recovery from retained R002 500 ms host-command starvation",
+        "controller_reset_authorized": False,
+        "payload_reset_authorized": True,
+        "payload_stlink_serial": stlink_serial,
+        "started_host_time": utc_now(),
+    }
+    try:
+        openocd_root = Path.home() / ".platformio" / "packages" / "tool-openocd"
+        executable = openocd_root / "bin" / "openocd.exe"
+        scripts = openocd_root / "openocd" / "scripts"
+        if not executable.is_file(): raise RuntimeError("OpenOCD executable not found")
+        ready_start = g474.snapshot(); controller_start = g431.snapshot()
+        command = [str(executable), "-d2", "-s", str(scripts),
+                   "-c", f"adapter serial {stlink_serial}",
+                   "-f", "interface/stlink.cfg", "-c", "transport select hla_swd",
+                   "-f", "target/stm32g4x.cfg", "-c", "init; reset run; shutdown;"]
+        completed = subprocess.run(command, text=True, capture_output=True, timeout=30.0)
+        (run_dir / "openocd_reset.log").write_text(
+            completed.stdout + completed.stderr, encoding="utf-8", newline="\n"
+        )
+        result["openocd_exit_code"] = completed.returncode
+        result["reset_command"] = command
+        ready = g474.wait_for(
+            lambda event: "[PAYLOAD] READY board=NUCLEO-G474RE mode=NORMAL" in event.text,
+            ready_start, 5.0,
+        )
+        result["payload_ready_host_time"] = ready.host_time if ready else None
+        normal_start = g474.snapshot(); normal_host, _ = send_mode(g474_serial, "NORMAL")
+        normal = wait_mode_confirmation(g474, "NORMAL", normal_start, 3.0)
+        result["normal_command_host_time"] = normal_host
+        result["normal_confirmation_host_time"] = normal.host_time if normal else None
+        stabilization = gate(g431, g474, g474_serial)
+        result["stabilization"] = stabilization
+        controller_events = g431.events_since(controller_start)
+        result["controller_recovery_markers"] = [
+            {"host_time": event.host_time, "marker": event.text}
+            for event in controller_events if "[OBC] PAYLOAD_RECOVERED" in event.text
+        ]
+        result["controller_link_start_markers"] = [
+            {"host_time": event.host_time, "marker": event.text}
+            for event in controller_events if "[OBC] PAYLOAD_LINK_START" in event.text
+        ]
+        failures = []
+        if completed.returncode != 0: failures.append("OPENOCD_RESET_FAILED")
+        if ready is None: failures.append("PAYLOAD_READY_NOT_OBSERVED")
+        if normal is None: failures.append("NORMAL_NOT_CONFIRMED")
+        if not stabilization["valid"]: failures.append("STABILIZATION_FAILED")
+        result.update(valid=not failures, invalid_reason=";".join(failures),
+                      finished_host_time=utc_now())
+        write_json(package / "payload_recovery_validation.json", result)
+        return 0 if not failures else 2
+    finally:
+        detach_pair(handles, g431, g474)
+        g431.stop(); g474.stop(); g431_serial.close(); g474_serial.close()
+
+
+def continue_amended_campaign(package: Path, g431_port: str, g474_port: str,
+                              repo: Path) -> int:
+    import serial  # type: ignore[import-not-found]
+    amendment = json.loads((package / "plan_amendment.json").read_text(encoding="utf-8"))
+    amended_path = package / "amended_execution_plan.csv"
+    if sha256_file(amended_path) != amendment["amended_plan_sha256"]:
+        raise RuntimeError("amended execution plan hash mismatch")
+    recovery = json.loads((package / "payload_recovery_validation.json").read_text(encoding="utf-8"))
+    if not recovery.get("valid"):
+        raise RuntimeError("payload-only recovery gate did not pass")
+    firmware_checks = {
+        package / "firmware" / "g474_extension_firmware.bin": "5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7",
+        package / "firmware" / "g431_extension_application.bin": "6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727",
+        package / "firmware" / "g431_extension_bootloader.bin": "FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E",
+    }
+    for path, expected in firmware_checks.items():
+        if sha256_file(path) != expected: raise RuntimeError(f"firmware changed: {path.name}")
+    planned = [row for row, disposition in read_amended_plan(amended_path)
+               if disposition == "PLANNED_CONTINUATION"]
+    results_path = package / "continuation_results.json"
+    if results_path.exists(): raise RuntimeError("continuation results already exist")
+    write_json(results_path, [])
+    continuation_manifest = {
+        "status": "RUNNING",
+        "started_host_time": utc_now(),
+        "source_commit": git_output(repo, "rev-parse", "HEAD"),
+        "source_status": git_output(repo, "status", "--porcelain=v1"),
+        "amended_plan_sha256": amendment["amended_plan_sha256"],
+        "g431_port": g431_port, "g474_port": g474_port,
+        "planned_continuation_rows": [row.run_id for row in planned],
+        "firmware_sha256": {path.name: expected for path, expected in firmware_checks.items()},
+    }
+    continuation_manifest_path = package / "continuation_manifest.json"
+    write_json(continuation_manifest_path, continuation_manifest)
+    g431_serial = serial.Serial(g431_port, 115200, timeout=0.05, write_timeout=1.0)
+    try:
+        g474_serial = serial.Serial(g474_port, 115200, timeout=0.05, write_timeout=1.0)
+    except Exception:
+        g431_serial.close(); raise
+    g431 = SerialCapture("g431", g431_serial); g474 = SerialCapture("g474", g474_serial)
+    g431.start(); g474.start(); results = []; status = "FAILED"; failure = None
+    try:
+        for row in planned:
+            result = run_trial(row, package, g431, g474, g474_serial)
+            results.append(result); write_json(results_path, results)
+            if not result["valid"]: raise RuntimeError(f"TRIAL_FAILED:{row.run_id}")
+        mechanisms = []
+        for exposure in ("SHORT", "SUSTAINED"):
+            result = run_bad_crc(package, exposure, g431, g474, g474_serial)
+            mechanisms.append(result); write_json(package / "bad_crc_results.json", mechanisms)
+            if not result["valid"]: raise RuntimeError(f"BAD_CRC_FAILED:{exposure}")
+        status = "ACQUISITION_COMPLETE"
+        return 0
+    except Exception as exc:
+        failure = f"{type(exc).__name__}: {exc}"; raise
+    finally:
+        try: send_mode(g474_serial, "NORMAL")
+        except Exception as exc: continuation_manifest["final_normal_error"] = f"{type(exc).__name__}: {exc}"
+        g431.stop(); g474.stop(); g431_serial.close(); g474_serial.close()
+        continuation_manifest.update(status=status, failure=failure,
+                                     finished_host_time=utc_now(), completed_rows=len(results))
+        write_json(continuation_manifest_path, continuation_manifest)
+
+
 def run_hardware(package: Path, g431_port: str, g474_port: str,
                  g474_firmware: Path, g431_firmware: Path,
                  g431_bootloader: Path, repo: Path) -> int:
@@ -648,6 +849,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     resume.add_argument("--package", required=True, type=Path)
     resume.add_argument("--g431-port", required=True)
     resume.add_argument("--g474-port", required=True)
+    amend = sub.add_parser("amend")
+    amend.add_argument("--package", required=True, type=Path)
+    recover = sub.add_parser("recover-payload")
+    recover.add_argument("--package", required=True, type=Path)
+    recover.add_argument("--g431-port", required=True)
+    recover.add_argument("--g474-port", required=True)
+    recover.add_argument("--stlink-serial", required=True)
+    continuation = sub.add_parser("continue-amended")
+    continuation.add_argument("--package", required=True, type=Path)
+    continuation.add_argument("--g431-port", required=True)
+    continuation.add_argument("--g474-port", required=True)
     return parser.parse_args(argv)
 
 
@@ -663,6 +875,17 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "resume":
         return resume_after_nominal_failure(args.package.resolve(), args.g431_port,
                                             args.g474_port, repo)
+    if args.command == "amend":
+        amended, amendment = create_scope_down_amendment(args.package.resolve())
+        print(f"amended_plan={amended} sha256={sha256_file(amended)}")
+        print(f"amendment={amendment} sha256={sha256_file(amendment)}")
+        return 0
+    if args.command == "recover-payload":
+        return recover_payload_only(args.package.resolve(), args.g431_port,
+                                    args.g474_port, args.stlink_serial)
+    if args.command == "continue-amended":
+        return continue_amended_campaign(args.package.resolve(), args.g431_port,
+                                         args.g474_port, repo)
     return run_hardware(args.package.resolve(), args.g431_port, args.g474_port,
                         args.g474_firmware.resolve(), args.g431_firmware.resolve(),
                         args.g431_bootloader.resolve(), repo)
