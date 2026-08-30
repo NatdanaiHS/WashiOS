@@ -1,0 +1,8 @@
+{
+  "acquisition_commit": "cfd4b1b59d5018f498e5cc083ab27e1d230ae85d",
+  "branch": "experiment/icsec-extension-20260830",
+  "commit": "cfd4b1b59d5018f498e5cc083ab27e1d230ae85d",
+  "finalizer_host_time": "2026-08-30T14:08:31.924974+00:00",
+  "finalizer_sha256": "0CC8525822735FD108369F325D106CDFC6A3970E67754BB8EB3AD08A2792370A",
+  "status": "M research/icsec2026/extension/run_primary_extension.py\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/bad_crc_results.json\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/continuation_manifest.json\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/continuation_results.json\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/descriptive_summary.json\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/final_results_ledger.csv\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/payload_recovery_validation.json"
+}

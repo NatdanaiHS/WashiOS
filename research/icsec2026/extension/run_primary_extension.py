@@ -29,6 +29,7 @@ sys.path.insert(0, str(INJECTOR_DIR))
 from run_payload_campaign import (  # noqa: E402
     SerialCapture,
     SerialEvent,
+    escaped_rendering,
     send_mode,
     utc_now,
     wait_mode_confirmation,
@@ -760,6 +761,202 @@ def continue_amended_campaign(package: Path, g431_port: str, g474_port: str,
         write_json(continuation_manifest_path, continuation_manifest)
 
 
+def parse_raw_log(path: Path) -> tuple[list[str], list[str]]:
+    texts = []; failures = []
+    with path.open(encoding="ascii", newline="") as handle:
+        for line_number, line in enumerate(handle, 1):
+            fields = line.rstrip("\r\n").split("\t", 2)
+            if len(fields) != 3:
+                failures.append(f"{path.name}:{line_number}:FIELD_COUNT"); continue
+            host_time, raw_hex, rendered = fields
+            try: dt.datetime.fromisoformat(host_time)
+            except ValueError: failures.append(f"{path.name}:{line_number}:BAD_TIMESTAMP")
+            try: raw = bytes.fromhex(raw_hex)
+            except ValueError:
+                failures.append(f"{path.name}:{line_number}:BAD_HEX"); continue
+            if escaped_rendering(raw) != rendered:
+                failures.append(f"{path.name}:{line_number}:RENDERING_MISMATCH")
+            texts.append(raw.decode("ascii", errors="backslashreplace").rstrip("\r\n"))
+    if not texts: failures.append(f"{path.name}:NO_RECORDS")
+    return texts, failures
+
+
+def finalize_evidence(package: Path, repo: Path) -> int:
+    failures: list[str] = []
+    checks: dict[str, object] = {}
+    original = read_plan(package / "run_plan.csv")
+    amendment = json.loads((package / "plan_amendment.json").read_text(encoding="utf-8"))
+    amended = read_amended_plan(package / "amended_execution_plan.csv")
+    original_hash = sha256_file(package / "run_plan.csv")
+    amended_hash = sha256_file(package / "amended_execution_plan.csv")
+    checks["original_plan_sha256"] = original_hash
+    checks["amended_plan_sha256"] = amended_hash
+    if original_hash != amendment["original_plan_sha256"]: failures.append("ORIGINAL_PLAN_HASH_MISMATCH")
+    if amended_hash != amendment["amended_plan_sha256"]: failures.append("AMENDED_PLAN_HASH_MISMATCH")
+
+    initial = json.loads((package / "campaign_results.json").read_text(encoding="utf-8"))
+    continuation = json.loads((package / "continuation_results.json").read_text(encoding="utf-8"))
+    continuation_manifest = json.loads((package / "continuation_manifest.json").read_text(encoding="utf-8"))
+    bad_crc = json.loads((package / "bad_crc_results.json").read_text(encoding="utf-8"))
+    nominal = json.loads((package / "nominal_validation_002.json").read_text(encoding="utf-8"))
+    recovery = json.loads((package / "payload_recovery_validation.json").read_text(encoding="utf-8"))
+    if continuation_manifest.get("status") != "ACQUISITION_COMPLETE": failures.append("CONTINUATION_NOT_COMPLETE")
+    if not nominal.get("valid"): failures.append("NOMINAL_002_INVALID")
+    if not recovery.get("valid"): failures.append("PAYLOAD_RECOVERY_INVALID")
+    if len(initial) != 2 or initial[0]["run_id"] != "R001_B1_D110" or not initial[0]["valid"]:
+        failures.append("CARRIED_R001_INVALID")
+    if len(initial) != 2 or initial[1]["run_id"] != "R002_B1_D500" or initial[1]["valid"] or initial[1]["invalid_reason"] != "NORMAL_RESTORE_NOT_CONFIRMED":
+        failures.append("R002_INVALID_LEDGER_MISMATCH")
+    planned_ids = [row.run_id for row, disposition in amended if disposition == "PLANNED_CONTINUATION"]
+    if [row["run_id"] for row in continuation] != planned_ids: failures.append("CONTINUATION_ORDER_MISMATCH")
+    if len(continuation) != 23 or any(not row["valid"] for row in continuation): failures.append("CONTINUATION_VALID_COUNT_MISMATCH")
+
+    result_by_id = {row["run_id"]: row for row in [*initial, *continuation]}
+    all_valid = [initial[0], *continuation]
+    raw_validation_failures = []
+    for result in [*initial, *continuation]:
+        run_id = result["run_id"]
+        run_dir = package / "raw" / "campaign" / run_id
+        g431_text, g431_failures = parse_raw_log(run_dir / "g431.log")
+        g474_text, g474_failures = parse_raw_log(run_dir / "g474.log")
+        raw_validation_failures.extend(f"{run_id}:{item}" for item in [*g431_failures, *g474_failures])
+        if result.get("activation_confirmed"):
+            marker = "[PAYLOAD] MODE=NORMAL" if result["condition"] == "NC" else f"[PAYLOAD] MODE=DELAYED delay_ms={result['delay_ms']}"
+            if not any(marker in text for text in g474_text): failures.append(f"{run_id}:ACTIVATION_RAW_MISSING")
+        if result.get("valid") and not any("[PAYLOAD] MODE=NORMAL" in text for text in g474_text):
+            failures.append(f"{run_id}:RESTORE_RAW_MISSING")
+        if result.get("valid") and (not result["pre_stabilization"]["valid"] or not result["post_stabilization"]["valid"]):
+            failures.append(f"{run_id}:STABILIZATION_INVALID")
+        for marker in result.get("observed_markers", []):
+            if marker["marker"] not in g431_text: failures.append(f"{run_id}:RESULT_MARKER_RAW_MISSING")
+    failures.extend(raw_validation_failures)
+
+    delay_summary = {}
+    for delay in (50, 90, 100, 110, 150, 250):
+        rows = [row for row in all_valid if row["condition"] == "DELAY" and row["delay_ms"] == delay]
+        if len(rows) != 3: failures.append(f"DELAY_{delay}_VALID_COUNT")
+        def observed_count(key: str, needle: str | None = None) -> int:
+            total = 0
+            for row in rows:
+                if key in row["observations"]: total += int(row["observations"][key] > 0)
+                elif needle is not None: total += int(any(needle in marker["marker"] for marker in row["observed_markers"]))
+            return total
+        delay_summary[str(delay)] = {
+            "valid_observations": len(rows),
+            "accepted_delayed_response_observed": observed_count("accepted_delayed_response_markers", "[OBC] PAYLOAD_ACCEPTED"),
+            "timeout_observed": observed_count("timeout_markers"),
+            "sequence_rejection_observed": observed_count("sequence_rejection_markers"),
+            "offline_observed": observed_count("offline_markers"),
+            "restoration_confirmed": sum(bool(row.get("restore_confirmation_host_time")) for row in rows),
+            "recovery_observed": sum(any("PAYLOAD_RECOVERED" in marker["marker"] for marker in row["post_stabilization"].get("pre_baseline_markers", [])) for row in rows),
+        }
+        # Older carried R001 predates split accepted-mode counters; only mode=3 is condition acceptance.
+        delay_summary[str(delay)]["accepted_delayed_response_observed"] = sum(
+            any("[OBC] PAYLOAD_ACCEPTED" in marker["marker"] and "mode=3" in marker["marker"] for marker in row["observed_markers"])
+            for row in rows
+        )
+
+    nc_rows = [row for row in all_valid if row["condition"] == "NC"]
+    if len(nc_rows) != 6: failures.append("NC_VALID_COUNT")
+    nc_fields = ("crc_rejection_markers", "sequence_rejection_markers", "timeout_markers",
+                 "offline_markers", "recovery_markers", "restart_markers", "poll_write_failure_markers")
+    nc_false = {field: sum(int(row["observations"].get(field, 0)) for row in nc_rows) for field in nc_fields}
+    if any(nc_false.values()): failures.append("NC_FALSE_MARKER_OBSERVED")
+
+    if len(bad_crc) != 2 or [row["exposure"] for row in bad_crc] != ["SHORT", "SUSTAINED"]:
+        failures.append("BAD_CRC_EXPOSURE_SET")
+    else:
+        short, sustained = bad_crc
+        if not short["valid"] or short["observations"]["crc_rejection_markers"] < 1 or short["observations"]["offline_markers"] != 0:
+            failures.append("BAD_CRC_SHORT_MECHANISM")
+        ordered = [marker["marker"] for marker in sustained["observed_markers"]]
+        required = ["PAYLOAD_REJECT reason=CRC", "PAYLOAD_TIMEOUT consecutive=1",
+                    "PAYLOAD_TIMEOUT consecutive=2", "PAYLOAD_OFFLINE consecutive=3"]
+        positions = [next((i for i, value in enumerate(ordered) if needle in value), -1) for needle in required]
+        if not sustained["valid"] or any(position < 0 for position in positions) or positions != sorted(positions):
+            failures.append("BAD_CRC_SUSTAINED_MECHANISM")
+        for row in bad_crc:
+            run_dir = package / "raw" / "bad_crc" / row["exposure"]
+            g431_text, raw_a = parse_raw_log(run_dir / "g431.log")
+            g474_text, raw_b = parse_raw_log(run_dir / "g474.log")
+            failures.extend(f"BAD_CRC_{row['exposure']}:{item}" for item in [*raw_a, *raw_b])
+            if not any("[PAYLOAD] MODE=BAD_CRC" in text for text in g474_text): failures.append(f"BAD_CRC_{row['exposure']}:ACTIVATION_RAW_MISSING")
+            if not any("[PAYLOAD] MODE=NORMAL" in text for text in g474_text): failures.append(f"BAD_CRC_{row['exposure']}:RESTORE_RAW_MISSING")
+            if not any("PAYLOAD_REJECT reason=CRC" in text for text in g431_text): failures.append(f"BAD_CRC_{row['exposure']}:CRC_RAW_MISSING")
+
+    firmware_expected = {
+        "g474_extension_firmware.bin": "5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7",
+        "g431_extension_application.bin": "6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727",
+        "g431_extension_bootloader.bin": "FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E",
+    }
+    firmware_actual = {name: sha256_file(package / "firmware" / name) for name in firmware_expected}
+    if firmware_actual != firmware_expected: failures.append("FIRMWARE_HASH_MISMATCH")
+    r002_hashes = {"g431": sha256_file(package / "raw" / "campaign" / "R002_B1_D500" / "g431.log"),
+                   "g474": sha256_file(package / "raw" / "campaign" / "R002_B1_D500" / "g474.log")}
+    if r002_hashes != amendment["r002_locked_log_sha256"]: failures.append("R002_LOCKED_HASH_MISMATCH")
+    partial_hash = sha256_file(package / "PARTIAL_SHA256SUMS.csv")
+    if partial_hash != "F3DEC9EEED1D7C49942AA52A3722F7D571FBFAA0D98BEAC48F13B24C4BDF5C0C": failures.append("PARTIAL_INVENTORY_CHANGED")
+    frozen = {
+        "dataset_inventory": sha256_file(repo / "research" / "icsec2026" / "runs" / "full_20260830_seed20260830_n30" / "SHA256SUMS.csv"),
+        "provenance_inventory": sha256_file(repo / "research" / "icsec2026" / "provenance" / "20260830_023830" / "PROVENANCE_SHA256SUMS.csv"),
+    }
+    if frozen["dataset_inventory"] != "DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD": failures.append("FROZEN_DATASET_HASH")
+    if frozen["provenance_inventory"] != "84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC": failures.append("FROZEN_PROVENANCE_HASH")
+
+    ledger_path = package / "final_results_ledger.csv"
+    with ledger_path.open("x", newline="", encoding="utf-8") as handle:
+        fields = [field.name for field in dataclasses.fields(PlanRow)] + ["final_disposition", "attempted", "valid", "invalid_reason", "g431_raw", "g474_raw"]
+        writer = csv.DictWriter(handle, fieldnames=fields); writer.writeheader()
+        for row in original:
+            result = result_by_id.get(row.run_id)
+            if result is not None:
+                disposition = "ATTEMPTED_VALID" if result["valid"] else "ATTEMPTED_INVALID"
+            elif row.block <= 3 and row.delay_ms == 500:
+                disposition = "REMOVED_SCOPE_500_UNSTARTED"
+            else:
+                disposition = "REMOVED_SCOPE_BLOCKS_4_5"
+            raw_base = f"raw/campaign/{row.run_id}" if result is not None else ""
+            writer.writerow({**dataclasses.asdict(row), "final_disposition": disposition,
+                             "attempted": result is not None, "valid": result["valid"] if result else "",
+                             "invalid_reason": result.get("invalid_reason", "") if result else "",
+                             "g431_raw": f"{raw_base}/g431.log" if raw_base else "",
+                             "g474_raw": f"{raw_base}/g474.log" if raw_base else ""})
+    ledger_counts = {"original_plan_rows": len(original), "attempted_rows": len(result_by_id),
+                     "valid_rows": len(all_valid), "invalid_rows": sum(not row["valid"] for row in result_by_id.values()),
+                     "scope_removed_rows": len(original) - len(result_by_id)}
+    summary = {
+        "scope": "Sequential observations on G431-A/G474-A with unchanged extension firmware; descriptive only",
+        "nominal": {key: nominal[key] for key in ("valid", "requested_s", "duration_s", "status_count", "counter_deltas", "prohibited_markers")},
+        "ledger_counts": ledger_counts,
+        "delay_summary": delay_summary,
+        "normal_control": {"valid_observations": len(nc_rows), "false_markers": nc_false},
+        "bad_crc": {"short": bad_crc[0], "sustained": bad_crc[1],
+                    "timestamp_note": "Harness control flow waited for the target marker before issuing restore; equal displayed host timestamps may occur at host clock resolution."},
+        "invalid_attempts": [{"run_id": initial[1]["run_id"], "invalid_reason": initial[1]["invalid_reason"], "included_in_valid_denominator": False}],
+        "scope_removed": amendment["removed_unstarted_500_rows"] + amendment["removed_blocks_4_5_rows"],
+        "interpretation_boundary": "No device-population, independence, long-duration, qualification, or MCU-execution-latency inference.",
+    }
+    summary_path = package / "descriptive_summary.json"; write_json(summary_path, summary)
+    source_state = {"finalizer_host_time": utc_now(), "branch": git_output(repo, "branch", "--show-current"),
+                    "commit": git_output(repo, "rev-parse", "HEAD"), "status": git_output(repo, "status", "--porcelain=v1"),
+                    "acquisition_commit": continuation_manifest["source_commit"],
+                    "finalizer_sha256": sha256_file(Path(__file__).resolve())}
+    write_json(package / "extension_source_state.json", source_state)
+    write_json(package / "backup_record.json", {"status": "READY_TO_COPY_AFTER_COMMIT",
+               "method": "Exact directory copy followed by verification of every EXTENSION_SHA256SUMS.csv row",
+               "planned_target": "C:/WashiOS-extension-backup/primary_20260830_seed20260830_b5"})
+    validation = {"valid": not failures, "validated_host_time": utc_now(), "failures": failures,
+                  "checks": checks, "ledger_counts": ledger_counts, "firmware_sha256": firmware_actual,
+                  "r002_locked_log_sha256": r002_hashes, "partial_inventory_sha256": partial_hash,
+                  "frozen_inventory_sha256": frozen, "raw_log_format_failures": raw_validation_failures,
+                  "nominal_valid": nominal["valid"], "payload_recovery_valid": recovery["valid"],
+                  "bad_crc_valid": all(row["valid"] for row in bad_crc),
+                  "output_sha256": {"final_results_ledger.csv": sha256_file(ledger_path),
+                                    "descriptive_summary.json": sha256_file(summary_path)}}
+    write_json(package / "final_validation.json", validation)
+    return 0 if not failures else 2
+
+
 def run_hardware(package: Path, g431_port: str, g474_port: str,
                  g474_firmware: Path, g431_firmware: Path,
                  g431_bootloader: Path, repo: Path) -> int:
@@ -860,6 +1057,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     continuation.add_argument("--package", required=True, type=Path)
     continuation.add_argument("--g431-port", required=True)
     continuation.add_argument("--g474-port", required=True)
+    finalize = sub.add_parser("finalize")
+    finalize.add_argument("--package", required=True, type=Path)
     return parser.parse_args(argv)
 
 
@@ -886,6 +1085,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "continue-amended":
         return continue_amended_campaign(args.package.resolve(), args.g431_port,
                                          args.g474_port, repo)
+    if args.command == "finalize":
+        return finalize_evidence(args.package.resolve(), repo)
     return run_hardware(args.package.resolve(), args.g431_port, args.g474_port,
                         args.g474_firmware.resolve(), args.g431_firmware.resolve(),
                         args.g431_bootloader.resolve(), repo)

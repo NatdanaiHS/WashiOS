@@ -396,6 +396,24 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Research review decision: scope down to blocks 1-3 and serviceable delays 50, 90, 100, 110, 150, and 250 ms; retain R002 invalid without retry; omit unstarted R011/R021 500 ms rows; carry valid R001; run all other original rows through R027 and both BAD_CRC exposures without changing firmware.
 - Append-only amended plan: `research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/amended_execution_plan.csv`, SHA-256 `3556D9902DD28DCA8FB86D504AFD5FF3A6C49CC01C49AB6B4FF476E92AFCF0CF`; linked original plan SHA-256 `24AD8C20778472BFFC644557D2284D15A481804A1820BDA05A1827D3C88EBBDE`.
 - R002 locked raw hashes reverified: G431 `08022AE828B5AF1715BF9991FBCF8DF2B9D399263B90B64F131F2720D732EDF3`; G474 `3062DA9486CE630E4821D075464766DFDFE863576288C3C4469F7F6A1F7E130D`.
+
+### Scope-down completion (2026-08-30T21:09:00+07:00)
+
+- Pre-acquisition reviewed-plan commit: `cfd4b1b59d5018f498e5cc083ab27e1d230ae85d`.
+- Exceptional recovery: one exact-serial G474-A-only reset; OpenOCD exit 0, payload READY/NORMAL confirmed, G431 `PAYLOAD_RECOVERED recoveries=2` observed, no G431 link-start marker, and stabilization passed with `ok` 3018→3028 and zero counter deltas. G431-A was not reset.
+- Continuation completed all 23 amended planned rows in original relative order with zero invalid rows or serial failures. Together with carried R001, the valid campaign contains 24 rows: three observations at each serviceable delay 50/90/100/110/150/250 ms and six NC observations.
+- Delay outcomes: 50 and 90 ms had accepted delayed responses in 3/3 with no timeout/sequence rejection/OFFLINE; 100, 110, 150, and 250 ms had timeout, sequence rejection, and OFFLINE in 3/3, followed by confirmed restoration and recovery in 3/3. These are descriptive observations on one board pair.
+- All six NC rows had zero false CRC/sequence rejection, timeout, OFFLINE, recovery, restart, or poll-write-failure markers.
+- SHORT BAD_CRC: confirmed CRC rejection, then timeout consecutive=1, no OFFLINE, confirmed NORMAL restoration, and passed stabilization.
+- SUSTAINED BAD_CRC: confirmed CRC rejection → timeout consecutive=1 → timeout consecutive=2 → OFFLINE consecutive=3, followed by confirmed NORMAL, recovery, and passed stabilization.
+- Final accounting: 45 original-plan rows; 25 attempted; 24 valid; one invalid retained R002; 20 review-removed rows (R011/R021 plus blocks 4–5). R002 was not retried and is excluded from valid denominators.
+- Machine validation: `final_validation.json` valid=true, zero failures, zero raw-log format failures; nominal, recovery, campaign, BAD_CRC, plan, firmware, R002, partial-inventory, and frozen-inventory checks all pass.
+- Frozen dataset/provenance hashes remain `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD` and `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`.
+- Final evidence path: `research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/`.
+- Last confirmed payload state: NORMAL with passed post-SUSTAINED stabilization gate.
+- Complete extension inventory: 88 artifacts, independently verified with zero missing, size, or hash mismatches. `EXTENSION_SHA256SUMS.csv` SHA-256 `8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B` (inventory excludes itself).
+- Final host validation: extension tests 4/4 and legacy injector tests 11/11 pass; `git diff --check` reports no whitespace errors.
+- Remaining actions: commit frozen extension evidence, exact-copy backup, and independent backup verification. No further acquisition is authorized for this milestone.
 - Unresolved uncertainty: remaining lab-access time was not supplied; acquisition will use the five-block plan unless the director-defined time rule forces the three-block scope-down.
 - Evidence-readiness finding: the 4 s trial window is shorter than the controller's 5 s aggregate status period. Minimal extension-only G431 instrumentation now emits `PAYLOAD_ACCEPTED seq=<n> mode=<n>` after each accepted response so accepted responses are directly attributable without inferring success from marker absence.
 - Next action: finish host tests and both firmware builds, precommit the seeded plan, then request only the physical board connection needed for flashing/acquisition.

@@ -1,0 +1,5 @@
+{
+  "method": "Exact directory copy followed by verification of every EXTENSION_SHA256SUMS.csv row",
+  "planned_target": "C:/WashiOS-extension-backup/primary_20260830_seed20260830_b5",
+  "status": "READY_TO_COPY_AFTER_COMMIT"
+}

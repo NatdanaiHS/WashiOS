@@ -1,0 +1,251 @@
+[
+  {
+    "activation_command_host_time": "2026-08-30T14:05:16.080986+00:00",
+    "activation_confirmation_host_time": "2026-08-30T14:05:16.110819+00:00",
+    "exposure": "SHORT",
+    "invalid_reason": "",
+    "observations": {
+      "accepted_delayed_response_markers": 0,
+      "accepted_normal_response_markers": 1,
+      "accepted_response_markers": 1,
+      "crc_rejection_markers": 1,
+      "offline_markers": 0,
+      "poll_write_failure_markers": 0,
+      "recovery_markers": 0,
+      "restart_markers": 0,
+      "sequence_rejection_markers": 0,
+      "timeout_markers": 1
+    },
+    "observed_markers": [
+      {
+        "host_time": "2026-08-30T14:05:16.142521+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=5600 mode=0"
+      },
+      {
+        "host_time": "2026-08-30T14:05:16.638217+00:00",
+        "marker": "[OBC] PAYLOAD_REJECT reason=CRC"
+      },
+      {
+        "host_time": "2026-08-30T14:05:16.699828+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+      }
+    ],
+    "offline_before_restore": false,
+    "post_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T14:05:21.070585+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T14:05:16.919764+00:00",
+      "normal_confirmation_host_time": "2026-08-30T14:05:16.979712+00:00",
+      "pre_baseline_markers": [],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T14:05:16.979712+00:00",
+      "status_records": [
+        {
+          "crc": 1,
+          "host_time": "2026-08-30T14:05:21.070585+00:00",
+          "monotonic_s": 8400.875,
+          "ok": 3919,
+          "polls": 5610,
+          "recovery": 13,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1691
+        },
+        {
+          "crc": 1,
+          "host_time": "2026-08-30T14:05:26.059090+00:00",
+          "monotonic_s": 8405.859,
+          "ok": 3929,
+          "polls": 5620,
+          "recovery": 13,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1691
+        }
+      ],
+      "valid": true
+    },
+    "pre_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T14:05:11.090198+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T14:05:06.162334+00:00",
+      "normal_confirmation_host_time": "2026-08-30T14:05:06.191895+00:00",
+      "pre_baseline_markers": [],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T14:05:06.191895+00:00",
+      "status_records": [
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T14:05:11.090198+00:00",
+          "monotonic_s": 8390.89,
+          "ok": 3900,
+          "polls": 5590,
+          "recovery": 13,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1690
+        },
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T14:05:16.080986+00:00",
+          "monotonic_s": 8395.89,
+          "ok": 3910,
+          "polls": 5600,
+          "recovery": 13,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1690
+        }
+      ],
+      "valid": true
+    },
+    "restore_command_host_time": "2026-08-30T14:05:16.638217+00:00",
+    "restore_confirmation_host_time": "2026-08-30T14:05:16.669178+00:00",
+    "target_host_time": "2026-08-30T14:05:16.638217+00:00",
+    "target_marker": "[OBC] PAYLOAD_REJECT reason=CRC",
+    "valid": true
+  },
+  {
+    "activation_command_host_time": "2026-08-30T14:05:36.085719+00:00",
+    "activation_confirmation_host_time": "2026-08-30T14:05:36.127662+00:00",
+    "exposure": "SUSTAINED",
+    "invalid_reason": "",
+    "observations": {
+      "accepted_delayed_response_markers": 0,
+      "accepted_normal_response_markers": 1,
+      "accepted_response_markers": 1,
+      "crc_rejection_markers": 1,
+      "offline_markers": 1,
+      "poll_write_failure_markers": 0,
+      "recovery_markers": 0,
+      "restart_markers": 0,
+      "sequence_rejection_markers": 0,
+      "timeout_markers": 2
+    },
+    "observed_markers": [
+      {
+        "host_time": "2026-08-30T14:05:36.096793+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=5640 mode=0"
+      },
+      {
+        "host_time": "2026-08-30T14:05:36.596737+00:00",
+        "marker": "[OBC] PAYLOAD_REJECT reason=CRC"
+      },
+      {
+        "host_time": "2026-08-30T14:05:36.659324+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+      },
+      {
+        "host_time": "2026-08-30T14:05:37.155878+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=2"
+      },
+      {
+        "host_time": "2026-08-30T14:05:37.650961+00:00",
+        "marker": "[OBC] PAYLOAD_OFFLINE consecutive=3 heartbeat=OK watchdog=OK"
+      }
+    ],
+    "offline_before_restore": false,
+    "post_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T14:05:41.027200+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T14:05:37.932931+00:00",
+      "normal_confirmation_host_time": "2026-08-30T14:05:37.993052+00:00",
+      "pre_baseline_markers": [
+        {
+          "host_time": "2026-08-30T14:05:38.101347+00:00",
+          "marker": "[OBC] PAYLOAD_RECOVERED recoveries=14"
+        }
+      ],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T14:05:37.993052+00:00",
+      "status_records": [
+        {
+          "crc": 4,
+          "host_time": "2026-08-30T14:05:41.027200+00:00",
+          "monotonic_s": 8420.828,
+          "ok": 3956,
+          "polls": 5650,
+          "recovery": 14,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1694
+        },
+        {
+          "crc": 4,
+          "host_time": "2026-08-30T14:05:46.014082+00:00",
+          "monotonic_s": 8425.812,
+          "ok": 3966,
+          "polls": 5660,
+          "recovery": 14,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1694
+        }
+      ],
+      "valid": true
+    },
+    "pre_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T14:05:31.048997+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T14:05:26.110804+00:00",
+      "normal_confirmation_host_time": "2026-08-30T14:05:26.148216+00:00",
+      "pre_baseline_markers": [],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T14:05:26.148216+00:00",
+      "status_records": [
+        {
+          "crc": 1,
+          "host_time": "2026-08-30T14:05:31.048997+00:00",
+          "monotonic_s": 8410.859,
+          "ok": 3939,
+          "polls": 5630,
+          "recovery": 13,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1691
+        },
+        {
+          "crc": 1,
+          "host_time": "2026-08-30T14:05:36.039065+00:00",
+          "monotonic_s": 8415.843,
+          "ok": 3949,
+          "polls": 5640,
+          "recovery": 13,
+          "seq": 1673,
+          "state": "ONLINE",
+          "timeout": 1691
+        }
+      ],
+      "valid": true
+    },
+    "restore_command_host_time": "2026-08-30T14:05:37.650961+00:00",
+    "restore_confirmation_host_time": "2026-08-30T14:05:37.682362+00:00",
+    "target_host_time": "2026-08-30T14:05:37.650961+00:00",
+    "target_marker": "[OBC] PAYLOAD_OFFLINE consecutive=3",
+    "valid": true
+  }
+]

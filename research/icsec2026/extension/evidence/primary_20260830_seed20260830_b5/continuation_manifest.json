@@ -1,0 +1,42 @@
+{
+  "amended_plan_sha256": "3556D9902DD28DCA8FB86D504AFD5FF3A6C49CC01C49AB6B4FF476E92AFCF0CF",
+  "completed_rows": 23,
+  "failure": null,
+  "finished_host_time": "2026-08-30T14:05:46.110515+00:00",
+  "firmware_sha256": {
+    "g431_extension_application.bin": "6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727",
+    "g431_extension_bootloader.bin": "FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E",
+    "g474_extension_firmware.bin": "5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7"
+  },
+  "g431_port": "COM8",
+  "g474_port": "COM9",
+  "planned_continuation_rows": [
+    "R003_B1_D150",
+    "R004_B1_NC",
+    "R005_B1_D050",
+    "R006_B1_D090",
+    "R007_B1_D250",
+    "R008_B1_D100",
+    "R009_B1_NC",
+    "R010_B2_D100",
+    "R012_B2_D050",
+    "R013_B2_NC",
+    "R014_B2_D090",
+    "R015_B2_D150",
+    "R016_B2_D110",
+    "R017_B2_D250",
+    "R018_B2_NC",
+    "R019_B3_D250",
+    "R020_B3_D050",
+    "R022_B3_NC",
+    "R023_B3_D110",
+    "R024_B3_D150",
+    "R025_B3_D090",
+    "R026_B3_D100",
+    "R027_B3_NC"
+  ],
+  "source_commit": "cfd4b1b59d5018f498e5cc083ab27e1d230ae85d",
+  "source_status": "?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/continuation_results.json\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/payload_recovery_validation.json",
+  "started_host_time": "2026-08-30T13:57:26.935707+00:00",
+  "status": "ACQUISITION_COMPLETE"
+}
