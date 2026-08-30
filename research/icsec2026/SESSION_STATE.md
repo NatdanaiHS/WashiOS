@@ -493,3 +493,14 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Frozen feasibility evidence commit: `d7205914745688a781d8aed5199eb5306965216e`.
 - Exact-copy backup completed at `C:/WashiOS-extension-backup/scope_g431b_g474a_110ms_20260830`; all 19 inventory rows independently verify with zero issues (20 total files including inventory), and source/backup inventory hashes both equal `519E7E142DFAFEA4736CA74D945B3197D106714F9B6B1A6B45C75309EC4B1B0E`.
 - Oscilloscope stretch is complete as a dropped quantitative milestone with retained feasibility evidence only. Next action: WORK_REVIEW_REQUIRED.
+
+### Final lab closeout (2026-08-30T22:37:09+07:00)
+
+- Lab access ended by explicit human direction. No new experiment, serial command, flash, reset, or acquisition was started during closeout.
+- Active branch before final closeout commit: `experiment/icsec-extension-20260830` at `8c736c30ebc3abacd73354f81dd2ac170000014f`; frozen base `8a47d070c549274c59cdbde2495afa8d353a93b3` remains an ancestor.
+- Independent final source and backup verification: primary 88/88 rows, G431-B replication 42/42 rows, and scope feasibility 19/19 rows; zero missing files, size mismatches, or SHA-256 mismatches in every source and backup.
+- Frozen dataset, provenance, reviewed primary, reviewed replication, and scope-feasibility inventory hashes remain respectively `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD`, `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`, `8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B`, `F13EBB7FEB42FB3F67E56A8503CB6D70A5F630F2C864A16B22D5BF4D9D19CCE9`, and `519E7E142DFAFEA4736CA74D945B3197D106714F9B6B1A6B45C75309EC4B1B0E`.
+- Invalid/incomplete evidence preservation rechecked: both NOMINAL_001 raw logs, both R002_B1_D500 raw logs, both S001_D110 serial logs, the internal-scope-only feasibility disposition, and all four dropped-unattempted S002-S005 ledger rows remain present. Nothing was replaced or silently removed.
+- Final controller/payload state from the last hardware operation: G474-A confirmed `NORMAL`; G431-B passed post-S001 stabilization and was ONLINE. No Python acquisition process or OpenOCD process remains active and no COM port is held by the experiment tooling.
+- Instrumented firmware remains installed on G431-B and G474-A; this is recorded by exact hashes and does not prevent safe power removal.
+- Hardware disconnect status: safe after final repository commit/push attempt; remove scope probe tips/grounds, then USB power/cables and inter-board UART wiring without pressing reset.
