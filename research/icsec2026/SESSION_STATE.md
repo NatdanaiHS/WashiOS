@@ -414,6 +414,10 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Complete extension inventory: 88 artifacts, independently verified with zero missing, size, or hash mismatches. `EXTENSION_SHA256SUMS.csv` SHA-256 `8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B` (inventory excludes itself).
 - Final host validation: extension tests 4/4 and legacy injector tests 11/11 pass; `git diff --check` reports no whitespace errors.
 - Remaining actions: commit frozen extension evidence, exact-copy backup, and independent backup verification. No further acquisition is authorized for this milestone.
+- Frozen extension evidence commit: `fa20d3805b4aa3744b7e64f627e2c2426ba0d231`.
+- Exact-copy backup completed at `C:/WashiOS-extension-backup/primary_20260830_seed20260830_b5`. The copied inventory SHA-256 equals the source (`8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B`), and all 88 copied rows independently verify with zero missing, size, or hash mismatches.
+- Primary reviewed scope-down milestone is scientifically complete. No unresolved scientific question blocks this evidence package; the invalid 500 ms attempt and initial nominal serial failure remain explicit retained limitations.
+- Next action: WORK_REVIEW_REQUIRED. Do not begin G431-B, oscilloscope, F411, or manuscript work in this milestone.
 - Unresolved uncertainty: remaining lab-access time was not supplied; acquisition will use the five-block plan unless the director-defined time rule forces the three-block scope-down.
 - Evidence-readiness finding: the 4 s trial window is shorter than the controller's 5 s aggregate status period. Minimal extension-only G431 instrumentation now emits `PAYLOAD_ACCEPTED seq=<n> mode=<n>` after each accepted response so accepted responses are directly attributable without inferring success from marker absence.
 - Next action: finish host tests and both firmware builds, precommit the seeded plan, then request only the physical board connection needed for flashing/acquisition.
