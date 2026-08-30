@@ -1,9 +1,17 @@
 {
+  "attempted_traces": 1,
   "board_pair": "G431-B with G474-A",
   "capture_plan_sha256": "F5145A7732882F6BA8450356E0C1FDD9D0074015D69244B552B65BBA82F59B5F",
   "delay_ms": 110,
   "deviations": [],
   "endpoint_interval_definition": "G474-A PA8/D7 rising edge immediately before HAL_Delay(110) after a valid decoded poll, to G431-B PA8/D7 rising edge immediately after controller.service increments the first timeout count and before timeout serial logging",
+  "firmware_sha256": {
+    "g431_scope_application.bin": "9F5B0041A7939468ED20736E0FDA2659FF90A106CC9C08610C0272CBE0FABC0A",
+    "g431_scope_bootloader.bin": "7C36C0CBDEFECB31ABBD857B15E2AA28D7CBBDF5FBF5B4629666B13F23F716F2",
+    "g474_scope_payload.bin": "9718A3B7080162235E27D6A2A8333DFF6F631C667D50E0AB90DC53749CEE917D"
+  },
+  "g431_port": "COM10",
+  "g474_port": "COM9",
   "planned_traces": 5,
   "prepared_host_time": "2026-08-30T14:45:45.099733+00:00",
   "raw_serial_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
@@ -14,8 +22,10 @@
     "ground": "shared board/scope ground"
   },
   "source_branch": "experiment/icsec-extension-20260830",
+  "source_commit_at_capture": "d110b4687386d39ed7173dddc9b033503c150ea8",
   "source_commit_at_prepare": "14ec248df36be885cb58f50458a74861e81ecca6",
   "source_status_at_prepare": "M bootloader/platformio.ini\n M core/platformio.ini\n M core/src/app/PayloadLinkTask.hpp\n M core/src/main.cpp\n M demo-payload/platformio.ini\n M demo-payload/src/main.cpp\n M research/icsec2026/NEXT_TASK.md\n?? research/icsec2026/extension/evidence/scope_g431b_g474a_110ms_20260830/\n?? research/icsec2026/extension/run_scope_capture.py",
-  "status": "PREPARED",
-  "timing_claim": "Hardware-observed endpoint-behavior-start to timeout-marker interval under this instrumented 110 ms setup only"
+  "status": "CAPTURE_IN_PROGRESS",
+  "timing_claim": "Hardware-observed endpoint-behavior-start to timeout-marker interval under this instrumented 110 ms setup only",
+  "valid_serial_trials": 1
 }

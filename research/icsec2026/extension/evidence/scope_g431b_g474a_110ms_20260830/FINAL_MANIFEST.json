@@ -1,0 +1,29 @@
+{
+  "status": "DROPPED_AFTER_FEASIBILITY_CAPTURE",
+  "scope": "Time-boxed G431-B/G474-A 110 ms oscilloscope feasibility only; no quantitative timing result",
+  "instrumented_source_commit": "d110b4687386d39ed7173dddc9b033503c150ea8",
+  "board_identity": {
+    "controller": "G431-B NUCLEO-G431RB",
+    "controller_stlink_serial": "0029002B3032511537333436",
+    "controller_port": "COM10",
+    "payload": "G474-A NUCLEO-G474RE",
+    "payload_stlink_serial": "0041003D3234510F37333934",
+    "payload_port": "COM9"
+  },
+  "firmware_sha256": {
+    "g431_scope_application": "9F5B0041A7939468ED20736E0FDA2659FF90A106CC9C08610C0272CBE0FABC0A",
+    "g431_scope_bootloader": "7C36C0CBDEFECB31ABBD857B15E2AA28D7CBBDF5FBF5B4629666B13F23F716F2",
+    "g474_scope_payload": "9718A3B7080162235E27D6A2A8333DFF6F631C667D50E0AB90DC53749CEE917D"
+  },
+  "capture_plan_sha256": "F5145A7732882F6BA8450356E0C1FDD9D0074015D69244B552B65BBA82F59B5F",
+  "accounting": {
+    "planned": 5,
+    "attempted": 1,
+    "serial_valid": 1,
+    "valid_timing_traces": 0,
+    "dropped_unattempted": 4
+  },
+  "measurement_result": null,
+  "interpretation": "No quantitative endpoint-to-timeout interval is supported; S001 is bounded feasibility evidence only.",
+  "last_confirmed_payload_state": "NORMAL with passed post-S001 stabilization gate"
+}

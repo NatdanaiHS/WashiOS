@@ -476,3 +476,17 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Hardware identities remain G431-B ST-LINK `0029002B3032511537333436` on COM10 and G474-A ST-LINK `0041003D3234510F37333934` on COM9, pending fresh recheck before flashing.
 - Remaining time: not supplied. The milestone will be dropped if both clean edges are not established within the bring-up box or if fewer than 40 minutes remain before evidence freeze.
 - Next action: commit the locked instrumentation/protocol, flash exact instrumented targets, validate serial behavior, then request human probe placement and scope settings/capture only.
+
+### Oscilloscope feasibility outcome (2026-08-30T22:31:13+07:00)
+
+- Exact identities reverified before flashing: G431-B `0029002B3032511537333436` / COM10 and G474-A `0041003D3234510F37333934` / COM9. All three instrumented images were exact-target flashed and OpenOCD-verified; raw flash logs are retained.
+- Human setup: Hantek DSO4254C; CH1 G474-A D7/PA8, CH2 G431-B D7/PA8, shared ground, 10X probes, DC coupling, 1 V/div both channels, 20 ms/div, CH1 rising trigger at 1.64 V, SINGLE mode, 32K memory, actual 12.50 kSa/s (80 us sample interval). Both channels were initially LOW.
+- S001_D110 completed with exact 110 ms activation, attributable dual serial logs, confirmed NORMAL restoration, and passed pre/post stabilization. Serial outcome matched the prior 110 ms observations: timeout, sequence rejection, OFFLINE, then recovery.
+- Human reported CH1 rising first and CH2 rising while CH1 remained high, with both edges apparently clean and attributable to one pulse. The scope saved Wave(Binary) to internal slot No.1.
+- No USB drive was available, so no native waveform, CSV, or scope screenshot entered the evidence package. No interval was extracted or manually estimated; the internal record and human observation are feasibility support only, not machine-readable timing evidence.
+- Under the hard lab-stop constraint and `NEXT_TASK.md` stop rule, quantitative acquisition was dropped after S001. S002-S005 were not attempted; accounting is 5 planned, 1 attempted/serial-valid, 0 valid timing traces, 4 dropped unattempted. No row was replaced or retried.
+- Last confirmed payload state: NORMAL with passed post-S001 stabilization gate.
+- Prior frozen dataset, provenance, primary-extension, and G431-B replication inventories remain unchanged.
+- Completed experiment: bounded GPIO-edge feasibility only. Unresolved uncertainty: the internal Wave(Binary) record is not independently verifiable unless later exported; no quantitative timing claim is supported.
+- Next action: freeze, inventory, commit, and back up this clearly labeled feasibility package; no additional hardware acquisition is authorized under the hard lab stop.
+- Feasibility package inventory contains 19 artifacts and independently verifies with zero missing, size, or SHA-256 mismatches. `SCOPE_FEASIBILITY_SHA256SUMS.csv` SHA-256 is `519E7E142DFAFEA4736CA74D945B3197D106714F9B6B1A6B45C75309EC4B1B0E` (inventory excludes itself).

@@ -1,0 +1,36 @@
+{
+  "status": "FEASIBILITY_ONLY_QUANTITATIVE_MILESTONE_DROPPED",
+  "decision_host_time": "2026-08-30T22:31:13+07:00",
+  "stop_rule": "Hard lab-stop constraint and inability to export native/CSV scope data prevented the required five machine-readable traces and evidence freeze",
+  "planned_traces": 5,
+  "attempted_traces": 1,
+  "serial_valid_trials": 1,
+  "valid_timing_traces": 0,
+  "unattempted_dropped_traces": 4,
+  "attempt": {
+    "run_id": "S001_D110",
+    "delay_ms": 110,
+    "exact_activation_confirmed": true,
+    "normal_restoration_confirmed": true,
+    "pre_stabilization_valid": true,
+    "post_stabilization_valid": true,
+    "scope_internal_record": "Hantek DSO4254C Wave(Binary), internal slot No.1",
+    "human_observation": "CH1 rose first; CH2 rose while CH1 remained high; both appeared clean and attributable to the same pulse",
+    "human_observation_use": "bounded feasibility support only; not timing evidence",
+    "native_export_in_repository": false,
+    "csv_export_in_repository": false,
+    "screenshot_in_repository": false,
+    "interval_extracted": false,
+    "invalid_timing_reason": "NO_MACHINE_READABLE_SCOPE_EXPORT",
+    "replacement_or_retry": false
+  },
+  "supported_statement": "The locked GPIO endpoint markers were physically observable as two apparently clean, ordered edges on one armed scope capture; no quantitative interval is supported.",
+  "prohibited_statements": [
+    "No endpoint-to-timeout interval may be reported from this package.",
+    "No manual screen estimate may be substituted for exported waveform data.",
+    "No MCU execution-latency or microsecond-resolution timing claim is supported.",
+    "The internal scope record is not independently machine-verifiable until exported."
+  ],
+  "unexpected_outcome": "Actual sample rate was 12.50 kSa/s at the required 20 ms/div window rather than the requested >=1 MSa/s; more importantly, no USB medium was available to export the internal Wave(Binary) record.",
+  "last_confirmed_payload_state": "NORMAL with passed post-S001 stabilization gate"
+}

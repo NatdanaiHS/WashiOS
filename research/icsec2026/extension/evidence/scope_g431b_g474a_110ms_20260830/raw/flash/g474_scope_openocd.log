@@ -1,0 +1,35 @@
+xPack Open On-Chip Debugger 0.12.0-01004-g9ea7f3d64-dirty (2023-01-30-15:04)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+debug_level: 2
+
+none separate
+
+hla_swd
+Info : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD
+Info : clock speed 2000 kHz
+Info : STLINK V3J9M3 (API v3) VID:PID 0483:374E
+Info : Target voltage: 3.287408
+Info : [stm32g4x.cpu] Cortex-M4 r0p1 processor detected
+Info : [stm32g4x.cpu] target has 6 breakpoints, 4 watchpoints
+Info : starting gdb server for stm32g4x.cpu on 3333
+Info : Listening on port 3333 for gdb connections
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x08002018 msp: 0x20020000
+** Programming Started **
+Info : device idcode = 0x20036469 (STM32G47/G48xx - Rev 'unknown' : 0x2003)
+Info : RDP level 0 (0xAA)
+Info : flash size = 512 KiB
+Info : flash mode : dual-bank
+Info : Padding image section 0 at 0x08002314 with 4 bytes (bank write end alignment)
+Warn : Adding extra erase range, 0x08002318 .. 0x080027ff
+** Programming Finished **
+** Verify Started **
+** Verified OK **
+** Resetting Target **
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+shutdown command invoked
