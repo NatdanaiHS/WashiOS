@@ -282,8 +282,9 @@ def marker_counts(events: list[SerialEvent]) -> dict[str, object]:
 
 
 def run_nominal(package: Path, g431: SerialCapture, g474: SerialCapture,
-                g474_serial: object, requested_s: float) -> dict[str, object]:
-    handles = attach_pair(package / "raw" / "nominal" / "NOMINAL_001", g431, g474)
+                g474_serial: object, requested_s: float,
+                run_id: str = "NOMINAL_001") -> dict[str, object]:
+    handles = attach_pair(package / "raw" / "nominal" / run_id, g431, g474)
     try:
         stabilization = gate(g431, g474, g474_serial)
         if not stabilization["valid"]:
@@ -319,6 +320,88 @@ def run_nominal(package: Path, g431: SerialCapture, g474: SerialCapture,
                 "prohibited_markers": prohibited}
     finally:
         detach_pair(handles, g431, g474)
+
+
+def resume_after_nominal_failure(package: Path, g431_port: str,
+                                 g474_port: str, repo: Path) -> int:
+    import serial  # type: ignore[import-not-found]
+    manifest_path = package / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if manifest.get("status") != "FAILED":
+        raise RuntimeError("resume requires a retained FAILED acquisition")
+    if (package / "campaign_results.json").exists():
+        raise RuntimeError("resume is only valid before campaign acquisition begins")
+    if sha256_file(package / "run_plan.csv") != manifest["plan_sha256"]:
+        raise RuntimeError("precommitted run plan hash mismatch")
+    packaged_firmware = {
+        "payload_firmware_sha256": package / "firmware" / "g474_extension_firmware.bin",
+        "controller_firmware_sha256": package / "firmware" / "g431_extension_application.bin",
+        "controller_bootloader_sha256": package / "firmware" / "g431_extension_bootloader.bin",
+    }
+    for field, path in packaged_firmware.items():
+        if not path.is_file() or sha256_file(path) != manifest[field]:
+            raise RuntimeError(f"packaged firmware hash mismatch: {path.name}")
+    plan = read_plan(package / "run_plan.csv")
+    history = manifest.setdefault("acquisition_attempts", [])
+    history.append({
+        "attempt": "NOMINAL_001",
+        "started_host_time": manifest.get("acquisition_started_host_time"),
+        "finished_host_time": manifest.get("acquisition_finished_host_time"),
+        "status": "INVALID_SERIAL_CAPTURE_FAILURE",
+        "failure": manifest.get("failure"),
+        "final_normal_command_error": manifest.get("final_normal_command_error"),
+        "raw_path": "raw/nominal/NOMINAL_001",
+    })
+    manifest.update(
+        status="RUNNING_RESUME_NOMINAL_002",
+        resume_started_host_time=utc_now(),
+        resume_source_commit=git_output(repo, "rev-parse", "HEAD"),
+        resume_source_status=git_output(repo, "status", "--porcelain=v1"),
+    )
+    write_json(manifest_path, manifest)
+    g431_serial = serial.Serial(g431_port, 115200, timeout=0.05, write_timeout=1.0)
+    try:
+        g474_serial = serial.Serial(g474_port, 115200, timeout=0.05, write_timeout=1.0)
+    except Exception:
+        g431_serial.close(); raise
+    g431 = SerialCapture("g431", g431_serial); g474 = SerialCapture("g474", g474_serial)
+    g431.start(); g474.start()
+    status = "FAILED_RESUME"
+    resume_failure = None
+    try:
+        nominal = run_nominal(package, g431, g474, g474_serial, 605.0, "NOMINAL_002")
+        write_json(package / "nominal_validation_002.json", nominal)
+        if not nominal["valid"]: raise RuntimeError("NOMINAL_002_VALIDATION_FAILED")
+        results = []
+        results_path = package / "campaign_results.json"
+        for row in plan:
+            result = run_trial(row, package, g431, g474, g474_serial)
+            results.append(result); write_json(results_path, results)
+            if not result["valid"]: raise RuntimeError(f"TRIAL_FAILED:{row.run_id}")
+        mechanisms = []
+        for exposure in ("SHORT", "SUSTAINED"):
+            result = run_bad_crc(package, exposure, g431, g474, g474_serial)
+            mechanisms.append(result); write_json(package / "bad_crc_results.json", mechanisms)
+            if not result["valid"]: raise RuntimeError(f"BAD_CRC_FAILED:{exposure}")
+        status = "ACQUISITION_COMPLETE"
+        return 0
+    except Exception as exc:
+        resume_failure = f"{type(exc).__name__}: {exc}"
+        raise
+    finally:
+        try: send_mode(g474_serial, "NORMAL")
+        except Exception as exc: manifest["resume_final_normal_error"] = f"{type(exc).__name__}: {exc}"
+        g431.stop(); g474.stop(); g431_serial.close(); g474_serial.close()
+        history.append({
+            "attempt": "NOMINAL_002_AND_PRIMARY_SEQUENCE",
+            "finished_host_time": utc_now(),
+            "status": status,
+            "failure": resume_failure,
+            "raw_path": "raw/nominal/NOMINAL_002",
+        })
+        manifest.update(status=status, resume_finished_host_time=utc_now())
+        if resume_failure is not None: manifest["resume_failure"] = resume_failure
+        write_json(manifest_path, manifest)
 
 
 def run_trial(row: PlanRow, package: Path, g431: SerialCapture, g474: SerialCapture,
@@ -422,6 +505,60 @@ def run_bad_crc(package: Path, exposure: str, g431: SerialCapture,
         detach_pair(handles, g431, g474)
 
 
+def preflight_hardware(package: Path, g431_port: str, g474_port: str,
+                       run_id: str = "FLASH_CHECK") -> int:
+    import serial  # type: ignore[import-not-found]
+    g431_serial = serial.Serial(g431_port, 115200, timeout=0.05, write_timeout=1.0)
+    try:
+        g474_serial = serial.Serial(g474_port, 115200, timeout=0.05, write_timeout=1.0)
+    except Exception:
+        g431_serial.close(); raise
+    g431 = SerialCapture("g431", g431_serial); g474 = SerialCapture("g474", g474_serial)
+    g431.start(); g474.start()
+    result: dict[str, object] = {
+        "run_id": f"PREFLIGHT_{run_id}",
+        "condition": "DELAY_90_READINESS_ONLY",
+        "g431_port": g431_port,
+        "g474_port": g474_port,
+        "started_host_time": utc_now(),
+    }
+    handles = attach_pair(package / "raw" / "preflight" / run_id, g431, g474)
+    try:
+        start_g431 = g431.snapshot(); start_g474 = g474.snapshot()
+        command_host, _ = send_mode(g474_serial, "DELAYED 90")
+        activation = wait_mode_confirmation(g474, "DELAYED delay_ms=90", start_g474, 3.0)
+        accepted = g431.wait_for(
+            lambda event: "[OBC] PAYLOAD_ACCEPTED" in event.text and "mode=3" in event.text,
+            start_g431, 3.0,
+        )
+        restore_start = g474.snapshot()
+        restore_host, _ = send_mode(g474_serial, "NORMAL")
+        restored = wait_mode_confirmation(g474, "NORMAL", restore_start, 3.0)
+        stabilization = gate(g431, g474, g474_serial)
+        result.update(
+            activation_command_host_time=command_host,
+            exact_activation_confirmation_host_time=activation.host_time if activation else None,
+            accepted_response_host_time=accepted.host_time if accepted else None,
+            restore_command_host_time=restore_host,
+            restore_confirmation_host_time=restored.host_time if restored else None,
+            stabilization=stabilization,
+        )
+        failures = []
+        if activation is None: failures.append("EXACT_DELAY_ACTIVATION_MISSING")
+        if accepted is None: failures.append("ACCEPTED_RESPONSE_MARKER_MISSING")
+        if restored is None: failures.append("NORMAL_RESTORE_MISSING")
+        if not stabilization["valid"]: failures.append("STABILIZATION_FAILED")
+        result.update(valid=not failures, invalid_reason=";".join(failures),
+                      finished_host_time=utc_now())
+        write_json(package / f"preflight_validation_{run_id.lower()}.json", result)
+        return 0 if not failures else 2
+    finally:
+        detach_pair(handles, g431, g474)
+        try: send_mode(g474_serial, "NORMAL")
+        except Exception: pass
+        g431.stop(); g474.stop(); g431_serial.close(); g474_serial.close()
+
+
 def run_hardware(package: Path, g431_port: str, g474_port: str,
                  g474_firmware: Path, g431_firmware: Path,
                  g431_bootloader: Path, repo: Path) -> int:
@@ -502,6 +639,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     run.add_argument("--g474-firmware", required=True, type=Path)
     run.add_argument("--g431-firmware", required=True, type=Path)
     run.add_argument("--g431-bootloader", required=True, type=Path)
+    check = sub.add_parser("preflight")
+    check.add_argument("--package", required=True, type=Path)
+    check.add_argument("--g431-port", required=True)
+    check.add_argument("--g474-port", required=True)
+    check.add_argument("--run-id", default="FLASH_CHECK")
+    resume = sub.add_parser("resume")
+    resume.add_argument("--package", required=True, type=Path)
+    resume.add_argument("--g431-port", required=True)
+    resume.add_argument("--g474-port", required=True)
     return parser.parse_args(argv)
 
 
@@ -511,6 +657,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "prepare":
         prepare(args.package.resolve(), args.seed, args.blocks, repo)
         return 0
+    if args.command == "preflight":
+        return preflight_hardware(args.package.resolve(), args.g431_port, args.g474_port,
+                                  args.run_id)
+    if args.command == "resume":
+        return resume_after_nominal_failure(args.package.resolve(), args.g431_port,
+                                            args.g474_port, repo)
     return run_hardware(args.package.resolve(), args.g431_port, args.g474_port,
                         args.g474_firmware.resolve(), args.g431_firmware.resolve(),
                         args.g431_bootloader.resolve(), repo)

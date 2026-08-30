@@ -1,6 +1,7 @@
 param(
     [string]$CoreEnv = "nucleo_g431rb_payload_demo",
-    [string]$BootloaderEnv = "nucleo_g431rb_payload_demo"
+    [string]$BootloaderEnv = "nucleo_g431rb_payload_demo",
+    [string]$StLinkSerial
 )
 
 $ErrorActionPreference = "Stop"
@@ -31,6 +32,7 @@ Write-Host "Uploading core application without resetting into the old bootloader
 Invoke-WashiOpenOcdFlash `
     -ProjectDirectory $CoreDirectory `
     -Environment $CoreEnv `
+    -StLinkSerial $StLinkSerial `
     -ResetConfigNone `
     -NoReset
 
@@ -38,6 +40,7 @@ Write-Host "Uploading bootloader and starting the matched core application."
 Invoke-WashiOpenOcdFlash `
     -ProjectDirectory $BootloaderDirectory `
     -Environment $BootloaderEnv `
+    -StLinkSerial $StLinkSerial `
     -ResetConfigNone
 
 Write-Host "Payload demo firmware flashed and started."

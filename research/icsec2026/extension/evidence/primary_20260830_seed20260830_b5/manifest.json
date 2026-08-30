@@ -1,4 +1,24 @@
 {
+  "acquisition_attempts": [
+    {
+      "attempt": "NOMINAL_001",
+      "failure": "RuntimeError: g474 serial capture failed: SerialException: ClearCommError failed (PermissionError(13, 'The device does not recognize the command.', None, 22))",
+      "final_normal_command_error": "SerialException: WriteFile failed (PermissionError(13, 'The device does not recognize the command.', None, 22))",
+      "finished_host_time": "2026-08-30T13:30:27.426607+00:00",
+      "raw_path": "raw/nominal/NOMINAL_001",
+      "started_host_time": "2026-08-30T13:20:15.997600+00:00",
+      "status": "INVALID_SERIAL_CAPTURE_FAILURE"
+    },
+    {
+      "attempt": "NOMINAL_002_AND_PRIMARY_SEQUENCE",
+      "failure": "RuntimeError: TRIAL_FAILED:R002_B1_D500",
+      "finished_host_time": "2026-08-30T13:43:56.236658+00:00",
+      "raw_path": "raw/nominal/NOMINAL_002",
+      "status": "FAILED_RESUME"
+    }
+  ],
+  "acquisition_finished_host_time": "2026-08-30T13:30:27.426607+00:00",
+  "acquisition_started_host_time": "2026-08-30T13:20:15.997600+00:00",
   "blocks": 5,
   "board_configuration": {
     "controller": "G431-A NUCLEO-G431RB",
@@ -7,6 +27,10 @@
     "payload": "G474-A NUCLEO-G474RE",
     "payload_stlink_serial": "0041003D3234510F37333934"
   },
+  "controller_bootloader_sha256": "FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E",
+  "controller_bootloader_size": 4032,
+  "controller_firmware_sha256": "6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727",
+  "controller_firmware_size": 20256,
   "delay_values_ms": [
     50,
     90,
@@ -16,7 +40,19 @@
     250,
     500
   ],
-  "deviations": [],
+  "deviations": [
+    {
+      "attempt": "PREFLIGHT_INVOCATION_001",
+      "hardware_opened": false,
+      "host_time": "2026-08-30T13:17:00Z",
+      "outcome": "FAILED_BEFORE_SERIAL_OPEN",
+      "reason": "ModuleNotFoundError: No module named 'serial'"
+    }
+  ],
+  "failure": "RuntimeError: g474 serial capture failed: SerialException: ClearCommError failed (PermissionError(13, 'The device does not recognize the command.', None, 22))",
+  "final_normal_command_error": "SerialException: WriteFile failed (PermissionError(13, 'The device does not recognize the command.', None, 22))",
+  "g431_port": "COM8",
+  "g474_port": "COM9",
   "literal_status_warning": "heartbeat=OK watchdog=OK are literal strings, not independent measurements",
   "measurement_definitions": {
     "all_intervals": "host-observed serial receipt or command-send intervals",
@@ -28,12 +64,21 @@
   "nominal_requested_s": 605.0,
   "normal_controls_per_block": 2,
   "observation_s": 4.0,
+  "payload_firmware_sha256": "5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7",
+  "payload_firmware_size": 8944,
   "plan_sha256": "24AD8C20778472BFFC644557D2284D15A481804A1820BDA05A1827D3C88EBBDE",
   "prepared_host_time": "2026-08-30T13:12:10.420505+00:00",
   "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
+  "resume_failure": "RuntimeError: TRIAL_FAILED:R002_B1_D500",
+  "resume_finished_host_time": "2026-08-30T13:43:56.236658+00:00",
+  "resume_source_commit": "6a8e22f256670e798131d46556e6fd28b98cf601",
+  "resume_source_status": "M research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/manifest.json\n M research/icsec2026/extension/run_primary_extension.py\n M tools/WashiTools.ps1\n M tools/flash_payload_demo.ps1\n M tools/flash_payload_responder.ps1\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/preflight_validation.json\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/preflight_validation_post_nominal_serial_reopen.json",
+  "resume_started_host_time": "2026-08-30T13:33:09.460129+00:00",
   "schema_version": 1,
   "seed": 20260830,
   "source_branch": "experiment/icsec-extension-20260830",
+  "source_commit_at_acquisition": "6a8e22f256670e798131d46556e6fd28b98cf601",
   "source_commit_at_prepare": "8a47d070c549274c59cdbde2495afa8d353a93b3",
-  "status": "PREPARED"
+  "source_status_at_acquisition": "M research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/manifest.json\n M research/icsec2026/extension/run_primary_extension.py\n M tools/WashiTools.ps1\n M tools/flash_payload_demo.ps1\n M tools/flash_payload_responder.ps1\n?? research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/preflight_validation.json",
+  "status": "FAILED_RESUME"
 }

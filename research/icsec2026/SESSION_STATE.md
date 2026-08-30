@@ -381,6 +381,18 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Completed experiments: none yet; no hardware was connected or flashed during readiness work.
 - Readiness milestone commit: `4a522eb2f1a8abb6b6599964ae4a0cf5e9db2939`; working tree verified clean immediately afterward.
 - Current physical blocker: no ST-LINK device or ST-LINK virtual COM port is enumerated. Both intended boards must be connected with the specified UART wiring before exact-identity flashing and acquisition can proceed.
+
+### Acquisition update (2026-08-30T20:45:00+07:00)
+
+- Fresh enumeration mapped G431-A ST-LINK `005100243032511537333436` to COM8 and G474-A ST-LINK `0041003D3234510F37333934` to COM9.
+- Exact-serial OpenOCD flashes verified G474 application `5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7`, G431 application `6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727`, and matched G431 bootloader `FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E`.
+- Retained preflight `PREFLIGHT_FLASH_CHECK` passed exact 90 ms activation, G431 accepted-response instrumentation, confirmed NORMAL restoration, and stabilization. A prior invocation failed before serial open because pyserial was absent; that software-only failure is retained in the manifest.
+- `NOMINAL_001` retained as invalid: G431 captured the full stable interval, but G474 capture ended with `ClearCommError` and final NORMAL write failure. No campaign row followed this attempt.
+- Retained post-failure serial-reopen diagnostic passed. `NOMINAL_002` then passed: 605.0 s, 121 ONLINE status records, strictly increasing `ok`, zero timeout/CRC/sequence/recovery deltas, and zero prohibited markers. Evidence: `research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/nominal_validation_002.json` and `raw/nominal/NOMINAL_002/`.
+- Campaign `R001_B1_D110` completed valid with exact 110 ms activation, one accepted-response marker, two timeout markers, one sequence rejection, OFFLINE, confirmed NORMAL restoration, and passed post-stabilization.
+- Campaign stopped at retained `R002_B1_D500`: exact 500 ms activation succeeded, then the blocking payload response handler continuously drained queued poll requests and starved host-command processing. NORMAL restore was sent but never confirmed; controller remained OFFLINE. No row after R002 was started.
+- Evidence: `research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/campaign_results.json`, `raw/campaign/R001_B1_D110/`, and `raw/campaign/R002_B1_D500/`.
+- Scientific conflict: the implemented 500 ms condition cannot meet the mandated restoration/stabilization methodology without changing payload scheduling behavior (for example, servicing at most one link frame before returning to host commands) or changing the condition set. Acquisition is stopped pending Research Director direction; the invalid attempt will not be deleted or replaced.
 - Unresolved uncertainty: remaining lab-access time was not supplied; acquisition will use the five-block plan unless the director-defined time rule forces the three-block scope-down.
 - Evidence-readiness finding: the 4 s trial window is shorter than the controller's 5 s aggregate status period. Minimal extension-only G431 instrumentation now emits `PAYLOAD_ACCEPTED seq=<n> mode=<n>` after each accepted response so accepted responses are directly attributable without inferring success from marker absence.
 - Next action: finish host tests and both firmware builds, precommit the seeded plan, then request only the physical board connection needed for flashing/acquisition.

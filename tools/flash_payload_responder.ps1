@@ -1,5 +1,6 @@
 param(
-    [string]$PayloadEnv = "nucleo_g474re"
+    [string]$PayloadEnv = "nucleo_g474re",
+    [string]$StLinkSerial
 )
 
 $ErrorActionPreference = "Stop"
@@ -19,6 +20,7 @@ finally {
 Write-Host "Uploading demo payload responder to the G474 payload board."
 Invoke-WashiOpenOcdFlash `
     -ProjectDirectory $PayloadDirectory `
-    -Environment $PayloadEnv
+    -Environment $PayloadEnv `
+    -StLinkSerial $StLinkSerial
 
 Write-Host "Demo payload responder flashed."

@@ -138,6 +138,8 @@ function Invoke-WashiOpenOcdFlash {
 
         [string]$TargetConfig = "stm32g4x",
 
+        [string]$StLinkSerial,
+
         [switch]$ResetConfigNone,
 
         [switch]$NoReset
@@ -152,6 +154,13 @@ function Invoke-WashiOpenOcdFlash {
     $transport = Get-WashiStLinkTransport -OpenOcdScripts $openOcd.Scripts
     $firmwareForOpenOcd = ([System.IO.Path]::GetFullPath($firmware)).Replace("\", "/")
     $arguments = @()
+
+    if (-not [string]::IsNullOrWhiteSpace($StLinkSerial)) {
+        if ($StLinkSerial -notmatch '^[0-9A-Fa-f]+$') {
+            throw "ST-LINK serial must contain only hexadecimal characters."
+        }
+        $arguments += @("-c", "adapter serial $StLinkSerial")
+    }
 
     if ($ResetConfigNone) {
         $arguments += @("-c", "reset_config none")
