@@ -5,6 +5,7 @@
 
 #include "FixedTextWriter.hpp"
 #include "ITiming.hpp"
+#include "IGPIO.hpp"
 #include "IUart.hpp"
 #include "PayloadLinkController.hpp"
 #include "TaskHealthReporter.hpp"
@@ -23,10 +24,12 @@ public:
                     hal::IUart& consoleTransport,
                     hal::ITiming& timingSource,
                     core::TaskHealthRegistry<>& registry,
-                    core::TaskId taskId)
+                    core::TaskId taskId,
+                    hal::IGPIO* timeoutMarkerPin = nullptr)
         : payloadUart(payloadTransport),
           consoleUart(consoleTransport),
-          timing(timingSource)
+          timing(timingSource),
+          timeoutMarker(timeoutMarkerPin)
     {
         healthReporter.configure(&registry, &timingSource, taskId);
     }
@@ -37,6 +40,7 @@ protected:
         logLiteral("[OBC] PAYLOAD_LINK_START baud=115200\r\n");
         for (;;)
         {
+            clearTimeoutMarker();
             const uint32_t nowMs = static_cast<uint32_t>(timing.getSystemTick());
             receiveFrames(nowMs);
             serviceController(nowMs);
@@ -51,6 +55,7 @@ private:
     hal::IUart& payloadUart;
     hal::IUart& consoleUart;
     hal::ITiming& timing;
+    hal::IGPIO* timeoutMarker;
     core::TaskHealthReporter<> healthReporter;
     comms::PayloadLinkController controller;
     comms::PayloadFrameDecoder decoder;
@@ -59,6 +64,26 @@ private:
     comms::PayloadValidationResult lastRejection =
         comms::PayloadValidationResult::Ok;
     bool pollWriteFailureLogged = false;
+    bool timeoutMarkerHigh = false;
+
+    void clearTimeoutMarker()
+    {
+        if (timeoutMarker != nullptr && timeoutMarkerHigh)
+        {
+            timeoutMarker->setLow();
+            timeoutMarkerHigh = false;
+        }
+    }
+
+    void markTimeoutDetection()
+    {
+        if (timeoutMarker != nullptr)
+        {
+            /* Rising edge follows the timeout state update and precedes logging. */
+            timeoutMarker->setHigh();
+            timeoutMarkerHigh = true;
+        }
+    }
 
     void receiveFrames(uint32_t nowMs)
     {
@@ -112,6 +137,7 @@ private:
         controller.service(nowMs);
         if (controller.stats().timeouts != previousTimeouts)
         {
+            markTimeoutDetection();
             if (previousState != comms::PayloadLinkState::Offline &&
                 controller.state() == comms::PayloadLinkState::Offline)
             {

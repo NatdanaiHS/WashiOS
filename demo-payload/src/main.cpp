@@ -14,6 +14,9 @@ constexpr uint32_t UartTimeoutMs = 10U;
 constexpr uint32_t ButtonDebounceMs = 50U;
 constexpr uint32_t DefaultDelayedResponseMs = 250U;
 constexpr uint32_t LinkStatusPeriodMs = 1000U;
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+constexpr uint16_t ScopeEndpointMarkerPin = GPIO_PIN_8; /* NUCLEO D7 / PA8 */
+#endif
 constexpr std::size_t LinkReceiveBufferCapacity = 128U;
 constexpr std::size_t DebugReceiveBufferCapacity = 64U;
 constexpr std::size_t MaxDebugBytesPerCycle = 32U;
@@ -99,6 +102,16 @@ void initializeGpio()
     gpio.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &gpio);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+    gpio = {};
+    gpio.Pin = ScopeEndpointMarkerPin;
+    gpio.Mode = GPIO_MODE_OUTPUT_PP;
+    gpio.Pull = GPIO_NOPULL;
+    gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init(GPIOA, &gpio);
+    HAL_GPIO_WritePin(GPIOA, ScopeEndpointMarkerPin, GPIO_PIN_RESET);
+#endif
 
     gpio = {};
     gpio.Pin = GPIO_PIN_13;
@@ -306,7 +319,17 @@ void handleRequest(const uint8_t* requestData)
     {
         return;
     }
-    if (currentMode == comms::PayloadMode::Delayed) HAL_Delay(delayedResponseMs);
+    if (currentMode == comms::PayloadMode::Delayed)
+    {
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+        /* Rising edge: decoded-poll endpoint begins its configured delay. */
+        HAL_GPIO_WritePin(GPIOA, ScopeEndpointMarkerPin, GPIO_PIN_SET);
+#endif
+        HAL_Delay(delayedResponseMs);
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+        HAL_GPIO_WritePin(GPIOA, ScopeEndpointMarkerPin, GPIO_PIN_RESET);
+#endif
+    }
 
     const comms::PayloadTelemetry telemetry = {
         HAL_GetTick(), sampleCounter, simulatedSensorValue(), currentMode

@@ -1,37 +1,34 @@
 # Goal
 
-Reproduce the selected supervision-boundary observations on the second physical controller G431-B using the same G474-A payload simulator, after the primary G431-A/G474-A scope-down package has passed work review.
+Attempt one time-boxed oscilloscope milestone on G431-B/G474-A: measure the hardware-observed interval from payload endpoint delayed-behavior start to the controller's first timeout-detection marker for the reproduced 110 ms condition.
 
 # Why
 
-The primary package is scientifically accepted: nominal, six-delay/NC, BAD_CRC, accounting, provenance, inventory, and backup gates pass. The highest-value remaining hardware task is a bounded second-controller check at 90, 100, and 110 ms. This can support only the statement that selected observations were reproduced on a second physical G431 controller using the same payload simulator; it is not an independent second board pair or a device-population estimate.
-
-The primary sustained BAD_CRC field `offline_before_restore=false` is a non-blocking derived-field ambiguity and must not be cited. The accepted mechanism statement rests on the ordered raw markers and harness control flow that waited for `PAYLOAD_OFFLINE consecutive=3` before issuing restore. Do not modify the frozen primary package.
+The primary and second-controller packages are scientifically accepted, frozen, and independently backed up. Hardware timing is now the only approved stretch task with material scientific value: it can improve attribution beyond host serial timestamps. The admissible quantity is an endpoint-behavior-start-to-controller-timeout-marker interval, not MCU execution latency, command-to-detection latency, qualification evidence, or a general timing bound.
 
 # Experimental Conditions
 
-- Use G431-B as controller and the same G474-A as payload. Freshly enumerate and record both ST-LINK identities and host ports; do not infer G431-B identity from port number.
-- Use controller firmware/configuration identical to the reviewed primary campaign where scientifically appropriate. Record G431-B application and bootloader binaries/hashes separately and retain the unchanged G474-A firmware hash.
-- Store replication evidence in a new exclusive extension directory. Do not modify the frozen baseline or `primary_20260830_seed20260830_b5`.
-- Precommit a seeded three-block plan before acquisition. Each block contains one NC and one trial at each of `90, 100, 110 ms`, for 12 observations total. Randomize within blocks while retaining exact identifiers and order.
-- Use the same dual-channel exact-byte logging, exact delay/NC activation confirmations, 4 s observation window, restoration confirmation, and full pre/post stabilization gate as the primary campaign.
-- Do not use routine per-trial resets and do not run 500 ms, BAD_CRC, G431-A reacquisition, oscilloscope, F411, or manuscript work in this milestone.
+- Keep the frozen baseline, reviewed primary package, and reviewed G431-B replication package read-only. Use a new exclusive instrumented source commit, firmware set, and evidence directory.
+- Use G431-B and the same G474-A. Record exact board identities, wiring, probe channels, ground reference, GPIO pins, voltage scale, probe attenuation, coupling, trigger, timebase, sample rate/memory depth, and oscilloscope identity/settings.
+- Define one unambiguous G474 GPIO edge as the start of delayed endpoint behavior for a decoded poll, and one unambiguous G431 GPIO edge as the first controller timeout-detection event for that same supervision exchange. Marker code must not change the 100 ms deadline, 500 ms poll period, UART protocol, delay scheduling, or link state logic.
+- Use delay 110 ms only. Require exact payload-side activation confirmation, dual-channel serial logs, confirmed `NORMAL` restoration, and full stabilization for every attempted capture.
+- Acquire at least five valid, individually retained traces. Preserve every attempted trace; do not replace inconvenient measurements. Optional UART scope channels may be observed only if they do not delay or destabilize the two required GPIO channels.
+- Human involvement is expected for safe probe placement, scope triggering, and saving native waveform/screenshot data. Codex may prepare instrumentation and evidence handling but must not infer measurements from a screen description alone.
 
 # Acceptance Criteria
 
-- All 12 planned observations are retained with attributable raw logs, activation confirmation, validity status, confirmed `NORMAL` restoration, and passed post-stabilization; no failed or inconvenient row is deleted or replaced.
-- The three NC observations quantify every false rejection/timeout/OFFLINE/recovery/restart/poll-write-failure marker.
-- The three observations at each of 90, 100, and 110 ms report accepted response, timeout, sequence rejection, OFFLINE, restoration, and recovery descriptively. A reproduction claim is allowed only for outcomes actually observed on both controllers.
-- Board identity, source commit/state, wiring, firmware/configuration hashes, seed/plan, raw logs, results, deviations, and measurement definitions are complete and internally consistent.
-- Validation and inventory checks pass, the reviewed primary package and frozen baseline hashes remain unchanged, and the separate replication package is committed and backed up.
+- At least five traces contain both predefined GPIO edges with sufficient resolution and an attributable same-exchange relationship; every trace links to exact firmware/configuration, scope settings, and serial activation/restoration/stabilization evidence.
+- Per-trace endpoint-to-timeout intervals are extracted from preserved scope data and summarized descriptively with count, median, minimum, and maximum; resolution/uncertainty is stated from the actual acquisition settings.
+- The result is labeled only as the hardware-observed G474 endpoint-behavior-start to G431 timeout-marker interval under this instrumented 110 ms setup.
+- Instrumented firmware hashes, source state, raw scope exports/screenshots, serial logs, result table, deviations, validation, and SHA-256 inventory are complete. The separate package is committed and backed up, and all prior inventories reverify unchanged.
 
 # Evidence Required
 
-- G431-B/G474-A identity and port record, wiring/configuration record, source-state record, exact firmware binaries/hashes, and precommitted plan/seed
-- Exact-byte plus readable G431-B and G474-A logs for every attempted NC and delay observation
-- Per-observation results and stabilization records, descriptive cross-controller comparison, validation, deviations, and complete SHA-256 inventory
-- Replication evidence commit, independent frozen-primary/baseline recheck, and verified backup record
+- Endpoint definitions and pin/channel map, oscilloscope identity/settings, wiring/probe record, source commit/state, exact instrumented firmware binaries/hashes, and measurement protocol
+- Native scope waveform exports plus screenshots for every attempted capture, paired exact-byte G431-B/G474-A serial logs, activation/restoration confirmations, and stabilization records
+- Per-trace timing ledger, descriptive summary, uncertainty/resolution note, validation, complete SHA-256 inventory, evidence commit, and verified backup
+- Independent recheck of frozen dataset, provenance, primary-extension, and G431-B replication inventories
 
 # Stop / Scope-Down Rule
 
-If remaining hardware access cannot accommodate all 12 observations plus a 20–30 minute evidence freeze, DROP this replication before acquisition rather than reduce it post hoc. If identity, serial integrity, activation, restoration, or stabilization fails, preserve the attempt and stop for review. Do not change payload scheduling, firmware semantics, or the condition set to rescue an unexpected outcome.
+Time-box instrumentation bring-up to 20 minutes. If two clean and scientifically interpretable GPIO edges cannot be produced within that time, or if fewer than 40 minutes remain before the required evidence freeze, DROP oscilloscope acquisition and preserve only a clearly labeled feasibility record. Do not change endpoint definitions after observing results, do not substitute host timestamps, and do not begin F411, manuscript, or additional fault work in this milestone.

@@ -122,6 +122,9 @@ bsp::Stm32G4Uart targetTelemetryUart(&huart2);
 bsp::Stm32G4Uart targetPayloadUart(&huart1);
 #endif
 bsp::Stm32G4Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+bsp::Stm32G4Gpio payloadTimeoutMarker(GPIOA, GPIO_PIN_8); /* NUCLEO D7 / PA8 */
+#endif
 #if defined(WASHIOS_LASERCOM_TEST)
 bsp::Stm32G4Gpio laserTxPin(GPIOA, GPIO_PIN_6);
 comms::LaserPdmTx laserTransport(laserTxPin, targetTiming);
@@ -158,7 +161,11 @@ static PayloadLinkTask payloadLinkTask(targetPayloadUart,
                                        targetTelemetryUart,
                                        targetTiming,
                                        systemTaskHealth,
-                                       PayloadLinkTaskId);
+                                       PayloadLinkTaskId
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+                                       , &payloadTimeoutMarker
+#endif
+);
 #else
 static TelemetryMockTask telemetryTask;
 #endif
@@ -211,6 +218,9 @@ int main(void)
 #endif
     targetTiming.initialize();
     heartbeatLed.initializeOutput(false);
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+    payloadTimeoutMarker.initializeOutput(false);
+#endif
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
     laserTxPin.initializeOutput(false);
 #endif

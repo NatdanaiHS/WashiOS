@@ -461,3 +461,18 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Frozen replication evidence commit: `0f77fec1eb35e482fa27e932d3b22224edd6607c`.
 - Exact-copy backup completed at `C:/WashiOS-extension-backup/replication_g431b_20260830_seed20260830_b3`. Source and backup inventory SHA-256 values both equal `F13EBB7FEB42FB3F67E56A8503CB6D70A5F630F2C864A16B22D5BF4D9D19CCE9`; all 42 inventoried rows independently verify with zero missing, size, or hash mismatches (43 total files including the inventory).
 - Replication milestone is scientifically complete. Next action: WORK_REVIEW_REQUIRED; do not begin oscilloscope, F411, manuscript, or additional acquisition work under this milestone.
+
+### Oscilloscope stretch readiness (2026-08-30T21:45:45+07:00)
+
+- Research review passed the G431-B/G474-A replication milestone and authorized only the time-boxed 110 ms oscilloscope stretch in the current `NEXT_TASK.md`.
+- Active branch: `experiment/icsec-extension-20260830`; starting commit `14ec248df36be885cb58f50458a74861e81ecca6`; frozen base remains an ancestor. Initial worktree contained only the Research Director's modified `research/icsec2026/NEXT_TASK.md`.
+- Frozen dataset, provenance, primary-extension, and replication inventory hashes reverified unchanged as `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD`, `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`, `8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B`, and `F13EBB7FEB42FB3F67E56A8503CB6D70A5F630F2C864A16B22D5BF4D9D19CCE9`.
+- Endpoint definitions are locked before observation: CH1 is G474-A PA8 / NUCLEO D7 rising immediately before the configured 110 ms delay after a valid decoded poll; CH2 is G431-B PA8 / NUCLEO D7 rising immediately after `PayloadLinkController::service()` increments the first timeout count and before timeout serial logging. CH1 remains high for the delay; a valid same-exchange CH2 edge must occur within that CH1 high pulse. Poll period remains 500 ms.
+- Instrumentation only adds GPIO writes and separate build environments. It does not change the 100 ms deadline, 500 ms poll cadence, UART protocol, delayed-response scheduling, link-state logic, or serial markers.
+- Core native/SITL tests pass 38/38; payload parser tests pass 3/3; instrumented G474, G431 application, and matched bootloader builds pass.
+- Instrumented firmware hashes: G474 payload `9718A3B7080162235E27D6A2A8333DFF6F631C667D50E0AB90DC53749CEE917D` (8,980 bytes); G431-B application `9F5B0041A7939468ED20736E0FDA2659FF90A106CC9C08610C0272CBE0FABC0A` (20,344 bytes); matched G431-B bootloader `7C36C0CBDEFECB31ABBD857B15E2AA28D7CBBDF5FBF5B4629666B13F23F716F2` (4,032 bytes).
+- Exclusive evidence package: `research/icsec2026/extension/evidence/scope_g431b_g474a_110ms_20260830/`; precommitted five-trace plan SHA-256 `F5145A7732882F6BA8450356E0C1FDD9D0074015D69244B552B65BBA82F59B5F`.
+- Scope bring-up time box started during instrumentation work and remains within the 20-minute limit at this checkpoint. No scope acquisition or serial capture has started.
+- Hardware identities remain G431-B ST-LINK `0029002B3032511537333436` on COM10 and G474-A ST-LINK `0041003D3234510F37333934` on COM9, pending fresh recheck before flashing.
+- Remaining time: not supplied. The milestone will be dropped if both clean edges are not established within the bring-up box or if fewer than 40 minutes remain before evidence freeze.
+- Next action: commit the locked instrumentation/protocol, flash exact instrumented targets, validate serial behavior, then request human probe placement and scope settings/capture only.
