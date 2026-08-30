@@ -1,39 +1,37 @@
 # Goal
 
-**SCOPE DOWN.** Complete and freeze the minimum valid G431-A/G474-A extension package using the passed `NOMINAL_002`, three blocks of the six serviceable delays `50, 90, 100, 110, 150, 250 ms` with interleaved NC, and the two-exposure BAD_CRC mechanism check. Preserve `R002_B1_D500` permanently as invalid evidence; do not retry, replace, delete, or include it in a valid-condition denominator.
+Reproduce the selected supervision-boundary observations on the second physical controller G431-B using the same G474-A payload simulator, after the primary G431-A/G474-A scope-down package has passed work review.
 
 # Why
 
-At 500 ms, the current payload firmware blocks for one full controller poll period while answering a request, and its link service continues draining newly queued polls before returning to host-command service. The sent `NORMAL` command is therefore starved and never confirmed, so restoration and stabilization are not achievable under the required protocol. Fixing the scheduler would change payload behavior and firmware identity, requiring a fresh internally consistent campaign. Removing 500 ms retains below/near/above-boundary coverage through 250 ms and preserves the higher-value 100 ms boundary question without mixing firmware semantics.
+The primary package is scientifically accepted: nominal, six-delay/NC, BAD_CRC, accounting, provenance, inventory, and backup gates pass. The highest-value remaining hardware task is a bounded second-controller check at 90, 100, and 110 ms. This can support only the statement that selected observations were reproduced on a second physical G431 controller using the same payload simulator; it is not an independent second board pair or a device-population estimate.
+
+The primary sustained BAD_CRC field `offline_before_restore=false` is a non-blocking derived-field ambiguity and must not be cited. The accepted mechanism statement rests on the ordered raw markers and harness control flow that waited for `PAYLOAD_OFFLINE consecutive=3` before issuing restore. Do not modify the frozen primary package.
 
 # Experimental Conditions
 
-- Keep the original plan, `R001_B1_D110`, `R002_B1_D500`, both R002 raw logs, and the existing results/partial inventory immutable. Their verified R002 log SHA-256 values are G431 `08022AE828B5AF1715BF9991FBCF8DF2B9D399263B90B64F131F2720D732EDF3` and G474 `3062DA9486CE630E4821D075464766DFDFE863576288C3C4469F7F6A1F7E130D`.
-- Before resuming, create an append-only amended execution plan derived mechanically from the original order: retain blocks 1–3, omit only every unstarted 500 ms row, and do not reorder or renumber any retained row. Record the amended plan and its SHA-256 before acquisition.
-- Count valid `R001_B1_D110` toward block 1. Retain invalid R002 in the attempt ledger but exclude it from all valid-condition summaries. Continue with the remaining original rows through block 3, skipping `R011_B2_D500` and `R021_B3_D500` as predeclared scope removals.
-- Recover from the R002 starvation with one documented payload-only reset if required; this is an exceptional recovery action, not a per-trial reset. Do not reset G431-A. Reopen capture as needed, reconfirm the same board identities and unchanged firmware hashes, obtain fresh payload-side `NORMAL`, observe controller recovery/`ONLINE`, and pass the full stabilization gate before the next retained row.
-- Use the unchanged 4 s observation framework. Each completed block contains one trial at `50, 90, 100, 110, 150, 250 ms` and two NC trials, preserving the original relative order and NC spacing.
-- After three complete blocks, run BAD_CRC once with restoration immediately after the first confirmed CRC rejection and once held through `PAYLOAD_OFFLINE consecutive=3`, with confirmed restoration and stabilization after each.
-- Do not change or rebuild firmware for this continuation. Do not alter the frozen dataset, provenance, or manuscript.
+- Use G431-B as controller and the same G474-A as payload. Freshly enumerate and record both ST-LINK identities and host ports; do not infer G431-B identity from port number.
+- Use controller firmware/configuration identical to the reviewed primary campaign where scientifically appropriate. Record G431-B application and bootloader binaries/hashes separately and retain the unchanged G474-A firmware hash.
+- Store replication evidence in a new exclusive extension directory. Do not modify the frozen baseline or `primary_20260830_seed20260830_b5`.
+- Precommit a seeded three-block plan before acquisition. Each block contains one NC and one trial at each of `90, 100, 110 ms`, for 12 observations total. Randomize within blocks while retaining exact identifiers and order.
+- Use the same dual-channel exact-byte logging, exact delay/NC activation confirmations, 4 s observation window, restoration confirmation, and full pre/post stabilization gate as the primary campaign.
+- Do not use routine per-trial resets and do not run 500 ms, BAD_CRC, G431-A reacquisition, oscilloscope, F411, or manuscript work in this milestone.
 
 # Acceptance Criteria
 
-- `NOMINAL_002` remains the accepted nominal observation: 605.0 s, 121 `ONLINE` status records, strictly increasing `ok`, zero timeout/CRC/sequence/recovery deltas, and no prohibited marker.
-- Three complete amended blocks yield 3 valid observations at each of `50, 90, 100, 110, 150, 250 ms` and 6 valid NC observations. Every retained trial has exact activation confirmation, attributable raw logs, confirmed `NORMAL` restoration, and passed post-stabilization.
-- All NC false rejection/timeout/offline/recovery/restart markers are quantified. Delay outcomes are reported descriptively as accepted response, timeout, sequence rejection, OFFLINE, restoration, and recovery observations; no device-population or MCU-latency inference is made.
-- R002 remains visibly invalid with reason `NORMAL_RESTORE_NOT_CONFIRMED`; the final accounting distinguishes original-plan rows, attempted rows, valid rows, invalid rows, and rows removed by the scope decision.
-- The short BAD_CRC exposure shows CRC rejection without immediate OFFLINE and returns to stable `ONLINE`; the sustained exposure reaches OFFLINE only at the three-timeout accumulation and then confirms restoration/recovery.
-- Machine validation passes for amended-plan/results/raw-log consistency, serial health, stabilization, unchanged firmware attribution, and evidence hashes.
-- The frozen dataset and provenance inventory hashes remain `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD` and `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`.
+- All 12 planned observations are retained with attributable raw logs, activation confirmation, validity status, confirmed `NORMAL` restoration, and passed post-stabilization; no failed or inconvenient row is deleted or replaced.
+- The three NC observations quantify every false rejection/timeout/OFFLINE/recovery/restart/poll-write-failure marker.
+- The three observations at each of 90, 100, and 110 ms report accepted response, timeout, sequence rejection, OFFLINE, restoration, and recovery descriptively. A reproduction claim is allowed only for outcomes actually observed on both controllers.
+- Board identity, source commit/state, wiring, firmware/configuration hashes, seed/plan, raw logs, results, deviations, and measurement definitions are complete and internally consistent.
+- Validation and inventory checks pass, the reviewed primary package and frozen baseline hashes remain unchanged, and the separate replication package is committed and backed up.
 
 # Evidence Required
 
-- Append-only decision/amendment record linking the original plan hash to the amended three-block, six-delay execution plan and stating why 500 ms was removed
-- Preserved R002 result, both raw logs, verified hashes, starvation-cause record, and any exceptional payload-reset/recovery record
-- Exact-byte plus readable dual-channel logs and stabilization evidence for every resumed, attempted, or completed observation
-- Results ledger and descriptive summary that retain invalid/dropped rows without replacement and separate them from valid denominators
-- BAD_CRC mechanism trace, final validation, complete extension SHA-256 inventory, extension evidence commit, frozen-inventory recheck, and backup record
+- G431-B/G474-A identity and port record, wiring/configuration record, source-state record, exact firmware binaries/hashes, and precommitted plan/seed
+- Exact-byte plus readable G431-B and G474-A logs for every attempted NC and delay observation
+- Per-observation results and stabilization records, descriptive cross-controller comparison, validation, deviations, and complete SHA-256 inventory
+- Replication evidence commit, independent frozen-primary/baseline recheck, and verified backup record
 
 # Stop / Scope-Down Rule
 
-Do not fix the payload scheduler or reacquire R002 tonight. If the exceptional payload recovery cannot reach a clean stabilization gate, or if any retained condition at or below 250 ms cannot confirm restoration/stabilization, preserve the attempt and stop for review. Do not shorten below three complete blocks or omit either BAD_CRC exposure and still call the milestone complete. Stop acquisition with 20–30 minutes remaining for validation, hashes, commit, and backup; drop G431-B replication, oscilloscope, F411, and manuscript work for this session.
+If remaining hardware access cannot accommodate all 12 observations plus a 20–30 minute evidence freeze, DROP this replication before acquisition rather than reduce it post hoc. If identity, serial integrity, activation, restoration, or stabilization fails, preserve the attempt and stop for review. Do not change payload scheduling, firmware semantics, or the condition set to rescue an unexpected outcome.

@@ -1,0 +1,35 @@
+{
+  "blocks": 3,
+  "board_identity": {
+    "controller": "G431-B NUCLEO-G431RB",
+    "payload": "G474-A NUCLEO-G474RE"
+  },
+  "conditions_per_block": [
+    "NC",
+    "DELAY_90_MS",
+    "DELAY_100_MS",
+    "DELAY_110_MS"
+  ],
+  "deviations": [],
+  "measurement_definitions": {
+    "activation": "Exact G474 MODE=NORMAL or MODE=DELAYED delay_ms=<requested> confirmation; command-send alone is insufficient",
+    "reproduction": "An outcome is reproduced only when actually observed in all three G431-B rows and in all three reviewed G431-A rows for that condition",
+    "stabilization": "Fresh NORMAL confirmation, serial boundary, ONLINE baseline and later ONLINE with ok increase >=3, zero counter delta, no unresolved marker",
+    "trial_window": "Four seconds from confirmed-condition command boundary using the primary harness implementation"
+  },
+  "observation_s": 4.0,
+  "plan_sha256": "D631AC024CA033EA47FA340921549D56FA845A79784599D14938225015E6A901",
+  "planned_observations": 12,
+  "prepared_host_time": "2026-08-30T14:22:55.701307+00:00",
+  "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii; raw_hex is authoritative",
+  "routine_mcu_reset_per_trial": false,
+  "schema_version": 1,
+  "scope": "Second-controller reproduction: G431-B with the same G474-A; not an independent board pair",
+  "seed": 20260830,
+  "source_branch_at_prepare": "experiment/icsec-extension-20260830",
+  "source_commit_at_prepare": "45080a894fb6e18b178ac818e1ad03ae9024fdc6",
+  "source_status_at_prepare": "M research/icsec2026/NEXT_TASK.md\n?? research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/\n?? research/icsec2026/extension/run_g431b_replication.py\n?? research/icsec2026/extension/test_g431b_replication.py",
+  "status": "PREPARED_PLAN_LOCKED",
+  "timing_definition": "Host-observed serial receipt and command-send boundaries; no MCU execution-latency inference",
+  "wiring": "G431 PC4 TX -> G474 PC5 RX; G431 PC5 RX <- G474 PC4 TX; common GND; 115200 8N1"
+}

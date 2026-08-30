@@ -421,3 +421,21 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Unresolved uncertainty: remaining lab-access time was not supplied; acquisition will use the five-block plan unless the director-defined time rule forces the three-block scope-down.
 - Evidence-readiness finding: the 4 s trial window is shorter than the controller's 5 s aggregate status period. Minimal extension-only G431 instrumentation now emits `PAYLOAD_ACCEPTED seq=<n> mode=<n>` after each accepted response so accepted responses are directly attributable without inferring success from marker absence.
 - Next action: finish host tests and both firmware builds, precommit the seeded plan, then request only the physical board connection needed for flashing/acquisition.
+
+### G431-B replication readiness (2026-08-30T21:23:04+07:00)
+
+- Research review passed the primary scope-down milestone and authorized the bounded G431-B/G474-A replication in the current `NEXT_TASK.md`.
+- Active branch: `experiment/icsec-extension-20260830`; readiness starting commit: `45080a894fb6e18b178ac818e1ad03ae9024fdc6`; frozen base `8a47d070c549274c59cdbde2495afa8d353a93b3` remains an ancestor.
+- Initial working tree contained only the Research Director's modified `research/icsec2026/NEXT_TASK.md`; this change is preserved.
+- Frozen dataset inventory reverified as `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD`; frozen provenance inventory reverified as `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`; reviewed primary inventory reverified as `8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B`.
+- The primary sustained BAD_CRC derived field `offline_before_restore=false` is prohibited from citation. The accepted evidence is the ordered raw marker sequence and harness control flow that waited for `PAYLOAD_OFFLINE consecutive=3` before restore.
+- Added `research/icsec2026/extension/run_g431b_replication.py` and its host tests. It reuses the primary exact-byte dual-channel capture, exact activation confirmation, four-second observation, restoration, and stabilization implementations; no firmware semantics were changed.
+- Replication host suite passes 6/6 including the four existing primary tests. Python compilation and `git diff --check` pass.
+- Precommitted exclusive evidence package: `research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/`.
+- Precommitted plan seed: `20260830`; 3 randomized blocks; one NC and one each of 90/100/110 ms per block; 12 rows; plan SHA-256 `D631AC024CA033EA47FA340921549D56FA845A79784599D14938225015E6A901`.
+- Firmware candidates are unchanged and hash-identical to the reviewed primary: G431 application `6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727`; G431 bootloader `FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E`; G474 payload `5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7`.
+- Current fresh enumeration still identifies G431-A ST-LINK `005100243032511537333436` on COM8 and G474-A ST-LINK `0041003D3234510F37333934` on COM9. G431-B is not connected, so no replication acquisition has started.
+- Hardware identity/configuration: pending fresh enumeration of G431-B after the physical swap; G474-A remains exact serial `0041003D3234510F37333934`; prescribed UART wiring remains G431 PC4 TX to G474 PC5 RX, G431 PC5 RX from G474 PC4 TX, common GND, 115200 8N1.
+- Completed replication experiments: none. Evidence currently contains only the locked plan/configuration/manifest; no observation row has been attempted.
+- Remaining time: not supplied. Per `NEXT_TASK.md`, acquisition will not start unless all 12 observations plus evidence freeze can be completed.
+- Next action: commit replication readiness, then physically replace G431-A with G431-B while retaining G474-A and the same UART wiring; freshly enumerate exact identities/ports before exact-target flashing.
