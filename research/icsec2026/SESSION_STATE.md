@@ -490,3 +490,6 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Completed experiment: bounded GPIO-edge feasibility only. Unresolved uncertainty: the internal Wave(Binary) record is not independently verifiable unless later exported; no quantitative timing claim is supported.
 - Next action: freeze, inventory, commit, and back up this clearly labeled feasibility package; no additional hardware acquisition is authorized under the hard lab stop.
 - Feasibility package inventory contains 19 artifacts and independently verifies with zero missing, size, or SHA-256 mismatches. `SCOPE_FEASIBILITY_SHA256SUMS.csv` SHA-256 is `519E7E142DFAFEA4736CA74D945B3197D106714F9B6B1A6B45C75309EC4B1B0E` (inventory excludes itself).
+- Frozen feasibility evidence commit: `d7205914745688a781d8aed5199eb5306965216e`.
+- Exact-copy backup completed at `C:/WashiOS-extension-backup/scope_g431b_g474a_110ms_20260830`; all 19 inventory rows independently verify with zero issues (20 total files including inventory), and source/backup inventory hashes both equal `519E7E142DFAFEA4736CA74D945B3197D106714F9B6B1A6B45C75309EC4B1B0E`.
+- Oscilloscope stretch is complete as a dropped quantitative milestone with retained feasibility evidence only. Next action: WORK_REVIEW_REQUIRED.
