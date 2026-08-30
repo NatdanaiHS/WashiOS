@@ -379,6 +379,8 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Precommitted plan: seed `20260830`, five blocks, 45 rows (35 delay and 10 NC), all seven delays per block, nonadjacent NC, at most four intervening delay trials. Plan SHA-256 `24AD8C20778472BFFC644557D2284D15A481804A1820BDA05A1827D3C88EBBDE`.
 - Prepared extension evidence path: `research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/`.
 - Completed experiments: none yet; no hardware was connected or flashed during readiness work.
+- Readiness milestone commit: `4a522eb2f1a8abb6b6599964ae4a0cf5e9db2939`; working tree verified clean immediately afterward.
+- Current physical blocker: no ST-LINK device or ST-LINK virtual COM port is enumerated. Both intended boards must be connected with the specified UART wiring before exact-identity flashing and acquisition can proceed.
 - Unresolved uncertainty: remaining lab-access time was not supplied; acquisition will use the five-block plan unless the director-defined time rule forces the three-block scope-down.
 - Evidence-readiness finding: the 4 s trial window is shorter than the controller's 5 s aggregate status period. Minimal extension-only G431 instrumentation now emits `PAYLOAD_ACCEPTED seq=<n> mode=<n>` after each accepted response so accepted responses are directly attributable without inferring success from marker absence.
 - Next action: finish host tests and both firmware builds, precommit the seeded plan, then request only the physical board connection needed for flashing/acquisition.
