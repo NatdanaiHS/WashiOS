@@ -81,6 +81,7 @@ private:
                 if (result == comms::PayloadValidationResult::Ok)
                 {
                     lastRejection = comms::PayloadValidationResult::Ok;
+                    logAccepted();
                     if (previousState == comms::PayloadLinkState::Offline)
                     {
                         logRecovery();
@@ -190,6 +191,17 @@ private:
         (void)line.appendI32(telemetry.simulatedSensorMilliunits);
         (void)line.append(" mode=");
         (void)line.appendU32(static_cast<uint32_t>(telemetry.mode));
+        (void)line.append("\r\n");
+        writeLine(line);
+    }
+
+    void logAccepted()
+    {
+        core::FixedTextWriter<88U> line;
+        (void)line.append("[OBC] PAYLOAD_ACCEPTED seq=");
+        (void)line.appendU32(controller.awaitedSequence());
+        (void)line.append(" mode=");
+        (void)line.appendU32(static_cast<uint32_t>(controller.latestTelemetry().mode));
         (void)line.append("\r\n");
         writeLine(line);
     }

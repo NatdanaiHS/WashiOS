@@ -12,7 +12,7 @@ namespace
 constexpr uint32_t BaudRate = 115200U;
 constexpr uint32_t UartTimeoutMs = 10U;
 constexpr uint32_t ButtonDebounceMs = 50U;
-constexpr uint32_t DelayedResponseMs = 250U;
+constexpr uint32_t DefaultDelayedResponseMs = 250U;
 constexpr uint32_t LinkStatusPeriodMs = 1000U;
 constexpr std::size_t LinkReceiveBufferCapacity = 128U;
 constexpr std::size_t DebugReceiveBufferCapacity = 64U;
@@ -22,6 +22,7 @@ UART_HandleTypeDef debugUart = {};
 UART_HandleTypeDef linkUart = {};
 comms::PayloadFrameDecoder requestDecoder;
 comms::PayloadMode currentMode = comms::PayloadMode::Normal;
+uint32_t delayedResponseMs = DefaultDelayedResponseMs;
 uint32_t sampleCounter = 0U;
 uint8_t linkReceiveBuffer[LinkReceiveBufferCapacity] = {};
 uint8_t debugReceiveBuffer[DebugReceiveBufferCapacity] = {};
@@ -185,6 +186,11 @@ void logMode()
     core::FixedTextWriter<64U> line;
     (void)line.append("[PAYLOAD] MODE=");
     (void)line.append(modeName(currentMode));
+    if (currentMode == comms::PayloadMode::Delayed)
+    {
+        (void)line.append(" delay_ms=");
+        (void)line.appendU32(delayedResponseMs);
+    }
     (void)line.append("\r\n");
     writeDebug(line);
 }
@@ -219,11 +225,13 @@ void serviceHostCommands()
         }
 
         comms::PayloadMode selectedMode = currentMode;
+        uint32_t selectedDelayMs = delayedResponseMs;
         const HostModeCommandParser::Event event =
-            hostCommandParser.consume(byte, selectedMode);
+            hostCommandParser.consume(byte, selectedMode, selectedDelayMs);
         if (event == HostModeCommandParser::Event::ModeSelected)
         {
             currentMode = selectedMode;
+            delayedResponseMs = selectedDelayMs;
             logMode();
         }
         else if (event == HostModeCommandParser::Event::InvalidCommand)
@@ -298,7 +306,7 @@ void handleRequest(const uint8_t* requestData)
     {
         return;
     }
-    if (currentMode == comms::PayloadMode::Delayed) HAL_Delay(DelayedResponseMs);
+    if (currentMode == comms::PayloadMode::Delayed) HAL_Delay(delayedResponseMs);
 
     const comms::PayloadTelemetry telemetry = {
         HAL_GetTick(), sampleCounter, simulatedSensorValue(), currentMode

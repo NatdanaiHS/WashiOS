@@ -354,3 +354,31 @@ SCIENTIFIC_REVIEW_V2_COMPLETE. Await review of the v2 checkpoint package; hardwa
 ## HUMAN ACTION REQUIRED
 
 None at this milestone.
+
+---
+
+## Lab extension session (2026-08-30)
+
+Last updated: 2026-08-30T20:14:00+07:00
+
+- Active branch: `experiment/icsec-extension-20260830`
+- Frozen base/current source commit before extension edits: `8a47d070c549274c59cdbde2495afa8d353a93b3`
+- Initial working tree: director-owned modified `research/icsec2026/NEXT_TASK.md` and untracked `research/icsec2026/LAB_EXTENSION_BRIEF.md`; no other changes.
+- Frozen dataset: `research/icsec2026/runs/full_20260830_seed20260830_n30/`; inventory SHA-256 reverified as `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD`.
+- Frozen provenance: `research/icsec2026/provenance/20260830_023830/`; inventory SHA-256 reverified as `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`.
+- Frozen manuscript: `research/icsec2026/manuscript/`; unchanged.
+- Extension objective: primary G431-A/G474-A nominal, interleaved delay/NC, and two-exposure BAD_CRC package under `research/icsec2026/extension/`.
+- Readiness finding: frozen G474 responder implements only fixed 250 ms `MODE DELAYED` and cannot confirm an exact requested delay. Minimal extension implementation is in progress to accept `MODE DELAYED <ms>` and emit `MODE=DELAYED delay_ms=<ms>`.
+- Modified extension files: `demo-payload/src/HostModeCommandParser.hpp`, `demo-payload/src/main.cpp`, `demo-payload/test/test_host_mode_command/test_main.cpp`, and `core/src/app/PayloadLinkTask.hpp`; new extension harness/tests under `research/icsec2026/extension/`.
+- Validation: native command-parser tests pass 3/3 after exact-delay support; extension host tests pass 3/3; legacy injector host tests pass 11/11; core native/SITL tests pass 38/38; G474 responder, G431 payload-demo application, and matched G431 bootloader builds pass.
+- Hardware enumeration at 20:05 +07: no ST-LINK virtual COM ports present; COM3/COM4/COM5/COM7 are Bluetooth serial ports. Previously recorded board identities/ports are historical and will not be reused without fresh enumeration.
+- Hardware identity intended by methodology: G431-A ST-LINK `005100243032511537333436`; G474-A ST-LINK `0041003D3234510F37333934`; fresh confirmation pending connection.
+- Extension G474 firmware: 8,944 bytes, SHA-256 `5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7`.
+- Extension G431 application: 20,256 bytes, SHA-256 `6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727`.
+- Matched G431 bootloader: SHA-256 `FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E`.
+- Precommitted plan: seed `20260830`, five blocks, 45 rows (35 delay and 10 NC), all seven delays per block, nonadjacent NC, at most four intervening delay trials. Plan SHA-256 `24AD8C20778472BFFC644557D2284D15A481804A1820BDA05A1827D3C88EBBDE`.
+- Prepared extension evidence path: `research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/`.
+- Completed experiments: none yet; no hardware was connected or flashed during readiness work.
+- Unresolved uncertainty: remaining lab-access time was not supplied; acquisition will use the five-block plan unless the director-defined time rule forces the three-block scope-down.
+- Evidence-readiness finding: the 4 s trial window is shorter than the controller's 5 s aggregate status period. Minimal extension-only G431 instrumentation now emits `PAYLOAD_ACCEPTED seq=<n> mode=<n>` after each accepted response so accepted responses are directly attributable without inferring success from marker absence.
+- Next action: finish host tests and both firmware builds, precommit the seeded plan, then request only the physical board connection needed for flashing/acquisition.

@@ -1,0 +1,39 @@
+{
+  "blocks": 5,
+  "board_configuration": {
+    "controller": "G431-A NUCLEO-G431RB",
+    "controller_stlink_serial": "005100243032511537333436",
+    "interboard_uart": "G431 PC4 TX -> G474 PC5 RX; G431 PC5 RX <- G474 PC4 TX; common GND; 115200 8N1",
+    "payload": "G474-A NUCLEO-G474RE",
+    "payload_stlink_serial": "0041003D3234510F37333934"
+  },
+  "delay_values_ms": [
+    50,
+    90,
+    100,
+    110,
+    150,
+    250,
+    500
+  ],
+  "deviations": [],
+  "literal_status_warning": "heartbeat=OK watchdog=OK are literal strings, not independent measurements",
+  "measurement_definitions": {
+    "all_intervals": "host-observed serial receipt or command-send intervals",
+    "delay_activation": "G474 exact [PAYLOAD] MODE=DELAYED delay_ms=<requested> confirmation",
+    "normal_control_activation": "fresh G474 [PAYLOAD] MODE=NORMAL confirmation",
+    "stabilization": "fresh NORMAL confirmation, post-confirmation serial boundary, ONLINE status baseline and later ONLINE status with ok increase >=3, zero fault-counter delta, and no prohibited marker",
+    "trial_window": "four seconds beginning at the host command-send boundary after exact activation confirmation is required"
+  },
+  "nominal_requested_s": 605.0,
+  "normal_controls_per_block": 2,
+  "observation_s": 4.0,
+  "plan_sha256": "24AD8C20778472BFFC644557D2284D15A481804A1820BDA05A1827D3C88EBBDE",
+  "prepared_host_time": "2026-08-30T13:12:10.420505+00:00",
+  "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
+  "schema_version": 1,
+  "seed": 20260830,
+  "source_branch": "experiment/icsec-extension-20260830",
+  "source_commit_at_prepare": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "status": "PREPARED"
+}
