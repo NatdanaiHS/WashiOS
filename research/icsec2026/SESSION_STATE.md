@@ -458,3 +458,6 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Frozen dataset, frozen provenance, and reviewed primary inventory hashes remain unchanged at `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD`, `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`, and `8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B`.
 - Completed experiments: the entire authorized 12-observation replication milestone. Unresolved uncertainty: none blocks this package; shared G474-A and sequential-controller limits remain explicit.
 - Remaining time: not supplied. Next action: commit the frozen replication evidence, make the planned exact-copy backup, independently verify every copied inventory row, then stop for work review.
+- Frozen replication evidence commit: `0f77fec1eb35e482fa27e932d3b22224edd6607c`.
+- Exact-copy backup completed at `C:/WashiOS-extension-backup/replication_g431b_20260830_seed20260830_b3`. Source and backup inventory SHA-256 values both equal `F13EBB7FEB42FB3F67E56A8503CB6D70A5F630F2C864A16B22D5BF4D9D19CCE9`; all 42 inventoried rows independently verify with zero missing, size, or hash mismatches (43 total files including the inventory).
+- Replication milestone is scientifically complete. Next action: WORK_REVIEW_REQUIRED; do not begin oscilloscope, F411, manuscript, or additional acquisition work under this milestone.

@@ -1,0 +1,14 @@
+{
+  "status": "COMPLETE_VERIFIED",
+  "completed_host_time": "2026-08-30T21:34:55+07:00",
+  "evidence_commit": "0f77fec1eb35e482fa27e932d3b22224edd6607c",
+  "source": "C:/WashiOS/research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3",
+  "destination": "C:/WashiOS-extension-backup/replication_g431b_20260830_seed20260830_b3",
+  "source_inventory_sha256": "F13EBB7FEB42FB3F67E56A8503CB6D70A5F630F2C864A16B22D5BF4D9D19CCE9",
+  "backup_inventory_sha256": "F13EBB7FEB42FB3F67E56A8503CB6D70A5F630F2C864A16B22D5BF4D9D19CCE9",
+  "inventoried_rows_verified": 42,
+  "total_files_including_inventory": 43,
+  "missing_files": 0,
+  "size_mismatches": 0,
+  "sha256_mismatches": 0
+}
