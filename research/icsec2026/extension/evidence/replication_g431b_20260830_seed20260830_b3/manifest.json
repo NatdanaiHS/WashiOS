@@ -1,8 +1,15 @@
 {
+  "acquisition_finished_host_time": "2026-08-30T14:32:59.179057+00:00",
+  "acquisition_started_host_time": "2026-08-30T14:28:51.026271+00:00",
+  "attempted_rows": 12,
   "blocks": 3,
   "board_identity": {
     "controller": "G431-B NUCLEO-G431RB",
-    "payload": "G474-A NUCLEO-G474RE"
+    "controller_port": "COM10",
+    "controller_stlink_serial": "0029002B3032511537333436",
+    "payload": "G474-A NUCLEO-G474RE",
+    "payload_port": "COM9",
+    "payload_stlink_serial": "0041003D3234510F37333934"
   },
   "conditions_per_block": [
     "NC",
@@ -11,6 +18,14 @@
     "DELAY_110_MS"
   ],
   "deviations": [],
+  "failure": null,
+  "final_normal_command_host_time": "2026-08-30T14:32:59.090695+00:00",
+  "final_normal_confirmation_host_time": "2026-08-30T14:32:59.114661+00:00",
+  "firmware_sha256": {
+    "g431_b_application.bin": "6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727",
+    "g431_b_bootloader.bin": "FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E",
+    "g474_a_payload.bin": "5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7"
+  },
   "measurement_definitions": {
     "activation": "Exact G474 MODE=NORMAL or MODE=DELAYED delay_ms=<requested> confirmation; command-send alone is insufficient",
     "reproduction": "An outcome is reproduced only when actually observed in all three G431-B rows and in all three reviewed G431-A rows for that condition",
@@ -27,9 +42,11 @@
   "scope": "Second-controller reproduction: G431-B with the same G474-A; not an independent board pair",
   "seed": 20260830,
   "source_branch_at_prepare": "experiment/icsec-extension-20260830",
+  "source_commit_at_acquisition": "2da2d11194307afac974b58aa6e780d456ff53fa",
   "source_commit_at_prepare": "45080a894fb6e18b178ac818e1ad03ae9024fdc6",
+  "source_status_at_acquisition": "",
   "source_status_at_prepare": "M research/icsec2026/NEXT_TASK.md\n?? research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/\n?? research/icsec2026/extension/run_g431b_replication.py\n?? research/icsec2026/extension/test_g431b_replication.py",
-  "status": "PREPARED_PLAN_LOCKED",
+  "status": "ACQUISITION_COMPLETE",
   "timing_definition": "Host-observed serial receipt and command-send boundaries; no MCU execution-latency inference",
   "wiring": "G431 PC4 TX -> G474 PC5 RX; G431 PC5 RX <- G474 PC4 TX; common GND; 115200 8N1"
 }

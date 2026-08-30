@@ -1,0 +1,35 @@
+{
+  "accounting": {
+    "attempted": 12,
+    "invalid": 0,
+    "planned": 12,
+    "valid": 12
+  },
+  "acquisition_source_commit": "2da2d11194307afac974b58aa6e780d456ff53fa",
+  "board_identity": {
+    "controller": "G431-B NUCLEO-G431RB",
+    "controller_port": "COM10",
+    "controller_stlink_serial": "0029002B3032511537333436",
+    "payload": "G474-A NUCLEO-G474RE",
+    "payload_port": "COM9",
+    "payload_stlink_serial": "0041003D3234510F37333934"
+  },
+  "firmware_sha256": {
+    "g431_b_application.bin": "6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727",
+    "g431_b_bootloader.bin": "FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E",
+    "g474_a_payload.bin": "5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7"
+  },
+  "frozen_base_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "interpretation_boundary": "No independent-pair, device-population, qualification, long-duration, mission-reliability, or MCU execution-latency inference",
+  "last_confirmed_payload_state": "NORMAL after final valid post-stabilization gate",
+  "plan": {
+    "rows": 12,
+    "seed": 20260830,
+    "sha256": "D631AC024CA033EA47FA340921549D56FA845A79784599D14938225015E6A901"
+  },
+  "scope": "Selected observations on G431-B using the same G474-A; second-controller reproduction only, not an independent board pair",
+  "source_branch": "experiment/icsec-extension-20260830",
+  "status": "COMPLETE",
+  "validation": "final_validation.json valid=true",
+  "wiring": "G431 PC4 TX -> G474 PC5 RX; G431 PC5 RX <- G474 PC4 TX; common GND; 115200 8N1"
+}

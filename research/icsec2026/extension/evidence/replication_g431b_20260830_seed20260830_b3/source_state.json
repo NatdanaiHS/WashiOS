@@ -1,0 +1,7 @@
+{
+  "branch": "experiment/icsec-extension-20260830",
+  "commit": "2da2d11194307afac974b58aa6e780d456ff53fa",
+  "finalized_host_time": "2026-08-30T14:33:27.246239+00:00",
+  "harness_sha256": "950504EBC8EEEBEDE6A254613B818BCCE459DB30519CFA494D9212EA723A9B05",
+  "status": "M research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/manifest.json\n?? research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/descriptive_cross_controller_summary.json\n?? research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/readiness_validation.json\n?? research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/results.json\n?? research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/results_ledger.csv"
+}

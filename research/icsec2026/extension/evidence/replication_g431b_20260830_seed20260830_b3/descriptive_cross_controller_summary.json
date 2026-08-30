@@ -1,0 +1,149 @@
+{
+  "accounting": {
+    "attempted": 12,
+    "invalid": 0,
+    "planned": 12,
+    "valid": 12
+  },
+  "cross_controller_reproduction": {
+    "100": {
+      "accepted_delayed_response_observed": {
+        "g431_a_count": 0,
+        "g431_b_count": 0,
+        "same_all_or_none_pattern": true
+      },
+      "offline_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "recovery_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "restoration_confirmed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "sequence_rejection_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "timeout_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      }
+    },
+    "110": {
+      "accepted_delayed_response_observed": {
+        "g431_a_count": 0,
+        "g431_b_count": 0,
+        "same_all_or_none_pattern": true
+      },
+      "offline_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "recovery_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "restoration_confirmed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "sequence_rejection_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "timeout_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      }
+    },
+    "90": {
+      "accepted_delayed_response_observed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "offline_observed": {
+        "g431_a_count": 0,
+        "g431_b_count": 0,
+        "same_all_or_none_pattern": true
+      },
+      "recovery_observed": {
+        "g431_a_count": 0,
+        "g431_b_count": 0,
+        "same_all_or_none_pattern": true
+      },
+      "restoration_confirmed": {
+        "g431_a_count": 3,
+        "g431_b_count": 3,
+        "same_all_or_none_pattern": true
+      },
+      "sequence_rejection_observed": {
+        "g431_a_count": 0,
+        "g431_b_count": 0,
+        "same_all_or_none_pattern": true
+      },
+      "timeout_observed": {
+        "g431_a_count": 0,
+        "g431_b_count": 0,
+        "same_all_or_none_pattern": true
+      }
+    }
+  },
+  "g431_b_delay_summary": {
+    "100": {
+      "accepted_delayed_response_observed": 0,
+      "offline_observed": 3,
+      "recovery_observed": 3,
+      "restoration_confirmed": 3,
+      "sequence_rejection_observed": 3,
+      "timeout_observed": 3,
+      "valid_observations": 3
+    },
+    "110": {
+      "accepted_delayed_response_observed": 0,
+      "offline_observed": 3,
+      "recovery_observed": 3,
+      "restoration_confirmed": 3,
+      "sequence_rejection_observed": 3,
+      "timeout_observed": 3,
+      "valid_observations": 3
+    },
+    "90": {
+      "accepted_delayed_response_observed": 3,
+      "offline_observed": 0,
+      "recovery_observed": 0,
+      "restoration_confirmed": 3,
+      "sequence_rejection_observed": 0,
+      "timeout_observed": 0,
+      "valid_observations": 3
+    }
+  },
+  "interpretation_boundary": "No independent-pair, device-population, qualification, long-duration, mission-reliability, or MCU execution-latency inference",
+  "normal_control": {
+    "false_markers": {
+      "crc_rejection_markers": 0,
+      "offline_markers": 0,
+      "poll_write_failure_markers": 0,
+      "recovery_markers": 0,
+      "restart_markers": 0,
+      "sequence_rejection_markers": 0,
+      "timeout_markers": 0
+    },
+    "valid_observations": 3
+  },
+  "scope": "Selected observations on G431-B using the same G474-A; second-controller reproduction only, not an independent board pair"
+}

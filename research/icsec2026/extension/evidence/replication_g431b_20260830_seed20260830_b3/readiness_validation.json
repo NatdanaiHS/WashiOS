@@ -1,0 +1,40 @@
+{
+  "counter_deltas": {
+    "crc": 0,
+    "recovery": 0,
+    "seq": 0,
+    "timeout": 0
+  },
+  "evaluated_boundary_host_time": "2026-08-30T14:28:54.193554+00:00",
+  "failures": [],
+  "normal_command_host_time": "2026-08-30T14:28:51.252260+00:00",
+  "normal_confirmation_host_time": "2026-08-30T14:28:51.311345+00:00",
+  "pre_baseline_markers": [],
+  "prohibited_markers": [],
+  "serial_boundary_host_time": "2026-08-30T14:28:51.311345+00:00",
+  "status_records": [
+    {
+      "crc": 0,
+      "host_time": "2026-08-30T14:28:54.193554+00:00",
+      "monotonic_s": 9814.0,
+      "ok": 30,
+      "polls": 30,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-08-30T14:28:59.190209+00:00",
+      "monotonic_s": 9819.0,
+      "ok": 40,
+      "polls": 40,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    }
+  ],
+  "valid": true
+}

@@ -439,3 +439,22 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Completed replication experiments: none. Evidence currently contains only the locked plan/configuration/manifest; no observation row has been attempted.
 - Remaining time: not supplied. Per `NEXT_TASK.md`, acquisition will not start unless all 12 observations plus evidence freeze can be completed.
 - Next action: commit replication readiness, then physically replace G431-A with G431-B while retaining G474-A and the same UART wiring; freshly enumerate exact identities/ports before exact-target flashing.
+
+### G431-B replication acquisition and freeze (2026-08-30T21:33:50+07:00)
+
+- Fresh USB-parent enumeration identified G431-B as ST-LINK `0029002B3032511537333436` on COM10 and independently reconfirmed the same G474-A as ST-LINK `0041003D3234510F37333934` on COM9. Identity was not inferred from port number.
+- Exact-target OpenOCD flashing verified G431-B application `6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727` at `0x08004000` and bootloader `FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E` at `0x08000000`; raw flash logs are retained. G474-A firmware was unchanged at `5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7`.
+- Acquisition source commit: `2da2d11194307afac974b58aa6e780d456ff53fa`; source status at acquisition was clean. No routine per-trial MCU reset was performed.
+- Readiness gate passed: fresh G474 NORMAL, G431-B ONLINE, `ok` 30 to 40, zero timeout/CRC/sequence/recovery deltas, and no prohibited marker.
+- The exact precommitted plan SHA-256 `D631AC024CA033EA47FA340921549D56FA845A79784599D14938225015E6A901` completed in order: 12 attempted, 12 valid, zero invalid, zero omitted, zero replacement.
+- All three NC observations had zero false CRC/sequence rejection, timeout, OFFLINE, recovery, restart, or poll-write-failure markers.
+- At 90 ms, all three G431-B observations had accepted delayed responses and no timeout, sequence rejection, OFFLINE, or recovery; all three restored and stabilized.
+- At 100 ms and 110 ms, all three observations at each delay had timeout, sequence rejection, and OFFLINE, followed by confirmed NORMAL restoration, recovery, and passed stabilization; no delayed response was accepted.
+- Cross-controller comparison matches the reviewed G431-A all/none outcome pattern for accepted response, timeout, sequence rejection, OFFLINE, restoration, and recovery at 90/100/110 ms. The supported claim is only selected-observation reproduction on a second physical G431 controller using the same G474-A, not an independent board pair or population estimate.
+- Final payload state: fresh NORMAL confirmation after the final valid post-stabilization gate. No serial-integrity, activation, restoration, stabilization, or unexpected-outcome failure occurred.
+- Machine validation: `final_validation.json` valid=true, zero failures and zero raw-log failures. Exact-byte plus readable G431-B/G474-A logs exist for every row.
+- Evidence path: `research/icsec2026/extension/evidence/replication_g431b_20260830_seed20260830_b3/`.
+- Complete replication inventory: 42 artifacts, independently verified with zero missing, size, or SHA-256 mismatches; inventory SHA-256 `F13EBB7FEB42FB3F67E56A8503CB6D70A5F630F2C864A16B22D5BF4D9D19CCE9` (inventory excludes itself).
+- Frozen dataset, frozen provenance, and reviewed primary inventory hashes remain unchanged at `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD`, `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`, and `8B4CB2AB87CD317905AA4A219B81E99E2E459DC3EEF386D14286297476177C0B`.
+- Completed experiments: the entire authorized 12-observation replication milestone. Unresolved uncertainty: none blocks this package; shared G474-A and sequential-controller limits remain explicit.
+- Remaining time: not supplied. Next action: commit the frozen replication evidence, make the planned exact-copy backup, independently verify every copied inventory row, then stop for work review.
