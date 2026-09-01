@@ -1,0 +1,34 @@
+{
+  "schema": "washios.icsec2026.f411_pair1.corrected_final_validation.v1",
+  "validated_at": "2026-09-01T21:16:52+07:00",
+  "terminal_condition": "PAIR1_PILOT_FAIL",
+  "physical_bringup_attempts": 2,
+  "valid_bringup_attempts": 0,
+  "invalid_bringup_attempts": 2,
+  "normal_attempts": 0,
+  "pilot_attempts": 0,
+  "valid_scientific_observations": 0,
+  "original_inventory": {
+    "path": "PAIR1_SHA256SUMS.csv",
+    "rows": 33,
+    "missing": 0,
+    "size_mismatches": 0,
+    "sha256_mismatches": 0,
+    "status": "valid historical inventory over the original package; correction addenda are covered by PAIR1_CORRECTED_SHA256SUMS.csv"
+  },
+  "raw_integrity": {
+    "bringup_001_uart_and_flash_files_present": 4,
+    "bringup_002_uart_readable_and_flash_files_present": 6,
+    "raw_files_modified_by_correction": 0
+  },
+  "json_parse_failures_before_supplemental_inventory": 0,
+  "open_python_or_openocd_processes": 0,
+  "accounting_failures": [
+    "BRINGUP_001 was previously misclassified as a pre-attempt abort",
+    "BRINGUP_001 original per-run derived validation is not retained",
+    "BRINGUP_002 occurred contrary to the reviewed no-retry rule"
+  ],
+  "scientific_validation": false,
+  "evidence_complete_for_corrected_failed_milestone": true,
+  "immediate_review_required": true
+}

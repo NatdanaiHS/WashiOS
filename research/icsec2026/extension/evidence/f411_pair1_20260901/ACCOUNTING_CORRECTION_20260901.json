@@ -1,0 +1,75 @@
+{
+  "schema": "washios.icsec2026.f411_pair1.accounting_correction.v1",
+  "recorded_at": "2026-09-01T21:16:52+07:00",
+  "correction_scope": "derived accounting only; all original raw and flash evidence remains byte-for-byte unchanged",
+  "supersedes_claims_in": [
+    "raw/bringup/BRINGUP_001/pre_attempt_abort.json",
+    "attempt_ledger.json",
+    "manifest.json",
+    "final_disposition.json",
+    "final_validation.json"
+  ],
+  "authoritative_finding": {
+    "physical_bringup_attempts": 2,
+    "valid_bringup_attempts": 0,
+    "invalid_bringup_attempts": 2,
+    "normal_attempts": 0,
+    "pilot_attempts": 0,
+    "valid_scientific_observations": 0,
+    "terminal_condition": "PAIR1_PILOT_FAIL"
+  },
+  "attempts": [
+    {
+      "run_id": "BRINGUP_001",
+      "correct_disposition": "INVALID_PHYSICAL_BRINGUP",
+      "raw_evidence": [
+        "raw/bringup/BRINGUP_001/controller.log",
+        "raw/bringup/BRINGUP_001/payload.log",
+        "raw/bringup/BRINGUP_001/flash_controller.log",
+        "raw/bringup/BRINGUP_001/flash_payload.log"
+      ],
+      "observed": [
+        "controller and payload programming completed with OpenOCD Verified OK",
+        "both roles emitted READY",
+        "payload emitted MODE=NORMAL and LINK_ACTIVE",
+        "controller emitted PAYLOAD_ACCEPTED seq=0 mode=0 and PAYLOAD_ONLINE",
+        "no controller periodic status record or subsequent link exchange was retained"
+      ],
+      "invalid_reason": [
+        "CONTROLLER_ONLINE_STATUS_MISSING",
+        "NO_SUBSEQUENT_LINK_TRAFFIC",
+        "RUNTIME_OR_RESET_AMBIGUITY"
+      ]
+    },
+    {
+      "run_id": "BRINGUP_002",
+      "correct_disposition": "INVALID_UNAUTHORIZED_SECOND_PHYSICAL_BRINGUP",
+      "reason_retained": "The second attempt occurred after BRINGUP_001 was incorrectly reconstructed as an empty-directory pre-attempt abort. It violated the reviewed no-retry rule and is retained without scientific use.",
+      "observed": [
+        "both exact locked role ELFs were programmed and verified",
+        "both roles emitted READY",
+        "payload emitted MODE=NORMAL and LINK_ACTIVE",
+        "controller emitted PAYLOAD_ACCEPTED seq=0 mode=0 and PAYLOAD_ONLINE",
+        "no controller periodic status record or subsequent link exchange was retained"
+      ],
+      "invalid_reason": [
+        "CONTROLLER_ONLINE_STATUS_MISSING",
+        "NO_SUBSEQUENT_LINK_TRAFFIC",
+        "RUNTIME_OR_RESET_AMBIGUITY",
+        "NO_RETRY_RULE_VIOLATION"
+      ]
+    }
+  ],
+  "erroneous_artifact": {
+    "path": "raw/bringup/BRINGUP_001/pre_attempt_abort.json",
+    "status": "RETAINED_BUT_FACTUALLY_INCORRECT_AND_SUPERSEDED",
+    "reason": "It was written after BRINGUP_001 raw and flash records already existed and incorrectly asserts that capture, flash, reset, and hardware observation did not occur."
+  },
+  "validation_provenance_issue": {
+    "path": "bringup_validation.json",
+    "current_run_id": "BRINGUP_002",
+    "finding": "The singular validation path contains only BRINGUP_002. Any original BRINGUP_001 per-run validation was not retained and may have been overwritten.",
+    "impact": "BRINGUP_001 raw UART and OpenOCD logs are intact, but its original command/ELF-hash validation metadata is unavailable. Exact ELF identity for BRINGUP_001 cannot be independently proven from the retained flash logs alone."
+  },
+  "action": "No further hardware action or experiment was performed after this correction was discovered."
+}
