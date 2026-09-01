@@ -1,0 +1,209 @@
+{
+  "allowed_claim": "Under the identical predefined protocol and fixed F411 implementation, the same condition-level supervision pattern was observed on each of two separate physical F411 controller/payload pairs.",
+  "generated_by": "C:/WashiOS/research/icsec2026/extension/generate_f411_cross_pair_synthesis.py",
+  "generator_sha256": "4D215C5AC77E591FDBB501E8C47F713FF0BC920AD30498416D1DEB99B76D2368",
+  "outputs": {
+    "SYNTHESIS.md": "E6206CF1479312AFAE23512DBB9FDD3029B9B3FC1CB773EA38361464A82064D2",
+    "condition_outcomes.csv": "EEF215CD18CADF3DE9466A665CEF56D49FCAC25FFEBDB5555CD3F66260C6A259",
+    "pair_comparison.csv": "F966F62B74A5D62E2E5F7A0012425B298A31B02A5CF501F15E5D5EEFE4F5BBCD",
+    "pair_condition_pattern.pdf": "48D6D71AC3AF9024847B2F05D251B15F41ABFB57B9A0670E2F22E7E3AE93F245",
+    "pair_condition_pattern.png": "1B7AEC66353ECC8760FA260C0D5F5ED58F7B6358B31A275C9442FAAB3671FAFD"
+  },
+  "pairs": [
+    {
+      "backup_inventory": {
+        "inventory_sha256": "797F908BCFC5EB5450302360501016DCB23188996C15194D9CF91C8BE619C2BC",
+        "issues": 0,
+        "root": "C:/WashiOS-extension-backup/f411_pair1_campaign_20260901_seed20260901_b3",
+        "rows": 95
+      },
+      "pair": "Pair-1",
+      "row_validation_files": {
+        "F411P1_C01_B1_NC": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C01_B1_NC/validation.json",
+          "sha256": "A47FF2E8989D839DB8F7ACB4FD4972AB55DD821E365A3EF9776195BFB407BE96"
+        },
+        "F411P1_C02_B1_D110": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C02_B1_D110/validation.json",
+          "sha256": "0D5731F961727D254EB8DF735B8718A6AE21935FFC90186831F260ECE038D093"
+        },
+        "F411P1_C03_B1_D090": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C03_B1_D090/validation.json",
+          "sha256": "9DC94C2D26BD60CF5F67ED5A07E6E1BAE8A71369B11009319618EE3A64F85EC4"
+        },
+        "F411P1_C04_B1_D100": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C04_B1_D100/validation.json",
+          "sha256": "BDA0472D1890C8E7AE6323BD1A483ADC2D89D9856A0A061F95E2DD723465D18E"
+        },
+        "F411P1_C05_B2_D090": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C05_B2_D090/validation.json",
+          "sha256": "5C28BE73DFFAFB0EF26E66652961698969E7BE6D19DD8AC17C9B228995C55D1A"
+        },
+        "F411P1_C06_B2_NC": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C06_B2_NC/validation.json",
+          "sha256": "89DC8E57986CD6FDEAA6A5BA250698FADD4F74AF746F2300C7BA209AEA564573"
+        },
+        "F411P1_C07_B2_D100": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C07_B2_D100/validation.json",
+          "sha256": "A88C502D4C0920C62D577EA0B63C8F3DF54E78208307454C2D8522EDCC3F57EA"
+        },
+        "F411P1_C08_B2_D110": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C08_B2_D110/validation.json",
+          "sha256": "D617ABCAD6BDABB1901A6EB82FBA1CAD102B685BEF4142332F2F83623FE744E9"
+        },
+        "F411P1_C09_B3_D100": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C09_B3_D100/validation.json",
+          "sha256": "957486FDE9C898FAAA39848C65862F5A0E3B062A527911B81E76C465B0FD73AB"
+        },
+        "F411P1_C10_B3_D110": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C10_B3_D110/validation.json",
+          "sha256": "7653C8EB7DEF8C52655AFF3AD6D1D5000BFB1BA4DD2D41FFBFDB38A120F5CF7E"
+        },
+        "F411P1_C11_B3_NC": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C11_B3_NC/validation.json",
+          "sha256": "0D687C70696DB29D16B751A42505FAE05DF30DB5A38DD34ACCE746D83320DD89"
+        },
+        "F411P1_C12_B3_D090": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/raw/rows/F411P1_C12_B3_D090/validation.json",
+          "sha256": "8B60D6AFDE1D10D80405392CBA5075C42471DF3BD4FD3B90173AAE83ACA49A7F"
+        }
+      },
+      "source_artifacts": {
+        "acquisition_source_state.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/acquisition_source_state.json",
+          "sha256": "0AE19AEBE2EA276027A080EF34ADF71CCB360E1A6C211212FD97875CCF2EF83A"
+        },
+        "counter_delta_summary.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/counter_delta_summary.json",
+          "sha256": "F9AC32FCA8D231243B8C8C9E51E0E4E5C9CA8315A30333476E0A703468B8AE71"
+        },
+        "descriptive_condition_summary.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/descriptive_condition_summary.json",
+          "sha256": "788847F6146624B30968111FF8D3BBCCD479B7C3C6BE881706BBC7E6EF795112"
+        },
+        "final_attempt_ledger.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/final_attempt_ledger.json",
+          "sha256": "713420D07D91B178777F0774DAA8BDE07CFA63BF3D3E0DF02F57A26914A6DC57"
+        },
+        "final_validation.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/final_validation.json",
+          "sha256": "96D96941861C157E544EE32A0BDB478DFFE1F55BCC5543AB07800510F652179B"
+        },
+        "locked_manifest.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/locked_manifest.json",
+          "sha256": "768B7DC702384B19464AAC1AB374716AF18E8EE26733B713814676AF4ED80FC1"
+        },
+        "unexpected_and_boundary_artifacts.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/unexpected_and_boundary_artifacts.json",
+          "sha256": "5B182DE9A320EB35680AD2540682F30069623DD9FE80854D1ABCADDF7363DECF"
+        }
+      },
+      "source_inventory": {
+        "inventory_sha256": "797F908BCFC5EB5450302360501016DCB23188996C15194D9CF91C8BE619C2BC",
+        "issues": 0,
+        "root": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3",
+        "rows": 95
+      }
+    },
+    {
+      "backup_inventory": {
+        "inventory_sha256": "481F56C98647D037CFAA5698BDEF61C0D918D42954A646E36C7479EA8203588E",
+        "issues": 0,
+        "root": "C:/WashiOS-extension-backup/f411_pair2_campaign_20260901_seed20260901_b3",
+        "rows": 81
+      },
+      "pair": "Pair-2",
+      "row_validation_files": {
+        "F411P2_C01_B1_NC": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C01_B1_NC/validation.json",
+          "sha256": "449947012CCD890C9C7D61BFD01122F3F60310B46376D5F5947A5D514A935F29"
+        },
+        "F411P2_C02_B1_D110": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C02_B1_D110/validation.json",
+          "sha256": "06031E1B4C35F8B90E1C22308E74979DCA2B94763A10C90CBF6BFDCDA39A14EA"
+        },
+        "F411P2_C03_B1_D090": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C03_B1_D090/validation.json",
+          "sha256": "6B38287B94079CE048E880286B7599EB8CE4D2EC8FB599686776564FFE0FDF78"
+        },
+        "F411P2_C04_B1_D100": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C04_B1_D100/validation.json",
+          "sha256": "8530DFFFF1505AC7F12638CF7D208548FD0E53A1FCB7E3332F795882D9FC7C53"
+        },
+        "F411P2_C05_B2_D090": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C05_B2_D090/validation.json",
+          "sha256": "FACC6F0E37CB7810E68BC06ED39EEC0149133CFB71D50D0D039218985E5649DF"
+        },
+        "F411P2_C06_B2_NC": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C06_B2_NC/validation.json",
+          "sha256": "330A200220469F0486B44593BC7E420A07EE3CEB8E7A1313EA68269513315537"
+        },
+        "F411P2_C07_B2_D100": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C07_B2_D100/validation.json",
+          "sha256": "A113727DBD3DD80ECA34C18FE0D5B8813E9D8C8EACF6D0A90F3544F2013BEEDA"
+        },
+        "F411P2_C08_B2_D110": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C08_B2_D110/validation.json",
+          "sha256": "A326DAD14CD3D7D48F3D287150F1379460A1F03B001DB3D448A4B70DA96BD4B5"
+        },
+        "F411P2_C09_B3_D100": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C09_B3_D100/validation.json",
+          "sha256": "34CCC7A162A5BE9C7170A3AFDBFB7CDC2EC4FA48EF5D9CBCA1A481B0FEB40870"
+        },
+        "F411P2_C10_B3_D110": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C10_B3_D110/validation.json",
+          "sha256": "AEA43FE9FB88BB098F6CED15C06C101C22CCF8515BC058E0B5EFA2896F092045"
+        },
+        "F411P2_C11_B3_NC": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C11_B3_NC/validation.json",
+          "sha256": "21AF71236BD37FAA44B3B79BD2A58E973F120FE406FDA58AF7874DAA6000A738"
+        },
+        "F411P2_C12_B3_D090": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/raw/rows/F411P2_C12_B3_D090/validation.json",
+          "sha256": "65961EAFB2045F9184AC06B0A0A9BCE5592519A5A7A4003802710515D77C95A9"
+        }
+      },
+      "source_artifacts": {
+        "acquisition_source_state.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/acquisition_source_state.json",
+          "sha256": "9C5C438A47EC3BEF59E266200C070F039AA115B6F73294E7D24D483082ACCC3C"
+        },
+        "counter_delta_summary.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/counter_delta_summary.json",
+          "sha256": "01B974C719C7DEB4123C41733495F8EE5D60659C4EDE4B15BC4F64F697D3FFB6"
+        },
+        "descriptive_condition_summary.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/descriptive_condition_summary.json",
+          "sha256": "7724BA50B6341E5676C0736C19F41B7A07B0E80AA8D71A45DF765546A854D9C4"
+        },
+        "final_attempt_ledger.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/final_attempt_ledger.json",
+          "sha256": "E01CCEAA06304AFEA882CEE066387AD6FFFDF0B25137DA69EE9A4C12A91D2785"
+        },
+        "final_validation.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/final_validation.json",
+          "sha256": "7C0AEBD26A45B22FCEB9BFE92470EEC48FCDD8D3DA5715D9C8B1AC84CF4831C7"
+        },
+        "locked_manifest.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/locked_manifest.json",
+          "sha256": "55D9C29253C0011ED8C9D2CF14274A9D63A9B15199068B91F77FA7A7BDA093FC"
+        },
+        "unexpected_and_boundary_artifacts.json": {
+          "path": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/unexpected_and_boundary_artifacts.json",
+          "sha256": "0766F27D85ABD33992867AF9A698457ADF7B3363F5B542488C9F0347DB3F21D3"
+        }
+      },
+      "source_inventory": {
+        "inventory_sha256": "481F56C98647D037CFAA5698BDEF61C0D918D42954A646E36C7479EA8203588E",
+        "issues": 0,
+        "root": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3",
+        "rows": 81
+      }
+    }
+  ],
+  "per_condition_per_pair_denominator": 3,
+  "per_pair_denominator": 12,
+  "physical_pair_count": 2,
+  "pooling_performed": false,
+  "schema": "washios.icsec2026.f411_cross_pair_synthesis.v1"
+}

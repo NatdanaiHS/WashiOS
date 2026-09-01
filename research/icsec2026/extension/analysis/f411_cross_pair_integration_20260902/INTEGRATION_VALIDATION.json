@@ -1,0 +1,51 @@
+{
+  "milestone": "F411_CROSS_PAIR_DESCRIPTIVE_SYNTHESIS_AND_MANUSCRIPT_CANDIDATE",
+  "generated_at": "2026-09-02T00:18:52+07:00",
+  "starting_branch": "experiment/icsec-extension-20260830",
+  "starting_commit": "883f7b5ba48bda5766ba7590a4c6ac39712fdb93",
+  "hardware_activity": false,
+  "pair1": {
+    "source_inventory_rows_verified": 95,
+    "backup_inventory_rows_verified": 95,
+    "issues": 0,
+    "inventory_sha256": "797F908BCFC5EB5450302360501016DCB23188996C15194D9CF91C8BE619C2BC",
+    "planned": 12,
+    "attempted": 12,
+    "valid": 12,
+    "invalid": 0
+  },
+  "pair2": {
+    "source_inventory_rows_verified": 81,
+    "backup_inventory_rows_verified": 81,
+    "issues": 0,
+    "inventory_sha256": "481F56C98647D037CFAA5698BDEF61C0D918D42954A646E36C7479EA8203588E",
+    "planned": 12,
+    "attempted": 12,
+    "valid": 12,
+    "invalid": 0
+  },
+  "separate_denominators": true,
+  "pooled_statistics_present": false,
+  "boundary_observations_retained": true,
+  "final_partial_records_retained": true,
+  "pair2_zero_file_backup_attempt_retained": true,
+  "candidate": {
+    "pdf_sha256": "2E3E684431608396122F018BE45A17BA7F05FAD92F1E017934FC9F624395A3F5",
+    "pages": 5,
+    "build_pass": true,
+    "rendered_page_qa_pass": true,
+    "anonymity_audit_pass": true,
+    "claim_audit_pass": true,
+    "inclusion_decision": "PASS_RETAIN_FOR_RESEARCH_REVIEW"
+  },
+  "frozen_fallback": {
+    "main_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+    "origin_main_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+    "pdf_sha256": "992A1C9AA41F4295BF7F97CA081D79A7DE2ABBB4B419B2A0B82144C1B50928DF",
+    "unchanged": true
+  },
+  "friday_quantitative_scope_campaign": "NO-GO",
+  "friday_reason": "native waveform export was not proven before acquisition",
+  "acceptance_failures": [],
+  "valid": true
+}
