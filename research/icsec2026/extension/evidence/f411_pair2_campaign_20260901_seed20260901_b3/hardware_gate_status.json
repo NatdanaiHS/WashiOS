@@ -1,0 +1,12 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_hardware_gate.v1",
+  "controller": {"board_id": "F411-C", "stlink_serial": "0669FF495051727187053226", "vcp": null},
+  "payload": {"board_id": "F411-D", "stlink_serial": "0663FF495051727187066042", "vcp": null},
+  "f411_a_b_must_not_be_observed_reset_or_flashed": true,
+  "fresh_enumeration_pending": true,
+  "wiring_confirmation_pending": true,
+  "minimum_90_minutes_confirmation_pending": true,
+  "serial_port_opened": false,
+  "flash_reset_or_command_sent": false,
+  "hardware_action_performed": false
+}

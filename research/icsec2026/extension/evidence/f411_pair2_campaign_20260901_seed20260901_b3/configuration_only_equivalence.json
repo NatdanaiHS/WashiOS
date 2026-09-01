@@ -1,0 +1,41 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_configuration_equivalence.v1",
+  "reviewed_pair1_plan_sha256": "88EDD7D47C40354D1C9DF8B0F7EC9A083198B4A6E5CBF4D453E947AD9B88BF45",
+  "pair2_plan_sha256": "7C8A60145CDAFB04BC6F1553B42D401FC35532B64B587D90D62942D4947E103F",
+  "reviewed_pair1_manifest_sha256": "768B7DC702384B19464AAC1AB374716AF18E8EE26733B713814676AF4ED80FC1",
+  "pair2_manifest_sha256": "55D9C29253C0011ED8C9D2CF14274A9D63A9B15199068B91F77FA7A7BDA093FC",
+  "shared_engine_sha256": "2304F97533EF34462A1312AB155F376F81E8EEDAE85C72DA65A145502AA1F838",
+  "pair2_profile_sha256": "A344D94B2348BFF965E78ECF4870866B4E06D45D4B82729BF03847093ABEE221",
+  "shared_validator_sha256": "6DF6BF2DD240D1251CB72341DB73034D36CAC84A0ABC34FFFD06B379E569EAC6",
+  "pair2_validator_profile_sha256": "D66181D3BEDE23B58FB72914C1F21E84D42662C60DD97B37ED584C268DD85614",
+  "same_shared_function_objects_tested": [
+    "acquire",
+    "stabilization",
+    "outcome_summary"
+  ],
+  "identical_fixed_values": {
+    "seed": 20260901,
+    "planned_rows": 12,
+    "blocks": 3,
+    "condition_order_by_row": ["NC", "D110", "D090", "D100", "D090", "NC", "D100", "D110", "D100", "D110", "NC", "D090"],
+    "exposure_s": 4.0,
+    "poll_ms": 500,
+    "deadline_ms": 100,
+    "offline_after_timeouts": 3,
+    "acceptance_and_stop_functions": "shared"
+  },
+  "permitted_pair2_changes_only": [
+    "campaign and precheck identifiers",
+    "P1 to P2 run identifiers",
+    "exclusive package and raw paths",
+    "F411-C and F411-D board labels and durable ST-LINK serials",
+    "fresh VCP ports, still pending enumeration",
+    "Pair-2 artifact/schema/terminal labels and separate-dataset claim boundary"
+  ],
+  "pair1_post_refactor_independent_validator": {
+    "valid": true,
+    "failures": [],
+    "accounting": {"planned": 12, "attempted": 12, "valid": 12, "invalid": 0}
+  },
+  "substantive_protocol_timing_harness_acceptance_or_analysis_change": false
+}

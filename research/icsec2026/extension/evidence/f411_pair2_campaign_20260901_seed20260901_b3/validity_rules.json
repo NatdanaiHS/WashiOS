@@ -1,0 +1,15 @@
+{
+  "first_invalid_stop": true,
+  "required": [
+    "exact row identity, condition, and order",
+    "continuous exact-byte dual capture",
+    "fresh NORMAL confirmation and pre-stabilization",
+    "exact delayed activation confirmation or confirmed NC",
+    "four-second exposure",
+    "one confirmed NORMAL restoration-equivalent command",
+    "recovery when OFFLINE occurred",
+    "passed post-stabilization and raw integrity"
+  ],
+  "retry_or_replacement": false,
+  "unexpected_scientific_outcome_is_invalid": false
+}

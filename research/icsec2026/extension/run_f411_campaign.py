@@ -35,6 +35,17 @@ from run_f411_pair1 import (
 
 CAMPAIGN_ID = "F411_P1_CAMPAIGN_20260901_B3"
 PRECHECK_ID = "F411_P1_CAMPAIGN_20260901_B3_PRECHECK"
+MANIFEST_SCHEMA = "washios.icsec2026.f411_pair1_campaign.v1"
+CONTROLLER_BOARD_ID = "F411-A"
+PAYLOAD_BOARD_ID = "F411-B"
+CONTROLLER_FIRMWARE_ELF = "f411_p1_fixed_controller.elf"
+CONTROLLER_FIRMWARE_BIN = "f411_p1_fixed_controller.bin"
+PAYLOAD_FIRMWARE_ELF = "f411_p1_payload.elf"
+PAYLOAD_FIRMWARE_BIN = "f411_p1_payload.bin"
+COMPLETE_DISPOSITION = "F411_P1_CAMPAIGN_COMPLETE_AWAITING_REVIEW"
+STOPPED_DISPOSITION = "F411_P1_CAMPAIGN_STOPPED_INVALID_AWAITING_REVIEW"
+CLAIM_BOUNDARY = "sequential descriptive evidence from one fixed F411 pair; separate from every prior package"
+CODE_PATHS: tuple[Path, ...] | None = None
 SEED = 20260901
 EXPOSURE_S = 4.0
 EXPECTED_CONTROLLER_ELF = "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78"
@@ -103,10 +114,10 @@ def prepare_package(package: Path, controller_elf: Path, controller_bin: Path,
     (package / "raw" / "rows").mkdir(parents=True)
     (package / ".gitattributes").write_text("* -text\n", encoding="ascii", newline="\n")
     copies = {
-        "f411_p1_fixed_controller.elf": controller_elf,
-        "f411_p1_fixed_controller.bin": controller_bin,
-        "f411_p1_payload.elf": payload_elf,
-        "f411_p1_payload.bin": payload_bin,
+        CONTROLLER_FIRMWARE_ELF: controller_elf,
+        CONTROLLER_FIRMWARE_BIN: controller_bin,
+        PAYLOAD_FIRMWARE_ELF: payload_elf,
+        PAYLOAD_FIRMWARE_BIN: payload_bin,
     }
     for name, source in copies.items():
         shutil.copyfile(source, package / "firmware" / name)
@@ -136,10 +147,13 @@ def prepare_package(package: Path, controller_elf: Path, controller_bin: Path,
         "unexpected_scientific_outcome_is_invalid": False,
     })
     harness = Path(__file__).resolve()
-    test_path = harness.with_name("test_f411_campaign.py")
-    validator = harness.with_name("validate_f411_campaign.py")
+    code_paths = CODE_PATHS or (
+        harness,
+        harness.with_name("test_f411_campaign.py"),
+        harness.with_name("validate_f411_campaign.py"),
+    )
     manifest = {
-        "schema": "washios.icsec2026.f411_pair1_campaign.v1",
+        "schema": MANIFEST_SCHEMA,
         "campaign_id": CAMPAIGN_ID,
         "precheck_id": PRECHECK_ID,
         "seed": SEED,
@@ -147,21 +161,17 @@ def prepare_package(package: Path, controller_elf: Path, controller_bin: Path,
         "locked_host_time": utc_now(),
         "fixed_denominator": 12,
         "order": plan_rows(),
-        "controller": {"board_id": "F411-A", "stlink_serial": CONTROLLER_STLINK,
+        "controller": {"board_id": CONTROLLER_BOARD_ID, "stlink_serial": CONTROLLER_STLINK,
                        "elf_sha256": EXPECTED_CONTROLLER_ELF,
                        "bin_sha256": EXPECTED_CONTROLLER_BIN},
-        "payload": {"board_id": "F411-B", "stlink_serial": PAYLOAD_STLINK,
+        "payload": {"board_id": PAYLOAD_BOARD_ID, "stlink_serial": PAYLOAD_STLINK,
                     "elf_sha256": EXPECTED_PAYLOAD_ELF,
                     "bin_sha256": EXPECTED_PAYLOAD_BIN},
         "semantics": {"uart": "115200 8N1", "poll_ms": 500,
                       "deadline_ms": 100, "offline_after_timeouts": 3,
                       "exposure_s": EXPOSURE_S, "reset_between_rows": False},
-        "code_hashes": {
-            harness.as_posix(): sha256_file(harness),
-            test_path.as_posix(): sha256_file(test_path),
-            validator.as_posix(): sha256_file(validator),
-        },
-        "claim_boundary": "sequential descriptive evidence from one fixed F411 pair; separate from every prior package",
+        "code_hashes": {path.as_posix(): sha256_file(path) for path in code_paths},
+        "claim_boundary": CLAIM_BOUNDARY,
     }
     write_json(package / "locked_manifest.json", manifest)
     return 0
@@ -606,8 +616,7 @@ def acquire(package: Path, controller_port: str, payload_port: str,
                 run_exception is None)
     summary["campaign_valid"] = complete
     summary["terminal_disposition"] = (
-        "F411_P1_CAMPAIGN_COMPLETE_AWAITING_REVIEW" if complete
-        else "F411_P1_CAMPAIGN_STOPPED_INVALID_AWAITING_REVIEW")
+        COMPLETE_DISPOSITION if complete else STOPPED_DISPOSITION)
     write_json(package / "descriptive_condition_summary.json", summary)
     write_json(package / "campaign_validation.json", {
         "campaign_id": CAMPAIGN_ID, "precheck_valid": precheck_valid,

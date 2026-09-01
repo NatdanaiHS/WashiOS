@@ -11,10 +11,15 @@ from pathlib import Path
 
 from run_f411_campaign import (
     CAMPAIGN_ID,
+    COMPLETE_DISPOSITION,
+    CONTROLLER_FIRMWARE_BIN,
+    CONTROLLER_FIRMWARE_ELF,
     EXPECTED_CONTROLLER_BIN,
     EXPECTED_CONTROLLER_ELF,
     EXPECTED_PAYLOAD_BIN,
     EXPECTED_PAYLOAD_ELF,
+    PAYLOAD_FIRMWARE_BIN,
+    PAYLOAD_FIRMWARE_ELF,
     PLAN,
 )
 
@@ -70,10 +75,10 @@ def validate(package: Path) -> dict[str, object]:
         failures.append("MANIFEST_MISMATCH")
     firmware = package / "firmware"
     firmware_checks = {
-        "controller_elf": digest(firmware / "f411_p1_fixed_controller.elf") == EXPECTED_CONTROLLER_ELF,
-        "controller_bin": digest(firmware / "f411_p1_fixed_controller.bin") == EXPECTED_CONTROLLER_BIN,
-        "payload_elf": digest(firmware / "f411_p1_payload.elf") == EXPECTED_PAYLOAD_ELF,
-        "payload_bin": digest(firmware / "f411_p1_payload.bin") == EXPECTED_PAYLOAD_BIN,
+        "controller_elf": digest(firmware / CONTROLLER_FIRMWARE_ELF) == EXPECTED_CONTROLLER_ELF,
+        "controller_bin": digest(firmware / CONTROLLER_FIRMWARE_BIN) == EXPECTED_CONTROLLER_BIN,
+        "payload_elf": digest(firmware / PAYLOAD_FIRMWARE_ELF) == EXPECTED_PAYLOAD_ELF,
+        "payload_bin": digest(firmware / PAYLOAD_FIRMWARE_BIN) == EXPECTED_PAYLOAD_BIN,
     }
     failures.extend(f"FIRMWARE_{name.upper()}" for name, valid in firmware_checks.items() if not valid)
     controller_count, controller_failures, controller_text = validate_raw(
@@ -106,7 +111,7 @@ def validate(package: Path) -> dict[str, object]:
     complete = (len(rows) == 12 and len(attempted) == 12 and len(valid_rows) == 12
                 and not invalid_rows and precheck.get("valid") is True
                 and campaign.get("valid") is True
-                and disposition.get("disposition") == "F411_P1_CAMPAIGN_COMPLETE_AWAITING_REVIEW")
+                and disposition.get("disposition") == COMPLETE_DISPOSITION)
     if complete:
         if activation_counts["D090"] != 3: failures.append("D090_ACTIVATION_COUNT")
         if activation_counts["D100"] != 3: failures.append("D100_ACTIVATION_COUNT")
