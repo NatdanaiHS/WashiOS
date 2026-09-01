@@ -1,0 +1,24 @@
+diff --git a/core/src/bsp/f4/Stm32Timing.cpp b/core/src/bsp/f4/Stm32Timing.cpp
+index a60f9f7..390813b 100644
+--- a/core/src/bsp/f4/Stm32Timing.cpp
++++ b/core/src/bsp/f4/Stm32Timing.cpp
+@@ -1,5 +1,7 @@
+ #include "bsp/f4/Stm32Timing.hpp"
+ 
++#include "FreeRTOS.h"
++#include "task.h"
+ #include "stm32f4xx_hal.h"
+ 
+ namespace bsp
+@@ -15,6 +17,11 @@ void Stm32Timing::initialize()
+ 
+ uint64_t Stm32Timing::getSystemTick() const noexcept
+ {
++    if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
++    {
++        return static_cast<uint64_t>(xTaskGetTickCount());
++    }
++
+     return HAL_GetTick();
+ }
+

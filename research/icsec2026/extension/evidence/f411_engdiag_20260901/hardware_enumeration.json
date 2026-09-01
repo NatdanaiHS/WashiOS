@@ -1,0 +1,22 @@
+{
+  "schema": "washios.icsec2026.f411_engdiag.hardware_enumeration.v1",
+  "enumerated_before_hardware_action": true,
+  "controller": {
+    "board_id": "F411-A",
+    "stlink_serial": "066BFF495051727187053106",
+    "vcp": "COM16",
+    "usb_vid_pid": "0483:374B",
+    "usb_location": "1-1:x.2"
+  },
+  "payload": {
+    "board_id": "F411-B",
+    "stlink_serial": "066EFF495051727187053015",
+    "vcp": "COM11",
+    "usb_vid_pid": "0483:374B",
+    "usb_location": "1-2:x.2"
+  },
+  "identity_ambiguous": false,
+  "other_fixed_f411_boards_present": false,
+  "wiring_changed": false,
+  "board_roles_changed": false
+}

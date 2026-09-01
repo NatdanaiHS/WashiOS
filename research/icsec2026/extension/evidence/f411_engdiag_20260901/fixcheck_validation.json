@@ -1,0 +1,34 @@
+{
+  "schema": "washios.icsec2026.f411_engdiag.fixcheck_validation.v1",
+  "run_id": "ENGDIAG_001_FIXCHECK",
+  "scientific_observation": false,
+  "manuscript_use": "NONE",
+  "only_fix_check": true,
+  "started_host_time": "2026-09-01T14:33:43.230693+00:00",
+  "finished_host_time": "2026-09-01T14:33:51.524365+00:00",
+  "exact_target_flash": {
+    "controller_stlink_serial": "066BFF495051727187053106",
+    "controller_elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78",
+    "controller_verified_ok": true,
+    "payload_stlink_serial": "066EFF495051727187053015",
+    "payload_elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+    "payload_verified_ok": true
+  },
+  "controller": {
+    "accepted_exchange_count_total": 12,
+    "accepted_exchange_count_post_initial": 11,
+    "first_post_initial_exchange_host_time": "2026-09-01T14:33:46.081316+00:00",
+    "last_post_initial_exchange_host_time": "2026-09-01T14:33:51.074622+00:00",
+    "post_initial_exchange_span_s": 4.993306,
+    "first_status_observed": true,
+    "first_status": "PAYLOAD_STATUS state=ONLINE polls=10 ok=10 timeout=0 crc=0 seq=0 recovery=0 heartbeat=OK watchdog=OK"
+  },
+  "payload_normal_confirmation": true,
+  "payload_link_active": true,
+  "reset_or_fault_marker": false,
+  "uart_overflow_or_error_marker": false,
+  "link_write_failure_marker": false,
+  "receive_loss_indication": false,
+  "acceptance_failures": [],
+  "valid": true
+}

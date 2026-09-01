@@ -1,0 +1,39 @@
+{
+  "schema": "washios.icsec2026.f411_engdiag.v1",
+  "run_family": "ENGDIAG_001",
+  "scientific_observation": false,
+  "manuscript_use": "NONE",
+  "started_host_time": "2026-09-01T21:30:25.6843915+07:00",
+  "hardware_action_deadline": "2026-09-01T22:00:25.6843915+07:00",
+  "source_branch": "experiment/icsec-extension-20260830",
+  "source_commit": "600272edf9460191cbb7c7c6080ce503ffad1f17",
+  "source_worktree": "DIRECTOR_NEXT_TASK_MODIFIED_ONLY",
+  "controller": {
+    "board_id": "F411-A",
+    "role": "controller",
+    "stlink_serial": "066BFF495051727187053106",
+    "fresh_vcp": "COM16"
+  },
+  "payload": {
+    "board_id": "F411-B",
+    "role": "payload",
+    "stlink_serial": "066EFF495051727187053015",
+    "fresh_vcp": "COM11"
+  },
+  "wiring": [
+    "F411-A D8/PA9 TX to F411-B D2/PA10 RX",
+    "F411-B D8/PA9 TX to F411-A D2/PA10 RX",
+    "common GND"
+  ],
+  "controller_installed_elf_reference": {
+    "path": "../f411_pair1_20260901/firmware/f411_p1_controller.elf",
+    "sha256": "14878B899FBCED958CF507FBF62E10F39A95CBE90A4C33A8C938396305D93452"
+  },
+  "predeclared_hypotheses": [
+    "controller timebase freeze",
+    "controller fault/reset/scheduler stop",
+    "USART1 interrupt/ring livelock"
+  ],
+  "initial_action": "non-resetting exact-serial SWD halt/read/resume comparison of FreeRTOS xTickCount and HAL uwTick after the retained first-exchange-only state",
+  "openocd_version": "xPack Open On-Chip Debugger 0.12.0-01004-g9ea7f3d64-dirty (2023-01-30-15:04)"
+}
