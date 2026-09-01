@@ -12,6 +12,8 @@
   "d0_d1_wiring": false,
   "boards_powered_and_connected": true,
   "solder_change_reported": false,
-  "minimum_90_uninterrupted_minutes_confirmed": false,
-  "note": "The human confirmed identity, wiring, and powered state but did not yet state the required remaining-time gate."
+  "minimum_90_uninterrupted_minutes_confirmed": true,
+  "time_gate_confirmation_host_time": "2026-09-01T23:45:59+07:00",
+  "no_reset_disconnect_or_jumper_change_after_identity_gate": true,
+  "note": "The human separately confirmed the final time gate while C/D remained powered with unchanged wiring."
 }
