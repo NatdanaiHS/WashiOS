@@ -690,46 +690,41 @@ LaTeX Info: Redefining \nameref on input line 30.
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
-
-Underfull \hbox (badness 4254) in paragraph at lines 47--48
-[]\TU/texgyretermes-regular.otf(0)/m/n/10 This paper evaluates one physical con
-troller/payload-
- []
-
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 52.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 52.
+
 (mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 ) [1
 
 
-] [2]
+] [2] [3]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 169.
+(Font)              <8> on input line 204.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 169.
+(Font)              <6> on input line 204.
 
-Underfull \hbox (badness 1881) in paragraph at lines 209--210
+Underfull \hbox (badness 1881) in paragraph at lines 217--218
 \TU/texgyretermes-regular.otf(0)/m/n/10 for BAD_CRC, and 406.0 ms for DELAYED. 
 Restore-
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 250--251
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 []\TU/texgyretermes-regular.otf(0)/m/n/10 Here F/R denotes the predefined timeo
 ut/sequence-
  []
 
-
-Underfull \hbox (badness 3386) in paragraph at lines 260--261
+[4]
+Underfull \hbox (badness 3386) in paragraph at lines 268--269
 \TU/texgyretermes-regular.otf(0)/m/n/10 and radiation were not varied or measur
 ed. The evi-
  []
 
-[4] (main.bbl)
+(main.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -741,11 +736,15 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
+
+Package balance Warning: You have called \balance in second column
+(balance)                Columns might not be balanced.
+
 [5] (main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: DA8B5A81532F4EE28A150B94F72E9001;3364.
+(rerunfilecheck)             Checksum: 840ED2BF1F057E3B5D7C9E1B411723D4;3280.
  )
-Output written on main.xdv (5 pages, 262492 bytes).
+Output written on main.xdv (5 pages, 280808 bytes).

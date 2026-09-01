@@ -31,7 +31,7 @@
 \maketitle
 
 \begin{abstract}
-Payload communication is an important fault boundary in embedded controllers: a payload can become silent, return a corrupted response, or answer after a deadline. This paper presents an activation-confirmed hardware-in-the-loop (HIL) method that exercises those behaviors on a physical UART link. A host orchestrates a controller board and a commandable payload-simulator board through independent serial-observation channels. A trial is accepted only after payload-side confirmation of both fault activation and NORMAL restoration; controller-side markers then define detection and recovery. The primary campaign comprises two 65-s nominal windows and 90 sequential trials on one board pair, with 30 trials per fault mode. All 90 trials were valid, and the predefined detector and recovery markers were each observed in 30/30 valid trials for every mode. Host-observed command-to-marker medians ranged from 359.5 to 406.0~ms for detection and from 296.5 to 359.0~ms for recovery. A separate F411 extension used the same predefined 12-row protocol on each of two physical pairs; reported separately, both pairs showed clean normal controls, accepted 90-ms responses without fault transitions, and timeout/sequence-rejection/OFFLINE behavior with restoration and recovery at 100 and 110~ms. The contribution is a dual-channel protocol that distinguishes requested, activated, detected, restored, and recovered events, supported by hash-locked empirical records. Results are bounded to the evaluated setups and are not a device-population reliability or controller-internal timing estimate.
+Payload communication is an important fault boundary in embedded controllers: a payload can become silent, return a corrupted response, or answer after a deadline. This paper presents an activation-confirmed hardware-in-the-loop (HIL) method that exercises those behaviors on a physical UART link. A host orchestrates a controller board and a commandable payload-simulator board through independent serial-observation channels. A trial is accepted only after payload-side confirmation of both fault activation and NORMAL restoration; controller-side markers then define detection and recovery. The primary campaign comprises two 65-s nominal windows and 90 sequential trials on one board pair, with 30 trials per fault mode; a separate 605-s nominal observation extends healthy-operation evidence without adding a primary trial. All 90 trials were valid, and the predefined detector and recovery markers were each observed in 30/30 valid trials for every mode. Host-observed command-to-marker medians ranged from 359.5 to 406.0~ms for detection and from 296.5 to 359.0~ms for recovery. A separate F411 extension used the same predefined 12-row protocol on each of two physical pairs; reported separately, both pairs showed clean normal controls, accepted 90-ms responses without fault transitions, and timeout/sequence-rejection/OFFLINE behavior with restoration and recovery at 100 and 110~ms. The contribution is a dual-channel protocol that distinguishes requested, activated, detected, restored, and recovered events, supported by hash-locked empirical records. Results are bounded to the evaluated setups and are not a device-population reliability or controller-internal timing estimate.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -44,7 +44,7 @@ Embedded controllers commonly supervise peripheral or payload communication by c
 
 Fault injection has long been used to exercise fault-handling mechanisms under controlled conditions. Arlat \emph{et al.} characterize an experiment through faults, activations, readouts, and measures (the FARM sets)~\cite{arlat1990}. HIL studies place real controller hardware against a controllable environment and inject abnormal signals without modifying the system under test~\cite{abboush2022,abboush2024}. Nanosatellite research has also injected faults into a payload communication bus and reused modeled interoperability tests with physical subsystems~\cite{batista2019,conceicao2025}. These principles motivate a focused experiment at a payload communication endpoint.
 
-This paper evaluates one physical controller/payload-simulator pair. The simulator exposes three commandable behaviors: silence, CRC corruption, and response delay. A host harness confirms the selected behavior on the simulator channel before accepting a controller-side detection event. After a fixed observation interval, the harness restores normal behavior, confirms that restoration, and observes a predefined recovery marker. Every raw serial record retains a host timestamp, exact bytes, and readable rendering. The resulting claim scope is locked before manuscript assembly: quantitative statements are projected from hash-verified frozen summaries, and unsupported extrapolations are excluded.
+The primary campaign evaluates one physical G431/G474 controller/payload-simulator pair; a separate protocol-level extension evaluates two physical F411 pairs under the same F411 configuration. The simulator exposes three commandable behaviors: silence, CRC corruption, and response delay. A host harness confirms the selected behavior on the simulator channel before accepting a controller-side detection event. After a fixed observation interval, the harness restores normal behavior, confirms that restoration, and observes a predefined recovery marker. Every raw serial record retains a host timestamp, exact bytes, and readable rendering. The resulting claim scope is locked before manuscript assembly: quantitative statements are projected from hash-verified frozen summaries, and unsupported extrapolations are excluded.
 
 The paper makes three bounded contributions:
 
@@ -119,12 +119,14 @@ The setup consists of a NUCLEO-G431RB controller and a NUCLEO-G474RE payload sim
 
 The payload simulator accepts host commands for NORMAL, SILENT, BAD\_CRC, and DELAYED modes. SILENT withholds a response. BAD\_CRC returns a response with an invalid CRC. DELAYED waits 250~ms before responding, exceeding the inspected 100-ms controller deadline. A second host serial channel captures the simulator's exact mode confirmation. Thus, a sent command alone is insufficient activation evidence.
 
+At the evaluated controller revision, a CRC-invalid response increments the rejection counter and returns without clearing the outstanding request. Its deadline can therefore expire and increment the consecutive-timeout count; three consecutive expirations cause OFFLINE. A subsequently accepted valid response clears the outstanding request and timeout streak and can produce recovery. This is a source-level mechanism statement, not an MCU execution-time measurement.
+
 \subsection{Locked Research Questions}
 
 The study asks only the following descriptive questions:
 
 \begin{description}
-  \item[RQ1:] What payload-link status and counter behavior is observed during the predefined pre- and post-campaign nominal (N0) windows?
+  \item[RQ1:] What payload-link status and counter behavior is observed during the predefined pre- and post-campaign N0 windows and the separate extended nominal observation?
   \item[RQ2:] For SILENT, BAD\_CRC, and DELAYED, in how many valid sequential trials are activation, the mode-specific detector, NORMAL restoration, and recovery markers observed?
   \item[RQ3:] What are the per-mode distributions of host-observed command-to-detector-marker and restore-command-to-recovery-marker latency?
 \end{description}
@@ -136,6 +138,8 @@ N0 denotes a healthy nominal condition; it is not a comparative or ablation base
 \subsection{Nominal Windows}
 
 A 65-s N0 window was captured before the campaign and another after it. A window was valid if it contained at least 10 controller status records, all records reported ONLINE, the successful-message counter increased strictly, timeout/CRC/sequence/recovery counter deltas were zero, and no prohibited transition, rejection, recovery, or post-start link-start marker appeared.
+
+After the campaign, a separate 605-s nominal observation used the same status and prohibited-marker checks. It is reported as additional duration-bounded healthy-operation evidence, not as a third primary N0 window, a fault trial, or a reliability estimate.
 
 \subsection{Trial Protocol and Outcomes}
 
@@ -151,7 +155,7 @@ Detection latency is the host timestamp of the first predefined controller detec
 
 Analysis is descriptive. Per mode, we report detection and recovery counts and observed proportions. Latency summaries contain sample count, median, inclusive-linear quartiles, interquartile range (IQR), minimum, and maximum. No confidence interval, hypothesis test, or between-mode ranking is reported. The observations are sequential measurements on one setup, not independent device replicates; device-population uncertainty cannot be estimated from this single board pair.
 
-\subsection{Cross-Configuration Extension}
+\subsection{Two-Pair F411 Extension}
 
 Two separate F411 controller/payload pairs each executed an identical, predefined 12-row campaign: three normal controls and three observations at each of 90, 100, and 110~ms. Both pairs used the same fixed F411 implementation, firmware hashes, order, four-second exposure, confirmation gates, and validity rules. Each pair is analyzed with its own denominator of three per condition. Rows and counters are not pooled across pairs, and this extension does not compare binary images or timing with the primary G431/G474 setup.
 
@@ -162,16 +166,18 @@ The intervention construct is a confirmed endpoint behavior, not merely a host c
 Three controls reduce ambiguity without creating independent replication. First, each trial begins from an observed NORMAL precondition, and fixed fault/recovery windows separate detection from recovery scoring. Second, the seeded order and pre-injection offsets make the executed sequence reproducible while avoiding an unrecorded adaptive order. Third, controller and payload bytes are recorded separately before the result row is validated against both raw logs. These controls strengthen within-setup traceability. They do not remove shared hardware, host, thermal, or state-history conditions, and they cannot support population-level uncertainty estimates.
 
 \begin{table}[t]
-\caption{Validated N0 windows. Only within-window deltas are interpreted.}
+\caption{Validated nominal observations. Only within-observation deltas are interpreted.}
 \label{tab:n0}
 \centering
-\footnotesize
-\begin{tabular}{lrrrrrr}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrrrrr}
 \toprule
-Phase & Status & $ok$ first--last & TO & CRC & SEQ & REC \\
+Phase & s & Status & $ok$ first--last & TO & CRC & SEQ & REC \\
 \midrule
-Pre  & 13 & 1835--1955 & 0 & 0 & 0 & 0 \\
-Post & 13 & 3049--3169 & 0 & 0 & 0 & 0 \\
+Pre  & 65 & 13 & 1835--1955 & 0 & 0 & 0 & 0 \\
+Post & 65 & 13 & 3049--3169 & 0 & 0 & 0 & 0 \\
+Extended & 605 & 121 & 1760--2960 & 0 & 0 & 0 & 0 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -180,11 +186,13 @@ Post & 13 & 3049--3169 & 0 & 0 & 0 & 0 \\
 
 \subsection{RQ1: Nominal Behavior}
 
-Both N0 windows were valid. Each lasted 65.0~s and contained 13 ONLINE status records. The successful-message counter increased strictly from 1835 to 1955 before the campaign and from 3049 to 3169 after it. Within both windows, timeout, CRC, sequence, and recovery counter deltas were zero, and the prohibited-marker list was empty (Table~\ref{tab:n0}). The different absolute counter levels reflect preceding activity; only within-window changes are evaluated.
+Both primary N0 windows were valid. Each lasted 65.0~s and contained 13 ONLINE status records. The successful-message counter increased strictly from 1835 to 1955 before the campaign and from 3049 to 3169 after it. The separate 605.0-s observation contained 121 ONLINE records and increased from 1760 to 2960. In all three observations, timeout, CRC, sequence, and recovery counter deltas were zero and the prohibited-marker list was empty (Table~\ref{tab:n0}). Absolute counter levels reflect preceding activity; only within-observation changes are evaluated.
 
 \subsection{RQ2: Predefined Outcomes}
 
 All 90 planned trials were retained as valid. Each mode had 30 confirmed activations and 30 confirmed NORMAL restorations. The predefined detector and recovery markers were each observed in 30/30 valid trials per mode (observed proportion 1.0). OFFLINE was observed in 30/30 trials for each mode during the configured fault window, including BAD\_CRC, where it was not the detection criterion. No post-injection link-start marker was recorded (Table~\ref{tab:outcomes}); this marker absence is not proof that no reset occurred.
+
+A separate BAD\_CRC mechanism check retained both predefined observations. In the short exposure, the raw order was CRC rejection then one timeout, with no OFFLINE transition before confirmed NORMAL restoration. In the sustained exposure, CRC rejection was followed by timeout markers for consecutive counts one and two, then an OFFLINE marker at count three; only afterward was NORMAL restored and recovery observed. This ordering corroborates the inspected control flow, but these two observations are mechanistic characterization rather than additions to the 90-trial denominator.
 
 The 30/30 values describe the retained sequential observations rather than draws from an identified device population. Their evidentiary role is to show that no valid trial in this campaign lacked the predefined marker. They are not converted into a reliability estimate or a confidence bound because repeated runs on the same hardware do not establish the sampling model required for such a population claim.
 
@@ -228,7 +236,7 @@ DELAYED & Rec. & 296.5 & 187.25 & 425.5 & 238.25 & 94--531 \\
 \end{tabular}
 \end{table}
 
-\subsection{Cross-Configuration Protocol-Level Reproduction}
+\subsection{Two-Pair F411 Protocol Reproduction}
 
 Table~\ref{tab:f411} reports the two F411 pairs separately. Each campaign retained 12/12 valid rows. For each pair, all three normal controls had zero adverse markers; all three 90-ms rows accepted delayed responses without timeout, rejection, or OFFLINE; and all three rows at both 100 and 110~ms showed timeout, sequence rejection, and OFFLINE followed by confirmed NORMAL restoration and recovery. Neither 100- nor 110-ms condition accepted a mode-3 response. Thus, under the identical predefined protocol and fixed F411 implementation, the same condition-level supervision pattern was observed on each of two separate physical F411 controller/payload pairs.
 
@@ -253,7 +261,7 @@ Here F/R denotes the predefined timeout/sequence-rejection/OFFLINE pattern with 
 
 The dual-channel protocol closes a specific evidentiary gap between requesting a behavior and observing that the payload simulator entered it. Within the primary frozen setup, all retained injections produced their predefined controller detector evidence and were followed by a recovery marker after confirmed restoration. The N0 windows provide bounded healthy observations on both sides of that campaign. The separate F411 campaigns add protocol-level physical reproduction on two separate physical pairs under one fixed F411 implementation without changing the one-pair interpretation of the primary results. They do not establish behavior on an unobserved device population, and population-level uncertainty is not estimated from two purposively evaluated pairs.
 
-The experiment has several deliberate limitations. First, the primary 90 trials used one physical board pair and occurred sequentially; each 12-row F411 campaign was likewise sequential within its own pair. Trial outcomes may therefore share device, thermal, state-history, host, and timing conditions. Second, nominal evidence is limited to two 65-s primary windows and one 65-s gate per F411 pair; it does not establish long-duration stability. Third, no fair C0 ablation was constructed, so neither a treatment effect nor comparative superiority is supported. Fourth, timing is based on host command and serial-receipt timestamps. UART, USB, operating-system, and scheduling delays are included, and MCU-internal latency is unknown.
+The experiment has several deliberate limitations. First, the primary 90 trials used one physical board pair and occurred sequentially; each 12-row F411 campaign was likewise sequential within its own pair. Trial outcomes may therefore share device, thermal, state-history, host, and timing conditions. Second, nominal evidence comprises two 65-s primary windows, one separate 605-s observation, and one 65-s gate per F411 pair; even the extended observation does not establish long-duration reliability. Third, no fair C0 ablation was constructed, so neither a treatment effect nor comparative superiority is supported. Fourth, timing is based on host command and serial-receipt timestamps. UART, USB, operating-system, and scheduling delays are included, and MCU-internal latency is unknown.
 
 Fifth, outcomes are marker based. A recorded detector or recovery marker supports the corresponding protocol definition but not every internal state transition. Conversely, absence of a link-start marker does not independently prove the controller never reset. Literal heartbeat or watchdog status strings were not treated as independent health measurements. Sixth, only silence, bad CRC, and one delayed-response setting were exercised under fixed observation windows. Other delay magnitudes, corruption patterns, intermittent behavior, concurrent loads, and recovery horizons remain untested.
 
@@ -267,7 +275,7 @@ This mechanism supports inspection of how every number in Tables~\ref{tab:n0}--\
 
 \section{Conclusion}
 
-This paper presented activation-confirmed dual-channel HIL fault injection for payload-link supervision using a controller board, a commandable payload-simulator board, and independent host observation channels. Two bounded nominal windows and 90 sequential primary trials provide a traceable description of predefined detection and recovery markers and host-observed command-to-marker latency distributions. Under an identical predefined F411 protocol, the same condition-level supervision pattern was separately observed on each of two physical controller/payload pairs. The methodological result remains setup bounded: confirmed link-endpoint behavior can be connected to controller evidence and immutable logs without converting repeated observations into population, reliability, MCU-equivalence, or internal-timing claims. Future work may expand fault models, observation duration, and independent instrumentation; those extensions are not implied by the present datasets.
+This paper presented activation-confirmed dual-channel HIL fault injection for payload-link supervision using a controller board, a commandable payload-simulator board, and independent host observation channels. Two bounded primary nominal windows, a separate 605-s nominal observation, and 90 sequential primary trials provide a traceable description of healthy-operation evidence, predefined detection and recovery markers, and host-observed command-to-marker latency distributions. Under an identical predefined F411 protocol, the same condition-level supervision pattern was separately observed on each of two physical controller/payload pairs. The methodological result remains setup bounded: confirmed link-endpoint behavior can be connected to controller evidence and immutable logs without converting repeated observations into population, reliability, MCU-equivalence, or internal-timing claims. Future work may expand fault models, observation duration, and independent instrumentation; those extensions are not implied by the present datasets.
 
 \balance
 \bibliographystyle{IEEEtran}
