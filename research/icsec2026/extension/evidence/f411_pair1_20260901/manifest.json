@@ -9,13 +9,13 @@
     "board_id": "F411-A",
     "role_id": "F411-P1-C",
     "stlink_serial": "066BFF495051727187053106",
-    "vcp": "PENDING_FRESH_ENUMERATION"
+    "vcp": "COM16"
   },
   "payload": {
     "board_id": "F411-B",
     "role_id": "F411-P1-P",
     "stlink_serial": "066EFF495051727187053015",
-    "vcp": "PENDING_FRESH_ENUMERATION"
+    "vcp": "COM11"
   },
   "untouched_boards": [
     {"board_id": "F411-C", "stlink_serial": "0669FF495051727187053226"},
@@ -33,6 +33,8 @@
     "pilot_planned": 1,
     "pilot_attempted": 0
   },
-  "deviations": [],
+  "deviations": [
+    "BRINGUP_001 was an empty-directory pre-attempt harness abort before capture, flash, reset, or hardware observation; retained without deletion. The first physical bring-up is assigned BRINGUP_002."
+  ],
   "unexpected_outcomes": []
 }

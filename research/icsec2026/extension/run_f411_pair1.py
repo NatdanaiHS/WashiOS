@@ -224,12 +224,12 @@ def openocd_program(serial: str, elf: Path, log_path: Path) -> dict[str, object]
 
 
 def bringup(package: Path, controller_port: str, payload_port: str,
-            controller_elf: Path, payload_elf: Path) -> int:
-    run_dir = package / "raw" / "bringup" / "BRINGUP_001"
+            controller_elf: Path, payload_elf: Path, run_id: str) -> int:
+    run_dir = package / "raw" / "bringup" / run_id
     resources = open_pair(controller_port, payload_port)
     controller_serial, payload_serial, controller, payload = resources
     handles = attach_logs(run_dir, controller, payload)
-    result: dict[str, object] = {"run_id": "BRINGUP_001", "started_host_time": utc_now()}
+    result: dict[str, object] = {"run_id": run_id, "started_host_time": utc_now()}
     try:
         payload_start = payload.snapshot()
         controller_start = controller.snapshot()
@@ -416,12 +416,13 @@ def main() -> int:
     parser.add_argument("--payload-port", required=True)
     parser.add_argument("--controller-elf", type=Path)
     parser.add_argument("--payload-elf", type=Path)
+    parser.add_argument("--run-id", default="BRINGUP_001")
     args = parser.parse_args()
     if args.command == "bringup":
         if args.controller_elf is None or args.payload_elf is None:
             parser.error("bringup requires --controller-elf and --payload-elf")
         return bringup(args.package, args.controller_port, args.payload_port,
-                       args.controller_elf.resolve(), args.payload_elf.resolve())
+                       args.controller_elf.resolve(), args.payload_elf.resolve(), args.run_id)
     if args.command == "normal":
         return normal_window(args.package, args.controller_port, args.payload_port)
     return pilot(args.package, args.controller_port, args.payload_port)

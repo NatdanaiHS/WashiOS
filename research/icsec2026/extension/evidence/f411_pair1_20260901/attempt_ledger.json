@@ -1,5 +1,14 @@
 {
   "schema": "washios.icsec2026.f411_pair1_attempt_ledger.v1",
-  "attempts": [],
+  "attempts": [
+    {
+      "run_id": "BRINGUP_001",
+      "kind": "bringup",
+      "disposition": "PRE_ATTEMPT_HARNESS_ABORT",
+      "scientific_attempt": false,
+      "flash_started": false,
+      "evidence_path": "raw/bringup/BRINGUP_001/pre_attempt_abort.json"
+    }
+  ],
   "rule": "append every attempted bring-up, NORMAL, and pilot exactly once; no replacement or retry"
 }
