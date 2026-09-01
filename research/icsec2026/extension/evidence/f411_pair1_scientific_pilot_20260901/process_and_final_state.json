@@ -1,0 +1,13 @@
+{
+  "acquisition_source_commit": "6bfd5ae4ed2eb71171988a56ca8087127d42cad5",
+  "acquisition_invocation_count": 1,
+  "replacement_or_retry_count": 0,
+  "delayed_command_count": 1,
+  "restore_command_count": 1,
+  "controller_port_closed": true,
+  "payload_port_closed": true,
+  "python_or_openocd_processes_after_run": 0,
+  "final_payload_state": "NORMAL confirmed at 2026-09-01T15:06:56.743818+00:00",
+  "final_controller_state": "ONLINE with final complete status at 2026-09-01T15:07:02.533670+00:00 and stable post-boundary counters",
+  "further_hardware_action_after_run": false
+}

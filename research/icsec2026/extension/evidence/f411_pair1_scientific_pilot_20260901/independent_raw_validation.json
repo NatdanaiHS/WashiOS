@@ -1,0 +1,36 @@
+{
+  "capture_boundary_partial_record_count": 1,
+  "capture_boundary_partial_records": [
+    "[OBC] PAYLOAD_ACCE"
+  ],
+  "checks": {
+    "activation_exactly_once": true,
+    "controller_flash_verified": true,
+    "offline_observed": true,
+    "payload_flash_verified": true,
+    "pilot_id_exact": true,
+    "pilot_valid_original": true,
+    "ports_closed": true,
+    "precondition_id_exact": true,
+    "precondition_valid": true,
+    "recovery_observed": true
+  },
+  "failures": [],
+  "marker_counts": {
+    "accepted": 162,
+    "controller_status": 18,
+    "offline": 1,
+    "payload_delayed_110_confirmations": 1,
+    "payload_normal_confirmations": 3,
+    "recovery": 1,
+    "sequence_reject": 1,
+    "timeout_transition": 4
+  },
+  "raw_format_or_render_failures": [],
+  "raw_record_counts": {
+    "controller": 191,
+    "payload": 6
+  },
+  "schema": "washios.icsec2026.f411_pair1_scientific_independent_validation.v1",
+  "valid_raw_and_machine_evidence": true
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_scientific_precondition_correction.v1",
+  "original_artifact": "precondition_validation.json",
+  "original_artifact_preserved": true,
+  "corrected_field": "normal_window_end_host_time",
+  "original_value": "2026-09-01T15:06:52.692469+00:00",
+  "original_value_disposition": "VALIDATION_WRITE_TIME_AFTER_PRE_STABILIZATION; DO_NOT USE AS NORMAL_WINDOW_END",
+  "corrected_retained_boundary": {
+    "definition": "exact host time of the fresh NORMAL command issued immediately after the 65.0 s monotonic NORMAL window completed",
+    "host_time": "2026-09-01T15:06:43.654819+00:00",
+    "monotonic_window_duration_s": 65.0,
+    "window_start_host_time": "2026-09-01T15:05:38.670543+00:00",
+    "last_in_window_status_host_time": "2026-09-01T15:06:42.791911+00:00"
+  },
+  "interpretation": "The original end field was populated when the complete precondition record was written after stabilization. The code retained the evaluated duration from monotonic boundaries, and the next exact host event is the fresh NORMAL command after that boundary. Raw status selection and counter validation used the correct monotonic window and are unchanged.",
+  "scientific_effect": "NONE; additive provenance correction only",
+  "precondition_remains_valid": true
+}

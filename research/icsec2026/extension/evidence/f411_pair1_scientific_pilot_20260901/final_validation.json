@@ -1,0 +1,46 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_scientific_final_validation.v1",
+  "precondition": {
+    "valid": true,
+    "normal_window_duration_s_monotonic": 65.0,
+    "status_count": 13,
+    "all_status_online": true,
+    "ok_strictly_increasing": true,
+    "counter_deltas": {"timeout": 0, "crc": 0, "seq": 0, "recovery": 0},
+    "prohibited_markers": 0,
+    "fresh_normal_confirmed": true,
+    "pre_stabilization_valid": true,
+    "boundary_correction_applied_additively": true
+  },
+  "pilot": {
+    "run_id": "F411_P1_SCI_PILOT_001_D110",
+    "exact_activation_confirmation_count": 1,
+    "exposure_s": 4.0,
+    "classification": "ORDERED_TIMEOUT_PATH_TO_OFFLINE",
+    "ordered_markers": [
+      "PAYLOAD_TIMEOUT consecutive=1",
+      "PAYLOAD_REJECT reason=SEQUENCE",
+      "PAYLOAD_TIMEOUT consecutive=2",
+      "PAYLOAD_OFFLINE consecutive=3"
+    ],
+    "first_post_restore_status_cumulative_counters": {"timeout": 8, "crc": 0, "seq": 8, "recovery": 1},
+    "restore_command_count": 1,
+    "normal_restore_confirmed": true,
+    "recovery_confirmed": true,
+    "post_stabilization_valid": true,
+    "post_stabilization_counter_deltas": {"timeout": 0, "crc": 0, "seq": 0, "recovery": 0},
+    "serial_or_uart_failures": 0
+  },
+  "raw_integrity": {
+    "controller_records": 191,
+    "payload_records": 6,
+    "format_or_render_failures": 0,
+    "flash_verified_ok_count_controller": 1,
+    "flash_verified_ok_count_payload": 1,
+    "capture_boundary_partial_records_excluded_after_final_boundary": 1
+  },
+  "scientific_attempt_count": 1,
+  "campaign_denominator": false,
+  "failures": [],
+  "valid": true
+}

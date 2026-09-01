@@ -1,0 +1,26 @@
+{
+  "deviations": [
+    {
+      "id": "PRE_CAPTURE_IDENTITY_POWER_CYCLE",
+      "description": "The human identity check disconnected and reconnected F411-A before serial capture. It occurred before the assigned scientific attempt and is retained in human_wiring_confirmation.json."
+    },
+    {
+      "id": "PREFLASH_TIMEOUT_MARKERS",
+      "description": "Continuous capture began before flashing. While the payload was programmed first, the previously running controller retained two timeout markers before its own exact flash/reset. They precede controller READY and every precondition/scientific boundary and are excluded from trial scoring."
+    },
+    {
+      "id": "NORMAL_END_FIELD_LATE_WRITE",
+      "description": "The original precondition JSON end-host field reflects record-write time after stabilization. precondition_boundary_correction.json provides the retained post-window host boundary without altering the original file."
+    },
+    {
+      "id": "FINAL_CAPTURE_PARTIAL_RECORD",
+      "description": "Exact-byte capture retained a 19-byte prefix '[OBC] PAYLOAD_ACCE' after the final validated status and after pilot_validation finished, while ports were closing. It is outside every scored/stabilization boundary, remains byte-valid, and is not used as an accepted exchange."
+    }
+  ],
+  "unexpected_scientific_outcome": {
+    "description": "During the full four-second 110 ms exposure, post-restore status recorded cumulative timeout=8 and seq=8, with one explicit sequence-rejection marker and OFFLINE after the third timeout. This is preserved descriptively and was not tuned or retried.",
+    "outcome_valid": true
+  },
+  "rerun_or_replacement": false,
+  "firmware_or_setting_change_after_outcome": false
+}

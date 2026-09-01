@@ -1,0 +1,17 @@
+{
+  "terminal_condition": "F411_P1_SCI_PILOT_PASS_AWAITING_REVIEW",
+  "run_id": "F411_P1_SCI_PILOT_001_D110",
+  "valid_scientific_pilot": true,
+  "campaign_denominator": false,
+  "outcome": "ORDERED_TIMEOUT_PATH_TO_OFFLINE",
+  "activation_confirmed": true,
+  "restoration_confirmed": true,
+  "recovery_confirmed": true,
+  "pre_and_post_stabilization_valid": true,
+  "unexpected_finding": "The four-second 110 ms exposure accumulated eight timeout and eight sequence-rejection counter increments; OFFLINE occurred at the third timeout. The ordered transition, restoration, and recovery are unambiguous.",
+  "claim_boundary": "one descriptive scientific pilot on one F411-to-F411 configuration; no pooling, campaign inference, reliability estimate, population inference, replication claim, or manuscript use before later review",
+  "fresh_campaign_or_second_pair_authorized": false,
+  "final_payload_state": "NORMAL confirmed",
+  "final_controller_state": "ONLINE with stable post-stabilization counters",
+  "prior_failed_and_diagnostic_packages_modified": false
+}
