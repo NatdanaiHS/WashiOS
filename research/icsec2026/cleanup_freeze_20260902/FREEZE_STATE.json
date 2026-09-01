@@ -1,0 +1,145 @@
+{
+  "schema": "icsec-cleanup-protection-freeze-v1",
+  "recorded_utc": "2026-09-01T19:50:53.347028+00:00",
+  "branch": "experiment/icsec-extension-20260830",
+  "freeze_start_commit": "b6fd0a9813168fefe90168b61cd8fb26dae0a48b",
+  "head_observed_while_generating": "b6fd0a9813168fefe90168b61cd8fb26dae0a48b",
+  "origin_branch_observed": "b6fd0a9813168fefe90168b61cd8fb26dae0a48b",
+  "origin_synchronized_at_freeze_start": true,
+  "working_tree_at_freeze_start": "CLEAN",
+  "generation_worktree_note": "Only this new cleanup-freeze directory may be untracked while the manifest is generated.",
+  "frozen_baseline": {
+    "main": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+    "origin_main": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+    "tag_icsec_2026_evaluated_state": "8a47d070c549274c59cdbde2495afa8d353a93b3"
+  },
+  "final_manuscript": {
+    "pdf": "research/icsec2026/extension/final_pass_submission_20260902/main.pdf",
+    "pdf_sha256": "99E4180F4B172C1CC7BABFCF8BE92FCC5442B3868F7AAD1D32A13779849E765D",
+    "page_count": 5,
+    "final_pass_source_commit": "21129b1795102574dceb023f984c115630b18020",
+    "paths": [
+      "research/icsec2026/extension/final_pass_submission_20260902/main.pdf",
+      "research/icsec2026/extension/final_pass_submission_20260902/main.tex",
+      "research/icsec2026/extension/final_pass_submission_20260902/references.bib",
+      "research/icsec2026/extension/manuscript/main.pdf",
+      "research/icsec2026/extension/manuscript/main.tex",
+      "research/icsec2026/extension/manuscript/references.bib",
+      "research/icsec2026/extension/submission_candidate_20260902",
+      "research/icsec2026/manuscript"
+    ]
+  },
+  "evidence_packages_referenced_by_manuscript": [
+    "research/icsec2026/runs/full_20260830_seed20260830_n30",
+    "research/icsec2026/runs/n0_pre_20260830_0205",
+    "research/icsec2026/runs/n0_post_20260830_0224",
+    "research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5",
+    "research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3",
+    "research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3"
+  ],
+  "provenance_and_table_generation_dependencies": [
+    "research/icsec2026/paper/generate_manuscript_tables.py",
+    "research/icsec2026/paper/tables/TABLE_PROVENANCE.json",
+    "research/icsec2026/paper/tables/n0_controls.csv",
+    "research/icsec2026/paper/tables/fault_outcomes.csv",
+    "research/icsec2026/paper/tables/latency_summary.csv",
+    "research/icsec2026/provenance/20260830_023830",
+    "research/icsec2026/extension/generate_f411_cross_pair_synthesis.py",
+    "research/icsec2026/extension/test_f411_cross_pair_synthesis.py",
+    "research/icsec2026/extension/analysis/f411_cross_pair_synthesis_20260902",
+    "research/icsec2026/extension/analysis/f411_cross_pair_synthesis_20260902_r2",
+    "research/icsec2026/extension/analysis/f411_cross_pair_synthesis_20260902_r3",
+    "research/icsec2026/extension/analysis/f411_cross_pair_synthesis_20260902_r4",
+    "research/icsec2026/extension/analysis/f411_cross_pair_integration_20260902",
+    "research/icsec2026/extension/analysis/f411_claim_correction_20260902",
+    "research/icsec2026/extension/analysis/submission_readiness_20260902",
+    "research/icsec2026/extension/final_pass_submission_20260902",
+    "core/include/comms/PayloadLinkController.hpp",
+    "core/src/app/PayloadLinkTask.hpp"
+  ],
+  "evaluated_source_revisions": {
+    "primary_extension_acquisition_commit": "cfd4b1b59d5018f498e5cc083ab27e1d230ae85d",
+    "payload_link_controller_blob": "e2b6c9e9bb4af62afa32daa455479575eebff19a",
+    "payload_link_task_blob": "a76804eb567689588bc3b1459df9a9352ec0d4f4"
+  },
+  "protected_repository_scopes": [
+    "research/icsec2026",
+    "core",
+    "bootloader",
+    "demo-payload"
+  ],
+  "excluded_mutable_control_paths": [
+    "research/icsec2026/NEXT_TASK.md",
+    "research/icsec2026/SESSION_STATE.md"
+  ],
+  "protected_repository_files": 906,
+  "protected_repository_bytes": 27806296,
+  "protected_repository_tree_sha256": "9576D6D8E6653778D3E7B8FB369ABFFAF6F66C217260AF8B328347700A0F1B90",
+  "external_verified_backups": [
+    {
+      "root": "C:/WashiOS-extension-backup/primary_20260830_seed20260830_b5",
+      "files": 89,
+      "bytes": 939938,
+      "tree_sha256": "385CAF6AB0DFA399778D749917A16233C1925DE5D048B9FBA727B03A4D4B4E83"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/replication_g431b_20260830_seed20260830_b3",
+      "files": 43,
+      "bytes": 206684,
+      "tree_sha256": "907FAC22CE6460675FC2F94BFF4E7C927F5A159D0A56A7014DAAFA3A84A888C2"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/scope_g431b_g474a_110ms_20260830",
+      "files": 20,
+      "bytes": 63221,
+      "tree_sha256": "4D2D28B5A0316C54551D6574E45753E4433DF889EBD158E6F265106EC82F2010"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/f411_pair1_scientific_pilot_20260901",
+      "files": 49,
+      "bytes": 482980,
+      "tree_sha256": "A04FCE52138A6732D25EFDA5F3D0FE8E5CAD2D0D6B072D2594BBA28D8C0451D2"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/f411_pair1_campaign_20260901_seed20260901_b3",
+      "files": 96,
+      "bytes": 902028,
+      "tree_sha256": "5D2C79883E734CAF9FA6BBDA1E34A49106D6F731C1E8EC9207B32CD7DCB767D0"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/f411_pair2_campaign_20260901_seed20260901_b3",
+      "files": 82,
+      "bytes": 844866,
+      "tree_sha256": "CFD96100B98035E6EAB2EBA9619F8B348193F7012FA15EBDD27D93619B58AE51"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/f411_cross_pair_integration_20260902",
+      "files": 32,
+      "bytes": 2666587,
+      "tree_sha256": "1ACD878FDD469950D973463F9752FBAE840723886B8517905CA430086E197BE8"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/f411_claim_correction_20260902",
+      "files": 28,
+      "bytes": 2617402,
+      "tree_sha256": "5541698AE36A31CDECDB7044D7396BD9E347F313F0826CB0338300472734CAD6"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/submission_readiness_20260902",
+      "files": 20,
+      "bytes": 2737107,
+      "tree_sha256": "B3A2B3E158B6AC56D7736893B110015BC0CE1DBC0991C9043DF83EE83D97400B"
+    },
+    {
+      "root": "C:/WashiOS-extension-backup/final_pass_submission_20260902",
+      "files": 13,
+      "bytes": 115809,
+      "tree_sha256": "7978DF695A179DBE7A024294430363A68B2C25652A64FD0C0A73FBFD53D45E5A"
+    }
+  ],
+  "protected_external_backup_files": 472,
+  "protected_external_backup_bytes": 11576622,
+  "protected_external_backup_tree_sha256": "1FA0FAD7D84F0EF7E97A45C8C0F174F72396CFF01F54C7A2951D60279ED0098B",
+  "cleanup_rule": "Repository cleanup may not modify the byte content of any listed protected file. Relocation requires a pre/post SHA-256 match and an updated path map; deletion requires explicit Research Director authorization.",
+  "generation_status_porcelain": " M research/icsec2026/SESSION_STATE.md\n?? research/icsec2026/cleanup_freeze_20260902/\n"
+}
