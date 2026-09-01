@@ -1,0 +1,17 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_human_wiring_confirmation.v1",
+  "reported_before_software_enumeration": true,
+  "controller": {"board_id": "F411-C", "stlink_serial": "0669FF495051727187053226", "reported_vcp": "COM12"},
+  "payload": {"board_id": "F411-D", "stlink_serial": "0663FF495051727187066042", "reported_vcp": "COM6"},
+  "physical_labels_match_laptop_enumeration": true,
+  "wiring": [
+    "F411-C D8/PA9 TX -> F411-D D2/PA10 RX",
+    "F411-D D8/PA9 TX -> F411-C D2/PA10 RX",
+    "F411-C GND -> F411-D GND"
+  ],
+  "d0_d1_wiring": false,
+  "boards_powered_and_connected": true,
+  "solder_change_reported": false,
+  "minimum_90_uninterrupted_minutes_confirmed": false,
+  "note": "The human confirmed identity, wiring, and powered state but did not yet state the required remaining-time gate."
+}

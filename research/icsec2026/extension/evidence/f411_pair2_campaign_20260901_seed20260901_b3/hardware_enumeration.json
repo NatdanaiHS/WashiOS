@@ -1,0 +1,28 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_hardware_enumeration.v1",
+  "recorded_host_time": "2026-09-01T23:42:56+07:00",
+  "method": [
+    "python serial.tools.list_ports -v",
+    "Windows present PnP device cross-check"
+  ],
+  "controller": {
+    "board_id": "F411-C",
+    "stlink_serial": "0669FF495051727187053226",
+    "vcp": "COM12",
+    "usb_vid_pid": "0483:374B",
+    "status": "OK"
+  },
+  "payload": {
+    "board_id": "F411-D",
+    "stlink_serial": "0663FF495051727187066042",
+    "vcp": "COM6",
+    "usb_vid_pid": "0483:374B",
+    "status": "OK"
+  },
+  "f411_a_present": false,
+  "f411_b_present": false,
+  "other_stlink_vcp_present": false,
+  "serial_ports_opened": false,
+  "board_reset_or_flash_performed": false,
+  "identity_match": true
+}
