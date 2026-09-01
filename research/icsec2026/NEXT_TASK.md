@@ -1,14 +1,23 @@
-# Next Executable Milestone: Recover the Frozen Baseline Evidence
+# Next Executable Milestone: F411 Source/Pin/VCP Feasibility
 
-Go to the lab and locate the exact original frozen-dataset and frozen-provenance bytes on the original machine or media. This milestone is data recovery only: do not connect to, flash, reset, command, or acquire from any board or oscilloscope.
+Time-box this milestone to 60 minutes. Perform feasibility only; do not modify or flash experimental firmware and do not begin pair bring-up.
 
-Use a new exclusive staging root outside the frozen repository paths. Treat the source media as read-only. Reconstruct the inventory-relative directory layout using exact original copies for ignored raw logs/binaries/ELFs and exact committed blob bytes for tracked files; do not use CRLF working-tree representations where the inventory requires LF bytes.
+Freshly enumerate all four NUCLEO-F411RE boards and record each ST-LINK serial identity and VCP port. Verify from authoritative Nucleo-F411RE/STM32F411 documentation and the installed PlatformIO `nucleo_f411re` definition that:
 
-Verify every staged artifact against the existing unchanged inventories:
+- USART2 PA2/PA3 remains dedicated to ST-LINK VCP host control/observation;
+- USART1 PA9/PA10 is independently exposed on D8/D2 for the inter-board link;
+- crossed PA9/PA10 plus common ground requires three jumper wires per pair and no solder-bridge change; and
+- two simultaneous physical pairs can retain four independent VCP observation channels without electrical driver conflict.
 
-- dataset inventory SHA-256: `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD`, requiring 195/195 exact rows;
-- provenance inventory SHA-256: `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`, requiring 65/65 exact rows.
+Build the existing `genericSTM32F411RE` environment as a toolchain sanity check. Audit the controller, F4 UART/BSP, payload simulator, build environments, and host harness. Produce `research/icsec2026/extension/F411_FEASIBILITY_20260901.md` containing:
 
-Pass only with zero missing files, zero size mismatches, and zero SHA-256 mismatches across both inventories. Then create a second exclusive copy and independently reverify every row. Record source location, copy commands/tool versions, row counts, mismatches, inventory-file hashes, destination paths, and final verification results in an append-only recovery record outside all frozen evidence and manuscript paths.
+- the four-board identity/port table and locked host/link pin map;
+- the exact current source gaps for controller and payload roles;
+- the smallest file-level implementation plan for explicit standalone `nucleo_f411re` controller and payload environments;
+- a semantic-equivalence table covering frame/CRC/sequence behavior, 115200 8N1, 500 ms poll cadence, 100 ms deadline, three-timeout OFFLINE rule, fault activation confirmation, NORMAL restoration, and stabilization;
+- required receive-buffer/overflow tests and build/hardware checks; and
+- a final `F411_GO` or `F411_NO_GO` decision with elapsed time and concrete reasons.
 
-Stop immediately if an exact original artifact cannot be found or any row mismatches. Preserve the staging copy and a complete missing/mismatch ledger; do not regenerate an inventory, normalize an unknown original, substitute a rebuild, rerun an experiment, or begin F411/scope work. The frozen commit and manuscript remain unchanged regardless of outcome.
+Declare `F411_GO` only if both roles can be supplied through isolated F4 board/UART implementations, interrupt-driven bounded receive buffers, F4 initialization, explicit build environments, and narrow compile guards while leaving the common protocol, supervision state machine, fault semantics, and evidence gates unchanged.
+
+Declare `F411_NO_GO` and stop if feasibility requires common architectural refactoring, a bootloader port, shared VCP/link UART, solder-bridge changes, polling/blocking receive that changes supervision behavior, or any material semantic change. Preserve the feasibility record and redirect work to manuscript analysis and Friday scope/export preparation. Stop after recording the GO/NO-GO decision; a GO does not authorize Checkpoint 2 in this milestone.

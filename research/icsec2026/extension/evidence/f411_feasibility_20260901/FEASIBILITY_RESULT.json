@@ -1,0 +1,29 @@
+{
+  "schema": "washios.icsec2026.f411_feasibility_result.v1",
+  "decision_at": "2026-09-01T20:20:00+07:00",
+  "decision": "F411_GO",
+  "authorized_checkpoint_completed": 1,
+  "next_checkpoint_authorized": false,
+  "engineering_risk": "HIGH",
+  "source_commit": "0fbd98fe367faaeee7da8aa360755bee807f7a36",
+  "locked_pin_map": {
+    "host_vcp": "USART2 PA2/PA3 via default ST-LINK VCP",
+    "interboard_link": "USART1 PA9/PA10 AF7 on D8/D2; TX/RX crossed plus GND"
+  },
+  "checks": {
+    "four_unique_stlink_identities": true,
+    "one_vcp_per_board_observed": true,
+    "two_sequential_two_board_batches_conflict_free": true,
+    "four_boards_simultaneously_attached": false,
+    "four_boards_simultaneously_required": false,
+    "generic_f411_toolchain_build": "SUCCESS",
+    "separate_host_and_link_uart_mapping": true,
+    "solder_changes_required": false,
+    "bootloader_port_required": false,
+    "common_protocol_refactor_required": false,
+    "experimental_firmware_modified": false,
+    "experimental_firmware_flashed": false
+  },
+  "scientific_boundary": "protocol-level cross-configuration physical replication only; pair-specific results; no pooling or G431/G474 timing/population inference",
+  "report": "research/icsec2026/extension/F411_FEASIBILITY_20260901.md"
+}

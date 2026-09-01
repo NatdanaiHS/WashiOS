@@ -1,0 +1,55 @@
+{
+  "schema": "washios.icsec2026.f411_board_enumeration.v1",
+  "enumeration_date": "2026-09-01",
+  "timezone": "Asia/Bangkok",
+  "method": "two sequential batches due to two available USB ports; drive-to-disk serial joined to VCP through DEVPKEY_Device_Parent",
+  "durable_identity_field": "stlink_serial",
+  "firmware_action": "none; pre-existing board firmware left untouched",
+  "boards": [
+    {
+      "board_id": "F411-A",
+      "batch": 1,
+      "observed_at": "2026-09-01T20:05:58+07:00",
+      "human_drive_mapping": "D:",
+      "stlink_serial": "066BFF495051727187053106",
+      "usb_vid_pid": "0483:374B",
+      "vcp_at_enumeration": "COM16",
+      "vcp_status": "Started"
+    },
+    {
+      "board_id": "F411-B",
+      "batch": 1,
+      "observed_at": "2026-09-01T20:05:58+07:00",
+      "human_drive_mapping": "E:",
+      "stlink_serial": "066EFF495051727187053015",
+      "usb_vid_pid": "0483:374B",
+      "vcp_at_enumeration": "COM11",
+      "vcp_status": "Started"
+    },
+    {
+      "board_id": "F411-C",
+      "batch": 2,
+      "observed_at": "2026-09-01T20:18:13+07:00",
+      "human_drive_mapping": "D:",
+      "stlink_serial": "0669FF495051727187053226",
+      "usb_vid_pid": "0483:374B",
+      "vcp_at_enumeration": "COM12",
+      "vcp_status": "Started"
+    },
+    {
+      "board_id": "F411-D",
+      "batch": 2,
+      "observed_at": "2026-09-01T20:18:13+07:00",
+      "human_drive_mapping": "E:",
+      "stlink_serial": "0663FF495051727187066042",
+      "usb_vid_pid": "0483:374B",
+      "vcp_at_enumeration": "COM6",
+      "vcp_status": "Started"
+    }
+  ],
+  "unique_stlink_serials": true,
+  "two_board_batch_driver_conflicts": 0,
+  "four_board_simultaneous_attachment_tested": false,
+  "four_board_simultaneous_attachment_reason_not_tested": "host has only two physical USB ports",
+  "four_board_simultaneous_attachment_required_by_gated_plan": false
+}
