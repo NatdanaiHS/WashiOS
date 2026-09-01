@@ -17,8 +17,11 @@
 #include "Watchdog.hpp"
 #include "WatchdogRunner.hpp"
 #include "app/HeartbeatTask.hpp"
-#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+#if defined(WASHIOS_PAYLOAD_DEMO)
 #include "app/PayloadLinkTask.hpp"
+#endif
+#if defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+#include "app/F411UartMonitorTask.hpp"
 #endif
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
 #include "app/LaserTelemetryTask.hpp"
@@ -38,11 +41,15 @@
 #include "bsp/f4/Stm32Gpio.hpp"
 #include "bsp/f4/Stm32Timing.hpp"
 #include "bsp/f4/Stm32Uart.hpp"
+#if defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+#include "bsp/f4/Stm32F411BoardUart.hpp"
+#include "bsp/f4/Stm32F411InterruptUart.hpp"
+#endif
 #endif
 
 void SystemClock_Config(void);
 static void Board_GPIO_Init(void);
-#if !defined(STM32G431xx)
+#if !defined(STM32G431xx) && !defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
 static void Board_USART2_Init(void);
 #endif
 #if defined(STM32G431xx)
@@ -58,7 +65,7 @@ namespace
 
 constexpr core::TaskId HeartbeatTaskId = 1U;
 constexpr core::TaskId TelemetryTaskId = 2U;
-#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+#if defined(WASHIOS_PAYLOAD_DEMO)
 constexpr core::TaskId PayloadLinkTaskId = TelemetryTaskId;
 #endif
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
@@ -110,7 +117,7 @@ void requestBootRecovery(void* context)
 }
 
 UART_HandleTypeDef huart2 = {};
-#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+#if defined(WASHIOS_PAYLOAD_DEMO)
 UART_HandleTypeDef huart1 = {};
 #endif
 
@@ -132,6 +139,9 @@ comms::LaserPdmTx laserTransport(laserTxPin, targetTiming);
 #else
 bsp::Stm32Timing targetTiming;
 bsp::Stm32Uart targetTelemetryUart(&huart2);
+#if defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+bsp::Stm32F411InterruptUart targetPayloadUart(&huart1);
+#endif
 bsp::Stm32Gpio heartbeatLed(GPIOA, GPIO_PIN_5);
 #endif
 
@@ -156,7 +166,7 @@ core::WatchdogRunner<> systemWatchdogRunner(targetTiming,
 } /* namespace */
 
 static HeartbeatTask heartbeatTask;
-#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+#if defined(WASHIOS_PAYLOAD_DEMO)
 static PayloadLinkTask payloadLinkTask(targetPayloadUart,
                                        targetTelemetryUart,
                                        targetTiming,
@@ -168,6 +178,10 @@ static PayloadLinkTask payloadLinkTask(targetPayloadUart,
 );
 #else
 static TelemetryMockTask telemetryTask;
+#endif
+#if defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+static F411UartMonitorTask uartMonitorTask(targetPayloadUart,
+                                           targetTelemetryUart);
 #endif
 static WatchdogTask<> watchdogTask(systemWatchdogRunner, WatchdogTaskDelayMs);
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
@@ -213,6 +227,15 @@ int main(void)
         core::requestSystemReset();
     }
 #endif
+#elif defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+    if (!bsp::initializeF411HostUart(&huart2) ||
+        !bsp::initializeF411LinkUart(&huart1) ||
+        !targetPayloadUart.enableInterruptReceive())
+    {
+        core::requestSystemReset();
+    }
+    HAL_NVIC_SetPriority(USART1_IRQn, 6U, 0U);
+    HAL_NVIC_EnableIRQ(USART1_IRQn);
 #else
     Board_USART2_Init();
 #endif
@@ -263,15 +286,26 @@ int main(void)
     stressTestTask.Configure(&targetTiming, &heartbeatTask);
 #endif
 
+#if defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+    static const uint8_t controllerReady[] =
+        "[OBC] READY board=NUCLEO-F411RE role=CONTROLLER baud=115200\r\n";
+    (void)targetTelemetryUart.writeBuffer(controllerReady,
+                                           sizeof(controllerReady) - 1U,
+                                           10U);
+#endif
+
 #if defined(STM32G431xx)
     Board_IWDG_Init();
 #endif
 
     bool tasksStarted = heartbeatTask.Start("Heartbeat", tskIDLE_PRIORITY + 1);
-#if defined(WASHIOS_PAYLOAD_DEMO) && defined(STM32G431xx)
+#if defined(WASHIOS_PAYLOAD_DEMO)
     tasksStarted = payloadLinkTask.Start("PayloadLink", tskIDLE_PRIORITY + 2) && tasksStarted;
 #else
     tasksStarted = telemetryTask.Start("Telemetry", tskIDLE_PRIORITY + 2) && tasksStarted;
+#endif
+#if defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+    tasksStarted = uartMonitorTask.Start("UartMonitor", tskIDLE_PRIORITY + 1) && tasksStarted;
 #endif
     tasksStarted = watchdogTask.Start("Watchdog", configMAX_PRIORITIES - 1U) && tasksStarted;
 #if defined(WASHIOS_LASERCOM_TEST) && defined(STM32G431xx)
@@ -412,7 +446,7 @@ static void Board_GPIO_Init(void)
     __HAL_RCC_GPIOA_CLK_ENABLE();
 }
 
-#if !defined(STM32G431xx)
+#if !defined(STM32G431xx) && !defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
 static void Board_USART2_Init(void)
 {
     __HAL_RCC_USART2_CLK_ENABLE();
@@ -440,6 +474,13 @@ static void Board_USART2_Init(void)
         core::requestSystemReset();
     }
 
+}
+#endif
+
+#if defined(WASHIOS_F411_PAYLOAD_CONTROLLER)
+extern "C" void USART1_IRQHandler()
+{
+    targetPayloadUart.handleInterrupt();
 }
 #endif
 
