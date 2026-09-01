@@ -1,3 +1,6 @@
 # Preserve generated analysis, provenance, and manuscript-candidate bytes exactly.
 analysis/f411_cross_pair_*/** -text
 manuscript_candidate_f411_20260902/** -text
+analysis/f411_claim_correction_20260902/** -text
+manuscript_candidate_f411_20260902_corrected/** -text
+manuscript/** -text

@@ -1,0 +1,10 @@
+{
+  "artifact": "research/icsec2026/extension/manuscript_candidate_f411_20260902_corrected/main.pdf",
+  "pages": 5,
+  "required_minimum": 4,
+  "required_maximum": 6,
+  "passes": true,
+  "pdf_sha256": "D346C39253B8BC44B96968A4509BED14369F0632742352ACA7EE5B8027F42ED3",
+  "tool": "Poppler pdfinfo",
+  "verified_at": "2026-09-02T00:44:02+07:00"
+}

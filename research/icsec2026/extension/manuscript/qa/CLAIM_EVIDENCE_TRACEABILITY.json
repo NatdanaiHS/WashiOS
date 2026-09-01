@@ -1,0 +1,47 @@
+{
+  "candidate_pdf_sha256": "D346C39253B8BC44B96968A4509BED14369F0632742352ACA7EE5B8027F42ED3",
+  "claim_correction": {
+    "authorized_replacements": 2,
+    "other_source_changes": 0,
+    "distinct_f411_configurations_claim_remaining": false,
+    "scientific_values_changed": false
+  },
+  "derived_package": "research/icsec2026/extension/analysis/f411_cross_pair_synthesis_20260902_r4",
+  "claims": [
+    {
+      "manuscript_location": "abstract; Section V-D; Table V; conclusion",
+      "claim": "two separate F411 pairs each retained 12/12 valid rows and the same condition-level pattern",
+      "derived_fields": ["pair_comparison.csv", "condition_outcomes.csv"],
+      "source_trace": "PROVENANCE.json",
+      "denominator_rule": "separate pair denominators only"
+    },
+    {
+      "manuscript_location": "Table V; Section V-D",
+      "claim": "per pair: NC 3/3 clean, D090 3/3 accepted without fault transition, D100 and D110 3/3 fault/restoration/recovery",
+      "derived_fields": ["condition_outcomes.csv"],
+      "source_trace": "PROVENANCE.json",
+      "denominator_rule": "three observations per condition per pair"
+    },
+    {
+      "manuscript_location": "Section V-D",
+      "claim": "four Pair-1 and three Pair-2 post-activation mode-0 accepts are boundary observations",
+      "derived_fields": ["pair_comparison.csv:boundary_mode0_rows"],
+      "source_trace": "PROVENANCE.json",
+      "interpretation": "retained; not delayed-mode accepts"
+    },
+    {
+      "manuscript_location": "Section V-D",
+      "claim": "explicit markers differ from cumulative timeout/sequence status deltas",
+      "derived_fields": ["condition_outcomes.csv:explicit_*", "condition_outcomes.csv:cumulative_*"],
+      "source_trace": "PROVENANCE.json",
+      "interpretation": "reported separately; not pooled"
+    }
+  ],
+  "frozen_fallback": {
+    "commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+    "pdf": "research/icsec2026/manuscript/main.pdf",
+    "pdf_sha256": "992A1C9AA41F4295BF7F97CA081D79A7DE2ABBB4B419B2A0B82144C1B50928DF",
+    "unchanged": true
+  },
+  "audit_result": "PASS"
+}

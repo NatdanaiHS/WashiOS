@@ -1,0 +1,20 @@
+note: Running TeX ...
+Fontconfig error: Cannot load default config file: No such file: (null)
+warning: main.tex:48: Underfull \hbox (badness 4254) in paragraph at lines 47--48
+warning: main.tex:210: Underfull \hbox (badness 1881) in paragraph at lines 209--210
+warning: main.tex:251: Underfull \hbox (badness 10000) in paragraph at lines 250--251
+warning: main.tex:261: Underfull \hbox (badness 3386) in paragraph at lines 260--261
+note: Running BibTeX on main.aux ...
+note: Rerunning TeX because bibtex was run ...
+warning: main.tex:48: Underfull \hbox (badness 4254) in paragraph at lines 47--48
+warning: main.tex:210: Underfull \hbox (badness 1881) in paragraph at lines 209--210
+warning: main.tex:251: Underfull \hbox (badness 10000) in paragraph at lines 250--251
+warning: main.tex:261: Underfull \hbox (badness 3386) in paragraph at lines 260--261
+note: Running xdvipdfmx ...
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+note: Writing `main.pdf` (64.6953125 KiB)
+note: Writing `main.blg` (379 B)
+note: Writing `main.bbl` (2.404296875 KiB)
+note: Writing `main.out` (3.28515625 KiB)
+note: Writing `main.aux` (5.75390625 KiB)
+note: Writing `main.log` (27.2880859375 KiB)
