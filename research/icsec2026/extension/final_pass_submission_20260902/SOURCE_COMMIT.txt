@@ -1,0 +1,7 @@
+FINAL_PASS manuscript source commit:
+21129b1795102574dceb023f984c115630b18020
+
+Branch at freeze start:
+experiment/icsec-extension-20260830
+
+The package-freeze commit is recorded by Git history and reported at handoff. A Git commit cannot contain its own hash; this file therefore records the exact already-reviewed manuscript source commit whose PDF/source bytes are frozen here.

@@ -720,3 +720,13 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Review package: `research/icsec2026/extension/analysis/submission_readiness_20260902/`. Modified/new milestone paths are the Research Director's `NEXT_TASK.md`, active extension manuscript/source/build/QA, submission candidate, readiness analysis package, and this factual entry. Validation status: `SUBMISSION_READY`. Unresolved scientific uncertainty requiring immediate decision: none. Remaining time: milestone complete; next action is inventory, exact-copy backup, commit, synchronization, and `WORK_REVIEW_REQUIRED`.
 - Candidate inventory contains 12 rows plus its inventory file; inventory SHA-256 is `3A3B4543DBCC5E34F5DA69C80EFB94D5B9ED0659373D56D6ADC98F827EB8397E`. Readiness-analysis inventory contains six rows plus its inventory file; inventory SHA-256 is `E521FB300388C92554CDEE76D638C962881EE3F7416DAF3D5C1C4E3D6C3D352C`.
 - Exact-copy backup `C:/WashiOS-extension-backup/submission_readiness_20260902` contains all 20 source files across candidate and analysis packages; independent relative-path SHA-256 comparison reports 20/20 matches and zero issues.
+
+### FINAL_PASS submission freeze (2026-09-02)
+
+- This was packaging/provenance work only. No manuscript/PDF content was edited or regenerated, no hardware was accessed, and no source evidence or frozen checkpoint was modified.
+- Freeze started from clean synchronized branch `experiment/icsec-extension-20260830` at FINAL_PASS source commit `21129b1795102574dceb023f984c115630b18020`. `main`, `origin/main`, and `icsec-2026-evaluated-state` remained `8a47d070c549274c59cdbde2495afa8d353a93b3`.
+- Frozen submission package: `research/icsec2026/extension/final_pass_submission_20260902/`. Packaged `main.pdf`, `main.tex`, and `references.bib` are byte-identical to the reviewed FINAL_PASS candidate.
+- Final PDF SHA-256 is `99E4180F4B172C1CC7BABFCF8BE92FCC5442B3868F7AAD1D32A13779849E765D`; page count is five. All five existing 144-dpi renders tied to the identical PDF were re-inspected with no clipping, collision, broken table/reference, unreadable glyph, or anonymity defect.
+- Package records scientific claims, references, anonymity, provenance, page/layout QA, final validation, source commit, final PDF hash, and submission checklist. All six requested gates are PASS.
+- Package inventory contains 12 rows plus the inventory file; `PACKAGE_SHA256SUMS.csv` SHA-256 is `54D60DBC8E9767AD5A87BC38642606D73431ECAAE7C2DFE45EBB06DB2570ED1C`.
+- Exact-copy backup `C:/WashiOS-extension-backup/final_pass_submission_20260902` independently matches all 13 package files and the final PDF hash, with zero issues. Next action: commit, push, and report the package-freeze commit.
