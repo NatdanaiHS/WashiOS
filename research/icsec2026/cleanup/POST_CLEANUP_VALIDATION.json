@@ -1,0 +1,34 @@
+{
+  "schema": "icsec-post-cleanup-relocation-validation-v1",
+  "status": "FAIL",
+  "protected_repository_rows": 906,
+  "mapped_protected_rows": 121,
+  "unchanged_protected_rows": 785,
+  "relocation_rows": 122,
+  "external_backup_rows": 472,
+  "freeze_package_rows": 7,
+  "canonical_package_rows": 12,
+  "canonical_pdf_sha256": "99E4180F4B172C1CC7BABFCF8BE92FCC5442B3868F7AAD1D32A13779849E765D",
+  "issues": [
+    {
+      "check": "primary_table_provenance",
+      "path": "research/icsec2026/paper/tables/n0_controls.csv",
+      "issue": "n0_controls.csv"
+    },
+    {
+      "check": "primary_table_provenance",
+      "path": "research/icsec2026/paper/tables/fault_outcomes.csv",
+      "issue": "fault_outcomes.csv"
+    },
+    {
+      "check": "primary_table_provenance",
+      "path": "research/icsec2026/paper/tables/latency_summary.csv",
+      "issue": "latency_summary.csv"
+    },
+    {
+      "check": "primary_table_generator",
+      "path": "research/icsec2026/paper/generate_manuscript_tables.py",
+      "issue": "sha256"
+    }
+  ]
+}

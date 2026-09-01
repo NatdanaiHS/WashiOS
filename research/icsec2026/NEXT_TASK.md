@@ -1,54 +1,19 @@
-# Goal
+# Next task: submission handoff only
 
-Perform one consolidated autonomous manuscript-and-evidence correction milestone that converts the current five-page extension manuscript into a submission-ready ICSEC 2026 package. The scientific disposition is **FIX NOW / A. READY_AFTER_CODEX_FIXES**. Hardware acquisition is closed. Preserve the evaluated manuscript at commit `8a47d070c549274c59cdbde2495afa8d353a93b3` and its frozen PDF as the immutable fallback.
+The scientific manuscript and evidence are frozen. No further experiment, manuscript revision,
+or repository cleanup is authorized unless a concrete submission-blocking defect is identified.
 
-# Why
+Use only these canonical files:
 
-No submission-blocking hardware gap remains. The verified primary G431/G474 evidence, the separate F411 Pair-1 and Pair-2 datasets, the valid extended nominal observation, preserved raw logs, and acquisition source are sufficient for bounded descriptive claims. The remaining defects are manuscript-level: one stale whole-study one-pair sentence, two misleading cross-configuration headings, omission of the verified approximately 605-s nominal observation, and an underexplained source-supported BAD_CRC-to-OFFLINE sequence. The six existing references are materially relevant and have verified publisher/DOI metadata; no additional reference is presently required for novelty.
+- Submission PDF: `research/icsec2026/submission/main.pdf`
+- Manuscript source: `research/icsec2026/submission/main.tex`
+- Bibliography: `research/icsec2026/submission/references.bib`
+- Entry-point guide: `research/icsec2026/README.md`
 
-# Experimental Conditions
+The next executable milestone is a human submission-package handoff. Verify the canonical PDF
+SHA-256 is `99E4180F4B172C1CC7BABFCF8BE92FCC5442B3868F7AAD1D32A13779849E765D`, then await explicit
+authorization for any external upload. Do not use files under `archive/manuscripts/` or manuscript
+snapshots under `extension/analysis/` as submission sources.
 
-- Perform source, evidence, reference, build, and documentation work only. Do not use, flash, reset, rewire, or observe any F411, G431, G474, or oscilloscope hardware. Do not authorize exploratory work.
-- Preserve every frozen dataset, failed run, raw artifact, inventory, denominator, validity decision, and numerical result. Do not modify the primary 90-trial dataset or either 12-row F411 pair dataset. Do not reinterpret `NOMINAL_001`, R002, engineering bring-ups, diagnostics, pilots, or feasibility-only evidence as manuscript results.
-- Correct claim consistency throughout Abstract, Introduction, Methods, Results, Discussion/Limitations, and Conclusion:
-  - replace the stale statement that the paper evaluates one physical pair with a precise distinction: the primary campaign used one G431/G474 controller/payload pair, while the bounded F411 extension used two separate physical F411 pairs under one fixed F411 implementation;
-  - replace `Cross-Configuration Extension`, `Cross-Configuration Protocol-Level Reproduction`, and any equivalent `cross-configuration` or `two configurations` wording with accurate two-physical-pair F411 wording;
-  - retain Pair-1 and Pair-2 denominators separately as 12/12 valid and 3/3 per predefined condition for each pair. Do not pool rows or counters and do not add reliability, device-population, independence, or generalization claims;
-  - state only that the same predefined condition-level supervision pattern was observed on two separate physical F411 pairs under one fixed implementation.
-- Position the contribution as an evidence-oriented, activation- and restoration-confirmed experimental protocol for a UART payload endpoint, with independent controller/payload observation and byte-preserved evidence. Do not present a generic new HIL framework, state-of-the-art system, aerospace qualification method, mission-assurance result, or complete-system validation.
-- Re-audit Related Work against authoritative publisher or DOI records. Retain only verified references. Explicitly distinguish this protocol-level evidentiary construct from generic real-time HIL fault-injection frameworks, nanosatellite communication-bus fault emulation, and staged CubeSat interoperability testing. Add a reference only if it materially changes that distinction, is independently verified from an authoritative source, and fits within the 4–6-page limit; otherwise retain the verified six-reference set.
-- Integrate `nominal_validation_002.json` from `extension/evidence/primary_20260830_seed20260830_b5` as one **separate extended nominal observation**, not as a third primary N0 window or a reliability trial. Use only the verified values: requested/observed duration `605.0 s`, `121` status records, all `ONLINE`, successful-message counter `1760` to `2960`, zero within-window timeout/CRC/sequence/recovery deltas, and zero prohibited markers. Confirm configuration/firmware hashes and provenance from the frozen manifest before projection. Update the relevant method, nominal-results table/text, Abstract/Conclusion if needed for consistency, and Limitations. Preserve the boundary that this observation does not establish long-duration, thermal, mission, or population reliability.
-- Add a bounded source-level explanation of BAD_CRC followed by OFFLINE using the acquisition source and preserved SHORT/SUSTAINED logs. State that a CRC-invalid response is rejected and does not directly force OFFLINE; it leaves the request unresolved, the response deadline records a timeout, and repeated invalid responses can accumulate the three consecutive timeouts that trigger OFFLINE. A valid accepted response clears the outstanding request, resets consecutive timeouts, and supports later recovery. Tie the explanation to the evaluated implementation and ordered markers; do not infer MCU-internal timing and do not use the contradictory derived field `offline_before_restore=false` as causal evidence.
-- Preserve descriptive-only statistics. Keep all latency labels as host-observed command-to-marker or restore-command-to-marker intervals. Do not add hypothesis tests, confidence intervals, comparative rankings, MCU-internal timing claims, or altered frozen numbers.
-- Run a deterministic claim/evidence audit for every empirical number and table cell. Regenerate only through already verified deterministic scripts. If a deterministic regeneration identifies an actual discrepancy, preserve both outputs and stop under the rule below rather than silently changing a frozen result.
-- Verify the live ICSEC requirements from authoritative venue and IEEE sources with URL and access time. The final paper must use the official IEEE conference format, be double anonymous, and remain within 4–6 pages. Do not infer requirements from stale notes if the live source is available.
-- Build from a clean reproducible source state, retain the complete log, render every page, and inspect title, abstract, columns, figure, tables, references, margins, glyphs, anonymity, metadata, page count, and blank-page behavior. Condense prose if required to remain within 4–6 pages; do not remove scientific boundaries or shrink content below readable size.
-- Freeze the corrected manuscript, reference audit, claim/evidence map, build/visual-QA records, and hashes in one submission-readiness package. Create and independently verify an exact-copy backup. Commit and synchronize the extension branch. Do not upload or submit externally.
-
-# Acceptance Criteria
-
-- No sentence implies that the entire study used one physical pair; every one-pair statement is explicitly limited to the primary G431/G474 campaign.
-- No `cross-configuration` or `two configurations` wording remains for the F411 evidence. Pair-1 and Pair-2 remain separate datasets and are described only as two separate physical pairs under one fixed implementation.
-- The valid 605.0-s nominal observation is either integrated exactly with its verified provenance and bounded interpretation, or a preserved audit demonstrates a concrete provenance/configuration incompatibility and the manuscript retains the narrower nominal limitation. No missing value is inferred.
-- BAD_CRC-to-OFFLINE wording matches both the evaluated source control flow and the preserved ordered markers, and explicitly avoids claiming that CRC rejection directly causes OFFLINE or that host timestamps measure internal MCU latency.
-- The Related Work and contribution statements clearly frame an evidence-oriented experimental protocol rather than a generic HIL framework. Every cited work has an authoritative verification record; no AI-generated or otherwise unverified citation appears.
-- All primary and extension numerical claims reproduce from frozen verified evidence. No frozen denominator or numerical result changes unless a verified deterministic regeneration proves an error and the milestone stops for scientific review.
-- The final PDF is 4–6 IEEE pages, double anonymous, readable, and free of clipping, overlap, broken glyphs, malformed tables/figures, undefined references/citations, identifying metadata, unsupported aerospace claims, and cross-section contradictions.
-- The final package contains the authoritative PDF/source, exact diff, build log, page renders, reference-verification record, claim/evidence traceability, requirements record, metadata/anonymity audit, SHA-256 inventory, and independently verified exact-copy backup.
-- Record `SUBMISSION_READY` only if every criterion passes. Commit and push the completed milestone, then stop with `WORK_REVIEW_REQUIRED` and the evidence paths. Hardware remains closed and external submission remains unauthorized.
-
-# Evidence Required
-
-- An issue-by-issue audit matrix covering claim consistency, novelty/related work, the 605.0-s nominal observation, BAD_CRC-to-OFFLINE causality, F411 pair separation, descriptive statistics/timing, anonymity, unsupported claims, page/layout quality, and cross-section consistency.
-- A machine-readable claim/evidence map tracing every empirical number and table cell to a frozen file, record boundary, run identity, and hash, including the separate extended nominal observation and separate F411 Pair-1/Pair-2 denominators.
-- A source-to-claim record for the BAD_CRC sequence that identifies the evaluated source revision/functions and the corroborating SHORT/SUSTAINED log markers without treating engineering-only observations as results.
-- A reference-verification table with exact title, authors, venue, year, volume/issue/pages or article number, DOI, authoritative URL, and access timestamp for every bibliography entry, plus the documented decision to add or not add references.
-- The clean build command/log, final `main.tex`, bibliography, final PDF and SHA-256, structural/metadata checks, full-text searches for stale/prohibited wording, and fresh page-by-page visual-QA records.
-- Verification records showing the frozen baseline, primary evidence, extended nominal evidence, F411 Pair-1 and Pair-2 evidence, and prior failed/engineering evidence remain unchanged.
-- A complete final-package inventory, independently verified exact-copy backup record, synchronized commit, and final `SUBMISSION_READY` or exact non-hardware blocker disposition.
-
-# Stop / Scope-Down Rule
-
-Do not reopen hardware acquisition. If a claim cannot be supported by existing verified evidence, narrow or remove that claim. If the 605.0-s observation fails provenance, configuration, or boundary compatibility on re-verification, omit it and retain an explicit short-nominal-evidence limitation; do not reconstruct data. If BAD_CRC causality cannot be matched to both the evaluated source revision and preserved ordered logs, state only the observed marker sequence and remove causal wording.
-
-If an empirical discrepancy, unverified reference, anonymity defect, or venue requirement conflict cannot be resolved without altering frozen evidence or scientific scope, preserve the failure, keep the accepted five-page manuscript and frozen evaluated manuscript as fallbacks, and stop with `SCIENTIFIC_DECISION_REQUIRED` naming the exact issue. No hardware experiment is permitted unless a later Research Director decision finds a submission-blocking scientific defect that cannot be resolved by claim narrowing or already verified evidence. External submission requires explicit human authorization.
+If a defect is reported, first narrow the claim or use already verified evidence. Hardware remains
+closed, and protected empirical/provenance content must not be modified.

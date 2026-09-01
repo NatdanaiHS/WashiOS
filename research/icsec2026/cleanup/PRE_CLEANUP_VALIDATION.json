@@ -1,0 +1,19 @@
+{
+  "schema": "icsec-pre-cleanup-validation-v1",
+  "recorded_utc": "2026-09-01T20:01:04.024126+00:00",
+  "branch": "experiment/icsec-extension-20260830",
+  "head": "79a7fcbd3ec760621bde11670b660d6300466766",
+  "origin_branch": "79a7fcbd3ec760621bde11670b660d6300466766",
+  "working_tree_at_milestone_start": [
+    " M research/icsec2026/NEXT_TASK.md"
+  ],
+  "working_tree_during_plan_generation": [
+    " M research/icsec2026/NEXT_TASK.md",
+    "?? research/icsec2026/cleanup/"
+  ],
+  "protected_repository_rows": 906,
+  "freeze_package_rows": 7,
+  "external_backup_rows": 472,
+  "issues": [],
+  "status": "PASS"
+}

@@ -740,3 +740,12 @@ Last updated: 2026-08-30T20:14:00+07:00
 - All ten existing externally stored verified backup roots under `C:/WashiOS-extension-backup` are recorded. Their 472 files reverified with zero missing, size, or SHA-256 issues; combined protected tree SHA-256 is `1FA0FAD7D84F0EF7E97A45C8C0F174F72396CFF01F54C7A2951D60279ED0098B`.
 - Independent validation status is PASS for 906 repository rows, 472 external-backup rows, and the final PDF hash. The freeze directory contains seven protected payload rows plus its inventory; `FREEZE_PACKAGE_SHA256SUMS.csv` SHA-256 is `EF2A31F3082F814355699E14BA8E67136DD282224FF0EB20BDA4452FEB1DFE7E`.
 - Cleanup rule: do not modify byte content of any listed protected file. Relocation requires complete pre/post SHA-256 equality and an old-to-new path map; deletion requires explicit Research Director authorization. Next action: commit/push this protection checkpoint and stop with `WORK_REVIEW_REQUIRED`.
+
+### Canonical path-only cleanup (2026-09-02)
+
+- Read-only pre-gates passed for 906/906 protected repository rows, 7/7 immutable freeze-package rows, and 472/472 external-backup rows with zero issues.
+- The FINAL_PASS package was moved intact to `research/icsec2026/submission/`; its `main.pdf` is the only active submission PDF. Five older manuscript trees were moved intact to `research/icsec2026/archive/manuscripts/`.
+- `cleanup/PATH_RELOCATION.csv` accounts for 122 byte-identical relocations, including 121 protected files. No file was deleted and no external backup was written.
+- The canonical PDF retains SHA-256 `99E4180F4B172C1CC7BABFCF8BE92FCC5442B3868F7AAD1D32A13779849E765D`. A clean temporary Tectonic rebuild completed as five letter-size pages, and all rendered pages passed visual inspection; the frozen canonical PDF was not overwritten.
+- A pre-existing conflict remains between four historical hashes in `paper/tables/TABLE_PROVENANCE.json` and the already-frozen generator/table bytes. The cleanup neither caused nor concealed it; both the historical record and protected bytes remain unchanged and the conflict is documented in `cleanup/CLEANUP_REPORT.md`.
+- Canonical entry points are documented in `research/icsec2026/README.md`. Historical manuscript and QA files are retained only under `archive/manuscripts/` or as immutable analysis snapshots.
