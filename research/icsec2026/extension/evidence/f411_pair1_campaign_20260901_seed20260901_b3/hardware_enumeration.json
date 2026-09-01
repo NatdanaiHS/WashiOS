@@ -1,0 +1,22 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_hardware_enumeration.v1",
+  "enumerated_host_time": "2026-09-01T22:39:00+07:00",
+  "controller": {
+    "board_id": "F411-A",
+    "stlink_serial": "066BFF495051727187053106",
+    "vcp": "COM16",
+    "usb_location": "1-1:x.2"
+  },
+  "payload": {
+    "board_id": "F411-B",
+    "stlink_serial": "066EFF495051727187053015",
+    "vcp": "COM11",
+    "usb_location": "1-2:x.2"
+  },
+  "f411_c_present": false,
+  "f411_d_present": false,
+  "identity_derived_from_com_number": false,
+  "serial_ports_opened": false,
+  "flash_reset_or_command_performed": false,
+  "unambiguous": true
+}
