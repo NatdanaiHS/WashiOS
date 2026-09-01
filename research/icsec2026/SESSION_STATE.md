@@ -1,6 +1,6 @@
 # ICSEC 2026 Hardware Experiment Session State
 
-Last updated: 2026-08-30T09:53:00+07:00
+Last updated: 2026-09-01T19:38:55+07:00
 
 ## Objective
 
@@ -518,3 +518,20 @@ Last updated: 2026-08-30T20:14:00+07:00
 - Recovery report and complete evidence-path accounting: `research/icsec2026/CURRENT_STATE_20260901.md`.
 - Unresolved uncertainty requiring immediate attention: locate the exact original missing frozen artifacts and verify them against the existing inventories before relying on the frozen baseline package as locally complete. Do not regenerate inventories or substitute reruns.
 - Next action: await Research Director review and a new `NEXT_TASK.md`; no new experiment is authorized by this checkpoint.
+
+### Exact-byte frozen-baseline recovery (2026-09-01T19:38:55+07:00)
+
+- Authorized scope was recovery/hash verification only under `NEXT_TASK.md`, `FINAL_PUSH_PLAN.md`, and `LAB_EXTENSION_BRIEF.md`. No board or oscilloscope was connected, commanded, flashed, reset, or sampled; no firmware was built or modified.
+- Starting branch/HEAD: `experiment/icsec-extension-20260830` at `34c3ba76ad8fd0b73c57bc1a0bc31f3f0e23bf6e`; starting upstream was `06f1ab7fa7dffb3d0a6d5b30216e4d3713d1f80e` (local ahead 1). Frozen `main`, `origin/main`, and `icsec-2026-evaluated-state` remained `8a47d070c549274c59cdbde2495afa8d353a93b3`.
+- Research Director inputs present at milestone start: modified `research/icsec2026/NEXT_TASK.md` and untracked `research/icsec2026/FINAL_PUSH_PLAN.md`; both were preserved. New recovery records are under `research/icsec2026/extension/recovery/recovery_20260901/`.
+- Original-PC transfer ZIP: `C:/Users/wachi/Documents/WashiOS_EVIDENCE_TRANSFER_20260901.zip`, 391,219 bytes, SHA-256 `5BC8B2B14CCDFA597AF93A5C40E2A246B3ED6A88508121F4A7A8A2B94D45F462`; the supplied hash was verified before extraction.
+- Exclusive read-only source extraction: `C:/WashiOS-baseline-recovery/source_transfer_20260901_5BC8B2B1/WashiOS_EVIDENCE_TRANSFER_20260901`; 270 files, 1,663,907 bytes. Its 269-row transfer inventory SHA-256 is `422760C42F0B8D5BA535E37A58F87136A1A59591601BE3AB01B396D6BB17171C`; zero issues before copying and zero issues after all copies.
+- The extracted source independently verified all 195 frozen dataset rows and 65 frozen provenance rows with zero missing, size, or SHA-256 issues. Inventory hashes are unchanged at `DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD` and `84139F0C3886C513B2511332766495F04E8EB4705ABBF417E600431C2858D3DC`.
+- Two invalid staging attempts are retained transparently. Attempt 1 (`C:/WashiOS-baseline-recovery/primary_recovered_baseline_20260901`) used Git archive export and produced 28 CRLF-related row mismatches; its ledger has SHA-256 `1DA9AE064F1994AFB70AC077DCB09DCEC5EABA37F0C59EAFEE176588A8F86C7E`. Attempt 2 (`C:/WashiOS-baseline-recovery/primary_recovered_baseline_20260901_attempt2`) used raw Git blobs for all tracked files and produced 35 row mismatches plus two inventory-file hash mismatches; its ledger has SHA-256 `A43A3322A6C1AB9C8172B34146295E96F12E231882777C7EE1DF3A1BFF6DE545`.
+- Reconciliation finding: the unchanged inventories require mixed original working-tree byte sequences. Of 260 inventory rows, 30 tracked rows match their raw frozen Git blob, 35 tracked rows require the recovered original clean-working-tree representation, and 195 ignored logs/binaries/ELFs require recovered original bytes. The two inventory files also require the verified recovered-source bytes. This is resolved in the final copies and does not alter any inventory.
+- Primary verified copy: `C:/WashiOS-baseline-recovery/primary_recovered_baseline_20260901_attempt3_verified`; 262 files, 1,559,372 bytes; dataset 195/195 and provenance 65/65 exact, with zero missing, size, or SHA-256 issues. Per-row source/copy ledger SHA-256: `3B8A94F9F3DDF5D036C0EA4E99E4DDB2694023260B426801348F4016CABDD091`.
+- Secondary independently verified copy: `C:/WashiOS-baseline-recovery/secondary_recovered_baseline_20260901_verified`; 262 files, 1,559,372 bytes; dataset 195/195 and provenance 65/65 exact, with zero missing, size, or SHA-256 issues. Verification-ledger SHA-256: `12304CEA4DE64EF3432F84C237CB4BFD2CB3930141D9C53B5DB878EF87CE7837`.
+- Recovery record inventory: nine rows, zero issues; `research/icsec2026/extension/recovery/recovery_20260901/RECOVERY_SHA256SUMS.csv` SHA-256 `BA40B30A7EFEA2F6E438A4B5482D8074AC5D6B834C55118DCF17B42C4BC056C1` (inventory excludes itself).
+- Frozen dataset, frozen provenance, frozen manuscript, and reviewed primary/replication/scope extension evidence paths were not modified. No inventory was regenerated and no rerun or rebuild was substituted for original evidence.
+- Completed milestone: exact-byte frozen-baseline recovery with two independently verified external copies. Unresolved provenance issue: none. Remaining time: not applicable; no further milestone is authorized before research review.
+- Next action: validate the recovery record against the external copies, commit the coherent recovery checkpoint, synchronize the extension branch if permitted by the final-push workflow, then stop with `WORK_REVIEW_REQUIRED`.
