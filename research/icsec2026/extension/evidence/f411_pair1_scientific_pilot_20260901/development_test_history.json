@@ -1,0 +1,14 @@
+{
+  "retained_nonhardware_development_event": true,
+  "scientific_attempt": false,
+  "serial_ports_opened": false,
+  "hardware_action": false,
+  "initial_focused_test_result": {
+    "passed": 0,
+    "errors": 3,
+    "reason": "test helper instantiated SerialEvent with four arguments instead of the required source, host_time, monotonic_s, raw, text fields"
+  },
+  "correction": "test-only fixture constructor corrected; scientific harness behavior was not changed by this fixture correction",
+  "final_focused_test_result": {"passed": 3, "failed": 0, "errors": 0},
+  "hardware_or_scientific_evidence_affected": false
+}

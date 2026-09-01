@@ -1,62 +1,88 @@
-# Next Executable Milestone: One Bounded F411 Engineering Diagnostic
+# Next Executable Milestone: Fresh F411 Pair-1 Scientific Pilot
 
-## Authorization and evidence boundary
+## Authorization and claim boundary
 
-Authorize exactly one engineering diagnostic milestone to identify why F411 Pair-1 communication stops after its first attributable exchange. This is **not** a scientific bring-up, NORMAL observation, pilot, trial, replication, or manuscript result. It creates no scientific denominator and cannot repair, replace, or validate any prior attempt.
+Authorize exactly one completely fresh F411 Pair-1 scientific pilot using the fixed implementation at commit `0ce8a5c`.
 
-`BRINGUP_001` and `BRINGUP_002` are permanently preserved as two failed physical engineering bring-ups. Both reached one bidirectional exchange and `PAYLOAD_ONLINE`, then retained neither another exchange nor a 5 s controller status. `BRINGUP_002` remains an unauthorized second attempt caused by the erroneous initial classification of `BRINGUP_001`. Do not reinterpret, delete, rename, overwrite, or replace either run or any raw/correction artifact. The corrected Pair-1 inventory SHA-256 `A5C8BF48D7FD0E9CC3A120B890F11CA49FD8DBB6086FD594A321F14C778AC6C9` must remain unchanged.
+- Exclusive evidence package: `research/icsec2026/extension/evidence/f411_pair1_scientific_pilot_20260901/`.
+- Pilot run ID: `F411_P1_SCI_PILOT_001_D110`.
+- Precondition record ID: `F411_P1_SCI_PILOT_001_D110_PRECHECK`.
+- Condition: one 110 ms delayed-response exposure only.
 
-Use a new exclusive evidence directory and engineering run family `ENGDIAG_001`. Every capture, reset, halt, flash, source change, and fix check belongs only to that diagnostic family and must be labeled `scientific_observation=false` and `manuscript_use=NONE`.
+This is one descriptive scientific pilot on one F411-to-F411 configuration. It is not a campaign result, replication count, reliability estimate, population sample, or manuscript result unless a later scientific review explicitly accepts its evidence and wording. Do not pool it with G431/G474, the failed F411 bring-ups, the engineering diagnostic, or any later campaign.
 
-## Strict time and hypothesis stop rule
+`BRINGUP_001`, `BRINGUP_002`, `ENGDIAG_001`, and `ENGDIAG_001_FIXCHECK` remain separate and unchanged. The bring-ups remain failed engineering attempts; all diagnostic observations remain `scientific_observation=false` and `manuscript_use=NONE`. Do not reinterpret, copy into a scientific denominator, delete, rename, overwrite, or replace them.
 
-Allow at most **30 focused engineering minutes from the first retained diagnostic action through the final hardware action**. Evidence finalization may follow, but it cannot justify more debugging or another hardware action.
+## Fixed implementation and hardware
 
-Test only these three predeclared hypotheses, in order:
+- Controller: F411-A, ST-LINK `066BFF495051727187053106`.
+- Payload: F411-B, ST-LINK `066EFF495051727187053015`.
+- Leave F411-C and F411-D untouched.
+- Host observation/control: independent ST-LINK VCPs on USART2 PA2/PA3.
+- Inter-board link: controller D8/PA9 TX to payload D2/PA10 RX, payload D8/PA9 TX to controller D2/PA10 RX, and common GND. No solder change.
+- Deployment: standalone applications at `0x08000000`; no bootloader.
+- Protocol semantics: 115200 8N1, unchanged frame/CRC/sequence logic, 500 ms poll cadence, 100 ms response deadline, and three consecutive timeouts for OFFLINE.
+- Fixed controller ELF SHA-256: `9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78`.
+- Fixed controller BIN SHA-256: `8686113C4A83E1600EBE66FB3B3F8795853011B4B0E69D91F9E68EBB3FD8FE68`.
+- Payload ELF SHA-256: `0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493`.
+- Payload BIN SHA-256: `52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB`.
 
-1. **Controller timebase freeze:** `bsp::Stm32Timing::getSystemTick()` reads `HAL_GetTick()`, while the linked controller's `SysTick_Handler` is the FreeRTOS handler and does not call `HAL_IncTick()`. The RTOS tick may advance while the time value used by `PayloadLinkTask` remains fixed, preventing later 500 ms polls and the 5 s status.
-2. **Controller fault/reset/scheduler stop:** the controller may enter HardFault/default handler, reset, or stop scheduling after the first exchange.
-3. **USART1 interrupt/ring livelock:** an uncleared F4 UART condition or IRQ loop may starve task execution after the first received frame despite the absence of emitted overflow/error markers.
+Do not change firmware, common supervision logic, timing constants, UART mapping, fault behavior, harness validity rules, or pilot condition during this milestone.
 
-Stop immediately when one hypothesis is conclusively confirmed. Do not investigate a fourth hypothesis, tune the protocol, or extend the time box because a cause appears close.
+## Exact preconditions
 
-## Fixed setup and permitted diagnostic actions
+All preconditions must pass before sending any delayed-mode command:
 
-- Start from commit `600272e` and the corrected evidence accounting.
-- Use only F411-A controller `066BFF495051727187053106` and F411-B payload `066EFF495051727187053015`.
-- Preserve the confirmed wiring: controller D8/PA9 TX to payload D2/PA10 RX, payload D8/PA9 TX to controller D2/PA10 RX, and common GND. USART2 PA2/PA3 remains separate on each ST-LINK VCP.
-- Freshly enumerate identities before action. Historical COM numbers are not authoritative.
-- Reset, halt, single-step, inspect registers/memory, attach SWD/GDB/OpenOCD, and flash diagnostic firmware only as needed to distinguish the three hypotheses.
-- Retain exact commands, tool versions, source state/diffs, binaries/hashes, flash/debug logs, UART logs, timestamps, register values, and disposition. Do not write into the existing Pair-1 package.
+1. Reverify the corrected failed-bring-up inventory at SHA-256 `A5C8BF48D7FD0E9CC3A120B890F11CA49FD8DBB6086FD594A321F14C778AC6C9` and the engineering-diagnostic inventory at SHA-256 `98846023F3285F5B9F60C5387E1C54FD6D5EEAA8D5E58A42720795EC9B328DE0`, with zero row issues.
+2. Confirm that the only implementation change from commit `600272e` affecting the F411 behavior is the seven-line adapter change in `core/src/bsp/f4/Stm32Timing.cpp`; common protocol, controller/task, and payload parser blobs must match the diagnostic semantic record.
+3. Run the required validation suites: core native/SITL/F411 ring 43/43, payload parser 3/3, and extension/legacy host 9/9. Any failure stops the milestone.
+4. Clean-build both F411 roles from commit `0ce8a5c`. The resulting BIN/ELF sizes and hashes must exactly reproduce the four fixed hashes above. Any mismatch stops the milestone.
+5. Freshly enumerate both boards by durable ST-LINK identity and verify the fixed three-wire connection. Do not rely on historical COM numbers.
+6. Create the exclusive package, locked manifest, precondition record, exact attempt ledger, and raw paths before opening the serial ports. Refuse to run if any target path already exists; do not reuse an identifier.
+7. Open exact-byte capture on both VCPs before one exact-target flash/verify/reset sequence. Retain complete commands and OpenOCD logs showing `Verified OK` for both fixed ELFs.
+8. Require attributable READY markers from both roles, an exact payload-side `MODE=NORMAL` confirmation, controller `PAYLOAD_LINK_START`, and an unambiguous transition to ONLINE.
+9. Under precondition ID `F411_P1_SCI_PILOT_001_D110_PRECHECK`, retain one uninterrupted 65 s NORMAL gate: at least 10 controller status records, all ONLINE; strictly increasing `ok`; zero timeout/CRC/sequence/recovery counter deltas; and no rejection, timeout, OFFLINE, recovery, restart, poll-write-failure, UART overflow/error, receive-loss, or reset/fault marker.
+10. After that window, require a fresh NORMAL confirmation and a stabilization boundary containing at least three subsequent accepted exchanges, controller ONLINE, unchanged fault/recovery counters, and no unresolved prohibited marker.
 
-For Hypothesis 1, obtain runtime evidence comparing the FreeRTOS tick and HAL tick after the first exchange; static source inspection alone is not sufficient. For Hypothesis 2, retain PC/xPSR, stack pointers, CFSR/HFSR and related fault registers, reset flags, and scheduler/task state. For Hypothesis 3, retain USART1 SR/CR registers, NVIC pending/active state, ring indices/counters, and the halted PC/ISR state.
+The precondition record is retained gate evidence, not a campaign row. If any precondition fails, preserve the failure, issue no delayed command, and stop without reset, retry, replacement, or new run ID.
 
-## Minimal-fix rule
+## Pilot procedure and acceptance criteria
 
-Only after a hypothesis is directly confirmed may this same diagnostic milestone apply **one** candidate fix. The fix must be isolated, minimal, and preserve the common frame/CRC/sequence code, 115200 8N1, 500 ms poll cadence, 100 ms deadline, three-timeout OFFLINE rule, activation/restoration confirmations, task behavior, and evidence gates.
+After every precondition passes, execute `F411_P1_SCI_PILOT_001_D110` exactly once:
 
-An acceptable example is making the F4 controller timing adapter use the scheduler tick after the scheduler starts, mirroring the existing G4 timing-adapter behavior. Changes to common protocol or supervision logic, scheduling constants, fault semantics, the host validity rules, or the physical UART mapping are prohibited.
+1. Send exactly one `MODE DELAYED 110` command and require exact payload-side `MODE=DELAYED delay_ms=110` confirmation before scoring controller evidence.
+2. Use the unchanged four-second exposure framework and exact-byte dual-channel capture.
+3. Require an attributable controller outcome for the activated condition. A valid outcome may be either:
+   - an accepted delayed response with its exact sequence/mode marker and no inferred event from marker absence; or
+   - the ordered timeout/rejection/OFFLINE path actually present in the raw log.
+4. Treat outcome validity independently of whether the result matches G431/G474 or the earlier F411 engineering behavior. An unexpected but valid outcome must be preserved and reported, not retried or tuned.
+5. After the retained exposure/target condition, send exactly one `MODE NORMAL` restore command. Require exact payload-side NORMAL confirmation.
+6. If the controller entered OFFLINE, require an attributable `PAYLOAD_RECOVERED` marker. If it remained ONLINE, do not require or infer recovery.
+7. Require post-stabilization: controller ONLINE, at least three subsequent accepted exchanges, stable fault/recovery counters after the new baseline boundary, and no unresolved restart, poll-write-failure, UART overflow/error, receive-loss, reset/fault, activation, or restoration ambiguity.
 
-After the one candidate fix, permit exactly one short engineering-only liveness check under `ENGDIAG_001_FIXCHECK`. Require verified exact-target flashes, independent VCP logs, at least three post-initial poll/response exchanges spanning more than 1.5 s, and the first 5 s controller status record. Also require no reset, fault, UART overflow/error, link-write failure, or receive-loss indication. This liveness check is not a NORMAL window or scientific observation.
+The pilot is valid only if activation, controller outcome, restoration, applicable recovery, exact log integrity, and both stabilization boundaries are all unambiguous. Do not use absence-only reasoning to classify acceptance, detection, OFFLINE, or recovery.
 
-Do not attempt a second fix, a second fix check, a 65 s NORMAL window, fault injection, delayed mode, a scientific pilot, a campaign, or the second F411 pair.
+## Evidence requirements
 
-## Acceptance criteria
+Retain in the exclusive package:
 
-Record `ENGINEERING_DIAGNOSTIC_PASS_AWAITING_REVIEW` only if all of the following hold:
+- locked manifest, run/precondition IDs, attempt ledger, protocol/condition record, source commit/state, semantic-diff proof, and explicit references to—but no modification of—the prior failed/diagnostic packages;
+- exact board identities, fresh ports, wiring confirmation, deployment address, toolchain versions, test logs, clean-build logs, maps, exact BIN/ELF copies and hashes;
+- exact-target flash commands and complete verification logs;
+- controller and payload exact-byte raw logs plus readable renderings covering flash/reset through final post-stabilization;
+- machine-readable precondition, activation, exposure, outcome, restoration, recovery, and post-stabilization validations with exact host-time boundaries;
+- all observed markers and counter deltas, prohibited-marker checks, deviations, failures, final payload/controller state, and process/port-close status;
+- final disposition and a complete SHA-256 inventory that excludes itself, followed by an independent full-row verification and an exact-copy backup verification.
 
-1. one predeclared hypothesis is conclusively supported by retained runtime/debug evidence;
-2. the cause explains the repeated first-exchange-only signature of both failed bring-ups without reclassifying either run;
-3. the one fix is confined to an adapter/BSP-level correction and preserves every intended supervision semantic;
-4. all affected unit/native tests and both clean F411 role builds pass; and
-5. the single engineering liveness check passes every criterion above within the 30-minute hardware-action limit.
+Reverify the frozen baseline, reviewed primary, G431-B replication, scope-feasibility, recovery, corrected failed-bring-up, and engineering-diagnostic inventory-file hashes unchanged before final disposition.
 
-A pass authorizes no scientific observation. It only permits a later research review to decide whether a completely fresh Pair-1 pilot under a new scientific run ID is worth authorizing.
+## Stop rule and terminal condition
 
-## Drop criteria and terminal condition
+There is exactly one scientific pilot attempt. On any precondition, serial, flash, activation, attribution, restoration, recovery, stabilization, reset, overflow/error, evidence-path, or inventory failure:
 
-Record `F411_DROPPED_FROM_ICSEC_EMPIRICAL_SCOPE` if the cause remains unresolved when the 30-minute or three-hypothesis limit is reached, the one fix or liveness check fails, more than one fix is needed, evidence is ambiguous, or resolution requires architectural refactoring or any material supervision-semantic change.
+- preserve every artifact under the assigned ID;
+- mark the precondition or pilot invalid with the exact reason;
+- do not reset and retry, replace the run, create another ID, change firmware/harness/settings, or begin a campaign; and
+- record `F411_P1_SCI_PILOT_FAIL`, drop F411 from the current ICSEC empirical extension, and retain it only as Future Work/development infrastructure.
 
-On DROP, preserve all diagnostic evidence and retain F411 only as Future Work/development infrastructure. Redirect effort to completed-evidence manuscript analysis and Friday G431-B/G474-A/Hantek preparation. Do not authorize another F411 hardware attempt.
-
-End after freezing and validating the exclusive diagnostic disposition. Return for work review in either terminal state.
+If the pilot passes, record `F411_P1_SCI_PILOT_PASS_AWAITING_REVIEW`, freeze/inventory/back up the package, and stop. A pass does not authorize a Pair-1 campaign, manuscript inclusion, or second-pair work. Return for scientific review.
