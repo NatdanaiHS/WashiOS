@@ -1,0 +1,5 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_attempt_ledger.v1",
+  "attempts": [],
+  "rule": "append every attempted bring-up, NORMAL, and pilot exactly once; no replacement or retry"
+}

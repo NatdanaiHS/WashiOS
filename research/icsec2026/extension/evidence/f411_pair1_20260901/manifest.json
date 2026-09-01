@@ -1,0 +1,38 @@
+{
+  "schema": "washios.icsec2026.f411_pair1.v1",
+  "status": "SOFTWARE_GATE_PASSED_AWAITING_PHYSICAL_BRINGUP",
+  "prepared_host_time": "2026-09-01T20:51:36+07:00",
+  "source_branch": "experiment/icsec-extension-20260830",
+  "source_commit": "8d6728fbbd35ec96ab539f914e7b0fbd70b53a1d",
+  "source_worktree_at_build": "CLEAN",
+  "controller": {
+    "board_id": "F411-A",
+    "role_id": "F411-P1-C",
+    "stlink_serial": "066BFF495051727187053106",
+    "vcp": "PENDING_FRESH_ENUMERATION"
+  },
+  "payload": {
+    "board_id": "F411-B",
+    "role_id": "F411-P1-P",
+    "stlink_serial": "066EFF495051727187053015",
+    "vcp": "PENDING_FRESH_ENUMERATION"
+  },
+  "untouched_boards": [
+    {"board_id": "F411-C", "stlink_serial": "0669FF495051727187053226"},
+    {"board_id": "F411-D", "stlink_serial": "0663FF495051727187066042"}
+  ],
+  "scope": "one physical pair through bring-up, one 65 s NORMAL window, and one retained 110 ms pilot only",
+  "pilot_campaign_denominator": false,
+  "scientific_boundary": "protocol-level cross-configuration physical replication; no pooling or G431/G474 timing/population inference",
+  "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
+  "attempt_accounting": {
+    "bringup_planned": 1,
+    "bringup_attempted": 0,
+    "normal_planned": 1,
+    "normal_attempted": 0,
+    "pilot_planned": 1,
+    "pilot_attempted": 0
+  },
+  "deviations": [],
+  "unexpected_outcomes": []
+}

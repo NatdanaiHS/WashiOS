@@ -1,0 +1,39 @@
+{
+  "reference_commit": "0fdac83844c4f6247598146e32a522529a412607",
+  "implementation_commit": "8d6728fbbd35ec96ab539f914e7b0fbd70b53a1d",
+  "git_diff_quiet_for_locked_files": true,
+  "locked_files": [
+    {
+      "path": "core/include/comms/PayloadProtocol.hpp",
+      "reference_git_blob": "f798a54503c8af93960bb629e305c043da7b4328",
+      "implementation_git_blob": "f798a54503c8af93960bb629e305c043da7b4328",
+      "sha256": "228F09020FC590C623DF6DF1ECF0EA050AEBD5B1380C5A5048CE74859D7594A3"
+    },
+    {
+      "path": "core/include/comms/PayloadLinkController.hpp",
+      "reference_git_blob": "e2b6c9e9bb4af62afa32daa455479575eebff19a",
+      "implementation_git_blob": "e2b6c9e9bb4af62afa32daa455479575eebff19a",
+      "sha256": "10650766E04DEE449D26474AD36AEE5CA8274AC65A2A5B7A9D1A2C0C55CAE54C"
+    },
+    {
+      "path": "core/src/app/PayloadLinkTask.hpp",
+      "reference_git_blob": "2770ff49478de096ab84df5db4a02ae71465e90a",
+      "implementation_git_blob": "2770ff49478de096ab84df5db4a02ae71465e90a",
+      "sha256": "F7C65C788732EEEDD27C926F4677DDA01E8DFA82CEEFB38F053BDDFDF4CCEFDE"
+    },
+    {
+      "path": "demo-payload/src/HostModeCommandParser.hpp",
+      "reference_git_blob": "e8bb022387c88b7bf80ceb162988722a47e83662",
+      "implementation_git_blob": "e8bb022387c88b7bf80ceb162988722a47e83662",
+      "sha256": "23460BCDC2E6B77CDF3FAB9CFF0542C8987BE1A59DB6CEE3B3EB6FE0804DFFBE"
+    }
+  ],
+  "locked_constants": {
+    "baud_8n1": 115200,
+    "poll_period_ms": 500,
+    "response_deadline_ms": 100,
+    "offline_threshold": 3,
+    "controller_max_bytes_per_cycle": 64
+  },
+  "semantic_change_detected": false
+}

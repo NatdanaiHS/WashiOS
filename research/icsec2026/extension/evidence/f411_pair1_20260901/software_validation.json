@@ -1,0 +1,40 @@
+{
+  "validated_at": "2026-09-01T20:51:13+07:00",
+  "source_commit": "8d6728fbbd35ec96ab539f914e7b0fbd70b53a1d",
+  "platformio_core": "6.1.19",
+  "ststm32_platform": "19.6.0",
+  "framework_stm32cubef4": "1.28.1",
+  "gcc_arm_none_eabi": "7.2.1",
+  "tests": {
+    "core_native_and_sitl": {"passed": 43, "failed": 0, "log": "test/core_native.log"},
+    "payload_parser": {"passed": 3, "failed": 0, "log": "test/payload_native.log"},
+    "extension_and_legacy_host": {"passed": 9, "failed": 0, "log": "test/extension_host.log"}
+  },
+  "controller_build": {
+    "environment": "nucleo_f411re_payload_controller",
+    "clean_build": "SUCCESS",
+    "ram_used_bytes": 10748,
+    "flash_used_bytes": 19392,
+    "vector_address": "0x08000000",
+    "entry_point": "0x08004211",
+    "bin": {"path": "firmware/f411_p1_controller.bin", "size_bytes": 19820, "sha256": "F83B425A57CC31D4E81EC8D145CAE77C1AC81957A17A13161267EFDDE7ACB146"},
+    "elf": {"path": "firmware/f411_p1_controller.elf", "size_bytes": 158152, "sha256": "14878B899FBCED958CF507FBF62E10F39A95CBE90A4C33A8C938396305D93452"}
+  },
+  "payload_build": {
+    "environment": "nucleo_f411re_payload",
+    "clean_build": "SUCCESS",
+    "ram_used_bytes": 704,
+    "flash_used_bytes": 7724,
+    "vector_address": "0x08000000",
+    "entry_point": "0x08001BA9",
+    "bin": {"path": "firmware/f411_p1_payload.bin", "size_bytes": 8152, "sha256": "52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB"},
+    "elf": {"path": "firmware/f411_p1_payload.elf", "size_bytes": 143396, "sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493"}
+  },
+  "reproducibility": {
+    "clean_rebuild_matches_prior_controller_bin": true,
+    "clean_rebuild_matches_prior_controller_elf": true,
+    "clean_rebuild_matches_prior_payload_bin": true,
+    "clean_rebuild_matches_prior_payload_elf": true
+  },
+  "software_gate_passed": true
+}
