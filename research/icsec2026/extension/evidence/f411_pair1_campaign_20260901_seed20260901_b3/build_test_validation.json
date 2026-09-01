@@ -1,0 +1,27 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_build_test.v1",
+  "tests": {
+    "core_native_sitl_and_f411_ring": {"passed": 43, "failed": 0, "log": "test_core_native.log"},
+    "payload_parser_native": {"passed": 3, "failed": 0, "log": "test_payload_native.log"},
+    "extension_legacy_pilot_and_campaign": {"passed": 16, "failed": 0, "log": "test_extension_host.log"}
+  },
+  "clean_builds": {
+    "controller": {
+      "elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78",
+      "elf_size": 158152,
+      "bin_sha256": "8686113C4A83E1600EBE66FB3B3F8795853011B4B0E69D91F9E68EBB3FD8FE68",
+      "bin_size": 19832,
+      "matched_locked_image": true
+    },
+    "payload": {
+      "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+      "elf_size": 143396,
+      "bin_sha256": "52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB",
+      "bin_size": 8152,
+      "matched_locked_image": true
+    }
+  },
+  "standalone_vector_base": "0x08000000",
+  "valid": true,
+  "failures": []
+}

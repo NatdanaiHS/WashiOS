@@ -1,0 +1,17 @@
+Verbosity level can be increased via `-v, -vv, or -vvv` option
+Collected 1 tests
+
+Processing test_host_mode_command in native environment
+--------------------------------------------------------------------------------
+Building...
+Testing...
+test\test_host_mode_command\test_main.cpp:101: test_accepts_all_supported_modes	[PASSED]
+test\test_host_mode_command\test_main.cpp:102: test_rejects_unknown_case_partial_and_overlong_commands	[PASSED]
+test\test_host_mode_command\test_main.cpp:103: test_fragmented_command_waits_for_newline_and_parser_recovers	[PASSED]
+----------- native:test_host_mode_command [PASSED] Took 2.11 seconds -----------
+
+=================================== SUMMARY ===================================
+Environment    Test                    Status    Duration
+-------------  ----------------------  --------  ------------
+native         test_host_mode_command  PASSED    00:00:02.108
+================== 3 test cases: 3 succeeded in 00:00:02.108 ==================

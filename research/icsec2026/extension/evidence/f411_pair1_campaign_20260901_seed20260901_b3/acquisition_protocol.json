@@ -1,0 +1,19 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_protocol.v1",
+  "campaign_id": "F411_P1_CAMPAIGN_20260901_B3",
+  "precheck_id": "F411_P1_CAMPAIGN_20260901_B3_PRECHECK",
+  "continuous_capture": true,
+  "single_flash_sequence": true,
+  "precheck_normal_window_s": 65.0,
+  "per_row": {
+    "fresh_normal_confirmation": true,
+    "pre_stabilization": {"accepted_exchanges_min": 3, "status_records_min": 2, "strict_ok": true, "counter_deltas": 0},
+    "exposure_s": 4.0,
+    "one_restoration_equivalent_normal": true,
+    "post_stabilization": {"accepted_exchanges_min": 3, "status_records_min": 2, "strict_ok": true, "counter_deltas": 0}
+  },
+  "first_invalid_stop": true,
+  "reset_or_reflash_between_rows": false,
+  "retry_replacement_reorder_or_append": false,
+  "minimum_time_before_hard_stop_minutes": 90
+}

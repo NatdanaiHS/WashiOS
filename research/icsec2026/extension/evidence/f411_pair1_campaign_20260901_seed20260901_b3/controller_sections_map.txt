@@ -1,0 +1,37 @@
+
+core\.pio\build\nucleo_f411re_payload_controller\firmware.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000198  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         000042fc  08000198  08000198  00010198  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       0000042c  08004494  08004494  00014494  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .ARM.extab    00000000  080048c0  080048c0  000204a4  2**0
+                  CONTENTS
+  4 .ARM          00000008  080048c0  080048c0  000148c0  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  5 .preinit_array 00000000  080048c8  080048c8  000204a4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000008  080048c8  080048c8  000148c8  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  080048d0  080048d0  000148d0  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         000004a4  20000000  080048d4  00020000  2**3
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          00002558  200004a8  08004d78  000204a8  2**3
+                  ALLOC
+ 10 ._user_heap_stack 00000600  20002a00  08004d78  00022a00  2**0
+                  ALLOC
+ 11 .ARM.attributes 00000030  00000000  00000000  000204a4  2**0
+                  CONTENTS, READONLY
+ 12 .comment      0000007e  00000000  00000000  000204d4  2**0
+                  CONTENTS, READONLY
+ 13 .debug_frame  000004fc  00000000  00000000  00020554  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .stab         0000003c  00000000  00000000  00020a50  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .stabstr      00000076  00000000  00000000  00020a8c  2**0
+                  CONTENTS, READONLY, DEBUGGING

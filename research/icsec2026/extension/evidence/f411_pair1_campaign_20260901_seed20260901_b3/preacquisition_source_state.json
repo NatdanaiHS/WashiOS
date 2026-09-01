@@ -1,0 +1,13 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_preacquisition_source.v1",
+  "branch": "experiment/icsec-extension-20260830",
+  "starting_head": "66b17036bfdaf4053448c2920a4737b0ebf23708",
+  "starting_upstream": "66b17036bfdaf4053448c2920a4737b0ebf23708",
+  "frozen_main": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "director_input": "research/icsec2026/NEXT_TASK.md",
+  "firmware_source_commit": "0ce8a5cfe12b0dc72df5e8baeee1f8f3bdf19612",
+  "firmware_source_modified_for_campaign": false,
+  "preacquisition_lock_commit": null,
+  "acquisition_source_commit": null,
+  "acquisition_source_clean": null
+}

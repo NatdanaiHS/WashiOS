@@ -1,0 +1,124 @@
+{
+  "campaign_id": "F411_P1_CAMPAIGN_20260901_B3",
+  "claim_boundary": "sequential descriptive evidence from one fixed F411 pair; separate from every prior package",
+  "code_hashes": {
+    "C:/WashiOS/research/icsec2026/extension/run_f411_campaign.py": "B6E3E244053E43C639AFF091FA0DF2880C8CAA7B8D5F16B5AF8A716A91A8F8AF",
+    "C:/WashiOS/research/icsec2026/extension/test_f411_campaign.py": "90B98F389C05C95C040D7C0210DB0FAF6936AC77F1C4661B90E42C2E8E136009",
+    "C:/WashiOS/research/icsec2026/extension/validate_f411_campaign.py": "C23EC424B42ECF186F79D66750CF2D059921D3E54CF533D1E6219426DADD2468"
+  },
+  "controller": {
+    "bin_sha256": "8686113C4A83E1600EBE66FB3B3F8795853011B4B0E69D91F9E68EBB3FD8FE68",
+    "board_id": "F411-A",
+    "elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78",
+    "stlink_serial": "066BFF495051727187053106"
+  },
+  "fixed_denominator": 12,
+  "firmware_source_commit": "0ce8a5cfe12b0dc72df5e8baeee1f8f3bdf19612",
+  "source_branch": "experiment/icsec-extension-20260830",
+  "plan_sha256": "88EDD7D47C40354D1C9DF8B0F7EC9A083198B4A6E5CBF4D453E947AD9B88BF45",
+  "locked": true,
+  "locked_host_time": "2026-09-01T15:35:03.050434+00:00",
+  "order": [
+    {
+      "block": 1,
+      "condition": "NC",
+      "delay_ms": null,
+      "row": 1,
+      "run_id": "F411P1_C01_B1_NC"
+    },
+    {
+      "block": 1,
+      "condition": "D110",
+      "delay_ms": 110,
+      "row": 2,
+      "run_id": "F411P1_C02_B1_D110"
+    },
+    {
+      "block": 1,
+      "condition": "D090",
+      "delay_ms": 90,
+      "row": 3,
+      "run_id": "F411P1_C03_B1_D090"
+    },
+    {
+      "block": 1,
+      "condition": "D100",
+      "delay_ms": 100,
+      "row": 4,
+      "run_id": "F411P1_C04_B1_D100"
+    },
+    {
+      "block": 2,
+      "condition": "D090",
+      "delay_ms": 90,
+      "row": 5,
+      "run_id": "F411P1_C05_B2_D090"
+    },
+    {
+      "block": 2,
+      "condition": "NC",
+      "delay_ms": null,
+      "row": 6,
+      "run_id": "F411P1_C06_B2_NC"
+    },
+    {
+      "block": 2,
+      "condition": "D100",
+      "delay_ms": 100,
+      "row": 7,
+      "run_id": "F411P1_C07_B2_D100"
+    },
+    {
+      "block": 2,
+      "condition": "D110",
+      "delay_ms": 110,
+      "row": 8,
+      "run_id": "F411P1_C08_B2_D110"
+    },
+    {
+      "block": 3,
+      "condition": "D100",
+      "delay_ms": 100,
+      "row": 9,
+      "run_id": "F411P1_C09_B3_D100"
+    },
+    {
+      "block": 3,
+      "condition": "D110",
+      "delay_ms": 110,
+      "row": 10,
+      "run_id": "F411P1_C10_B3_D110"
+    },
+    {
+      "block": 3,
+      "condition": "NC",
+      "delay_ms": null,
+      "row": 11,
+      "run_id": "F411P1_C11_B3_NC"
+    },
+    {
+      "block": 3,
+      "condition": "D090",
+      "delay_ms": 90,
+      "row": 12,
+      "run_id": "F411P1_C12_B3_D090"
+    }
+  ],
+  "payload": {
+    "bin_sha256": "52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB",
+    "board_id": "F411-B",
+    "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+    "stlink_serial": "066EFF495051727187053015"
+  },
+  "precheck_id": "F411_P1_CAMPAIGN_20260901_B3_PRECHECK",
+  "schema": "washios.icsec2026.f411_pair1_campaign.v1",
+  "seed": 20260901,
+  "semantics": {
+    "deadline_ms": 100,
+    "exposure_s": 4.0,
+    "offline_after_timeouts": 3,
+    "poll_ms": 500,
+    "reset_between_rows": false,
+    "uart": "115200 8N1"
+  }
+}
