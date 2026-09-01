@@ -1,0 +1,56 @@
+{
+  "controller_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 066BFF495051727187053106",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_20260901/firmware/f411_p1_controller.elf verify reset exit"
+    ],
+    "elf_sha256": "14878B899FBCED958CF507FBF62E10F39A95CBE90A4C33A8C938396305D93452",
+    "exit_code": 0,
+    "log": "flash_controller.log"
+  },
+  "controller_online_host_time": null,
+  "controller_ready_host_time": "2026-09-01T14:10:33.907648+00:00",
+  "finished_host_time": "2026-09-01T14:10:44.944923+00:00",
+  "invalid_reason": "CONTROLLER_ONLINE_MISSING",
+  "link_active_host_time": "2026-09-01T14:10:33.928438+00:00",
+  "normal_command_host_time": "2026-09-01T14:10:33.910066+00:00",
+  "normal_confirmation_host_time": "2026-09-01T14:10:33.928438+00:00",
+  "payload_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 066EFF495051727187053015",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_20260901/firmware/f411_p1_payload.elf verify reset exit"
+    ],
+    "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+    "exit_code": 0,
+    "log": "flash_payload.log"
+  },
+  "payload_ready_host_time": "2026-09-01T14:10:32.680922+00:00",
+  "prohibited_markers": [],
+  "run_id": "BRINGUP_002",
+  "started_host_time": "2026-09-01T14:10:31.596712+00:00",
+  "valid": false
+}

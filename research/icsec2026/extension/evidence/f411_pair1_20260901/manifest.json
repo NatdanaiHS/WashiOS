@@ -1,6 +1,6 @@
 {
   "schema": "washios.icsec2026.f411_pair1.v1",
-  "status": "SOFTWARE_GATE_PASSED_AWAITING_PHYSICAL_BRINGUP",
+  "status": "PAIR1_PILOT_FAIL",
   "prepared_host_time": "2026-09-01T20:51:36+07:00",
   "source_branch": "experiment/icsec-extension-20260830",
   "source_commit": "8d6728fbbd35ec96ab539f914e7b0fbd70b53a1d",
@@ -27,14 +27,21 @@
   "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
   "attempt_accounting": {
     "bringup_planned": 1,
-    "bringup_attempted": 0,
+    "bringup_pre_attempt_aborts": 1,
+    "bringup_attempted": 1,
+    "bringup_valid": 0,
+    "bringup_invalid": 1,
     "normal_planned": 1,
     "normal_attempted": 0,
+    "normal_not_attempted_reason": "BRINGUP_002 failed before NORMAL authorization",
     "pilot_planned": 1,
-    "pilot_attempted": 0
+    "pilot_attempted": 0,
+    "pilot_not_attempted_reason": "BRINGUP_002 failed before NORMAL and pilot authorization"
   },
   "deviations": [
     "BRINGUP_001 was an empty-directory pre-attempt harness abort before capture, flash, reset, or hardware observation; retained without deletion. The first physical bring-up is assigned BRINGUP_002."
   ],
-  "unexpected_outcomes": []
+  "unexpected_outcomes": [
+    "Both exact flashes verified and the first bidirectional exchange completed, but no controller status record or subsequent link traffic appeared during the retained bring-up window. Runtime/reset state is ambiguous."
+  ]
 }

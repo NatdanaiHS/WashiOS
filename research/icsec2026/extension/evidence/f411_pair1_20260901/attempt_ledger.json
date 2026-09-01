@@ -8,6 +8,19 @@
       "scientific_attempt": false,
       "flash_started": false,
       "evidence_path": "raw/bringup/BRINGUP_001/pre_attempt_abort.json"
+    },
+    {
+      "run_id": "BRINGUP_002",
+      "kind": "bringup",
+      "disposition": "INVALID_STOP_NO_RETRY",
+      "scientific_attempt": false,
+      "flash_started": true,
+      "payload_flash_verified": true,
+      "controller_flash_verified": true,
+      "first_bidirectional_exchange_observed": true,
+      "controller_status_records_observed": 0,
+      "invalid_reason": "CONTROLLER_ONLINE_STATUS_MISSING;RUNTIME_OR_RESET_AMBIGUITY",
+      "evidence_path": "raw/bringup/BRINGUP_002"
     }
   ],
   "rule": "append every attempted bring-up, NORMAL, and pilot exactly once; no replacement or retry"

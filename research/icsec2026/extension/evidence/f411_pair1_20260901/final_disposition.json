@@ -1,0 +1,47 @@
+{
+  "terminal_condition": "PAIR1_PILOT_FAIL",
+  "terminal_host_time": "2026-09-01T21:11:00+07:00",
+  "source_commit": "8d6728fbbd35ec96ab539f914e7b0fbd70b53a1d",
+  "harness_followup_commit": "a8e736b",
+  "software_gate_passed": true,
+  "bringup": {
+    "run_id": "BRINGUP_002",
+    "valid": false,
+    "invalid_reason": [
+      "CONTROLLER_ONLINE_STATUS_MISSING",
+      "NO_SUBSEQUENT_LINK_TRAFFIC",
+      "RUNTIME_OR_RESET_AMBIGUITY"
+    ],
+    "payload_flash_exit_code": 0,
+    "payload_flash_verified": true,
+    "controller_flash_exit_code": 0,
+    "controller_flash_verified": true,
+    "payload_ready_observed": true,
+    "controller_ready_observed": true,
+    "payload_normal_confirmation_observed": true,
+    "payload_link_active_observed": true,
+    "controller_accepted_response_observed": true,
+    "controller_payload_online_transition_observed": true,
+    "controller_status_records_observed": 0,
+    "uart_overflow_or_error_markers_observed": 0,
+    "wrong_target_or_flash_verification_failure": false
+  },
+  "normal": {
+    "attempted": false,
+    "reason": "bring-up acceptance criteria did not pass"
+  },
+  "pilot": {
+    "attempted": false,
+    "reason": "bring-up acceptance criteria did not pass; pilot was never authorized",
+    "campaign_denominator": false
+  },
+  "unexpected_finding": "The physical link completed exactly one attributable bidirectional exchange after verified flashing, then produced neither the 5 s controller status record nor another payload-link exchange during the retained bring-up window.",
+  "interpretation_limit": "No NORMAL-window or delayed-response scientific observation exists. This package is failed engineering bring-up evidence only.",
+  "no_retry_enforced": true,
+  "final_payload_mode_confirmation": "NORMAL at 2026-09-01T14:10:33.928438+00:00",
+  "final_controller_runtime_state": "AMBIGUOUS_AFTER_INITIAL_ONLINE_TRANSITION",
+  "final_installed_firmware": {
+    "controller_bin_sha256": "F83B425A57CC31D4E81EC8D145CAE77C1AC81957A17A13161267EFDDE7ACB146",
+    "payload_bin_sha256": "52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB"
+  }
+}
