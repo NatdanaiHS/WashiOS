@@ -1,0 +1,24 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_campaign_backup_completion.v1",
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "source": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3",
+  "backup": "C:/WashiOS-extension-backup/f411_pair2_campaign_20260901_seed20260901_b3",
+  "inventory_rows": 81,
+  "source_files_including_inventory": 82,
+  "backup_files_including_inventory": 82,
+  "source_inventory_sha256": "481F56C98647D037CFAA5698BDEF61C0D918D42954A646E36C7479EA8203588E",
+  "backup_inventory_sha256": "481F56C98647D037CFAA5698BDEF61C0D918D42954A646E36C7479EA8203588E",
+  "missing_size_or_sha256_issues": 0,
+  "initial_copy_attempt": {
+    "result": "SAFE_FAILURE_ZERO_FILES_COPIED",
+    "reason": "PowerShell Copy-Item -LiteralPath does not expand a wildcard",
+    "source_modified": false,
+    "backup_target_files_after_attempt": 0
+  },
+  "corrective_copy": {
+    "method": "explicit Get-ChildItem -Force objects copied recursively into the verified empty exclusive target",
+    "result": "PASS"
+  },
+  "verified": true,
+  "verified_host_time": "2026-09-01T23:56:47+07:00"
+}

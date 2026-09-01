@@ -1,0 +1,210 @@
+{
+  "controller_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 0669FF495051727187053226",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/firmware/f411_p2_fixed_controller.elf verify reset exit"
+    ],
+    "elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78",
+    "exit_code": 0,
+    "log": "flash_controller.log"
+  },
+  "controller_ready_host_time": "2026-09-01T16:47:31.723051+00:00",
+  "counter_deltas": {
+    "crc": 0,
+    "recovery": 0,
+    "seq": 0,
+    "timeout": 0
+  },
+  "failures": [],
+  "initial_normal_command_host_time": "2026-09-01T16:47:31.736823+00:00",
+  "initial_normal_confirmation_host_time": "2026-09-01T16:47:31.760962+00:00",
+  "link_active_host_time": "2026-09-01T16:47:31.760962+00:00",
+  "link_start_host_time": "2026-09-01T16:47:31.736823+00:00",
+  "online_transition_host_time": "2026-09-01T16:47:31.807640+00:00",
+  "payload_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 0663FF495051727187066042",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/firmware/f411_p2_payload.elf verify reset exit"
+    ],
+    "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+    "exit_code": 0,
+    "log": "flash_payload.log"
+  },
+  "payload_ready_host_time": "2026-09-01T16:47:30.394982+00:00",
+  "prohibited_markers": [],
+  "record_id": "F411_P2_CAMPAIGN_20260901_B3_PRECHECK",
+  "scientific_row": false,
+  "status_records": [
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:47:36.710172+00:00",
+      "monotonic_s": 190941.906,
+      "ok": 10,
+      "polls": 10,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:47:41.583131+00:00",
+      "monotonic_s": 190946.781,
+      "ok": 20,
+      "polls": 20,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:47:46.504922+00:00",
+      "monotonic_s": 190951.703,
+      "ok": 30,
+      "polls": 30,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:47:51.425847+00:00",
+      "monotonic_s": 190956.625,
+      "ok": 40,
+      "polls": 40,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:47:56.346992+00:00",
+      "monotonic_s": 190961.546,
+      "ok": 50,
+      "polls": 50,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:01.311680+00:00",
+      "monotonic_s": 190966.515,
+      "ok": 60,
+      "polls": 60,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:06.185867+00:00",
+      "monotonic_s": 190971.39,
+      "ok": 70,
+      "polls": 70,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:11.106596+00:00",
+      "monotonic_s": 190976.312,
+      "ok": 80,
+      "polls": 80,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:16.028276+00:00",
+      "monotonic_s": 190981.234,
+      "ok": 90,
+      "polls": 90,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:20.947517+00:00",
+      "monotonic_s": 190986.156,
+      "ok": 100,
+      "polls": 100,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:25.867843+00:00",
+      "monotonic_s": 190991.078,
+      "ok": 110,
+      "polls": 110,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:30.790868+00:00",
+      "monotonic_s": 190996.0,
+      "ok": 120,
+      "polls": 120,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T16:48:35.711119+00:00",
+      "monotonic_s": 191000.906,
+      "ok": 130,
+      "polls": 130,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    }
+  ],
+  "valid": true,
+  "window_duration_s_monotonic": 65.0,
+  "window_end_host_time": "2026-09-01T16:48:36.808891+00:00",
+  "window_start_host_time": "2026-09-01T16:47:31.807640+00:00"
+}

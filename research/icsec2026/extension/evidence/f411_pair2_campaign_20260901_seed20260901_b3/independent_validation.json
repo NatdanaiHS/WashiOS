@@ -1,0 +1,31 @@
+{
+  "accounting": {
+    "attempted": 12,
+    "invalid": 0,
+    "not_attempted": 0,
+    "planned": 12,
+    "valid": 12
+  },
+  "activation_confirmation_counts": {
+    "D090": 3,
+    "D100": 3,
+    "D110": 3,
+    "NORMAL": 25
+  },
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "failures": [],
+  "firmware_checks": {
+    "controller_bin": true,
+    "controller_elf": true,
+    "payload_bin": true,
+    "payload_elf": true
+  },
+  "raw_failures": [],
+  "raw_record_counts": {
+    "controller": 657,
+    "payload": 36
+  },
+  "row_validation_count": 12,
+  "schema": "washios.icsec2026.f411_pair2_campaign_independent_validation.v1",
+  "valid": true
+}

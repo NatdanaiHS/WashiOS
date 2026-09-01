@@ -1,0 +1,308 @@
+{
+  "activation_command_host_time": "2026-09-01T16:50:04.319931+00:00",
+  "activation_confirmation_host_time": "2026-09-01T16:50:04.340288+00:00",
+  "activation_equivalent_host_time": null,
+  "block": 2,
+  "condition": "D090",
+  "delay_ms": 90,
+  "exposure_end_host_time": "2026-09-01T16:50:08.340665+00:00",
+  "exposure_s": 4.0,
+  "exposure_start_host_time": "2026-09-01T16:50:04.340288+00:00",
+  "failures": [],
+  "finished_host_time": "2026-09-01T16:50:14.173456+00:00",
+  "outcome": {
+    "accepted_mode_0": 1,
+    "accepted_mode_3": 7,
+    "classification": "DELAYED_EXPLICIT_MARKERS",
+    "crc_rejection": 0,
+    "explicit_attributable_outcome": true,
+    "offline": 0,
+    "poll_write_failure": 0,
+    "records": [
+      {
+        "host_time": "2026-09-01T16:50:04.355761+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=310 mode=0",
+        "monotonic_s": 191089.562
+      },
+      {
+        "host_time": "2026-09-01T16:50:04.913583+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=311 mode=3",
+        "monotonic_s": 191090.109
+      },
+      {
+        "host_time": "2026-09-01T16:50:05.408632+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=312 mode=3",
+        "monotonic_s": 191090.609
+      },
+      {
+        "host_time": "2026-09-01T16:50:05.905032+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=313 mode=3",
+        "monotonic_s": 191091.109
+      },
+      {
+        "host_time": "2026-09-01T16:50:06.402650+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=314 mode=3",
+        "monotonic_s": 191091.609
+      },
+      {
+        "host_time": "2026-09-01T16:50:06.901477+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=315 mode=3",
+        "monotonic_s": 191092.109
+      },
+      {
+        "host_time": "2026-09-01T16:50:07.397370+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=316 mode=3",
+        "monotonic_s": 191092.593
+      },
+      {
+        "host_time": "2026-09-01T16:50:07.893676+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=317 mode=3",
+        "monotonic_s": 191093.093
+      }
+    ],
+    "recovery_during_exposure": 0,
+    "restart": 0,
+    "sequence_rejection": 0,
+    "timeout": 0
+  },
+  "post_stabilization": {
+    "accepted_exchanges": [
+      {
+        "host_time": "2026-09-01T16:50:08.388953+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=318 mode=3",
+        "monotonic_s": 191093.593
+      },
+      {
+        "host_time": "2026-09-01T16:50:08.760482+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=319 mode=0",
+        "monotonic_s": 191093.968
+      },
+      {
+        "host_time": "2026-09-01T16:50:09.273569+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=320 mode=0",
+        "monotonic_s": 191094.468
+      },
+      {
+        "host_time": "2026-09-01T16:50:09.766742+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=321 mode=0",
+        "monotonic_s": 191094.968
+      },
+      {
+        "host_time": "2026-09-01T16:50:10.261687+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=322 mode=0",
+        "monotonic_s": 191095.468
+      },
+      {
+        "host_time": "2026-09-01T16:50:10.755027+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=323 mode=0",
+        "monotonic_s": 191095.953
+      },
+      {
+        "host_time": "2026-09-01T16:50:11.193031+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=324 mode=0",
+        "monotonic_s": 191096.39
+      },
+      {
+        "host_time": "2026-09-01T16:50:11.691397+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=325 mode=0",
+        "monotonic_s": 191096.89
+      },
+      {
+        "host_time": "2026-09-01T16:50:12.188327+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=326 mode=0",
+        "monotonic_s": 191097.39
+      },
+      {
+        "host_time": "2026-09-01T16:50:12.686797+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=327 mode=0",
+        "monotonic_s": 191097.89
+      },
+      {
+        "host_time": "2026-09-01T16:50:13.181820+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=328 mode=0",
+        "monotonic_s": 191098.39
+      },
+      {
+        "host_time": "2026-09-01T16:50:13.677160+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=329 mode=0",
+        "monotonic_s": 191098.875
+      }
+    ],
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "failures": [],
+    "prohibited_markers": [],
+    "status_records": [
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T16:50:09.220831+00:00",
+        "monotonic_s": 191094.421,
+        "ok": 304,
+        "polls": 320,
+        "recovery": 2,
+        "seq": 16,
+        "state": "ONLINE",
+        "timeout": 16
+      },
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T16:50:14.140939+00:00",
+        "monotonic_s": 191099.343,
+        "ok": 314,
+        "polls": 330,
+        "recovery": 2,
+        "seq": 16,
+        "state": "ONLINE",
+        "timeout": 16
+      }
+    ],
+    "valid": true
+  },
+  "pre_stabilization": {
+    "accepted_exchanges": [
+      {
+        "host_time": "2026-09-01T16:49:55.003791+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=291 mode=0",
+        "monotonic_s": 191080.203
+      },
+      {
+        "host_time": "2026-09-01T16:49:55.497596+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=292 mode=0",
+        "monotonic_s": 191080.703
+      },
+      {
+        "host_time": "2026-09-01T16:49:55.933395+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=293 mode=0",
+        "monotonic_s": 191081.14
+      },
+      {
+        "host_time": "2026-09-01T16:49:56.432660+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=294 mode=0",
+        "monotonic_s": 191081.64
+      },
+      {
+        "host_time": "2026-09-01T16:49:56.931460+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=295 mode=0",
+        "monotonic_s": 191082.14
+      },
+      {
+        "host_time": "2026-09-01T16:49:57.430213+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=296 mode=0",
+        "monotonic_s": 191082.64
+      },
+      {
+        "host_time": "2026-09-01T16:49:57.925371+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=297 mode=0",
+        "monotonic_s": 191083.125
+      },
+      {
+        "host_time": "2026-09-01T16:49:58.420563+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=298 mode=0",
+        "monotonic_s": 191083.625
+      },
+      {
+        "host_time": "2026-09-01T16:49:58.921560+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=299 mode=0",
+        "monotonic_s": 191084.125
+      },
+      {
+        "host_time": "2026-09-01T16:49:59.429509+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=300 mode=0",
+        "monotonic_s": 191084.625
+      },
+      {
+        "host_time": "2026-09-01T16:49:59.925026+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=301 mode=0",
+        "monotonic_s": 191085.125
+      },
+      {
+        "host_time": "2026-09-01T16:50:00.419240+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=302 mode=0",
+        "monotonic_s": 191085.625
+      },
+      {
+        "host_time": "2026-09-01T16:50:00.855249+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=303 mode=0",
+        "monotonic_s": 191086.062
+      },
+      {
+        "host_time": "2026-09-01T16:50:01.350233+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=304 mode=0",
+        "monotonic_s": 191086.546
+      },
+      {
+        "host_time": "2026-09-01T16:50:01.848062+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=305 mode=0",
+        "monotonic_s": 191087.046
+      },
+      {
+        "host_time": "2026-09-01T16:50:02.342130+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=306 mode=0",
+        "monotonic_s": 191087.546
+      },
+      {
+        "host_time": "2026-09-01T16:50:02.839355+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=307 mode=0",
+        "monotonic_s": 191088.046
+      },
+      {
+        "host_time": "2026-09-01T16:50:03.334993+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=308 mode=0",
+        "monotonic_s": 191088.531
+      },
+      {
+        "host_time": "2026-09-01T16:50:03.830430+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=309 mode=0",
+        "monotonic_s": 191089.031
+      }
+    ],
+    "controller_boundary": 317,
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "failures": [],
+    "normal_command_host_time": "2026-09-01T16:49:54.515480+00:00",
+    "normal_confirmation_host_time": "2026-09-01T16:49:54.539005+00:00",
+    "payload_boundary": 15,
+    "prohibited_markers": [],
+    "status_records": [
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T16:49:59.374885+00:00",
+        "monotonic_s": 191084.578,
+        "ok": 284,
+        "polls": 300,
+        "recovery": 2,
+        "seq": 16,
+        "state": "ONLINE",
+        "timeout": 16
+      },
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T16:50:04.298700+00:00",
+        "monotonic_s": 191089.5,
+        "ok": 294,
+        "polls": 310,
+        "recovery": 2,
+        "seq": 16,
+        "state": "ONLINE",
+        "timeout": 16
+      }
+    ],
+    "valid": true
+  },
+  "recovery_host_time": null,
+  "restore_command_host_time": "2026-09-01T16:50:08.340665+00:00",
+  "restore_confirmation_host_time": "2026-09-01T16:50:08.373588+00:00",
+  "row": 5,
+  "run_id": "F411P2_C05_B2_D090",
+  "started_host_time": "2026-09-01T16:49:54.515480+00:00",
+  "valid": true
+}

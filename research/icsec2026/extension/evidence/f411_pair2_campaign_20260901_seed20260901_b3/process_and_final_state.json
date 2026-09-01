@@ -1,0 +1,12 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_process_final_state.v1",
+  "payload_final_normal_confirmation_host_time": "2026-09-01T16:52:26.291557+00:00",
+  "controller_final_complete_status_host_time": "2026-09-01T16:52:31.969730+00:00",
+  "controller_final_status": "ONLINE polls=610 ok=562 timeout=48 crc=0 seq=48 recovery=6 heartbeat=OK watchdog=OK",
+  "final_post_stabilization_valid": true,
+  "controller_port_closed": true,
+  "payload_port_closed": true,
+  "python_acquisition_process_running": false,
+  "openocd_process_running": false,
+  "hardware_action_after_capture": false
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_acquisition_source_state.v1",
+  "branch": "experiment/icsec-extension-20260830",
+  "source_commit": "eb3c15a2396eb80e327ebf8cd142f1f4298430e2",
+  "upstream_commit_before_acquisition": "eb3c15a2396eb80e327ebf8cd142f1f4298430e2",
+  "source_tree_clean_before_acquisition": true,
+  "source_synchronized_before_acquisition": true,
+  "main_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "origin_main_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "preacquisition_inventory_sha256": "DE4894ED6056B23E1A7E9A191931B754F3098D9D1B82DFD8456D7650B4A1E9BA",
+  "pair1_inventory_sha256": "797F908BCFC5EB5450302360501016DCB23188996C15194D9CF91C8BE619C2BC"
+}

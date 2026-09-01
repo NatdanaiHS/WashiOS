@@ -1,0 +1,26 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_unexpected_boundary.v1",
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "retained_without_exclusion_or_replacement": true,
+  "boundary_mode0_accepts_after_exact_delayed_confirmation": [
+    {"run_id":"F411P2_C02_B1_D110","accepted_mode_0":1,"subsequent_attributable_outcome":"timeout/sequence-rejection/OFFLINE"},
+    {"run_id":"F411P2_C05_B2_D090","accepted_mode_0":1,"subsequent_attributable_outcome":"accepted mode=3 responses without fault transition"},
+    {"run_id":"F411P2_C10_B3_D110","accepted_mode_0":1,"subsequent_attributable_outcome":"timeout/sequence-rejection/OFFLINE"}
+  ],
+  "d090_mode3_counts_by_row": {
+    "F411P2_C03_B1_D090": 7,
+    "F411P2_C05_B2_D090": 7,
+    "F411P2_C12_B3_D090": 8
+  },
+  "counter_marker_distinction": "Each D100/D110 row has cumulative timeout=8 and seq=8 across locked status boundaries, while the exposure contains two explicit timeout-transition markers and one explicit sequence-rejection marker.",
+  "final_partial_record": {
+    "host_time": "2026-09-01T16:52:32.000189+00:00",
+    "rendered": "[OBC] PAYLOAD_AC",
+    "position": "after final complete ONLINE status and after row-12 validation during port close",
+    "counted_as_exchange": false
+  },
+  "host_timestamp_exposure_range_s": {"minimum":4.000259,"maximum":4.001148},
+  "host_timing_interpretation": "Host scheduling/timestamp representation around the fixed monotonic 4.0 s sleep; not MCU execution timing or a condition change.",
+  "inherited_field_label_note": "The generated final_disposition field second_pair_or_manuscript_authorized=false means no additional pair or manuscript action is authorized after this campaign; it does not negate the Research Director's authorization of Pair-2 itself.",
+  "scientific_validity_impact": "none; all artifacts remain attributable inside or outside explicitly locked boundaries"
+}
