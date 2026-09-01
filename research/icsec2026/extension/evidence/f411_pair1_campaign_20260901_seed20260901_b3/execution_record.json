@@ -1,0 +1,15 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_execution.v1",
+  "campaign_id": "F411_P1_CAMPAIGN_20260901_B3",
+  "acquisition_invocation_count": 1,
+  "replacement_or_retry_count": 0,
+  "flash_sequences": 1,
+  "controller_program_verified_ok_count": 1,
+  "payload_program_verified_ok_count": 1,
+  "reset_or_reflash_between_rows": false,
+  "continuous_capture_reopen_count": 0,
+  "row_order_changed": false,
+  "condition_or_denominator_changed": false,
+  "started_host_time": "2026-09-01T15:44:04.730576+00:00",
+  "finished_host_time": "2026-09-01T15:49:07.437433+00:00"
+}

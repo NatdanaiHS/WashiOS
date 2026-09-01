@@ -1,0 +1,23 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_preinventory_reconciliation.v1",
+  "preacquisition_inventory_sha256": "F82C38B2017204D723F74223051CEEF64D3F354005999C7C7C3A6BCFCED1B2FC",
+  "inventory_rows": 32,
+  "unchanged_rows_after_acquisition": 31,
+  "expected_changed_rows": 1,
+  "changed_path": "attempt_ledger.json",
+  "reason": "The acquisition harness intentionally updated the attempt ledger from twelve PLANNED rows to the retained final accounting. The preacquisition inventory should have excluded this mutable path or inventoried an immutable lock copy separately.",
+  "original_locked_ledger": {
+    "path": "locked_attempt_ledger.json",
+    "sha256": "73BDB7CDBCCFCF24B9DD4B2521513407E3E576119E4D7637CFA1F32E9DC65076",
+    "matches_preacquisition_inventory_row": true,
+    "also_recoverable_from_commit": "623c783f489a8e9f5de58b9bf66b863f1e33cb54"
+  },
+  "final_ledger": {
+    "path": "final_attempt_ledger.json",
+    "sha256": "713420D07D91B178777F0774DAA8BDE07CFA63BF3D3E0DF02F57A26914A6DC57",
+    "matches_current_attempt_ledger": true,
+    "accounting": {"planned":12,"attempted":12,"valid":12,"invalid":0,"not_attempted_after_stop":0}
+  },
+  "raw_or_scientific_evidence_changed_by_reconciliation": false,
+  "unresolved_data_loss": false
+}

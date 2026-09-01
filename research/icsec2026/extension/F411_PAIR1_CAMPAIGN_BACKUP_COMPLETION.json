@@ -1,0 +1,14 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_backup_completion.v1",
+  "campaign_id": "F411_P1_CAMPAIGN_20260901_B3",
+  "source": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3",
+  "backup": "C:/WashiOS-extension-backup/f411_pair1_campaign_20260901_seed20260901_b3",
+  "inventory_rows": 95,
+  "source_files_including_inventory": 96,
+  "backup_files_including_inventory": 96,
+  "source_inventory_sha256": "797F908BCFC5EB5450302360501016DCB23188996C15194D9CF91C8BE619C2BC",
+  "backup_inventory_sha256": "797F908BCFC5EB5450302360501016DCB23188996C15194D9CF91C8BE619C2BC",
+  "missing_size_or_sha256_issues": 0,
+  "verified": true,
+  "verified_host_time": "2026-09-01T22:55:14+07:00"
+}

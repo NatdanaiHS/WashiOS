@@ -1,0 +1,34 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_unexpected_boundaries.v1",
+  "unexpected_scientific_outcomes": [],
+  "retained_observations": [
+    {
+      "id": "CUMULATIVE_COUNTERS_EXCEED_EXPLICIT_TRANSITION_MARKERS",
+      "description": "Every valid D100 and D110 row has a cumulative timeout delta of 8 and sequence delta of 8, while each row contains two explicit timeout transition markers and one explicit sequence-rejection marker. The cumulative and explicit counts are retained and must not be conflated."
+    },
+    {
+      "id": "MODE0_ACCEPTS_AFTER_DELAY_CONFIRMATION",
+      "description": "Four delayed exposures contain one accepted mode=0 response after exact delayed activation confirmation: F411P1_C03_B1_D090, F411P1_C05_B2_D090, F411P1_C07_B2_D100, and F411P1_C10_B3_D110. They are retained as boundary-crossing accepted responses. Subsequent attributable mode=3 or timeout/rejection/OFFLINE markers establish each row's reported delayed outcome; no marker was removed or reassigned."
+    }
+  ],
+  "capture_boundary_artifacts": [
+    {
+      "id": "FINAL_PARTIAL_CONTROLLER_RECORD",
+      "host_time": "2026-09-01T15:49:07.336331+00:00",
+      "rendered": "[OBC] PAYLOAD_AC",
+      "description": "The exact-byte master capture retained a partial controller record after the final complete ONLINE status and after row 12 validation finished while ports were closing. It is outside all row and stabilization boundaries and is not counted as an accepted exchange."
+    }
+  ],
+  "provenance_notes": [
+    {
+      "id": "MINUTE_LEVEL_HUMAN_AND_ENUMERATION_RECORD_TIMES",
+      "description": "The host-time values in hardware_enumeration.json and human_wiring_time_confirmation.json are minute-level recording labels entered before acquisition, not independently captured event timestamps. Durable identities, VCP mappings, wiring statements, and the 90-minute confirmation are the supported content; do not use those two labels for timing analysis."
+    },
+    {
+      "id": "HOST_RENDERED_EXPOSURE_INTERVALS",
+      "description": "The harness used a fixed monotonic time.sleep(4.0) exposure. Differences between recorded UTC start/end labels ranged from 3.999907 s to 4.000644 s and are host scheduling/timestamp representation, not MCU timing or a condition change."
+    }
+  ],
+  "invalidates_any_row": false,
+  "rerun_replacement_or_tuning": false
+}

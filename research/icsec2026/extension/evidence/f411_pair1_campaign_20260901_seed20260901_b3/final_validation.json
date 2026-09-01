@@ -1,0 +1,21 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_final_validation.v1",
+  "precheck": {"valid":true,"duration_s_monotonic":65.0,"status_records":13,"all_online":true,"strict_ok":true,"counter_deltas_zero":true,"prohibited_markers":0},
+  "accounting": {"planned":12,"attempted":12,"valid":12,"invalid":0,"not_attempted_after_stop":0},
+  "conditions": {
+    "NC": {"planned":3,"valid":3,"false_markers":0,"accepted_mode_0":27},
+    "D090": {"planned":3,"valid":3,"accepted_mode_3":21,"timeout_markers":0,"sequence_rejections":0,"offline":0,"restored":3,"recovered":0},
+    "D100": {"planned":3,"valid":3,"accepted_mode_3":0,"timeout_markers":6,"sequence_rejections":3,"offline":3,"restored":3,"recovered":3},
+    "D110": {"planned":3,"valid":3,"accepted_mode_3":0,"timeout_markers":6,"sequence_rejections":3,"offline":3,"restored":3,"recovered":3}
+  },
+  "activation_confirmation_counts": {"D090":3,"D100":3,"D110":3,"NORMAL":25},
+  "continuous_raw_records": {"controller":660,"payload":36,"format_or_render_failures":0},
+  "firmware_hashes_exact": true,
+  "flash_verified_ok": {"controller":1,"payload":1},
+  "final_payload_normal": true,
+  "final_controller_online_and_stable": true,
+  "replacement_or_retry_count": 0,
+  "campaign_valid": true,
+  "disposition": "F411_P1_CAMPAIGN_COMPLETE_AWAITING_REVIEW",
+  "failures": []
+}

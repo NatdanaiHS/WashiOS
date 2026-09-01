@@ -1,0 +1,11 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_acquisition_source.v1",
+  "branch": "experiment/icsec-extension-20260830",
+  "acquisition_commit": "623c783f489a8e9f5de58b9bf66b863f1e33cb54",
+  "upstream_commit_before_acquisition": "623c783f489a8e9f5de58b9bf66b863f1e33cb54",
+  "worktree_clean_before_acquisition": true,
+  "frozen_main": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "preacquisition_inventory_sha256": "F82C38B2017204D723F74223051CEEF64D3F354005999C7C7C3A6BCFCED1B2FC",
+  "firmware_source_commit": "0ce8a5cfe12b0dc72df5e8baeee1f8f3bdf19612",
+  "firmware_or_harness_changed_after_lock": false
+}
