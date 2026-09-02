@@ -9,11 +9,13 @@ Authoritative requirement sources:
 - ICSEC 2026 submission instructions: https://cpe.eng.kps.ku.ac.th/ICSEC2026/submission.php
 - IEEE conference templates: https://conferences.ieeeauthorcenter.ieee.org/write-your-paper/authoring-tools-and-templates/
 
-The five cited publications were checked directly against original or authoritative publication text on 2026-09-03. The bibliography also retains one unused, DOI-verified Piper et al. entry from the prior canonical source; it is not emitted by BibTeX.
+The seven cited publications were checked directly against original or authoritative publication text on 2026-09-03. The bibliography also retains one unused, DOI-verified Piper et al. entry from the prior canonical source; it is not emitted by BibTeX.
 
 | Key | Direct publication check | Manuscript use |
 |---|---|---|
 | `arlat1990` | Author-hosted IEEE TSE paper: https://homepages.laas.fr/arlat/documents/89124/89124.pdf | FARM separates fault, functional activation, readout, and measure sets. |
+| `martinez1999` | Archived publication text: https://citeseerx.ist.psu.edu/document?doi=2312f0328f61077bfcf01f2de184c20b3cf546c8&repid=rep1&type=pdf | AFIT provides fine-grained physical pin-level injection, invalid-experiment filtering, and a readout state machine. |
+| `vanderkouwe2014` | Author-hosted IEEE HASE paper: https://www.cs.vu.nl/~ast/Publications/Papers/hase-2014.pdf | Input fault load is distinguished from the subset activated as output fault load. |
 | `abboush2022` | Publisher full text: https://www.mdpi.com/1424-8220/22/4/1360 | Programmatic real-time HIL signal faults and system-level recording. |
 | `abboush2024` | Publisher full text: https://www.mdpi.com/1424-8220/24/12/3733 | Automated virtual-test framework and reported fault deactivation/return behavior. |
 | `batista2019` | Publisher record: https://www.sciencedirect.com/science/article/abs/pii/S0094576518302297 | COTS FEM for nanosatellite communication-channel MIL/HIL robustness tests. |

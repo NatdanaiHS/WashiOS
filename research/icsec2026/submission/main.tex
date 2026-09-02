@@ -47,7 +47,7 @@ We therefore propose a confirmation-gated experimental protocol. A command is a 
 The paper makes three bounded contributions, in priority order:
 
 \begin{itemize}
-  \item a confirmation-gated trial protocol that separates requested, activated, detected, restored, and recovered events and makes missing confirmation invalidate rather than fail a trial;
+  \item a confirmation-gated trial protocol that separates requested, activated, detected, restored, and recovered events and applies stage-specific eligibility rather than counting missing confirmation as failure;
   \item an auditable evidence workflow that retains byte-preserving endpoint traces and verifies frozen summaries and table inputs with SHA-256; and
   \item a setup-bounded descriptive evaluation using one G431/G474 pair for 90 primary trials, a separate 605-s nominal observation, two BAD\_CRC mechanism observations, and two separate 12-row F411 pair campaigns.
 \end{itemize}
@@ -99,9 +99,36 @@ The evaluated firmware and boards are context, not an architecture contribution 
 
 Arlat \emph{et al.} define a fault-injection experiment through a fault, an activation trajectory, a readout, and derived measures (FARM)~\cite{arlat1990}. Their activation set functionally exercises the system; separate endpoint confirmation that a requested condition became active is not reported in the cited publication. The distinction here is narrower: activation is an observed payload state that gates whether the controller readout may enter the score.
 
+Mart\'{i}nez \emph{et al.} use AFIT for fine-grained physical pin-level injection and a readout state machine that filters glitches and invalid experiments~\cite{martinez1999}. Van der Kouwe \emph{et al.} distinguish the faults inserted as an input fault load from the subset activated as the output fault load when analyzing injection distortion~\cite{vanderkouwe2014}. In each case, separate payload-endpoint confirmation gates for detector and recovery scoring are not reported in the cited publication.
+
 Abboush \emph{et al.} configure fault type, location, time, and duration in real-time automotive HIL experiments and record multiple system signals for evaluation~\cite{abboush2022}. Their later framework automates campaigns across virtual driving scenarios, including multiple fault locations, and reports fault deactivation followed by return toward a safe state~\cite{abboush2024}. Separate injected-endpoint confirmation before detection scoring and separate restoration confirmation before recovery scoring are not reported in the cited publications.
 
 At the communication boundary, Batista \emph{et al.} describe a COTS failure-emulator mechanism that intercepts and changes nanosatellite I$^2$C traffic for MIL/HIL robustness tests~\cite{batista2019}. Concei\c{c}\~ao and Mattiello-Francisco organize interoperability testing into six MIL, SIL, and HIL modules, reuse model-derived tests, and employ that mechanism for bus faults~\cite{conceicao2025}. Together with the Abboush HIL frameworks, these architectures provide signal-, subsystem-, or multi-point observation and test traceability around fault delivery~\cite{abboush2022,abboush2024,batista2019,conceicao2025}; separate or dual-channel observation alone is therefore not our contribution. Our protocol complements rather than replaces general HIL architectures, FEM, or SATS: those architectures provide fault delivery, execution, and monitoring, while separate payload-side confirmation determines whether detector and recovery observations are eligible for scoring. The cited publications do not report confirmation-gated scoring with all requested, activated, detected, restored, and recovered events kept distinct, nor byte-preserving endpoint traces feeding hash-verified frozen summaries. ``Not reported'' is limited to these publications and is not a claim about all prior work.
+
+\begin{table*}[t]
+\caption{Verified closest-work gap matrix.}
+\label{tab:gap}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2.4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.10\textwidth}>{\raggedright\arraybackslash}p{0.12\textwidth}>{\raggedright\arraybackslash}p{0.13\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.13\textwidth}@{}}
+\toprule
+Study & FI setting & Input/request vs. activation & Endpoint confirmation gates detection & Restoration confirmation gates recovery & Auditable per-trial event chain & Byte-preserving/hash-verified evidence \\
+\midrule
+Arlat/FARM~\cite{arlat1990} & Physical FI method & Fault and activation sets & Not reported & Not reported & Not reported & Not reported \\
+Mart\'{i}nez/\newline AFIT~\cite{martinez1999} & Pin-level physical FI & Activated-injection state & Not reported & Not reported & Not reported & Not reported \\
+Van der Kouwe~\cite{vanderkouwe2014} & Software FI & Input and output fault loads & Not reported & Not reported & Not reported & Not reported \\
+Abboush~\cite{abboush2022,abboush2024} & Automotive HIL FI & Not reported & Not reported & Not reported & Not reported & Not reported \\
+Batista/FEM~\cite{batista2019} & Bus MIL/HIL FI & Not reported & Not reported & Not reported & Not reported & Not reported \\
+Concei\c{c}\~ao/\newline SATS~\cite{conceicao2025} & Bus MIL/SIL/HIL FI & Stimulus and result traceability & Not reported & Not reported & Not reported & Not reported \\
+This work & UART HIL FI & Request and confirmed activation & Payload-confirmation gate & NORMAL-confirmation gate & Five retained events & Exact bytes and SHA-256 \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+\parbox{0.98\textwidth}{\footnotesize Entries state only properties supported by the cited publication. ``Not reported'' means not reported in that publication, not that the underlying capability does not exist.}
+\end{table*}
 
 \section{System Context and Protocol}
 
@@ -113,7 +140,7 @@ As Fig.~\ref{fig:protocol} shows, the host sends fault-control commands and sepa
 
 \subsection{Validity and Scoring}
 
-For trial $i$, let $A_i$ denote payload confirmation of the requested injected condition and $S_i$ payload confirmation of restored NORMAL. The trial is valid for complete scoring only if $V_i=A_i\land S_i$ and no harness invalid reason is present. Detection is evaluated only after $A_i$; recovery is evaluated only after $S_i$. Thus, missing activation or restoration confirmation makes the affected trial invalid and unscored, not a detector or recovery failure.
+For trial $i$, let $A_i$ denote payload confirmation of the requested injected condition and $S_i$ payload confirmation of restored NORMAL. Complete-trial validity requires $A_i\land S_i$ and no harness invalid reason. Detection is eligible only after $A_i$; without activation confirmation, the trial enters neither the detection nor recovery denominator. If $A_i$ is present but $S_i$ is absent, detection remains scoreable while recovery is invalid and unscored. This stage-specific rule does not change the primary results because all 90 primary trials contained both confirmations.
 
 The executed sequence was: establish and confirm a NORMAL precondition; wait a seeded offset; request a fault mode; require the matching payload confirmation; observe the controller for 4~s; request NORMAL; require payload confirmation of NORMAL; and observe recovery for 3~s. Seed 20260830 fixed the order and offsets of 90 sequential primary trials, 30 per mode.
 
@@ -217,11 +244,11 @@ Here F/R denotes the predefined timeout/sequence-rejection/OFFLINE pattern plus 
 
 \section{Discussion and Validity Boundaries}
 
-Confirmation gating changes what a scored result means. A detector count is conditional on observing the payload in the requested condition, and a recovery count is conditional on observing its return to NORMAL. The primary campaign demonstrates that the complete requested-to-recovered chain can be operated and audited on the evaluated G431/G474 setup. The separate F411 campaigns demonstrate the same confirmation rules on two further pair-specific setups. Neither result estimates how often unobserved devices would behave similarly.
+Confirmation gating changes what a scored result means. A detector count is conditional on observing the payload in the requested condition, and a recovery count is conditional on observing its return to NORMAL. The primary campaign demonstrates that the complete requested-to-recovered chain can be operated and audited on the evaluated G431/G474 setup. It demonstrates protocol operability and auditability, but does not estimate how often request-only scoring would produce a different result because no ungated comparative baseline was run. The separate F411 campaigns demonstrate the same confirmation rules on two further pair-specific setups. Neither result estimates how often unobserved devices would behave similarly.
 
 Construct validity is bounded by observable endpoint behavior and predefined log markers. SILENT, BAD\_CRC, and DELAYED do not represent all communication faults and are not equivalent to electrical, environmental, or radiation-induced faults. Markers operationalize detection and recovery but do not expose every internal state. Literal heartbeat or watchdog strings are not treated as independent health measurements.
 
-Internal validity benefits from a confirmed NORMAL precondition, seeded order and offsets, fixed observation windows, separate endpoint logs, and invalidation on missing confirmation. Sequential trials still share hardware, host, thermal, state-history, and timing conditions. No C0 ablation supports a treatment effect or comparative claim. The two 65-s N0 windows, separate 605-s observation, and one 65-s gate per F411 pair are duration bounded.
+Internal validity benefits from a confirmed NORMAL precondition, seeded order and offsets, fixed observation windows, separate endpoint logs, and stage-specific invalidation on missing confirmation. Sequential trials still share hardware, host, thermal, state-history, and timing conditions. The two 65-s N0 windows, separate 605-s observation, and one 65-s gate per F411 pair are duration bounded.
 
 External and timing validity are similarly narrow. One primary pair and two purposively evaluated F411 pairs do not define a device population. Other delay values, corruption patterns, intermittent behavior, concurrent loads, and recovery horizons remain untested. Host serial timestamps include transport and scheduling effects. Temperature, vibration, electromagnetic conditions, power transients, and radiation were not varied or measured. The evidence supports no environmental robustness, flight-qualification, mission-assurance, or complete-system claim.
 
