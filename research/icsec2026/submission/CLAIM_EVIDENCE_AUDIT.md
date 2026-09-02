@@ -9,8 +9,21 @@
 
 Evaluated acquisition revision: `cfd4b1b59d5018f498e5cc083ab27e1d230ae85d` from `FINAL_MANIFEST.json` (SHA-256 `D8424545495CCF2EBA2BF87BE5B68CDA79D3AA41239217140F54D20BD0DCE91E`).
 
-- `core/include/comms/PayloadLinkController.hpp`, Git blob `e2b6c9e9bb4af62afa32daa455479575eebff19a`: 100-ms response deadline; three-timeout OFFLINE threshold. A BadCrc decode result increments `crcRejects` and returns before clearing `awaitingResponse`. Deadline service then increments timeout/consecutive count and sets OFFLINE at threshold. An accepted valid response clears the outstanding request, resets the consecutive count, sets ONLINE, and records recovery when applicable.
-- `core/src/app/PayloadLinkTask.hpp`, evaluated Git blob `a76804eb567689588bc3b1459df9a9352ec0d4f4`: emits CRC rejection, timeout, OFFLINE, and recovery markers used in the raw-order trace. Later scope-only GPIO instrumentation does not alter the evaluated controller state machine and is not used as empirical evidence here.
+- `core/include/comms/PayloadLinkController.hpp`, Git blob `e2b6c9e9bb4af62afa32daa455479575eebff19a`: lines 33--34 define the 100-ms response deadline and three-timeout OFFLINE threshold; lines 36--50 increment the timeout streak and set OFFLINE at the threshold; lines 75--103 reject invalid CRC/sequence responses without clearing the outstanding request; and lines 110--119 clear the request and streak, set ONLINE, and count recovery after an accepted response from OFFLINE.
+- `core/src/app/PayloadLinkTask.hpp`, evaluated Git blob `a76804eb567689588bc3b1459df9a9352ec0d4f4`: lines 75--104 route decoded frames to the controller and emit rejection/recovery consequences; lines 108--125 emit timeout or OFFLINE after controller service; lines 209--249 define the recovery, rejection, timeout, and OFFLINE marker text. Later scope-only GPIO instrumentation does not alter the evaluated controller state machine and is not used as empirical evidence here.
+
+## Figure 1 protocol-transition trace
+
+Figure 1 is an experimental protocol/topology figure, not a reconstructed controller state machine. Every event transition is supported by the frozen campaign runner `research/icsec2026/injector/run_payload_campaign.py`, Git blob `68625847689bfe7906833bc1ade8dc9f8169625e`:
+
+- requested -> confirmed activated: lines 391--404 send the selected mode and require the matching payload confirmation; lines 400--404 record missing confirmation as `FAULT_ACTIVATION_NOT_CONFIRMED` or retain the confirmation time;
+- confirmed activated -> detected: lines 406--409 establish the controller-observation phase, and lines 431--449 select the predefined post-request detector marker and its host-observed interval;
+- detected -> restore request: lines 411--414 send NORMAL and retain the restore-command host time after the fixed observation phase;
+- restore request -> confirmed restored: lines 415--421 require the payload's NORMAL confirmation and otherwise record `NORMAL_RESTORE_NOT_CONFIRMED`;
+- confirmed restored -> recovered: lines 423--457 observe the post-restore controller stream, select a recovery marker only after the restore request, and populate recovery timing only when restoration confirmation exists; and
+- invalid/unscored rule: lines 460--467 give any recorded invalid reason precedence over detection/recovery outcomes, while lines 577--579 abort further campaign execution after an invalid trial.
+
+The same runner lines 134--180 define concurrent serial capture, lines 321--326 define command-send capture, lines 329--336 match payload mode confirmations, and lines 531--540 record the exact-byte log format and measurement definitions. Because capture is concurrent and detector selection covers all events after the request (line 431), a detector marker can be received while activation confirmation is still being awaited. Figure 1's arrows therefore denote validation/scoring stages, not a claim that all raw host timestamps have the same strict order. No unverified internal transition is drawn.
 
 This supports a protocol/control-flow explanation only. It does not establish MCU-internal timing.
 

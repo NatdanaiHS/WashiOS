@@ -15,6 +15,7 @@ compile_commands.json
 *.map
 **/outputs/
 deliverables/_*/
+/research/icsec2026/submission/build/
 *.lst
 *.o
 *.obj

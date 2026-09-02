@@ -1,7 +1,10 @@
-FINAL_PASS manuscript source commit:
-21129b1795102574dceb023f984c115630b18020
+Candidate branch:
+paper/icsec-confirmation-gated-final
 
-Branch at freeze start:
-experiment/icsec-extension-20260830
+Positioning authority SHA-256:
+120B4C51966DEB4029E63EF32C9EC23C467D5540AD4B492D2517CA0A1CBE44EC
 
-The package-freeze commit is recorded by Git history and reported at handoff. A Git commit cannot contain its own hash; this file therefore records the exact already-reviewed manuscript source commit whose PDF/source bytes are frozen here.
+Pre-rewrite canonical manuscript SHA-256:
+AA018D5E677D8C6ECAE93DEB33C068B01AC6050B5B57D47F303166BB750007B4
+
+The exact candidate commit is the pushed tip of the branch and is reported at handoff. A Git commit cannot contain its own hash.
