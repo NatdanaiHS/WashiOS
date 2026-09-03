@@ -1,0 +1,32 @@
+{
+  "assertion_count": 8,
+  "assertions": {
+    "all_expected_outcomes_matched": true,
+    "all_original_sources_unchanged": true,
+    "exactly_five_mutations": true
+  },
+  "overall_pass": true,
+  "scenario_assertions": {
+    "detector_before_activation_confirmation": {
+      "actual_equals_expected": true,
+      "pass": true
+    },
+    "duplicate_matching_confirmation": {
+      "actual_equals_expected": true,
+      "pass": true
+    },
+    "missing_activation_confirmation": {
+      "actual_equals_expected": true,
+      "pass": true
+    },
+    "missing_restoration_confirmation": {
+      "actual_equals_expected": true,
+      "pass": true
+    },
+    "wrong_mode_activation_confirmation": {
+      "actual_equals_expected": true,
+      "pass": true
+    }
+  },
+  "schema": "washios.icsec2026.synthetic_replay_assertions.v1"
+}

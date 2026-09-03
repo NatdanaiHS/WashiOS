@@ -16,16 +16,23 @@ Evaluated acquisition revision: `cfd4b1b59d5018f498e5cc083ab27e1d230ae85d` from 
 
 Figure 1 is an experimental protocol/topology figure, not a reconstructed controller state machine. Every event transition is supported by the frozen campaign runner `research/icsec2026/injector/run_payload_campaign.py`, Git blob `68625847689bfe7906833bc1ade8dc9f8169625e`:
 
-- requested -> confirmed activated: lines 391--404 send the selected mode and require the matching payload confirmation; lines 400--404 record missing confirmation as `FAULT_ACTIVATION_NOT_CONFIRMED` or retain the confirmation time;
-- confirmed activated -> detected: lines 406--409 establish the controller-observation phase, and lines 431--449 select the predefined post-request detector marker and its host-observed interval;
+- requested -> activation confirmed: lines 391--404 send the selected mode and require the matching payload confirmation; lines 400--404 record missing confirmation as `FAULT_ACTIVATION_NOT_CONFIRMED` or retain the confirmation time;
+- activation confirmed -> detected: lines 406--409 establish the controller-observation phase, and lines 431--449 select the predefined post-request detector marker and its host-observed interval;
 - detected -> restore request: lines 411--414 send NORMAL and retain the restore-command host time after the fixed observation phase;
-- restore request -> confirmed restored: lines 415--421 require the payload's NORMAL confirmation and otherwise record `NORMAL_RESTORE_NOT_CONFIRMED`;
-- confirmed restored -> recovered: lines 423--457 observe the post-restore controller stream, select a recovery marker only after the restore request, and populate recovery timing only when restoration confirmation exists; and
-- invalid/unscored rule: lines 460--467 give any recorded invalid reason precedence over detection/recovery outcomes, while lines 577--579 abort further campaign execution after an invalid trial.
+- restore requested -> restoration confirmed: lines 415--421 require the payload's NORMAL confirmation and otherwise record `NORMAL_RESTORE_NOT_CONFIRMED`;
+- restoration confirmed -> recovered: lines 423--457 observe the post-restore controller stream, select a recovery marker only after the restore request, and populate recovery timing only when restoration confirmation exists; and
+- stage-specific eligibility: lines 400--404 make missing activation an invalid trial condition, lines 443--449 retain an observed detection independently of restoration, lines 454--457 populate recovery timing only with restoration confirmation, and lines 460--467 preserve the stricter complete-trial outcome rule.
 
 The same runner lines 134--180 define concurrent serial capture, lines 321--326 define command-send capture, lines 329--336 match payload mode confirmations, and lines 531--540 record the exact-byte log format and measurement definitions. Because capture is concurrent and detector selection covers all events after the request (line 431), a detector marker can be received while activation confirmation is still being awaited. Figure 1's arrows therefore denote validation/scoring stages, not a claim that all raw host timestamps have the same strict order. No unverified internal transition is drawn.
 
 This supports a protocol/control-flow explanation only. It does not establish MCU-internal timing.
+
+## Payload-confirmation causal ordering and trust boundary
+
+- In the protected G474 payload source `demo-payload/src/main.cpp` (SHA-256 `FB83C6AEFDB6A2488648B56E9AE1CFBF5FC87AEF6312915CCF7FA2C803C50EE5`), lines 240--248 parse into local selected values, assign `currentMode` and `delayedResponseMs`, and only then call `logMode()`. Lines 197--208 construct the confirmation from those assigned values and transmit it. The main loop calls `serviceHostCommands()` before `serviceLink()` at lines 451--452.
+- The protected F411 payload source `demo-payload/src/f411_main.cpp` (SHA-256 `0275FD31799420707E2AE87411497D7C50018E0E8ABF7F957030B000C7E974BD`) uses the same assignment-before-confirmation order at lines 142--150 and calls command service before link service at lines 309--310. `demo-payload/src/HostModeCommandParser.hpp` (SHA-256 `23460BCDC2E6B77CDF3FAB9CFF0542C8987BE1A59DB6CEE3B3EB6FE0804DFFBE`) returns `ModeSelected` only after selecting the parsed mode.
+- The primary-run frozen worktree patch independently records `currentMode = selectedMode` before `logMode()` in `provenance/20260830_023830/source_state/tracked_worktree.patch`, lines 95--102. Thus the confirmation establishes a software causal boundary for scorer eligibility. It is not an independent physical measurement of UART behavior.
+- Consistent with that boundary, a controller marker received before matching activation confirmation is outside the eligible interval and is ignored. The retained synthetic replay records this as `DETECTOR_BEFORE_ACTIVATION_IGNORED` and produces an eligible `NOT_DETECTED` result after activation is confirmed; it does not classify the marker as ambiguous or invalidate the trial.
 
 ## Claim boundaries
 

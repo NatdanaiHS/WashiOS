@@ -10,7 +10,7 @@ Candidate status: `WORK_REVIEW_REQUIRED`
 
 ## Provenance: PASS
 
-- Scientific positioning is locked by `research/icsec2026/POSITIONING_LOCK.md`, SHA-256 `120B4C51966DEB4029E63EF32C9EC23C467D5540AD4B492D2517CA0A1CBE44EC`.
+- Scientific positioning is locked by `research/icsec2026/POSITIONING_LOCK.md`, SHA-256 `7637F3D3FC53622A382C29C6B1BFD7EE952558F4961358FF347870EB756CC586`.
 - Source evidence was read only. The manuscript references frozen evidence paths and does not copy empirical evidence.
 - The 605-s nominal validation and BAD_CRC result hashes match the approved checkpoints.
 - F411 Pair-1 and Pair-2 remain separate frozen datasets and are reported without pooling.
@@ -18,7 +18,7 @@ Candidate status: `WORK_REVIEW_REQUIRED`
 
 ## Claims: PASS
 
-- The Abstract, Introduction, Related Work, contributions, protocol, Discussion, and Conclusion use the same confirmation-gated methodological claim.
+- The Abstract, Introduction, Related Work, contributions, protocol, Discussion, and Conclusion identify the two-stage activation/restoration scoring gates as the central methodological distinction. The five-event chain operationalizes those gates, and the byte/hash workflow supports auditability rather than independent novelty.
 - OBS_C and OBS_P are described as separate same-host channels, not independent observations.
 - The primary board-pair scope, 90-trial denominator, per-mode counts, and host-observed latency definitions are unchanged.
 - The 605-s observation is separate from the primary trial denominator and from reliability claims.

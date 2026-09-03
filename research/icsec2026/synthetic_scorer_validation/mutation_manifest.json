@@ -1,0 +1,40 @@
+{
+  "baseline": {
+    "fault_mode": "BAD_CRC",
+    "run_id": "R005_P02",
+    "source_logs": [
+      "research/icsec2026/runs/full_20260830_seed20260830_n30/raw/R005_P02/g431.log",
+      "research/icsec2026/runs/full_20260830_seed20260830_n30/raw/R005_P02/g474.log"
+    ],
+    "source_result": "research/icsec2026/runs/full_20260830_seed20260830_n30/results.csv#R005_P02"
+  },
+  "mutation_count": 5,
+  "mutations": [
+    {
+      "operation": "remove the matching BAD_CRC payload confirmation",
+      "path": "mutations/01_missing_activation_confirmation.json",
+      "trace_id": "missing_activation_confirmation"
+    },
+    {
+      "operation": "remove the matching NORMAL restoration confirmation after valid activation",
+      "path": "mutations/02_missing_restoration_confirmation.json",
+      "trace_id": "missing_restoration_confirmation"
+    },
+    {
+      "operation": "replace the BAD_CRC activation confirmation with a SILENT confirmation",
+      "path": "mutations/03_wrong_mode_activation_confirmation.json",
+      "trace_id": "wrong_mode_activation_confirmation"
+    },
+    {
+      "operation": "move the detector marker before the matching activation confirmation",
+      "path": "mutations/04_detector_before_activation_confirmation.json",
+      "trace_id": "detector_before_activation_confirmation"
+    },
+    {
+      "operation": "insert one duplicate matching BAD_CRC activation confirmation",
+      "path": "mutations/05_duplicate_matching_confirmation.json",
+      "trace_id": "duplicate_matching_confirmation"
+    }
+  ],
+  "schema": "washios.icsec2026.synthetic_mutation_manifest.v1"
+}

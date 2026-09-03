@@ -4,9 +4,9 @@ Status: **WORK_REVIEW_REQUIRED**
 
 - [x] One canonical manuscript source: `main.tex`.
 - [x] One canonical review PDF path: `main.pdf`.
-- [x] Page count is 4, within the verified 4--6 page requirement.
-- [x] Locked title, research gap, solution, three contributions, non-claims, and evidence roles are preserved.
-- [x] TikZ Figure 1 combines the minimal topology, separate same-host OBS_C/OBS_P channels, six event classes, both scoring gates, and the literal invalid/unscored rule.
+- [x] Page count is 5, within the verified 4--6 page requirement.
+- [x] Locked title, research gap, central methodological contribution, non-claims, and evidence roles are preserved.
+- [x] TikZ Figure 1 combines the host-orchestrated topology, separate same-host OBS_C/OBS_P channels, six sequence nodes representing five event classes, both scoring-eligibility gates, and both stage-specific unscored cases.
 - [x] Every depicted protocol transition has exact source line ranges in `CLAIM_EVIDENCE_AUDIT.md`.
 - [x] Numerical claims and denominators were rechecked against frozen evidence; no numerical correction was required.
 - [x] Closest-literature claims were rechecked against original or authoritative publication text.
