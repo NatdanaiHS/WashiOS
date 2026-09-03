@@ -2,9 +2,18 @@ Candidate branch:
 paper/icsec-confirmation-gated-final
 
 Positioning authority SHA-256:
-7637F3D3FC53622A382C29C6B1BFD7EE952558F4961358FF347870EB756CC586
+0D4AE41D32A70EB334856341094D598DE1DF7F7A2E3CE95BF03BDD6E512CE1CE
 
 Pre-rewrite canonical manuscript SHA-256:
 AA018D5E677D8C6ECAE93DEB33C068B01AC6050B5B57D47F303166BB750007B4
 
-The exact candidate commit is the pushed tip of the branch and is reported at handoff. A Git commit cannot contain its own hash.
+Final canonical manuscript source SHA-256:
+EE42D551CD490975F5E25B72B29230B983B9CCA4F3D40D70543D4EFA0F819F44
+
+Final canonical submission PDF SHA-256:
+597A288326CEE460A40139CDF478E4BEF5F17F1574C089C976371A0170E195AF
+
+Final source-state tag:
+icsec-2026-submission-final
+
+The annotated tag identifies the exact final source commit. A Git commit cannot contain its own hash.

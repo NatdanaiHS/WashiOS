@@ -26,7 +26,7 @@
       "trace_id": "wrong_mode_activation_confirmation"
     },
     {
-      "operation": "move the detector marker before the matching activation confirmation",
+      "operation": "move the controller-marker host timestamp before the matching payload-confirmation host timestamp",
       "path": "mutations/04_detector_before_activation_confirmation.json",
       "trace_id": "detector_before_activation_confirmation"
     },

@@ -1,17 +1,19 @@
-# ICSEC 2026 current frozen candidate
+# ICSEC 2026 current candidate
 
-Status: **FROZEN — WORK_REVIEW_REQUIRED**
+Status: **NEEDS_MANUAL_VERIFICATION — copyright notice wording**
 
 - Branch: `paper/icsec-confirmation-gated-final`
-- Freeze tag: `icsec-2026-confirmation-gated-final`
+- Base freeze tag: `icsec-2026-confirmation-gated-final`
 - Canonical manuscript: `submission/main.tex`
-  - SHA-256: `FFAD88E14EE5E3976F77D4C12AE0865697313FDFC7AD14589A54833C596087EC`
+  - SHA-256: `EE42D551CD490975F5E25B72B29230B983B9CCA4F3D40D70543D4EFA0F819F44`
 - Canonical review PDF: `submission/main.pdf`
-  - SHA-256: `7D0467D19CFB19792F73A98566712DBCF384D25BF501DC562A7BB5C6D0F9D2D4`
-  - Five US-letter pages
+  - SHA-256: `597A288326CEE460A40139CDF478E4BEF5F17F1574C089C976371A0170E195AF`
+  - Six US-letter pages
 
-The tag's commit is the authoritative repository snapshot. `submission/` is the only active
-manuscript directory; Git history is the archive for earlier manuscript text.
+The base tag identifies the preceding reviewed snapshot. The current working candidate is not
+frozen because the official ICSEC instructions require a first-page copyright notice but do not
+provide exact wording. `submission/` is the only active manuscript directory; Git history is the
+archive for earlier manuscript text.
 
 ## Use these files
 

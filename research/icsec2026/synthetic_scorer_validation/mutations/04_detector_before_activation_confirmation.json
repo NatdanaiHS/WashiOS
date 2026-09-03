@@ -45,7 +45,7 @@
     }
   ],
   "fault_mode": "BAD_CRC",
-  "mutation": "move the detector marker before the matching activation confirmation",
+  "mutation": "move the controller-marker host timestamp before the matching payload-confirmation host timestamp",
   "schema": "washios.icsec2026.synthetic_trace_mutation.v1",
   "synthetic": true,
   "trace_id": "detector_before_activation_confirmation"

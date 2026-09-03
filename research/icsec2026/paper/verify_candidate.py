@@ -12,6 +12,7 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[3]
 SUBMISSION = ROOT / "research" / "icsec2026" / "submission"
 MANUSCRIPT = (SUBMISSION / "main.tex").read_text(encoding="utf-8")
+BIBLIOGRAPHY = (SUBMISSION / "references.bib").read_text(encoding="utf-8")
 
 
 def load(relative: str):
@@ -23,7 +24,7 @@ def sha256(relative: str) -> str:
 
 
 assert sha256("research/icsec2026/POSITIONING_LOCK.md") == (
-    "7637F3D3FC53622A382C29C6B1BFD7EE952558F4961358FF347870EB756CC586"
+    "0D4AE41D32A70EB334856341094D598DE1DF7F7A2E3CE95BF03BDD6E512CE1CE"
 )
 assert sha256(
     "research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/"
@@ -130,11 +131,23 @@ for required in (
 for required in (
     "causal eligibility boundary",
     "not an independent physical measurement of UART behavior",
-    "outside the eligible scoring interval",
-    "eligible NOT\\_DETECTED result",
+    "without a verified total order",
+    "temporally ambiguous",
+    "detection unscored",
+    "complete-trial validity indicator",
+    r"V_i = A_i \land S_i \land \neg E_i",
 ):
     assert required in MANUSCRIPT
-assert "references" in text.lower() and "[5]" in text
+assert "(1)" in text
+assert "references" in text.lower() and "[10]" in text
+assert len(re.findall(r"^@\w+\{", BIBLIOGRAPHY, flags=re.MULTILINE)) == 10
+for required in (
+    "OpenAI ChatGPT",
+    "OpenAI Codex",
+    "Anthropic Claude",
+    "No AI-generated data were used",
+):
+    assert required in MANUSCRIPT
 assert not any(token in text.lower() for token in ("anonymous artifact", "anonymous repository", "state-of-the-art", "superior"))
 assert not any(token in MANUSCRIPT for token in ("main_old", "main_new", "final2", "offline_before_restore"))
 assert list(SUBMISSION.glob("main*.tex")) == [SUBMISSION / "main.tex"]
@@ -158,13 +171,13 @@ pre_activation = load(
 )["detector_before_activation_confirmation"]
 assert pre_activation["activation_confirmation"]["confirmed"]
 assert pre_activation["detection"] == {
-    "eligible": True,
+    "eligible": False,
     "event_id": None,
-    "result": "NOT_DETECTED",
+    "result": "UNSCORED",
 }
 assert pre_activation["diagnostic_codes"] == [
-    "DETECTOR_BEFORE_ACTIVATION_IGNORED",
-    "NO_ELIGIBLE_DETECTOR_MARKER",
+    "CROSS_CHANNEL_DETECTOR_ACTIVATION_ORDER_AMBIGUOUS",
+    "DETECTION_UNSCORED_TEMPORAL_ORDER_AMBIGUOUS",
 ]
 
 pdf_hash = sha256("research/icsec2026/submission/main.pdf")

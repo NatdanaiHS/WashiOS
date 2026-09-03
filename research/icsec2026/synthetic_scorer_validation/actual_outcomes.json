@@ -6,13 +6,13 @@
       "mode": "BAD_CRC"
     },
     "detection": {
-      "eligible": true,
+      "eligible": false,
       "event_id": null,
-      "result": "NOT_DETECTED"
+      "result": "UNSCORED"
     },
     "diagnostic_codes": [
-      "DETECTOR_BEFORE_ACTIVATION_IGNORED",
-      "NO_ELIGIBLE_DETECTOR_MARKER"
+      "CROSS_CHANNEL_DETECTOR_ACTIVATION_ORDER_AMBIGUOUS",
+      "DETECTION_UNSCORED_TEMPORAL_ORDER_AMBIGUOUS"
     ],
     "recovery": {
       "eligible": true,

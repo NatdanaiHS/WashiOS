@@ -244,22 +244,29 @@ def score_trace(trace: dict[str, Any]) -> dict[str, Any]:
         detection_event_id = None
         diagnostics.append("DETECTION_UNSCORED_NO_ACTIVATION")
     else:
-        detection_eligible = True
         early_detectors = [
             event for event in detectors if event["relative_ms"] < activation["relative_ms"]
         ]
         if early_detectors:
-            diagnostics.append("DETECTOR_BEFORE_ACTIVATION_IGNORED")
-        eligible_detectors = [
-            event for event in detectors if event["relative_ms"] >= activation["relative_ms"]
-        ]
-        if eligible_detectors:
-            detection_result = "DETECTED"
-            detection_event_id = eligible_detectors[0]["event_id"]
-        else:
-            detection_result = "NOT_DETECTED"
+            detection_eligible = False
+            detection_result = "UNSCORED"
             detection_event_id = None
-            diagnostics.append("NO_ELIGIBLE_DETECTOR_MARKER")
+            diagnostics.append("CROSS_CHANNEL_DETECTOR_ACTIVATION_ORDER_AMBIGUOUS")
+            diagnostics.append("DETECTION_UNSCORED_TEMPORAL_ORDER_AMBIGUOUS")
+        else:
+            detection_eligible = True
+            eligible_detectors = [
+                event
+                for event in detectors
+                if event["relative_ms"] >= activation["relative_ms"]
+            ]
+            if eligible_detectors:
+                detection_result = "DETECTED"
+                detection_event_id = eligible_detectors[0]["event_id"]
+            else:
+                detection_result = "NOT_DETECTED"
+                detection_event_id = None
+                diagnostics.append("NO_ELIGIBLE_DETECTOR_MARKER")
 
     after_restore = [
         event for event in events if event["relative_ms"] > restore["relative_ms"]
@@ -363,7 +370,7 @@ def create_mutations(baseline: list[dict[str, Any]]) -> dict[str, dict[str, Any]
     detector["relative_ms"] = round(activation["relative_ms"] / 2.0, 6)
     traces["detector_before_activation_confirmation"] = make_trace(
         "detector_before_activation_confirmation",
-        "move the detector marker before the matching activation confirmation",
+        "move the controller-marker host timestamp before the matching payload-confirmation host timestamp",
         events,
     )
 
@@ -394,10 +401,10 @@ def expected_outcomes() -> dict[str, dict[str, Any]]:
     return {
         "detector_before_activation_confirmation": {
             "activation_confirmation": confirmed_activation,
-            "detection": {"eligible": True, "event_id": None, "result": "NOT_DETECTED"},
+            "detection": {"eligible": False, "event_id": None, "result": "UNSCORED"},
             "diagnostic_codes": [
-                "DETECTOR_BEFORE_ACTIVATION_IGNORED",
-                "NO_ELIGIBLE_DETECTOR_MARKER",
+                "CROSS_CHANNEL_DETECTOR_ACTIVATION_ORDER_AMBIGUOUS",
+                "DETECTION_UNSCORED_TEMPORAL_ORDER_AMBIGUOUS",
             ],
             "recovery": {"eligible": True, "event_id": "recovery_marker", "result": "RECOVERED"},
             "restoration_confirmation": confirmed_restoration,
