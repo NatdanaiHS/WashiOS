@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[conference,a4paper]{IEEEtran}
 
 \usepackage{fontspec}
 \setmainfont{texgyretermes-regular.otf}[
@@ -9,260 +9,410 @@
 \usepackage{booktabs}
 \usepackage{balance}
 \usepackage{array}
+\usepackage{tabularx}
 \usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,calc}
+\usetikzlibrary{arrows.meta,positioning,calc,automata,fit,backgrounds}
 \usepackage{url}
+\usepackage{xcolor}
 
-\title{Confirmation-Gated HIL Fault-Injection Trials for Auditable Payload-Link Supervision}
-\author{}
+
+\title{Timed-Automata Verification of Payload-Link Supervision, Watchdog Gating, and A/B Boot Policy in STM32 Flight Software}
+% ---------------------------------------------------------------------------------------
+% ICSEC 2026 requires DOUBLE-ANONYMOUS review submissions, so the review build carries
+% placeholder author blocks with no real names or affiliations; the block count matches the
+% camera-ready author count (six). Set \anonfalse for the camera-ready build.
+% ---------------------------------------------------------------------------------------
+\newif\ifanon
+\anontrue
+% Camera-ready only: author contributions, funding and conflict-of-interest statements requested by the
+% advisor on 2026-09-22. They add about eight lines and push the camera-ready build to seven pages, so they
+% stay off until the conference's camera-ready page allowance is confirmed. Must remain false while \anontrue.
+\newif\ifcontrib
+\contribfalse
+
+% IEEEtran V1.8b has no \linebreakand; this is the definition the IEEE conference template
+% supplies for starting a second row of author blocks.
+\makeatletter
+\newcommand{\linebreakand}{%
+  \end{@IEEEauthorhalign}
+  \hfill\mbox{}\par
+  \mbox{}\hfill\begin{@IEEEauthorhalign}
+}
+\makeatother
+
+\ifanon
+\author{\IEEEauthorblockN{Anonymous Author 1}
+\IEEEauthorblockA{\textit{Anonymous Department} \\
+\textit{Anonymous Faculty}\\
+\textit{Anonymous University}\\
+anonymous1@anonymous.edu}
+\and
+\IEEEauthorblockN{Anonymous Author 2}
+\IEEEauthorblockA{\textit{Anonymous Department} \\
+\textit{Anonymous Faculty}\\
+\textit{Anonymous University}\\
+anonymous2@anonymous.edu}
+\and
+\IEEEauthorblockN{Anonymous Author 3}
+\IEEEauthorblockA{\textit{Anonymous Department} \\
+\textit{Anonymous Faculty}\\
+\textit{Anonymous University}\\
+anonymous3@anonymous.edu}
+\linebreakand
+\IEEEauthorblockN{Anonymous Author 4}
+\IEEEauthorblockA{\textit{Anonymous Department} \\
+\textit{Anonymous Faculty}\\
+\textit{Anonymous University}\\
+anonymous4@anonymous.edu}
+\and
+\IEEEauthorblockN{Anonymous Author 5}
+\IEEEauthorblockA{\textit{Anonymous Department} \\
+\textit{Anonymous Faculty}\\
+\textit{Anonymous University}\\
+anonymous5@anonymous.edu}
+\and
+\IEEEauthorblockN{Anonymous Author 6}
+\IEEEauthorblockA{\textit{Anonymous Department} \\
+\textit{Anonymous Faculty}\\
+\textit{Anonymous University}\\
+anonymous6@anonymous.edu}}
+\else
+\author{\IEEEauthorblockN{Borworntat Dendumrongkul}
+\IEEEauthorblockA{\textit{Department of Computer Engineering} \\
+\textit{Chulalongkorn University}\\
+Bangkok, Thailand \\
+6632109921@student.chula.ac.th}
+\and
+\IEEEauthorblockN{Natdanai Hirunsirikul}
+\IEEEauthorblockA{\textit{Department of Computer Engineering} \\
+\textit{Chulalongkorn University}\\
+Bangkok, Thailand \\
+6732012721@student.chula.ac.th}
+\and
+\IEEEauthorblockN{Teejuta Sriwaranon}
+\IEEEauthorblockA{\textit{Department of Computer Engineering} \\
+\textit{Chulalongkorn University}\\
+Bangkok, Thailand \\
+6632102421@student.chula.ac.th}
+\linebreakand
+\IEEEauthorblockN{Pana Wanitchollakit}
+\IEEEauthorblockA{\textit{Department of Computer Engineering} \\
+\textit{Chulalongkorn University}\\
+Bangkok, Thailand \\
+6970210021@student.chula.ac.th}
+\and
+\IEEEauthorblockN{Phongsatorn Saisutjarit}
+\IEEEauthorblockA{\textit{Department of Mechanical} \\
+\textit{and Aerospace Engineering}\\
+\textit{King Mongkut's University of}\\
+\textit{Technology North Bangkok}\\
+Bangkok, Thailand \\
+phongsatorn.s@eng.kmutnb.ac.th}
+\and
+\IEEEauthorblockN{Pizzanu Kanongchaiyos}
+\IEEEauthorblockA{\textit{Department of Computer Engineering} \\
+\textit{Chulalongkorn University}\\
+Bangkok, Thailand \\
+pizzanu.k@chula.ac.th}
+}
+\fi
+
+
+% The double-anonymous build carries a full placeholder author block, which costs about half a
+% column on page 1; float, caption and table spacing are tightened to hold the six-page limit
+% (arraystretch 0.92 since the 2026-09-22 acknowledgment addition, which otherwise spilled to page 7).
+\setlength{\textfloatsep}{5pt plus 2pt minus 2pt}
+\setlength{\floatsep}{5pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{0pt}
+\renewcommand{\arraystretch}{0.92}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-An injection request does not show that the injected endpoint entered the configured fault mode. This distinction matters when controller detection and recovery are scored from separate observations. We present a confirmation-gated hardware-in-the-loop (HIL) trial protocol for a supervised payload link. Payload-side confirmation of configured fault-mode entry gates detection scoring, and payload-side confirmation of NORMAL restoration gates recovery scoring. These two gates are operationalized as distinct requested, activated, detected, restored, and recovered events. Byte-preserving controller and payload traces and hash-verified summaries support auditability. In a setup-bounded demonstration, one G431/G474 pair completed 90 sequential trials, 30 each for silence, bad CRC, and delay. All 90 trials had confirmed activation and restoration; the predefined detector and recovery markers appeared in 30/30 valid trials per mode. Host-observed median command-to-marker intervals ranged from 359.5 to 406.0~ms for detection and from 296.5 to 359.0~ms for recovery. Separate evidence comprises a 605-s nominal observation, two BAD\_CRC mechanism observations, and two 12-row F411 pair campaigns reported with separate denominators. The results demonstrate the protocol on the evaluated setups. They are not reliability, device-population, MCU-equivalence, or controller-internal timing estimates.
+Small-satellite flight software relies on interacting safety mechanisms -- poll/deadline supervision of a payload link, a task-health-gated hardware watchdog and a CRC-validated A/B bootloader -- that are critical for recovery but hard to verify as a whole. Bench evaluation of such mechanisms reports host-observed latencies and cannot establish worst-case bounds or reach states that a test campaign never exercised, and the closest formal-verification work reviewed here addresses protocols and kernels; the composed mechanisms of one prototype, checked against its own hardware traces, are not reported in the cited papers. This work verifies an abstracted design model of the three interacting mechanisms of an STM32 flight-software prototype as UPPAAL timed automata, with constants copied from the C++ source, against safety, bounded-response and liveness properties in TCTL. Across fifteen model configurations and 254 formulas every verdict matches a pre-declared oracle: after confirmed fault onset the first timeout occurs within 605\,ms and OFFLINE within 1609\,ms, recovery completes within 506\,ms, a stalled critical task is detected within 952\,ms and forces a watchdog reset, and the boot policy never launches an unvalidated image; each bound is tight in the model. Model checking yields three design consequences and exposes one defect, confirmed and fixed in source: a bypassed unconfirmed-boot limit under which a Pending fallback image receives one attempt instead of four. We then evaluate the verified models against frozen, hash-verified hardware traces from 90 fault-injection trials and further datasets, re-anchored at the confirmation events where the model's clocks start, as non-refuting consistency evidence: 179 of the 180 recorded intervals lie inside the bounds, and the exception, 17\,ms over, is reported as unresolved. The guarantees concern the abstracted design under stated jitter and channel assumptions; the work does not verify the deployed C++ implementation, the RTOS or the HAL.
 \end{abstract}
 
 \begin{IEEEkeywords}
-hardware-in-the-loop, fault injection, embedded systems, payload link, reproducibility
+model checking, timed automata, UPPAAL, embedded flight software, watchdog, bootloader, payload link
 \end{IEEEkeywords}
 
 \section{Introduction}
+Resource-constrained flight computers for CubeSat-class missions rely on a small set of deterministic safety mechanisms: a polling supervisor that detects a silent, corrupt, or late payload; a task-health registry that gates refresh of an independent hardware watchdog; and a bootloader that validates an image before jumping to it and otherwise falls back to a second slot or a safe beacon loop. They are simple to state and easy to bench-test, yet a campaign only shows the paths it drove, and host timestamps cannot separate controller timing from serial and OS overhead. An earlier, unpublished hardware-in-the-loop (HIL) campaign on the same prototype, whose frozen traces we reuse in Section~\ref{sec:conf}, observed the predefined markers in 30/30 trials per fault mode and could not claim controller-internal timing for that reason.
 
-Embedded controllers often supervise whether a peripheral responds, whether a received frame is valid, and whether an unavailable peer returns to service. HIL fault injection can exercise these paths, but its evidence is ambiguous if a sent injector command is treated as proof that the endpoint entered the configured fault mode. The same problem recurs at recovery: requesting restoration does not show that the endpoint returned to NORMAL mode. Controller markers should be scored only after those endpoint mode transitions are separately confirmed.
+This paper asks what the design itself guarantees. We formalize the three mechanisms of an STM32 flight-software prototype (name withheld for review; firmware not yet released) as UPPAAL timed automata~\cite{alur1994,larsen1997,behrmann2004} with constants copied from the source, verify properties with \texttt{verifyta}, and use the frozen HIL traces not as the result but as offline consistency evidence for the models.
 
-Fault-injection methodology distinguishes faults, functional activation, readouts, and measures~\cite{arlat1990}. Mart\'{i}nez \emph{et al.} confirm effective pin-level injection and filter invalid event sequences~\cite{martinez1999}. Automotive HIL and nanosatellite studies provide programmatic faults, communication-bus interception, multi-point observation, logging, and test traceability~\cite{abboush2022,abboush2024,batista2019,conceicao2025}. The gap addressed here is therefore not activation verification itself. Rather, in the closest studies considered here, the cited methods do not specify a stage-specific scoring rule that conditions detection on separate confirmation that the endpoint entered the configured fault mode and recovery on separate confirmation that the endpoint returned to NORMAL mode.
-
-We therefore propose a two-stage confirmation-gated experimental protocol. A command is a request, not confirmation of an endpoint mode transition. Separate payload-side mode confirmation establishes configured fault-mode entry or restoration to NORMAL; only then can a controller-side detector or recovery marker be scored. The five event classes operationalize these gates. Host timestamps, exact received bytes, readable renderings, and hash-verified frozen summaries support auditability.
-
-The paper's one central methodological contribution is the two-stage confirmation-gated scoring rule: payload-side confirmation of configured fault-mode entry makes detection eligible, and payload-side NORMAL confirmation makes recovery eligible. The distinct requested, activated, detected, restored, and recovered events operationalize this rule. The byte-preserving, hash-verified evidence workflow implements its audit support, and the setup-bounded campaigns evaluate its operation; neither is claimed as a separate research contribution.
-
-The evaluated firmware and boards are context, not an architecture contribution or a new HIL framework, injector, simulator, or fault model. The study does not claim comparative advantage, reliability, population generality, flight qualification, mission assurance, MCU-family equivalence, or complete-system validation.
-
-\begin{figure*}[!t]
-\centering
-\begin{tikzpicture}[
-  font=\footnotesize,
-  box/.style={draw,rounded corners=1pt,align=center,minimum height=7mm,inner xsep=5pt},
-  event/.style={box,minimum width=23mm,minimum height=8mm},
-  flow/.style={-{Latex[length=1.8mm]},line width=0.45pt},
-  link/.style={{Latex[length=1.8mm]}-{Latex[length=1.8mm]},line width=0.45pt},
-  gate/.style={draw,dashed,rounded corners=1pt,align=center,font=\scriptsize,inner sep=3pt},
-  note/.style={align=center,font=\scriptsize,text width=58mm}
-]
-  \node[box,minimum width=82mm,minimum height=9mm] (host) at (7.5,1.15)
-    {Host orchestrator\\fault control and trace capture};
-  \node[box,minimum width=36mm] (ctrl) at (3.0,0) {Controller endpoint};
-  \node[box,minimum width=36mm] (payload) at (10.5,0) {Payload endpoint};
-  \draw[link] (ctrl.east) -- node[above]{physical UART} (payload.west);
-  \draw[flow] (ctrl.north) -- node[left,xshift=-1.5mm]{OBS\_C} ($(host.south west)+(0.7,0)$);
-  \draw[flow] ($(host.south east)+(-2.4,0)$) -- node[left]{CMD} ($(payload.north west)+(0.65,0)$);
-  \draw[flow] ($(payload.north east)+(-0.65,0)$) -- node[right]{OBS\_P} ($(host.south east)+(-0.45,0)$);
-
-  \node[event] (requested) at (0,-1.65) {requested};
-  \node[event] (activated) at (3.0,-1.65) {activation\\confirmed};
-  \node[event] (detected) at (6.0,-1.65) {detected};
-  \node[event] (restoreq) at (9.0,-1.65) {restore\\requested};
-  \node[event] (restored) at (12.0,-1.65) {restoration\\confirmed};
-  \node[event] (recovered) at (15.0,-1.65) {recovered};
-  \draw[flow] (requested) -- (activated);
-  \draw[flow] (activated) -- (detected);
-  \draw[flow] (detected) -- (restoreq);
-  \draw[flow] (restoreq) -- (restored);
-  \draw[flow] (restored) -- (recovered);
-
-  \node[gate] (dg) at (3.0,-2.70) {Eligible for detection scoring};
-  \node[gate] (rg) at (12.0,-2.70) {Eligible for recovery scoring};
-  \draw[flow,dashed] (activated.south) -- (dg.north);
-  \draw[flow,dashed] (restored.south) -- (rg.north);
-
-  \node[note] at (3.5,-3.55) {Missing activation confirmation:\\detection and recovery unscored};
-  \node[note] at (11.5,-3.55) {Activation confirmed; missing restoration confirmation:\\detection remains scoreable; recovery unscored};
-\end{tikzpicture}
-\caption{Confirmation-gated topology and event sequence. Payload-side confirmation determines scoring eligibility; missing restoration confirmation leaves an already eligible detection scoreable and recovery unscored. OBS\_C and OBS\_P are captured by the host orchestrator. Timeline arrows denote scoring stages, not controller states or strict receipt order.}
-\label{fig:protocol}
-\end{figure*}
+The contributions are bounded as follows. (1)~Timed-automata models and verified properties for the payload-link supervisor, the task-health watchdog gate and the A/B boot policy of one prototype: worst-case detection, OFFLINE, recovery and stall-to-reset bounds, each shown attained, the delay-acceptance boundary, and ordering, safety, boundedness and progress properties (Table~\ref{tab:props}). (2)~One defect found by model checking and three design consequences made precise by the models, all confirmed in source (Section~\ref{sec:findings}). (3)~Model-to-hardware consistency evidence from offline replay of frozen, hash-verified traces against the model's alphabet and bounds, under an anchor aligned with the model's clocks and an uncertainty quantified from the evidence itself. The replay can refute agreement; it does not establish conformance in the testing sense.
+\textbf{Assurance limits.} We do not claim verification of the C++ implementation, correctness of the RTOS or vendor HAL, robustness to environmental or radiation effects, or any reliability estimate (Section~\ref{sec:discussion}).
 
 \section{Related Work}
+Timed automata~\cite{alur1994} and UPPAAL~\cite{larsen1997,behrmann2004} are the standard formalism and tool; we position the paper along five layers of the verification stack, then against work on the same mechanisms.
 
-Foundational fault-injection methodology distinguishes simulation- and prototype-based evaluation, including hardware- and software-implemented techniques, and couples controlled injection with monitoring of system effects~\cite{hsueh1997}. Work on fault-injection validity further separates requested faults from realized effects. Arlat \emph{et al.} define fault, functional-activation, readout, and measure sets (FARM)~\cite{arlat1990}. Their activation set functionally exercises the system; separate endpoint confirmation that a requested condition became active is not reported in the cited publication. Mart\'{i}nez \emph{et al.} use AFIT for high-speed pin-level injection and distinguish Activated Injection from Effective Error; an injector circuit asserts the latter only when the selected FTS pin is forced~\cite{martinez1999}. They discard non-effective injections, glitches, and invalid event sequences before analysis and measure detection latency from Effective Error. A separately observed restoration-to-normal gate before recovery scoring is not reported in the cited paper. Van der Kouwe \emph{et al.} distinguish inserted faults as an input fault load from the subset activated during execution as the output fault load when analyzing software-injection distortion~\cite{vanderkouwe2014}. Payload-endpoint confirmation and restoration gates are not applicable to that study design.
+\textbf{RTOS semantics.} Singh et al.\ apply UPPAAL model checking to conformance testing of an ARINC~653 RTOS~\cite{singh2021}; Lin and Wang model the FreeRTOS Cortex-M4 port, find errors by model checking and reproduce the assertion failures on an STM32F429 board~\cite{lin2024}. Both verify the kernel; we verify application-level supervision above an abstracted kernel, so scheduler-originated faults lie outside our results (Section~\ref{sec:discussion}). UPPAAL has also been applied to satellite communication software~\cite{alencar2014}; link-supervision bounds are not reported in the cited paper.
 
-Automated HIL frameworks address configurable fault campaigns and system-level observation. Short \emph{et al.} combine statistical fault-injection testing with online model-based performance monitoring in an automotive HIL methodology and compare eight embedded-control designs in a case study~\cite{short2008}. Abboush \emph{et al.} configure fault type, location, time, and duration in real-time automotive HIL experiments and record multiple system signals for evaluation~\cite{abboush2022}. Their later framework automates campaigns across virtual driving scenarios, including multiple fault locations, and reports fault deactivation followed by return toward a safe state~\cite{abboush2024}. Separate injected-endpoint confirmation before detection scoring and separate restoration confirmation before recovery scoring are not reported in the cited Abboush publications.
+\textbf{Compositional scaling.} State explosion is a recognized limit of real-time model checking, met with compositionality and abstraction~\cite{jensen2000}. Our state spaces stay small (at most 12\,547 states) because the three mechanisms are verified as three networks whose coupling (the link task is a monitored task; a stall leaves the retained fault the boot policy reads) enters each network as an input, so a further task or link enlarges one network without multiplying it by the others.
 
-Communication-level and nanosatellite work addresses physical injection, bus interception, and multi-point observation. Blanc \emph{et al.} apply pin-level physical injection to TTP/C communication controllers, including faults induced directly on communication lines and data errors at the controller-host interface~\cite{blanc2009}. Batista \emph{et al.} present FEM as a scripted interceptor for MIL/HIL nanosatellite robustness testing~\cite{batista2019}. FEM observes both low interfaces, returns exchanged-message data to its controller, and reports transmitted and received values and delays in MIL test tables. Only a small HIL set was attempted before testing was suspended after interface mismatches were found. Interface observation is reported, but per-trial confirmation gates for detector or recovery score eligibility are not reported in the cited paper. Concei\c{c}\~ao and Mattiello-Francisco organize interoperability testing into six MIL, SIL, and HIL modules, reuse model-derived tests, and use FEM for bus-fault tests~\cite{conceicao2025}.
+\textbf{Property engineering.} UPPAAL checks only non-nested reachability, safety and liveness, so richer real-time requirements need observer automata, which pattern catalogs now generate~\cite{vogel2023}. Our properties were written by hand from the research questions, encoding bounded response over the clocks of the scenario's driver template (Section~\ref{sec:discussion}), and were not cross-checked against the catalog.
 
-Together, these studies establish activation or effective-injection confirmation, invalid-sequence filtering, communication-bus injection, multi-point observation, and test traceability as prior art. The central distinction here is only the combined two-stage scoring rule: separate payload-side confirmation of configured fault-mode entry gates detection, and separate payload-side NORMAL confirmation gates recovery. The five retained events operationalize those gates, while exact-byte traces and hashes support auditability. The protocol complements rather than replaces AFIT-style filtering, general HIL architectures, FEM, or SATS. ``Not reported in the cited paper'' is limited to that publication and does not imply that a system lacks the feature.
+\textbf{Model-to-code assurance.} Integrated formal verification of safety-critical software~\cite{ge2018}, verified code generation from timed automata with runtime monitors~\cite{cho2025}, and UPPAAL-TRON, which drives an implementation online and yields a conformance verdict on it~\cite{larsen2005}, all close the model--code gap more strongly than we do. We replay recorded, hash-verified traces against the model's alphabet and bounds without driving the implementation, so an accepted trace shows only that the run did not contradict the model. The choice is deliberate: the only free interface is the debug UART that already carries the console markers, and exposing internal events would perturb the poll timing under test.
 
-Table~\ref{tab:gap} uses three statuses. \emph{Reported} identifies an element stated in the cited paper. \emph{Not reported in the cited paper} records only that the publication does not describe the element. \emph{Not applicable} marks a comparison that presupposes an endpoint or scoring phase outside the study design; it is not an absence claim. Only the detection-eligibility and recovery-eligibility columns establish the claimed literature gap. The other columns provide comparison context and describe operationalization or audit support; they do not establish additional novelty claims.
+\textbf{Hybrid V\&V.} Pontes et al.\ combine model checking with the CoFI conformance-and-fault-injection methodology for space embedded software~\cite{pontes2014}; fault injection~\cite{arlat1990,batista2019} is the empirical counterpart. Formal verification is one layer of that case here, and the reused HIL campaign serves only as data.
 
-\begin{table*}[t]
-\caption{Comparison with selected closest work; only the two eligibility-gate columns establish the claimed gap.}
-\label{tab:gap}
-\centering
-\scriptsize
-\setlength{\tabcolsep}{1.8pt}
-\renewcommand{\arraystretch}{1.08}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.10\textwidth}>{\raggedright\arraybackslash}p{0.12\textwidth}>{\raggedright\arraybackslash}p{0.13\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.13\textwidth}@{}}
-\toprule
-Study & FI setting & Input/request vs. activation & Detection eligibility gate & Recovery eligibility gate & Five-event operationalization & Audit-supporting evidence \\
-\midrule
-Arlat/FARM~\cite{arlat1990} & Reported: physical FI method & Reported: $F$, functional-exercise $A$, $R$, and $M$ & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper \\
-Mart\'{i}nez/\newline AFIT~\cite{martinez1999} & Reported: pin-level physical FI & Reported: Activated Injection vs. Effective Error & Reported: non-effective trials removed before detection measures & Not reported in the cited paper: no observed normal-restoration gate & Reported: activation/effective-error/detection/recovery; request/restored: not reported in the cited paper & Reported: analyzer and injector logs; exact-byte/hash: not reported in the cited paper \\
-Van der Kouwe~\cite{vanderkouwe2014} & Reported: software FI & Reported: input and activated output fault loads & Not applicable: no payload endpoint & Not applicable: no restoration phase & Not applicable: no endpoint event chain & Not applicable: no endpoint-byte evidence \\
-Abboush 2022~\cite{abboush2022} & Reported: automotive HIL FI & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper \\
-Abboush 2024~\cite{abboush2024} & Reported: automotive HIL FI & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper \\
-Batista/FEM~\cite{batista2019} & Reported: bus MIL/HIL FI & Reported: script vs. monitored Tx/Rx outcomes & Not reported in the cited paper: no detector eligibility gate & Not reported in the cited paper & Not reported in the cited paper & Reported: serial and Tx/Rx tables; exact-byte/hash: not reported in the cited paper \\
-Concei\c{c}\~ao/\newline SATS~\cite{conceicao2025} & Reported: bus MIL/SIL/HIL FI & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper & Not reported in the cited paper \\
-This work & Reported: UART HIL FI & Reported: request and confirmed fault-mode entry & Reported: stage-1 payload gate & Reported: stage-2 NORMAL gate & Reported: explicit five-event operationalization & Reported: exact bytes and SHA-256 support auditability \\
-\bottomrule
-\end{tabular}
-\end{table*}
+\textbf{The same mechanisms.} Pan et al.\ verify CAN arbitration and fault confinement in UPPAAL~\cite{pan2014} and Johansson et al.\ a heartbeat-based failure detector~\cite{johansson2020}; neither reports a poll/deadline supervisor with a consecutive-timeout threshold. Ahmed and Safar verify an AUTOSAR Watchdog Manager by symbolic execution~\cite{ahmed2018}; Cutler and Beningo report a nanosatellite watchdog with separate clock and power domains that recovers restart-curable faults in flight~\cite{cutler2022}; Asch et al.\ frame software-defined watchdogs as eager deadlines for delayed or missing signals~\cite{asch2025}. Those designs emphasize recovery, whereas the gate verified here is fail-safe (F2). Boot code has been verified for memory safety~\cite{cook2020} and secure-boot properties~\cite{vasudevan2024}; slot selection, unconfirmed-boot limits and fallback across resets are not reported in the cited papers.
 
-\section{System Context and Protocol}
+\section{Methodology}
+\label{sec:method}
+\subsection{System under study}
+\label{sec:system}
+The controller is a NUCLEO-G431RB (STM32G431RB, 128\,KiB flash, 32\,KiB RAM) running a FreeRTOS application with static allocation and no heap. Every constant below is quoted from the source and traced to its line in the artifact; Table~\ref{tab:trace} shows representative rows, including the source anchor of finding F4.
 
-\subsection{Evaluated Link}
+\textbf{Payload-link supervisor.} A 32-byte CRC-32 framed poll is sent every $P=500$\,ms. A valid response must arrive within $D=100$\,ms of the send instant; the deadline and the next poll are both anchored at that instant. On a timeout the consecutive-timeout counter increments and the link enters OFFLINE when it reaches $N=3$. A valid response resets the counter, sets ONLINE, and counts a recovery if the link was OFFLINE. A CRC-corrupted frame increments a counter but leaves the outstanding poll pending; a valid frame that arrives when no poll is pending is a sequence reject. The task services the controller once per $L=1$\,ms loop, receiving frames before evaluating the deadline.
 
-The primary setup connects a NUCLEO-G431RB controller to a NUCLEO-G474RE payload simulator through a 115200-baud, 8N1 UART with common ground. The controller polls the payload and exposes timeout, rejection, OFFLINE, and recovery markers. The commandable payload returns NORMAL responses, withholds responses in SILENT mode, corrupts response CRCs in BAD\_CRC mode, and delays responses by 250~ms in DELAYED mode. The inspected controller deadline is 100~ms.
+\textbf{Watchdog gate.} Two critical tasks check in periodically: the heartbeat every 500\,ms with a 1500\,ms deadline, and the payload-link task every 100\,ms with an 800\,ms deadline. A watchdog task wakes every 50\,ms and evaluates the registry once 100\,ms have elapsed since the previous evaluation, expiring an entry whose last check-in is older than its deadline, and the first expiry records a watchdog-timeout and a safe-fail event in retained memory. The independent watchdog (IWDG, prescaler 16, reload 3999, LSI $\approx$32\,kHz, nominal 2.0\,s) is refreshed only while all critical entries are healthy. On this target the safe-fail callback does not reset the processor; the IWDG does.
 
-As Fig.~\ref{fig:protocol} shows, the host sends fault-control commands and separately captures controller (OBS\_C) and payload (OBS\_P) serial streams. These are separate observation channels collected on the same host; no stronger host or statistical independence is implied. The topology is the minimum context needed to define the protocol.
-
-\subsection{Validity and Scoring}
-
-For trial $i$, let $A_i,S_i,E_i\in\{0,1\}$ indicate, respectively, payload confirmation that the endpoint entered the configured fault mode, payload confirmation that it returned to NORMAL, and the presence of a harness invalid reason. Define the complete-trial validity indicator as
-\begin{equation}
-V_i = A_i \land S_i \land \neg E_i.
-\end{equation}
-Detection eligibility remains stage-specific: without $A_i$, the trial enters neither the detection nor recovery denominator. If $A_i=1$ but $S_i=0$, detection remains scoreable while recovery is unscored. This stage-specific rule does not change the primary results because all 90 primary trials contained both confirmations.
-
-The payload firmware assigns the selected mode and configured delay, when applicable, before emitting the matching mode-confirmation line. That confirmation therefore establishes the scorer's causal eligibility boundary but is not an independent physical measurement of UART behavior. Because OBS\_C and OBS\_P are separate host-captured serial channels without a verified total order, a controller marker recorded before matching activation confirmation makes the cross-channel detection ordering temporally ambiguous. Detection is then left unscored rather than classified as DETECTED or NOT\_DETECTED; this ordering ambiguity does not by itself invalidate the trial or alter independently eligible recovery scoring.
-
-To exercise the stage-specific branches without changing the HIL records, we derived five explicitly synthetic event-sequence mutations from valid BAD\_CRC trial R005\_P02 and replayed them through a separate scorer. Missing or wrong-mode activation confirmation left detection and recovery unscored; missing restoration confirmation after valid activation left detection scored and recovery unscored. A controller marker assigned a host timestamp before matching payload confirmation produced temporally ambiguous cross-channel ordering and left detection unscored, while recovery remained independently scoreable; a duplicate matching activation confirmation was flagged and counted once. The mutation manifest, expected and actual outputs, assertions, and source and derived SHA-256 records are retained separately, and all checked source hashes remained unchanged. These cases check scorer control flow only; they are not HIL trials and are excluded from the 90-trial and all other empirical denominators.
-
-The executed sequence comprised establishing and confirming a NORMAL precondition, waiting a seeded offset, requesting a fault mode, requiring the matching payload confirmation, observing the controller for 4~s, requesting NORMAL, requiring payload confirmation of NORMAL, and observing recovery for 3~s. Seed 20260830 fixed the order and offsets of 90 sequential primary trials, 30 per mode.
-
-Mode-specific detector predicates were fixed before analysis. SILENT and DELAYED use the first post-request timeout or OFFLINE marker. BAD\_CRC uses the first explicit CRC-rejection marker; OFFLINE is secondary. Recovery requires a recovery marker after the NORMAL request and confirmed restoration. A restart field records only whether a post-injection link-start marker appears; absence of that marker is not proof that no reset occurred.
-
-At the evaluated controller revision, a CRC-invalid response increments the CRC-rejection counter and returns without clearing the outstanding request. The 100-ms deadline can then expire and increment a consecutive-timeout count; the third consecutive timeout sets OFFLINE. A later accepted response clears the request and timeout streak, sets ONLINE, and records recovery if the prior state was OFFLINE. These source-level statements explain marker order but do not measure MCU execution time.
-
-\subsection{Observation and Audit Model}
-
-Each raw serial record contains host UTC time, exact received bytes, and an escaped readable rendering. Controller and payload files remain separate. During acquisition, the harness computes detection latency from host-monotonic times for the fault-command send and the first predefined controller marker. Recovery latency is computed analogously from the NORMAL-command send and the recovery marker and is populated only with restoration confirmation. The result rows retain these computed intervals, while raw logs retain UTC and exact bytes. Both intervals include UART, USB, driver, scheduling, and host timestamp effects; host and MCU clocks were not synchronized.
-
-Machine validation cross-checked 90 plan rows, 90 result rows, and 180 controller/payload raw logs. Frozen JSON summaries and validations are identified by SHA-256. Table-generation scripts verify input hashes before deterministic projection. Analysis is descriptive: counts, observed proportions, median, inclusive-linear quartiles, IQR, minimum, and maximum. No hypothesis test, confidence claim, or between-mode ranking is used.
-
-\section{Setup-Bounded Evaluation}
-
-\subsection{Nominal Observations}
-
-A 65-s nominal (N0) window preceded the primary campaign and another followed it. Each contained 13 ONLINE records. The successful-message counter rose strictly from 1835 to 1955 before the campaign and from 3049 to 3169 after it. A separate 605-s nominal observation contained 121 ONLINE records and rose from 1760 to 2960. Timeout, CRC, sequence, and recovery counter deltas were zero in all three observations, and their prohibited-marker lists were empty (Table~\ref{tab:n0}). Only within-observation changes are interpreted; N0 is not a comparative baseline or a reliability estimate.
+\textbf{A/B boot policy.} On reset the bootloader recovers a CRC-protected retained fault log and boot metadata, applies a confirmed-boot flag if set, refuses to boot if the active slot is Pending with a boot count above 3 or the fault log holds a check-in failure or watchdog timeout, validates the active slot's state, vector table and CRC-32, falls back to the other slot, and otherwise records a safe-fail and enters an LED beacon loop.
 
 \begin{table}[t]
-\caption{Validated nominal observations.}
-\label{tab:n0}
-\centering
-\scriptsize
+\centering\footnotesize
+\caption{Scope per mechanism: what the model abstracts and what implementation evidence exists.}
+\label{tab:scope}
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lrrrrrrr}
+\begin{tabularx}{\columnwidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
 \toprule
-Phase & s & Status & $ok$ first--last & TO & CRC & SEQ & REC \\
+Mechanism & Abstracted in the model & Implementation evidence \\
 \midrule
-Pre  & 65 & 13 & 1835--1955 & 0 & 0 & 0 & 0 \\
-Post & 65 & 13 & 3049--3169 & 0 & 0 & 0 & 0 \\
-Separate & 605 & 121 & 1760--2960 & 0 & 0 & 0 & 0 \\
+Payload link (Q) & RTOS and ISR latency as jitter $J{=}2$\,ms; frame time $T_{tx}\in[3,4]$\,ms; lossless channel & offline replay: 90 trials, 3 nominal windows, delay sweep, 2 F411 pairs \\
+Watchdog gate (W) & task loop and poll as $50{+}100{+}J$; IWDG period as the LSI bracket $[1882,2170]$\,ms & native unit tests only; no stall in the frozen traces \\
+Boot policy (B) & untimed; flash and application as environment choices & native regression test for F4; no trace evidence \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
-\subsection{Primary Outcomes and Host-Observed Timing}
-
-All 90 planned trials were valid. Each mode had 30 confirmed activations and 30 confirmed NORMAL restorations. The predefined detector and recovery markers appeared in 30/30 valid trials per mode (observed proportion 1.0). OFFLINE appeared in 30/30 trials per mode during the 4-s fault window, including BAD\_CRC where it was not the detector. No post-injection link-start marker appeared; this absence is not reset evidence (Table~\ref{tab:outcomes}).
-
 \begin{table}[t]
-\caption{Primary observed outcomes on one G431/G474 pair.}
-\label{tab:outcomes}
-\centering
-\footnotesize
-\begin{tabular}{lccccc}
+\centering\footnotesize
+\caption{Representative model-to-source rows (full trace in the artifact); line numbers are for the analyzed revision, before the F4 fix (Section~\ref{sec:findings}).}
+\label{tab:trace}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}X l@{}}
 \toprule
-Mode & Valid & Detect & Recover & Offline & Start \\
+Model element & Source \\
 \midrule
-SILENT   & 30/30 & 30/30 & 30/30 & 30/30 & 0/30 \\
-BAD\_CRC  & 30/30 & 30/30 & 30/30 & 30/30 & 0/30 \\
-DELAYED  & 30/30 & 30/30 & 30/30 & 30/30 & 0/30 \\
+$P$, $D$, $N$ = 500, 100, 3 & \texttt{PayloadLinkController.hpp:32-34} \\
+Idle$\to$Await; next poll anchored at the send instant & \texttt{preparePoll()} \texttt{:53-73} (\texttt{:69}) \\
+Await$\to$Await on bad CRC: poll stays pending & \texttt{acceptResponse()} \texttt{:84-90} \\
+Receive before deadline evaluation & \texttt{PayloadLinkTask.hpp:45-47} \\
+Supervisor expiry is strict-greater & \texttt{TaskHealth.hpp:96-104} \\
+Refresh only while all critical tasks healthy & \texttt{Watchdog.hpp:61-65} \\
+Limit 3, evaluated on the active slot (F4) & \texttt{BootPolicy.hpp:16}, \texttt{:126-131} \\
+Fallback activates the other slot, no re-check (F4) & \texttt{BootPolicy.hpp:86-92} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
-Host-observed command-to-detector-marker medians were 383.0~ms for SILENT, 359.5~ms for BAD\_CRC, and 406.0~ms for DELAYED. Restore-command-to-recovery-marker medians were 297.0, 359.0, and 296.5~ms, respectively. Table~\ref{tab:latency} retains quartiles and observed ranges. These are host-path distributions, not controller-internal latency bounds.
+
+\subsection{Payload-link model}
+\label{sec:models}
+The network has three templates. \emph{Controller} carries clocks for time since the last poll and since the outstanding poll, and its transitions mirror \texttt{preparePoll}, \texttt{acceptResponse} and \texttt{service}. \emph{Payload} answers a poll after a serialization interval $[3,4]$\,ms, preceded by a configured delay $d$ in DELAYED mode, or not at all in SILENT mode, or with a corrupted CRC in BAD\_CRC mode. \emph{Host} reproduces the frozen trial protocol: once the link is ONLINE it injects one fault mode, holds it for the campaign's 4\,s exposure, restores NORMAL, and observes for 3\,s; its transitions are the confirmation events at which the comparison anchors start (Section~\ref{sec:confmethod}). A response arriving with no poll pending is a sequence reject.
+
+Abstractions: RTOS wakeup and ISR latency are bounded by a 2\,ms jitter constant (assumed, not measured); the channel is lossless except for the injected corruption; $d<P$ so responses never overlap the next poll. Which results rest on the jitter abstraction is explicit: Q1, Q7, Q8, W1, W2 and every boot property are stated without $J$, and each bounded-response and boundary bound is a closed form in $J$ (Table~\ref{tab:props}), so a larger measured jitter moves a bound without invalidating the proof. No value of $J$ covers a scheduler-induced delay beyond it, such as blocking or priority inversion; Section~\ref{sec:discussion} states why the code excludes it.
+
+
+
+\subsection{Watchdog-gate model}
+Two \emph{Task} instances check in with their periods and may be stalled by an \emph{Env} injector; a \emph{Supervisor} evaluates every 100\,ms with the source's strict-greater expiry test and refreshes the \emph{Iwdg} only when both are healthy; the IWDG resets when its clock reaches a value in $[1882,2170]$\,ms, derived from the datasheet LSI range of 29.5--34\,kHz over the full supply and temperature range~\cite{st2021ds12589}. Scenario~0 never stalls; Scenario~1 stalls one task after warm-up.
+
+
+
+
+
+\subsection{Boot-policy model}
+An untimed network (Fig.~\ref{fig:boot}): \emph{Boot} runs the policy over the retained variables (active slot, slot states, boot count, confirmed flag, retained critical fault, metadata corruption); \emph{App} may stall, setting the retained fault and resetting, reset cleanly, or, in a design variant, set the confirmed flag; \emph{Flash} corrupts an image, stages a Pending image in slot~B, or cold-starts the board, scrubbing retained SRAM. The shipped variant gives the application no confirm capability because no code under the application tree writes boot metadata.
+
+
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[scale=0.84,transform shape,
+  >=Stealth,shorten >=1pt,
+  st/.style={draw,circle,inner sep=0pt,minimum size=8.6mm,font=\scriptsize,align=center},
+  lb/.style={font=\scriptsize,inner sep=1.5pt,align=center},
+  bad/.style={red!75!black,thick}]
+
+% Every edge label sits beside its own edge, never across another one: the two launch edges
+% bend apart around a common label corridor, and the two refusal edges form a V into SafeLoop
+% with their labels on the outside of the V. The reset arc is bent to 42 and the launch label
+% nudged left so the arc clears "active bootable" on its way down into AppRunning.
+\node[st] (st0) at (0,0) {Start};
+\node[st,fill=orange!14] (rc)  at (1.9,0) {Recov};
+\node[st,fill=orange!14] (sel) at (3.8,0) {Select};
+\node[st] (app) at (6.4,0) {\shortstack{App\\Running}};
+\node[st,draw=red!70,fill=red!7] (safe) at (3.1,-1.6) {\shortstack{Safe\\Loop}};
+\draw[<-] (st0) -- ++(-0.55,0);
+
+\draw[->] (st0) -- (rc);
+\draw[->] (rc) -- node[lb,above]{limit ok} (sel);
+\draw[->] (sel) to[bend left=20] node[lb,above,pos=0.42,xshift=-2pt]{active bootable} (app);
+\draw[->,bad] (sel) to[bend right=20] node[lb,below,pos=0.5,text=red!75!black]{fallback: F4} (app);
+\draw[->] (rc)  to[bend right=10] node[lb,left,pos=0.52,xshift=-3pt]{limit exceeded,\\prior fault} (safe);
+\draw[->] (sel) to[bend left=10]  node[lb,right,pos=0.55]{no slot} (safe);
+\draw[->] (app) to[bend right=42] node[lb,above,pos=0.5]{\textbf{reset?} state kept} (st0);
+\end{tikzpicture}
+\caption{The A/B boot policy; committed locations shaded. The check that bounds unconfirmed boots runs once, on the \emph{active} slot, on the edge leaving Recov. The red edge is the fallback: it activates the other slot and launches it without re-evaluating that check, so the launch inherits the accumulated boot count. That is finding F4.}
+\label{fig:boot}
+\end{figure}
+
+\subsection{Properties}
+\label{sec:props}
+Table~\ref{tab:props} lists the properties referenced in this paper; the complete set of 19, 11 and 14 formulas for the three models is in the artifact.
 
 \begin{table}[t]
-\caption{Host-observed command-to-marker latency (ms), $n=30$ per row.}
-\label{tab:latency}
-\centering
-\scriptsize
+\centering\footnotesize
+\caption{Properties (TCTL). $P{=}500$, $D{=}100$, $L{=}1$, $N{=}3$, $J{=}2$, $T_{tx}\in[3,4]$ ms. Bounds are inclusive; each has a tightness twin using $\ge$ that is expected to fail.}
+\label{tab:props}
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\columnwidth}{@{}l l >{\raggedright\arraybackslash}X@{}}
+\toprule
+Id & Kind & Statement \\
+\midrule
+Q1 & safety & nominal, lossless, link up $\Rightarrow$ never OFFLINE \\
+Q2 & bounded & fault confirmed for $> P{+}J{+}D{+}L{+}J = 605$ $\Rightarrow$ a timeout was counted \\
+Q3 & bounded & fault confirmed for $> N(P{+}J){+}D{+}L{+}J = 1609$ $\Rightarrow$ OFFLINE \\
+Q4 & bounded & NORMAL confirmed for $> P{+}J{+}T_{tx}^{\max} = 506$ $\Rightarrow$ ONLINE \\
+Q5 & liveness & Restored $\leadsto$ ONLINE \\
+Q7/Q8 & order & BAD\_CRC: first timeout preceded by a CRC reject; no timeout yet $\Rightarrow$ still ONLINE \\
+Q9 & boundary & DELAYED: $d{+}T_{tx}^{\max}{<}D$ $\Rightarrow$ no timeout; $d{+}T_{tx}^{\min}{>}D{+}L{+}J$ $\Rightarrow$ late frames sequence-rejected; otherwise both outcomes reachable \\
+Q0/Q11 & progress & no deadlock; Awaiting $\leadsto$ Idle and Idle $\leadsto$ Awaiting \\
+W1(a,b) & safety & no stall $\Rightarrow$ never reset (a), never critical failure (b) \\
+W2 & safety & no IWDG refresh after a critical failure is recorded \\
+W3 & bounded & stall detected within deadline ${+}100{+}50{+}J$: 952 (link, deadline 800), 1652 (heartbeat, 1500) \\
+W5/W6 & liveness & stall $\leadsto$ IWDG reset, within detection bound ${+}$ IWDG max (2170) \\
+B1/B2 & safety & never launch an unvalidated image or a non-bootable slot state \\
+B3 & bounded & Pending active slot launched at most 4 times \\
+B4/B5 & safety/reach & no valid image $\Rightarrow$ safe loop; safe loop reachable \\
+B6 & safety & retained critical fault $\Rightarrow$ application never relaunched before cold start \\
+B7(,r) & finding & shipped app: Pending never becomes Confirmed; reachable only in the design variant (r) \\
+B8(b,c) & finding & unconfirmed-boot limit never bypassed (fails); bypass only via fallback (b); next warm boot refused (c) \\
+B9 & progress & Start $\leadsto$ AppRunning $\lor$ SafeLoop \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Consistency-evidence method}
+\label{sec:confmethod}
+The frozen traces were acquired with a confirmation-gated protocol: a host injects a payload fault mode over the payload board's debug UART, counts the trial only after the payload confirms the mode, observes the controller console for 4\,s, restores NORMAL, counts recovery only after the payload confirms restoration, and observes for 3\,s; both serial channels are logged byte-exact with host timestamps and hash-inventoried. 
+
+The campaign reports each interval from the command send on a monotonic clock, but the model's clocks start at the confirmed mode change and the confirmed restoration, so the command anchor is structurally earlier and overstates the model-comparable interval. We therefore recompute every interval from the retained wall-clock stamp of the confirming serial event to that of the observed marker. Three uncertainties remain. Every command-anchored interval carries both a wall-clock and a monotonic stamp, and their disagreement bounds the wall-clock granularity at 15.4\,ms, with a 4.4\,ms median over the 180 intervals. Cross-channel read latency between the payload and controller serial channels is not separately measured. The clock-rate difference is systematic and the evidence measures it: the model's constants are in MCU time and the intervals in host time, and each nominal window carries the controller's poll counter beside host timestamps, and over 1200 consecutive polls the mean period is 498.83\,ms against a nominal 500\,ms, the two 65\,s windows agreeing to within 0.03\,\%, so the MCU base runs 0.235\,\% fast and host intervals are shorter by that factor, 1.4\,ms at the first-timeout bound; the mean falling \emph{below} nominal also shows that the per-poll overhead bounded by the 2\,ms jitter constant is not consumed on average. We therefore declare a falsification floor of 50\,ms, more than three times the demonstrated clock disagreement: the replay can refute a bound violation larger than the floor, and reports any smaller excess as unresolved instead of absorbing it.
+
+
+\section{Results}
+\label{sec:results}
+\subsection{Verified properties and bounds}
+All configurations were verified with UPPAAL~5.0.0 (\texttt{verifyta}, rev.\ 714BA9DB) in one batch of 254 formulas whose outputs, instantiated models and SHA-256 inventory are retained in the artifact (Table~\ref{tab:verdicts}). Every verdict equals a pre-declared oracle stating, per configuration, which formulas must hold and which must fail. The largest state space is 12\,547 symbolic states (boot policy, design variant); no query took more than 0.5\,s of CPU on an Intel Core Ultra 7 155H.
+
+\begin{table}[t]
+\centering\footnotesize
+\caption{Verification batch: 15 configurations, 254 formulas, all verdicts equal to the oracle (S satisfied, N not satisfied as expected; Q9c is two reachability formulas; two rows sweep $J$ at the boundary delay).}
+\label{tab:verdicts}
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\columnwidth}{@{}l l r >{\raggedright\arraybackslash}X@{}}
+\toprule
+Model & Configuration & States & Verdicts (N = expected fail) \\
+\midrule
+payload & SILENT & 68 & 14 S, 5 N: Q2T, Q3T, Q4T, Q9c \\
+payload & BAD\_CRC & 96 & 14 S, 5 N: Q2T, Q3T, Q4T, Q9c \\
+payload & DELAYED 50, 90 & 68 & 17 S, 2 N: Q9c \\
+payload & DELAYED 100 & 652 & 18 S, 1 N: Q4T; Q9c both reachable \\
+payload & DELAYED 110, 250 & 98 & 14 S, 5 N: Q2T, Q3T, Q4T, Q9c \\
+payload & DELAYED 100, $J{\in}\{0,1\}$ & 98, 113 & 14 S, 5 N: as DELAYED 110 \\
+payload & DELAYED 100, $J{=}5$ & 586 & 18 S, 1 N: as DELAYED 100 \\
+watchdog & no stall & 314 & 11 S \\
+watchdog & one stall & 807 & 8 S, 3 N: W1a, W1b, W3T \\
+boot & shipped app & 3\,035 & 12 S, 2 N: B7r, B8 \\
+boot & design variant & 12\,547 & 11 S, 3 N: B7, B8, B8c \\
+boot & F4 fix applied & 1\,988 & 13 S, 1 N: B7r \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Every model satisfies \texttt{A[] not deadlock}, though in the boot network that is a modeling sanity condition, since its environment templates always offer an enabled edge; progress is therefore stated explicitly: every outstanding poll is resolved and the controller polls again (Q11), a stall leads to a reset (W5), and every reset ends in a launch or the safe loop (B9). The bounds are inclusive and tight: as a strict inequality each formula holds and with $\ge$ each fails, so the event can occur exactly at the bound. They exceed a naive hand derivation by one jitter term per poll period, because the controller anchors the next poll at the actual send instant so wake-up jitter accumulates; the model caught that omission in our own first estimate.
+
+\textbf{Sensitivity to the jitter bound.} The first-timeout bound is $601+2J$\,ms; the delay-acceptance boundary is more informative: the accepted region $d+T_{tx}^{\max}<D$ does not involve $J$, so its edge stays at 95\,ms, whereas the timed-out region $d+T_{tx}^{\min}>D{+}L{+}J$ moves with $J$, leaving an undetermined band of 96 to $98{+}J$\,ms. Re-verifying at $J \in \{0,1,5\}$\,ms confirms this: for $J \le 1$\,ms the model decides $d = 100$\,ms as a timeout, as the hardware did; from $J = 2$\,ms it is undecidable. The band is therefore a consequence of a conservative jitter bound rather than a limit of the model, and measuring $J$ would remove it.
+
+
+\subsection{Design findings}
+\label{sec:findings}
+Model checking produced one defect (F4) and made three design consequences precise (F1--F3). For F1 and F2 the models quantify behavior that source inspection had already identified; only F4 was discovered by the checker.
+
+\textbf{F1: the boot-confirmation path is unreachable in flight.} B7 holds in the shipped configuration and fails in the design variant. Inspection established the source fact first -- no file under the application tree references the boot metadata or the confirmed flag -- and it was then encoded as the shipped configuration's zero confirm capability, so the model contributes the consequence, not the discovery: a slot provisioned as Pending can leave that state only through the bootloader's attempt limit (B3, B8), never through confirmation. The prototype is safe because slot~A is provisioned as Confirmed at build time, not because confirmation is exercised.
+
+\textbf{F2: critical stalls are fail-safe, not fail-operational.} W2 and W6 show that once a critical task expires the IWDG is never refreshed again and a reset follows within one IWDG period. B6 then shows the bootloader, seeing the retained watchdog-timeout event, enters the safe loop instead of relaunching until a cold start -- a composed behavior the component tests did not make visible.
+
+\textbf{F3: the effective delay boundary is below the nominal deadline.} Q9 proves, in the model, acceptance whenever $d+T_{tx}^{\max}<D$ ($d\le95$\,ms) and a timeout with sequence-rejected late frames whenever $d+T_{tx}^{\min}>D+L+J$ ($d\ge101$\,ms); at $d=100$\,ms both outcomes are reachable (Q9c), because the earliest response and the latest deadline check coincide at 103\,ms under the 2\,ms jitter assumption. The frozen sweep (Section~\ref{sec:conf}) observed 90\,ms accepted and 100\,ms rejected in every valid trial on three board pairs, consistent with the model but not proven by it.
+
+\textbf{F4: the fallback path bypasses the unconfirmed-boot limit.} B8 fails in both boot configurations and B8b shows the violation exists only on the fallback path. The limit check reads the state and boot count of the \emph{active} slot; when that slot fails validation and the other slot is Pending (a staged, unconfirmed update), the fallback launch inherits the boot count accumulated while the confirmed slot was running. B8c then shows that the next warm boot is refused. The counts make the defect exact. Every launch of either slot increments the count, only confirmation resets it, and the limit refuses a Pending active slot whose count exceeds 3, so a freshly staged Pending slot is launched at counts 0--3 and refused at 4: four launches (B3). After $k$ warm resets of a Confirmed slot the count is $k$ and unchecked; when that slot then fails validation, the fallback launches the Pending slot at count $k$ without a check, so it is refused after $4-k$ launches -- after one once $k\ge3$, the case of the regression test (launch at 3, count 4, next boot refused). A Pending fallback image therefore gets one attempt instead of four. The fix -- reset the attempt budget when the active slot changes -- was re-verified: B8 holds with every other boot property unchanged and B8c becomes vacuous; a native regression test reproduces the inherited count and fails without the fix.
+
+
+
+\subsection{Consistency with frozen hardware traces}
+\label{sec:conf}
+The replay accepts every frozen dataset. In all 90 primary trials the predefined detector marker is the model's first observable event for that mode, and no trial recorded a controller restart marker. Both 65\,s nominal windows and the separate 605\,s observation show zero counter deltas, as Q1 requires. In the delay sweep the 6 rows at 50 and 90\,ms were accepted and the 9 rows at 110, 150 and 250\,ms timed out, as Q9a and Q9b predict, while the 3 rows at 100\,ms fall inside the undetermined band; the two F411 pairs add 18 consistent rows at 90 and 110\,ms and in the nominal condition, and 6 rows at 100\,ms, likewise undetermined. The 2 BAD\_CRC mechanism traces show the CRC reject preceding the first timeout, as Q7 requires.
+
+Table~\ref{tab:desc} compares the recorded intervals with the verified bounds under both anchors. Under the confirmation anchor 179 of the 180 intervals lie within the bounds. The exception is one BAD\_CRC recovery interval of 523\,ms against the 506\,ms bound, an excess of 17\,ms (18\,ms after the clock-rate correction), larger than the 15.4\,ms clock disagreement the evidence demonstrates, so timestamp granularity does not fully account for it; the remainder lies within the unmeasured cross-channel read latency, and the interval is reported as unresolved rather than as consistent or violating. No interval exceeds a bound by more than the 50\,ms falsification floor, so the replay finds no refutation of the model's bounds at the resolution the recorded evidence supports.
+
+At the campaign's own anchor four of the six maxima exceed the bounds by 5 to 25\,ms, so the same traces would appear to violate bounds they in fact respect.
+
+\begin{table}[t]
+\centering\footnotesize
+\caption{Host-observed intervals of the 90 primary trials against the verified bounds (ms; $n=30$ per mode); the command anchor is the campaign's interval from the command, the confirmation anchor starts where the model's clock does and gives the within-bound counts.}
+\label{tab:desc}
+\setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{@{}llrrrrr@{}}
 \toprule
-Mode & Int. & Median & Q1 & Q3 & IQR & Min--Max \\
+& & & Cmd. & \multicolumn{2}{c}{Confirmation} & Within \\
+\cmidrule(lr){5-6}
+Mode & Interval & Bound & max & median & max & bound \\
 \midrule
-SILENT & Det. & 383.0 & 288.75 & 485.0 & 196.25 & 125--578 \\
-BAD\_CRC & Det. & 359.5 & 171.25 & 464.25 & 293.0 & 78--531 \\
-DELAYED & Det. & 406.0 & 297.0 & 512.0 & 215.0 & 156--610 \\
-\midrule
-SILENT & Rec. & 297.0 & 144.25 & 375.0 & 230.75 & 78--516 \\
-BAD\_CRC & Rec. & 359.0 & 113.75 & 417.25 & 303.5 & 47--531 \\
-DELAYED & Rec. & 296.5 & 187.25 & 425.5 & 238.25 & 94--531 \\
+SILENT      & detection & 605 & 578 & 346 & 550 & 30/30 \\
+BAD\_CRC    & detection & 605 & 531 & 297 & 530 & 30/30 \\
+DELAYED 250 & detection & 605 & 610 & 385 & 553 & 30/30 \\
+SILENT      & recovery  & 506 & 516 & 243 & 456 & 30/30 \\
+BAD\_CRC    & recovery  & 506 & 531 & 322 & 523 & 29/30 \\
+DELAYED 250 & recovery  & 506 & 531 & 222 & 297 & 30/30 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The two BAD\_CRC mechanism observations are separate from the 90-trial denominator. SHORT recorded CRC rejection, one timeout, and no OFFLINE before confirmed restoration. SUSTAINED recorded CRC rejection, timeouts at consecutive counts one and two, and OFFLINE at count three before confirmed restoration and recovery. This ordered trace supports the inspected control-flow explanation; it does not expand the campaign denominator.
+\section{Discussion}
+\label{sec:discussion}
+\subsection{Threats to validity and limitations}
+The models are hand-derived. Deadlock freedom and progress are properties of the models, not of the firmware's task interactions; task-level blocking is excluded by construction, since the flight code uses no semaphores, queues, mutexes, event groups or task notifications and blocks only in delays, non-blocking critical sections and UART calls with a 10\,ms timeout -- verified by source inspection, not by the models. The transition-to-source trace and the offline replay narrow the gap but do not prove refinement; a code-level check of the header-only controller with a bounded model checker is future work. The jitter bound's worst case is not measured; serialization is derived, not measured; the channel is assumed lossless apart from the injected corruption; and the IWDG bracket comes from the datasheet LSI specification~\cite{st2021ds12589}. The bounds are parametric rather than platform-specific: Table~\ref{tab:props} states each as a closed form in $P$, $D$, $L$, $N$, $J$ and $T_{tx}$, of which only $J$ and $T_{tx}$ depend on the MCU and RTOS. Another target therefore needs those two constants re-measured and the same queries re-run, not new models. The consistency data come from one primary board pair and two further pairs of a different MCU family under one fixed configuration, and say nothing about device populations. Nothing here addresses environmental, electrical, or radiation-induced faults, and nothing constitutes qualification evidence. The empirical support is uneven (Table~\ref{tab:scope}): only the link bounds are replayed against traces; the watchdog and boot results rest on model checking, source inspection and native tests, and injecting stalls and boot faults is future work.
 
-\subsection{Separate F411 Pair Campaigns}
+\textbf{Property expressiveness.} UPPAAL checks a restricted TCTL fragment -- invariants, reachability and leads-to, without nesting. Of the 44 formulas, 34 are invariants, 4 reachability and 6 leads-to. Bounded response is therefore an invariant over a clock of the driver template that starts at the confirmation event, so the driver plays the observer role a pattern catalog would generate~\cite{vogel2023}; ordering properties use Boolean flags set on the controller's transitions. No alternative encoding was cross-checked, and a mis-stated phase predicate would pass both tightness twins. As inequalities over console-observable events the bounds could also run as monitors on the debug UART, as model-paired runtime monitoring does~\cite{zilio2023,cho2025}; we have not done so.
 
-Two physical NUCLEO-F411RE controller/payload pairs each ran the same fixed F411 implementation with a 100-ms response deadline and predefined 12-row protocol: three normal controls and three rows at each of 90, 100, and 110~ms. Each pair retained 12/12 valid rows. For each pair, the three normal controls had no adverse marker; the three 90-ms rows accepted the delayed response without timeout, rejection, or OFFLINE; and all three rows at both 100 and 110~ms showed timeout, sequence rejection, and OFFLINE followed by confirmed restoration and recovery (Table~\ref{tab:f411}). No DELAYED response was accepted at 100 or 110~ms.
-
-\begin{table}[t]
-\caption{F411 outcomes with separate pair denominators.}
-\label{tab:f411}
-\centering
-\scriptsize
-\begin{tabular}{lccccc}
-\toprule
-Pair & Valid & NC clean & 90-ms accept & 100-ms F/R & 110-ms F/R \\
-\midrule
-Pair-1 & 12/12 & 3/3 & 3/3 & 3/3 & 3/3 \\
-Pair-2 & 12/12 & 3/3 & 3/3 & 3/3 & 3/3 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Here F/R denotes the predefined timeout/sequence-rejection/OFFLINE pattern plus confirmed restoration and recovery, not a pooled metric. Post-activation NORMAL accepts were retained as boundary/pipeline observations in four Pair-1 rows and three Pair-2 rows. In every 100- and 110-ms row, cumulative timeout and sequence counter deltas were eight each, while explicit markers comprised two timeout transitions and one sequence rejection; counters and explicit markers therefore remain separate. The repeated pair-specific pattern supports protocol-level portability under these configurations, not independent replication of the primary pair, G431/G474 timing replication, pooling, MCU equivalence, or population inference.
-
-\section{Discussion and Validity Boundaries}
-
-Two-stage confirmation gating changes what a scored result means. A detector count is conditional on payload confirmation of configured fault-mode entry, and a recovery count is conditional on payload confirmation of return to NORMAL; neither confirmation is an independent measurement of the corresponding UART behavior on the wire. Missing activation confirmation excludes the trial from both detection and recovery scoring. With confirmed activation but missing restoration, detection remains scoreable while recovery is invalid and unscored. The five-event record makes these eligibility boundaries explicit; exact-byte traces and hashes support their audit. The primary campaign demonstrates that the complete requested-to-recovered chain can be operated and audited on the evaluated G431/G474 setup. It demonstrates protocol operability and auditability, but does not estimate how often request-only scoring would produce a different result because no ungated comparative baseline was run. The N0 windows are setup-integrity observations, not interleaved no-fault treatment controls; they therefore neither establish a comparative fault effect nor quantify natural system variance. The evaluation instead asks whether predefined controller outcomes occur after separately confirmed endpoint conditions; comparative causal attribution would require an interleaved control design beyond the present protocol evaluation. The separate F411 campaigns demonstrate the same confirmation rules on two further pair-specific setups. Neither result estimates how often unobserved devices would behave similarly.
-
-Construct validity is bounded by observable endpoint behavior and predefined log markers. SILENT, BAD\_CRC, and DELAYED do not represent all communication faults and are not equivalent to electrical, environmental, or radiation-induced faults. Markers operationalize detection and recovery but do not expose every internal state. Literal heartbeat or watchdog strings are not treated as independent health measurements.
-
-Internal validity benefits from a confirmed NORMAL precondition, seeded order and offsets, fixed observation windows, separate endpoint logs, and stage-specific eligibility rules for missing confirmations. Sequential trials still share hardware, host, thermal, state-history, and timing conditions. The two 65-s N0 windows, separate 605-s observation, and one 65-s gate per F411 pair are duration bounded.
-
-External and timing validity are similarly narrow. One primary pair and two purposively evaluated F411 pairs do not define a device population. Other delay values, corruption patterns, intermittent behavior, concurrent loads, and recovery horizons remain untested. Host serial timestamps include transport and scheduling effects. Temperature, vibration, electromagnetic conditions, power transients, and radiation were not varied or measured. The evidence supports no environmental robustness, flight-qualification, mission-assurance, or complete-system claim.
-
-\balance
-\section{Reproducibility}
-
-The retained primary package contains the fixed seed and run plan, per-trial rows, 180 byte-preserving raw logs, validation output, summaries, firmware provenance, and SHA-256 inventories. Separate frozen paths retain the 605-s observation, both BAD\_CRC traces, and each F411 campaign. The manuscript references these existing records; it does not copy empirical evidence. Hash-checking generators project table inputs deterministically and reject a changed source. This workflow makes the path from endpoint bytes to reported values inspectable without treating a hash as evidence that the experimental construct is externally valid.
+\subsection{Reproducibility}
+The artifact (models and queries, batch script with retained \texttt{verifyta} outputs and SHA-256 inventory, verdict oracle and checker, line-numbered model-to-source trace, trace replay with unit tests and JSON report, frozen HIL datasets with inventories) is released on acceptance; the firmware is not, so the trace is pinned to a tagged internal revision and source excerpts can be supplied through the chairs.
 
 \section{Conclusion}
-
-This paper presented a two-stage confirmation-gated HIL trial protocol for payload-link supervision. A requested injection becomes scoreable only after separate payload-side confirmation of configured fault-mode entry; recovery becomes scoreable only after separate payload-side NORMAL confirmation. These confirmations establish scoring boundaries but do not independently measure corresponding UART behavior on the wire. Five distinct event classes operationalize those gates, and byte-preserving endpoint traces with hash-verified summaries support auditability. The primary 90-trial campaign, separate nominal and BAD\_CRC observations, and two pair-separated F411 campaigns demonstrate the protocol only on the evaluated setups. The result is methodological and setup bounded, with no reliability, population, MCU-equivalence, or internal-timing inference.
+Model checking the composed supervisor, watchdog gate and boot policy of an STM32 flight-software prototype yields worst-case bounds a bench cannot provide and exposes one defect in shipped safety logic with three design consequences. All 254 verdicts across fifteen configurations equal a pre-declared oracle, the defect is fixed and the fix re-verified, and replaying frozen hardware traces refutes none of the bounds at the resolution the recorded evidence supports. It shows non-refuting trace consistency with hardware behavior and does not verify the deployed C++ implementation, the RTOS or the HAL.
 
 \section*{Acknowledgment}
+\ifanon
+The authors thank the institute that provided hardware and technical consultation for this work; its name is withheld for double-anonymous review.
+\else
+The authors would like to thank the International Institute of Space Technology for Economic Development (INSTED) for providing hardware and technical consultation for this work.
+\fi
+The authors used Claude and ChatGPT only to translate the original Thai text into English and to refine grammar, not for the research, models, verification or analysis. All content, data and conclusions are the authors' own; they reviewed and approved the final text and take full responsibility for its accuracy and integrity.
+\ifcontrib
+\textit{Author contributions:} B.~Dendumrongkul developed the UPPAAL models, specified the properties and ran the verification; N.~Hirunsirikul led the HIL fault-injection campaign and trace analysis; T.~Sriwaranon and P.~Wanitchollakit contributed to the STM32 firmware and its tests; P.~Saisutjarit provided aerospace-engineering guidance and CubeSat system context; P.~Kanongchaiyos supervised the research and directed the model-checking methodology. \textit{Funding:} the work received no external funding. The authors declare no conflicts of interest.
+\fi
 
-During manuscript preparation, the authors used OpenAI ChatGPT, OpenAI Codex, and Anthropic Claude for language editing and drafting support throughout Sections I--VII, literature-search and synthesis assistance for Section II, and code/tooling assistance for evidence validation described in Section VI. The authors checked all cited sources, technical claims, source-code behavior, experimental records, numerical results, and conclusions against primary sources or retained evidence. No AI-generated data were used. The authors take responsibility for the final manuscript.
-
+\balance
 \bibliographystyle{IEEEtran}
 \bibliography{references}
-
 \end{document}
