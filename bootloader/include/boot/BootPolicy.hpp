@@ -87,6 +87,12 @@ public:
         uint32_t fallbackFailReason = 0U;
         if (isSlotBootable(fallbackSlot, fallbackFailReason))
         {
+            // The unconfirmed-boot limit above is evaluated once, on the slot that was
+            // active on entry. Activating the fallback slot starts a different unconfirmed
+            // image, so its attempt budget starts from zero; without this reset the
+            // fallback inherits the count accumulated by the previous slot and can be
+            // launched already over the limit, after which the next warm boot is refused.
+            resetBootAttempts(metadata);
             activateBootSlot(metadata, fallbackSlot);
             bootSlot(fallbackSlot);
             return;
