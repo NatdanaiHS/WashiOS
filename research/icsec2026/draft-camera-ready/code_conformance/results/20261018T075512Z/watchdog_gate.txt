@@ -1,0 +1,6 @@
+W1 no stall (1000 x 2 runs of 120 s): critical failures 0, IWDG resets 0 -> HOLD
+payload-link IWDG 1882 ms: runs 11000, max detect 870.750 ms (W3 952), max reset 2653.512 ms (W6 3122), refresh after failure 0, undetected 0, no reset 0 -> HOLD
+payload-link IWDG 2170 ms: runs 11000, max detect 870.836 ms (W3 952), max reset 2940.057 ms (W6 3122), refresh after failure 0, undetected 0, no reset 0 -> HOLD
+heartbeat    IWDG 1882 ms: runs 11000, max detect 1583.758 ms (W3 1652), max reset 3364.731 ms (W6 3822), refresh after failure 0, undetected 0, no reset 0 -> HOLD
+heartbeat    IWDG 2170 ms: runs 11000, max detect 1586.883 ms (W3 1652), max reset 3654.969 ms (W6 3822), refresh after failure 0, undetected 0, no reset 0 -> HOLD
+failures=0
