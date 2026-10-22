@@ -1,19 +1,21 @@
 # ICSEC 2026 current candidate
 
-Status: **NEEDS_MANUAL_VERIFICATION — copyright notice wording**
+Status: **FORMAL-VERIFICATION SCOPE APPROVED 2026-09-08 — models verified; manuscript draft being completed**
 
-- Branch: `paper/icsec-confirmation-gated-final`
-- Base freeze tag: `icsec-2026-confirmation-gated-final`
-- Canonical manuscript: `submission/main.tex`
-  - SHA-256: `EE42D551CD490975F5E25B72B29230B983B9CCA4F3D40D70543D4EFA0F819F44`
-- Canonical review PDF: `submission/main.pdf`
-  - SHA-256: `597A288326CEE460A40139CDF478E4BEF5F17F1574C089C976371A0170E195AF`
-  - Six US-letter pages
+- Branch: `paper/icsec-formal-verification` (from `paper/icsec-confirmation-gated-final`)
+- Active research package: `formal/` (start with `formal/README.md` and `formal/POSITIONING_LOCK_FORMAL.md`)
+- Canonical manuscript draft: `submission/main.tex` (verdicts filled from `formal/results/20260908T074838Z`; three non-verdict red `\pending{}` markers remain: self-citation, related-work citations, artifact statement)
+- Target: ICSEC 2026 Final Round Paper Submission, 6–25 September 2026 (official `Important Dates` block; recheck before upload)
 
-The base tag identifies the preceding reviewed snapshot. The current working candidate is not
-frozen because the official ICSEC instructions require a first-page copyright notice but do not
-provide exact wording. `submission/` is the only active manuscript directory; Git history is the
-archive for earlier manuscript text.
+The confirmation-gated HIL manuscript was **never submitted**. Its final source, PDF, audits, and hashes are
+archived byte-exact under `archive/manuscripts/confirmation_gated_final_20260903/` (PDF SHA-256
+`597A288326CEE460A40139CDF478E4BEF5F17F1574C089C976371A0170E195AF`; tag
+`icsec-2026-confirmation-gated-final` marks the preceding reviewed snapshot). Any audit file still present
+in `submission/` that names the confirmation-gated paper describes that archived manuscript, not the
+current draft. `submission/` is the only active manuscript directory.
+
+The sections below describe the archived paper's authorities and remain valid for its evidence packages,
+which the formal package reuses read-only as conformance data.
 
 ## Use these files
 

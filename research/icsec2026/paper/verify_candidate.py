@@ -1,3 +1,11 @@
+"""RETIRED 2026-09-08.
+
+This verifier asserts the text and evidence of the archived confirmation-gated manuscript
+(research/icsec2026/archive/manuscripts/confirmation_gated_final_20260903/). The active manuscript is the
+formal-verification paper; verify it with research/icsec2026/formal/tooling/verify_manuscript.py.
+Running this script against the current submission/ exits early with a pointer instead of failing on the
+first assertion.
+"""
 from __future__ import annotations
 
 import csv
@@ -6,12 +14,20 @@ import json
 import re
 from pathlib import Path
 
-from pypdf import PdfReader
+try:
+    from pypdf import PdfReader
+except ImportError:  # retired script; only reached when the archived manuscript is active
+    PdfReader = None
 
 
 ROOT = Path(__file__).resolve().parents[3]
 SUBMISSION = ROOT / "research" / "icsec2026" / "submission"
 MANUSCRIPT = (SUBMISSION / "main.tex").read_text(encoding="utf-8")
+if "Confirmation-Gated HIL Fault-Injection Trials" not in MANUSCRIPT:
+    import sys
+    print("verify_candidate.py is retired: submission/main.tex is no longer the confirmation-gated manuscript.")
+    print("Use research/icsec2026/formal/tooling/verify_manuscript.py for the formal-verification paper.")
+    sys.exit(2)
 BIBLIOGRAPHY = (SUBMISSION / "references.bib").read_text(encoding="utf-8")
 
 
