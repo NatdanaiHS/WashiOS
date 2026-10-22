@@ -1,0 +1,120 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1700' height='900' viewBox='0 0 1700 900'>
+<defs><marker id='arr' markerWidth='10' markerHeight='10' refX='9' refY='5' orient='auto' markerUnits='strokeWidth'><path d='M0,0 L10,5 L0,10 z' fill='#222'/></marker><marker id='arrRed' markerWidth='10' markerHeight='10' refX='9' refY='5' orient='auto' markerUnits='strokeWidth'><path d='M0,0 L10,5 L0,10 z' fill='#c00000'/></marker></defs>
+<rect width='1700' height='900' fill='white'/>
+<rect x='40' y='90' width='620' height='280' rx='14' fill='#f7f9ff' stroke='#999' stroke-dasharray='6 4'/>
+<circle cx='200' cy='230' r='34' fill='#e8f0fb' stroke='#1a4d8f' stroke-width='2.5'/>
+<circle cx='200' cy='230' r='28' fill='none' stroke='#1a4d8f' stroke-width='1.5'/>
+<circle cx='520' cy='230' r='34' fill='#fbe0e0' stroke='#a30000' stroke-width='2.5'/>
+<path d='M186,260 C130,334 270,334 214,260' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M234,230 Q360.0,190.0 486,230' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<rect x='700' y='90' width='460' height='280' rx='14' fill='#fffaf3' stroke='#999' stroke-dasharray='6 4'/>
+<circle cx='800' cy='230' r='30' fill='#e8f0fb' stroke='#1a4d8f' stroke-width='2.5'/>
+<circle cx='800' cy='230' r='24' fill='none' stroke='#1a4d8f' stroke-width='1.5'/>
+<circle cx='1060' cy='230' r='30' fill='#e8f0fb' stroke='#1a4d8f' stroke-width='2.5'/>
+<path d='M830,222 Q930.0,177.0 1030,222' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M830,240 Q930.0,285.0 1030,240' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<rect x='1200' y='90' width='460' height='280' rx='14' fill='#fff5f5' stroke='#999' stroke-dasharray='6 4'/>
+<circle cx='1300' cy='230' r='30' fill='#e8f0fb' stroke='#1a4d8f' stroke-width='2.5'/>
+<circle cx='1300' cy='230' r='24' fill='none' stroke='#1a4d8f' stroke-width='1.5'/>
+<circle cx='1560' cy='230' r='30' fill='#fbe0e0' stroke='#a30000' stroke-width='2.5'/>
+<path d='M1286,256 C1230,330 1370,330 1314,256' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M1330,224 Q1430.0,184.0 1530,224' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<rect x='40' y='395' width='1620' height='300' rx='14' fill='#fbfff7' stroke='#999' stroke-dasharray='6 4'/>
+<circle cx='620' cy='560' r='40' fill='#e8f0fb' stroke='#1a4d8f' stroke-width='2.5'/>
+<circle cx='620' cy='560' r='34' fill='none' stroke='#1a4d8f' stroke-width='1.5'/>
+<path d='M584,546 C510,490 510,630 584,574' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M656,546 C730,490 730,630 656,574' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M606,596 C550,670 690,670 634,596' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<rect x='60' y='729' width='14' height='14' fill='#0b6e4f'/>
+<rect x='60' y='749' width='14' height='14' fill='#1a4d8f'/>
+<rect x='60' y='769' width='14' height='14' fill='#8a4b00'/>
+<rect x='60' y='789' width='14' height='14' fill='#7a2e8f'/>
+<rect x='51.0' y='102.1' width='473.8' height='19.0' fill='#f7f9ff'/>
+<rect x='161.2' y='172.9' width='77.7' height='17.9' fill='white'/>
+<rect x='243.0' y='231.3' width='146.4' height='14.6' fill='white'/>
+<rect x='481.2' y='172.9' width='77.7' height='17.9' fill='white'/>
+<rect x='142.4' y='319.3' width='115.2' height='14.6' fill='white'/>
+<rect x='29.3' y='335.3' width='341.4' height='14.6' fill='white'/>
+<rect x='315.4' y='156.3' width='89.2' height='14.6' fill='white'/>
+<rect x='282.9' y='172.3' width='154.2' height='14.6' fill='white'/>
+<rect x='711.0' y='102.1' width='419.4' height='19.0' fill='#fffaf3'/>
+<rect x='761.2' y='176.9' width='77.7' height='17.9' fill='white'/>
+<rect x='1016.0' y='176.9' width='87.9' height='17.9' fill='white'/>
+<rect x='895.8' y='146.3' width='68.4' height='14.6' fill='white'/>
+<rect x='885.4' y='162.3' width='89.2' height='14.6' fill='white'/>
+<rect x='895.8' y='281.3' width='68.4' height='14.6' fill='white'/>
+<rect x='885.4' y='297.3' width='89.2' height='14.6' fill='white'/>
+<rect x='1211.0' y='102.1' width='408.6' height='19.0' fill='#fff5f5'/>
+<rect x='1256.0' y='176.9' width='87.9' height='17.9' fill='white'/>
+<rect x='1339.0' y='263.3' width='99.6' height='14.6' fill='white'/>
+<rect x='1531.4' y='176.9' width='57.2' height='17.9' fill='white'/>
+<rect x='1276.2' y='326.3' width='47.6' height='14.6' fill='white'/>
+<rect x='1273.6' y='342.3' width='52.8' height='14.6' fill='white'/>
+<rect x='1380.2' y='171.3' width='99.6' height='14.6' fill='white'/>
+<rect x='1345.1' y='187.3' width='169.8' height='14.6' fill='white'/>
+<rect x='51.0' y='407.1' width='1094.0' height='19.0' fill='#fbfff7'/>
+<rect x='581.2' y='496.9' width='77.7' height='17.9' fill='white'/>
+<rect x='304.0' y='555.3' width='201.0' height='14.6' fill='white'/>
+<rect x='140.6' y='435.3' width='419.4' height='14.6' fill='white'/>
+<rect x='343.4' y='451.3' width='216.6' height='14.6' fill='white'/>
+<rect x='337.7' y='467.3' width='222.3' height='14.6' fill='white'/>
+<rect x='507.2' y='483.3' width='52.8' height='14.6' fill='white'/>
+<rect x='687.0' y='533.3' width='419.4' height='14.6' fill='white'/>
+<rect x='687.0' y='549.3' width='411.6' height='14.6' fill='white'/>
+<rect x='687.0' y='565.3' width='294.6' height='14.6' fill='white'/>
+<rect x='410.3' y='649.3' width='419.4' height='14.6' fill='white'/>
+<rect x='535.1' y='665.3' width='169.8' height='14.6' fill='white'/>
+<text x='850.0' y='34' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='22' fill='#111' font-weight='bold'>watchdog_gating.xml — Task(HB) ∥ Task(PL) ∥ Supervisor ∥ Iwdg ∥ Env</text>
+<text x='850' y='60' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#444'>PERIOD = {500, 100} ms, DEADLINE = {1500, 800} ms, WD_POLL = 100 ms, WD_TASK = 50 ms, J = 2 ms, IWDG ∈ [1882, 2170] ms (nominal 2000; DS12589 Table 44)</text>
+<text x='54' y='116' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='17' fill='#333' font-weight='bold'>Task(id)  ×2  (TaskHealthRegistry::checkIn)</text>
+<text x='200' y='186' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Running</text>
+<text x='246' y='242' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#7a2e8f'>t ≤ PERIOD[id] + J</text>
+<text x='520' y='186' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Stalled</text>
+<text x='200' y='330' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>t ≥ PERIOD[id]</text>
+<text x='200' y='346' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>t := 0, since[id] := 0, healthy[id] := true</text>
+<text x='360.0' y='167' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#1a4d8f' font-weight='bold'>stall[id]?</text>
+<text x='360.0' y='183' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>stalled[id] := true</text>
+<text x='714' y='116' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='17' fill='#333' font-weight='bold'>Env  (stall injector, SCENARIO 1 only)</text>
+<text x='800' y='190' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Healthy</text>
+<text x='1060' y='190' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Injected</text>
+<text x='930.0' y='157' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>e ≥ 3000</text>
+<text x='930.0' y='173' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#1a4d8f' font-weight='bold'>stall[HB]!</text>
+<text x='930.0' y='292' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>e ≥ 3000</text>
+<text x='930.0' y='308' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#1a4d8f' font-weight='bold'>stall[PL]!</text>
+<text x='1214' y='116' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='17' fill='#333' font-weight='bold'>Iwdg  (hardware independent watchdog)</text>
+<text x='1300' y='190' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Counting</text>
+<text x='1342' y='274' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#7a2e8f'>d ≤ IWDG_MAX</text>
+<text x='1560' y='190' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Reset</text>
+<text x='1300' y='337' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#1a4d8f' font-weight='bold'>kick?</text>
+<text x='1300' y='353' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>d := 0</text>
+<text x='1430.0' y='182' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>d ≥ IWDG_MIN</text>
+<text x='1430.0' y='198' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>resetHappened := true</text>
+<text x='54' y='421' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='17' fill='#333' font-weight='bold'>Supervisor  (WatchdogTask → WatchdogRunner::runOnce → Watchdog::poll → TaskHealthRegistry::evaluate)</text>
+<text x='620' y='510' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Polling</text>
+<text x='505' y='566' text-anchor='end' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#7a2e8f'>w ≤ WD_POLL + WD_TASK + J</text>
+<text x='560' y='446' text-anchor='end' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>w ≥ WD_POLL ∧ since[HB] ≤ DL[HB] ∧ since[PL] ≤ DL[PL]</text>
+<text x='560' y='462' text-anchor='end' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>∧ healthy[HB] ∧ healthy[PL]</text>
+<text x='560' y='478' text-anchor='end' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#1a4d8f' font-weight='bold'>kick!   (HAL_IWDG_Refresh)</text>
+<text x='560' y='494' text-anchor='end' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>w := 0</text>
+<text x='690' y='544' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>w ≥ WD_POLL ∧ since[id] > DL[id]  (expired, strict >)</text>
+<text x='690' y='560' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>w := 0, healthy[id] := false, criticalFailed := true</text>
+<text x='690' y='576' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#555' font-style='italic'>(three edges: HB only, PL only, both)</text>
+<text x='620' y='660' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>w ≥ WD_POLL ∧ clocks within deadline ∧ ¬(all healthy)</text>
+<text x='620' y='676' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>w := 0   (no refresh)</text>
+<text x='1080' y='480' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>Refresh gate: the IWDG is kicked only on the all-healthy edge</text>
+<text x='1080' y='500' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>(Watchdog.hpp:61-65). A stalled task never checks in, so once expired its</text>
+<text x='1080' y='520' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>flag stays false and no further kick ever occurs (W2).</text>
+<text x='1080' y='545' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='15' fill='#111' font-weight='bold'>Verified:</text>
+<text x='1080' y='570' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>• W1  no stall ⇒ never reset, never a critical failure (SCENARIO 0)</text>
+<text x='1080' y='590' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>• W3  stall detected ≤ DL + 100 + 50 + 2 = 952 ms (PL) / 1652 ms (HB), tight</text>
+<text x='1080' y='610' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>• W6  stall → IWDG reset ≤ detection bound + 2170 ms</text>
+<text x='1080' y='630' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>• W7  a reset never happens before a critical failure is recorded</text>
+<text x='82' y='740' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>guard (clock or data condition)</text>
+<text x='82' y='760' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>synchronisation  ch!  sender  /  ch?  receiver</text>
+<text x='82' y='780' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>update / clock reset</text>
+<text x='82' y='800' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>location invariant (time may not exceed)</text>
+<text x='60' y='828' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#555'>double circle = initial location;  C = committed;  U = urgent</text>
+<text x='1000' y='730' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#555'>On the G431 build the safe-fail callback only logs; the IWDG performs the reset</text>
+<text x='1000' y='750' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#555'>(core/src/main.cpp:81-93). After the reset the bootloader sees WatchdogTimeout in the</text>
+<text x='1000' y='770' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#555'>retained FaultLog and enters the safe loop instead of relaunching (finding F2).</text>
+</svg>

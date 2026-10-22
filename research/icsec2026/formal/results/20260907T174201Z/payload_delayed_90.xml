@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+<declaration>// WashiOS payload-link supervision, timed-automata model.
+// Source of constants: core/include/comms/PayloadLinkController.hpp,
+// core/src/app/PayloadLinkTask.hpp, demo-payload/src/main.cpp.
+// Time unit: 1 ms.
+
+const int POLL_MS      = 500;   // PayloadLinkController::PollPeriodMs
+const int DEADLINE_MS  = 100;   // PayloadLinkController::ResponseTimeoutMs
+const int OFFLINE_N    = 3;     // PayloadLinkController::OfflineThreshold
+const int LOOP_MS      = 1;     // PayloadLinkTask::LoopPeriodMs (service quantum)
+const int JITTER_MS    = 2;     // RTOS wakeup + ISR jitter bound (assumption A1)
+
+// 32-byte frame at 115200 8N1 = 320 bit-times = 2.78 ms; payload decode/encode
+// adds sub-millisecond work. Serialization window [TX_MIN, TX_MAX] (assumption A2).
+const int TX_MIN_MS    = 3;
+const int TX_MAX_MS    = 4;
+
+// Payload behaviors (comms::PayloadMode ordering: Normal=0, Silent=1, BadCrc=2, Delayed=3)
+const int NORMAL  = 0;
+const int SILENT  = 1;
+const int BAD_CRC = 2;
+const int DELAYED = 3;
+
+// Configured DELAYED response time. Instantiated per verification run by
+// tooling/run_verifyta.sh (50, 90, 100, 110, 250). Default is the demo value.
+const int DELAY_MS = 90;
+
+// Fault exposure and recovery observation windows used by the frozen campaign
+// (run_payload_campaign.py --observe-s 4.0 --recovery-observe-s 3.0).
+const int EXPOSURE_MS = 4000;
+const int RECOVERY_MS = 3000;
+
+// Link state (comms::PayloadLinkState)
+const int STARTING = 0;
+const int ONLINE   = 1;
+const int OFFLINE  = 2;
+
+// Channels
+chan poll;          // controller -> payload, request frame fully received
+chan resp_ok;       // payload -> controller, valid frame fully received
+chan resp_badcrc;   // payload -> controller, CRC-corrupted frame fully received
+broadcast chan inject, restore;
+
+// Verified bounds (used by the queries). Every bound is INCLUSIVE: the event happens no later
+// than the bound, so the queries test 'clock > BOUND' and the tightness queries show that
+// 'clock >= BOUND' is not sufficient. JITTER appears once per poll period because nextPollMs is
+// anchored at the actual send instant, so jitter accumulates.
+const int FIRST_TIMEOUT_BOUND_MS = POLL_MS + JITTER_MS + DEADLINE_MS + LOOP_MS + JITTER_MS;              // 605
+const int OFFLINE_BOUND_MS       = OFFLINE_N * (POLL_MS + JITTER_MS) + DEADLINE_MS + LOOP_MS + JITTER_MS; // 1609
+const int RECOVERY_BOUND_MS      = POLL_MS + JITTER_MS + TX_MAX_MS;                                       // 506
+const int LATE_FRAME_BOUND_MS    = POLL_MS + JITTER_MS + DELAY_MS + TX_MAX_MS;
+
+// Delay-acceptance boundary under assumptions A1/A2:
+//   ACCEPTS   : the latest possible response still precedes the earliest deadline check.
+//   TIMES_OUT : the earliest possible response follows the latest deadline check.
+//   Neither   : undetermined band (96..100 ms with the default constants).
+const bool ACCEPTS   = DELAY_MS + TX_MAX_MS &lt; DEADLINE_MS;
+const bool TIMES_OUT = DELAY_MS + TX_MIN_MS &gt; DEADLINE_MS + LOOP_MS + JITTER_MS;
+
+// Shared observable state (bounded, saturating; mirrors the parts of PayloadLinkStats
+// and the log markers that the properties need)
+int[0,2]   link = STARTING;
+int[0,3]   consecutive = 0;        // saturates at OFFLINE_N (code saturates at 255; only the threshold matters)
+
+// Per-exposure observables, reset by Host on inject/restore
+int[0,3]   toutInFault = 0;        // saturating count of timeouts since injection
+bool       crcInFault = false;     // a CRC reject occurred since injection
+bool       seqInFault = false;     // a sequence reject occurred since injection
+bool       offlineInFault = false;
+bool       recoveredAfterRestore = false;
+
+int[0,3]   mode = NORMAL;
+</declaration>
+
+<template>
+<name>Controller</name>
+<declaration>clock xPoll;   // time since last poll was sent
+clock xResp;   // time since the outstanding poll was sent
+bool awaiting = false;
+
+void onTimeout() {
+    awaiting = false;
+    if (toutInFault &lt; 3) toutInFault++;
+    if (consecutive &lt; OFFLINE_N) consecutive++;
+    if (consecutive &gt;= OFFLINE_N) { link = OFFLINE; offlineInFault = true; }
+}
+
+void onAccept() {
+    bool wasOffline = (link == OFFLINE);
+    awaiting = false;
+    consecutive = 0;
+    link = ONLINE;
+    if (wasOffline) { recoveredAfterRestore = true; }
+}
+</declaration>
+<location id="c0" x="0" y="0">
+<name x="-30" y="-40">Idle</name>
+<label kind="invariant" x="-60" y="20">xPoll &lt;= POLL_MS + JITTER_MS</label>
+</location>
+<location id="c1" x="300" y="0">
+<name x="270" y="-40">Awaiting</name>
+<label kind="invariant" x="240" y="20">xResp &lt;= DEADLINE_MS + LOOP_MS + JITTER_MS</label>
+</location>
+<init ref="c0"/>
+<!-- send poll: preparePoll() when nextPollMs reached; deadline and next poll are
+     both anchored at the send instant (PayloadLinkController.hpp:69-70). -->
+<transition>
+<source ref="c0"/><target ref="c1"/>
+<label kind="guard" x="100" y="-90">xPoll &gt;= POLL_MS</label>
+<label kind="synchronisation" x="100" y="-70">poll!</label>
+<label kind="assignment" x="100" y="-50">xPoll = 0, xResp = 0, awaiting = true</label>
+</transition>
+<!-- valid response while awaiting: acceptResponse() Ok path (lines 108-118) -->
+<transition>
+<source ref="c1"/><target ref="c0"/>
+<label kind="synchronisation" x="100" y="60">resp_ok?</label>
+<label kind="assignment" x="100" y="80">onAccept()</label>
+</transition>
+<!-- CRC-corrupted frame: counter only, outstanding poll stays pending (lines 84-90) -->
+<transition>
+<source ref="c1"/><target ref="c1"/>
+<label kind="synchronisation" x="330" y="-110">resp_badcrc?</label>
+<label kind="assignment" x="330" y="-90">crcInFault = true</label>
+</transition>
+<!-- deadline: service() timeout path (lines 36-51). The check runs once per
+     1 ms loop, after receiveFrames(), so a frame that completed before this
+     service instant is accepted first. -->
+<transition>
+<source ref="c1"/><target ref="c0"/>
+<label kind="guard" x="100" y="120">xResp &gt;= DEADLINE_MS</label>
+<label kind="assignment" x="100" y="140">onTimeout()</label>
+</transition>
+<!-- late or unsolicited valid frame while not awaiting: sequence reject (line 99-102) -->
+<transition>
+<source ref="c0"/><target ref="c0"/>
+<label kind="synchronisation" x="-120" y="-110">resp_ok?</label>
+<label kind="assignment" x="-120" y="-90">seqInFault = true</label>
+</transition>
+<!-- CRC-corrupted frame while not awaiting: still a CRC reject (decode fails first) -->
+<transition>
+<source ref="c0"/><target ref="c0"/>
+<label kind="synchronisation" x="-120" y="60">resp_badcrc?</label>
+<label kind="assignment" x="-120" y="80">crcInFault = true</label>
+</transition>
+</template>
+
+<template>
+<name>Payload</name>
+<declaration>clock y;
+int[0,3] pending = NORMAL;   // mode captured when the request was decoded
+</declaration>
+<location id="p0" x="0" y="0">
+<name x="-30" y="-40">Ready</name>
+</location>
+<location id="p1" x="300" y="0">
+<name x="270" y="-40">Responding</name>
+<label kind="invariant" x="220" y="20">y &lt;= (pending == DELAYED ? DELAY_MS : 0) + TX_MAX_MS</label>
+</location>
+<init ref="p0"/>
+<!-- request decoded (demo-payload/src/main.cpp handleRequest, lines 298-345):
+     SILENT returns immediately; other modes serialize a response after the
+     configured delay. -->
+<transition>
+<source ref="p0"/><target ref="p1"/>
+<label kind="guard" x="80" y="-90">mode != SILENT</label>
+<label kind="synchronisation" x="80" y="-70">poll?</label>
+<label kind="assignment" x="80" y="-50">y = 0, pending = mode</label>
+</transition>
+<transition>
+<source ref="p0"/><target ref="p0"/>
+<label kind="guard" x="-140" y="-90">mode == SILENT</label>
+<label kind="synchronisation" x="-140" y="-70">poll?</label>
+</transition>
+<transition>
+<source ref="p1"/><target ref="p0"/>
+<label kind="guard" x="60" y="60">pending != BAD_CRC &amp;&amp; y &gt;= (pending == DELAYED ? DELAY_MS : 0) + TX_MIN_MS</label>
+<label kind="synchronisation" x="60" y="80">resp_ok!</label>
+</transition>
+<transition>
+<source ref="p1"/><target ref="p0"/>
+<label kind="guard" x="60" y="120">pending == BAD_CRC &amp;&amp; y &gt;= TX_MIN_MS</label>
+<label kind="synchronisation" x="60" y="140">resp_badcrc!</label>
+</transition>
+<!-- A poll arriving while a delayed response is still pending is dropped in the
+     model (HAL_Delay blocks the responder; the UART FIFO holds it). Bounded
+     DELAY_MS &lt; POLL_MS keeps this transition unreachable; kept for completeness. -->
+<transition>
+<source ref="p1"/><target ref="p1"/>
+<label kind="synchronisation" x="330" y="-110">poll?</label>
+</transition>
+</template>
+
+<template>
+<name>Host</name>
+<parameter>const int FAULT_MODE</parameter>
+<declaration>clock z;      // time since fault injection confirmed
+clock zr;     // time since NORMAL restoration confirmed
+clock zn;     // time in nominal
+</declaration>
+<location id="h0" x="0" y="0">
+<name x="-30" y="-40">Nominal</name>
+</location>
+<location id="h1" x="300" y="0">
+<name x="270" y="-40">Faulted</name>
+<label kind="invariant" x="250" y="20">z &lt;= EXPOSURE_MS</label>
+</location>
+<location id="h2" x="600" y="0">
+<name x="570" y="-40">Restored</name>
+<label kind="invariant" x="550" y="20">zr &lt;= RECOVERY_MS</label>
+</location>
+<location id="h3" x="900" y="0">
+<name x="870" y="-40">Done</name>
+</location>
+<init ref="h0"/>
+<!-- Injection is only counted once the payload confirms the mode (the frozen
+     harness gate). Require the link to have come up first (zn &gt;= 2*POLL). -->
+<transition>
+<source ref="h0"/><target ref="h1"/>
+<label kind="guard" x="80" y="-90">zn &gt;= 2 * POLL_MS &amp;&amp; link == ONLINE</label>
+<label kind="synchronisation" x="80" y="-70">inject!</label>
+<label kind="assignment" x="80" y="-50">mode = FAULT_MODE, z = 0, toutInFault = 0, crcInFault = false, seqInFault = false, offlineInFault = false</label>
+</transition>
+<transition>
+<source ref="h1"/><target ref="h2"/>
+<label kind="guard" x="380" y="-90">z &gt;= EXPOSURE_MS</label>
+<label kind="synchronisation" x="380" y="-70">restore!</label>
+<label kind="assignment" x="380" y="-50">mode = NORMAL, zr = 0, recoveredAfterRestore = false</label>
+</transition>
+<transition>
+<source ref="h2"/><target ref="h3"/>
+<label kind="guard" x="700" y="-70">zr &gt;= RECOVERY_MS</label>
+</transition>
+</template>
+
+<system>// One trial: nominal warm-up, one fault exposure of FAULT_MODE, restoration.
+// FAULT_MODE is patched by tooling/run_verifyta.sh for SILENT, BAD_CRC, DELAYED.
+H = Host(DELAYED);
+C = Controller();
+P = Payload();
+system C, P, H;
+</system>
+
+<queries>
+<query><formula>A[] not deadlock</formula><comment>Model sanity.</comment></query>
+</queries>
+</nta>

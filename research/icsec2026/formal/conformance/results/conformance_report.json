@@ -1,0 +1,527 @@
+{
+  "descriptive_statistics": {
+    "latency_definition": "host-observed serial timestamps; detection from injection command send and recovery from NORMAL restore command send",
+    "per_mode": {
+      "BAD_CRC": {
+        "anchor": "command send (frozen monotonic columns); see primary_campaign for the model-comparable anchor",
+        "detected_trials": 30,
+        "detection_bound_ms": 605,
+        "detection_ms": {
+          "iqr": 293.0,
+          "max": 531.0,
+          "median": 359.5,
+          "min": 78.0
+        },
+        "n": 30,
+        "recovered_trials": 30,
+        "recovery_bound_ms": 506,
+        "recovery_ms": {
+          "iqr": 303.5,
+          "max": 531.0,
+          "median": 359.0,
+          "min": 47.0
+        }
+      },
+      "DELAYED": {
+        "anchor": "command send (frozen monotonic columns); see primary_campaign for the model-comparable anchor",
+        "detected_trials": 30,
+        "detection_bound_ms": 605,
+        "detection_ms": {
+          "iqr": 215.0,
+          "max": 610.0,
+          "median": 406.0,
+          "min": 156.0
+        },
+        "n": 30,
+        "recovered_trials": 30,
+        "recovery_bound_ms": 506,
+        "recovery_ms": {
+          "iqr": 238.25,
+          "max": 531.0,
+          "median": 296.5,
+          "min": 94.0
+        }
+      },
+      "SILENT": {
+        "anchor": "command send (frozen monotonic columns); see primary_campaign for the model-comparable anchor",
+        "detected_trials": 30,
+        "detection_bound_ms": 605,
+        "detection_ms": {
+          "iqr": 196.25,
+          "max": 578.0,
+          "median": 383.0,
+          "min": 125.0
+        },
+        "n": 30,
+        "recovered_trials": 30,
+        "recovery_bound_ms": 506,
+        "recovery_ms": {
+          "iqr": 230.75,
+          "max": 516.0,
+          "median": 297.0,
+          "min": 78.0
+        }
+      }
+    },
+    "source": "research/icsec2026/runs/full_20260830_seed20260830_n30/summary.json",
+    "source_sha256": "8F920E330C553C511490A890DD07986AB508DAB8CD8DB3DA407FADB470BFA99E"
+  },
+  "extension_primary": {
+    "bad_crc_ordering": {
+      "short": {
+        "crc_before_first_timeout": true,
+        "markers": [
+          "[OBC] PAYLOAD_ACCEPTED seq=5600 mode=0",
+          "[OBC] PAYLOAD_REJECT reason=CRC",
+          "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+        ],
+        "offline_before_restore": false
+      },
+      "sustained": {
+        "crc_before_first_timeout": true,
+        "markers": [
+          "[OBC] PAYLOAD_ACCEPTED seq=5640 mode=0",
+          "[OBC] PAYLOAD_REJECT reason=CRC",
+          "[OBC] PAYLOAD_TIMEOUT consecutive=1",
+          "[OBC] PAYLOAD_TIMEOUT consecutive=2",
+          "[OBC] PAYLOAD_OFFLINE consecutive=3 heartbeat=OK watchdog=OK"
+        ],
+        "offline_before_restore": false
+      }
+    },
+    "delay_sweep": {
+      "50": {
+        "model_accepts": true,
+        "model_rejects": false,
+        "observed_accepted_all": true,
+        "observed_timeout_offline_all": false,
+        "sequence_rejection_observed": 0,
+        "valid_observations": 3,
+        "verdict": "CONFORMS"
+      },
+      "90": {
+        "model_accepts": true,
+        "model_rejects": false,
+        "observed_accepted_all": true,
+        "observed_timeout_offline_all": false,
+        "sequence_rejection_observed": 0,
+        "valid_observations": 3,
+        "verdict": "CONFORMS"
+      },
+      "100": {
+        "model_accepts": false,
+        "model_rejects": false,
+        "observed_accepted_all": false,
+        "observed_timeout_offline_all": true,
+        "sequence_rejection_observed": 3,
+        "valid_observations": 3,
+        "verdict": "BOUNDARY_UNDETERMINED_CONSISTENT"
+      },
+      "110": {
+        "model_accepts": false,
+        "model_rejects": true,
+        "observed_accepted_all": false,
+        "observed_timeout_offline_all": true,
+        "sequence_rejection_observed": 3,
+        "valid_observations": 3,
+        "verdict": "CONFORMS"
+      },
+      "150": {
+        "model_accepts": false,
+        "model_rejects": true,
+        "observed_accepted_all": false,
+        "observed_timeout_offline_all": true,
+        "sequence_rejection_observed": 3,
+        "valid_observations": 3,
+        "verdict": "CONFORMS"
+      },
+      "250": {
+        "model_accepts": false,
+        "model_rejects": true,
+        "observed_accepted_all": false,
+        "observed_timeout_offline_all": true,
+        "sequence_rejection_observed": 3,
+        "valid_observations": 3,
+        "verdict": "CONFORMS"
+      }
+    },
+    "issues": [],
+    "nominal_605s": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "duration_s": 605.0,
+      "prohibited_markers": [],
+      "requested_s": 605.0,
+      "status_count": 121,
+      "valid": true
+    },
+    "source": "research/icsec2026/extension/evidence/primary_20260830_seed20260830_b5/descriptive_summary.json",
+    "source_sha256": "7DB79544371965891491699411EE987ACFC2E0636F21CCA6B7AE25B0E9C37139"
+  },
+  "f411_pairs": [
+    {
+      "campaign_id": "F411_P1_CAMPAIGN_20260901_B3",
+      "conditions": {
+        "D090": {
+          "marker_counts": {
+            "accepted_mode_0": 2,
+            "accepted_mode_3": 21,
+            "crc_rejection": 0,
+            "offline": 0,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 0,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 0,
+            "timeout": 0
+          },
+          "valid": 3,
+          "verdict": "CONFORMS"
+        },
+        "D100": {
+          "marker_counts": {
+            "accepted_mode_0": 1,
+            "accepted_mode_3": 0,
+            "crc_rejection": 0,
+            "offline": 3,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 3,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 3,
+            "timeout": 6
+          },
+          "valid": 3,
+          "verdict": "BOUNDARY_UNDETERMINED_CONSISTENT"
+        },
+        "D110": {
+          "marker_counts": {
+            "accepted_mode_0": 1,
+            "accepted_mode_3": 0,
+            "crc_rejection": 0,
+            "offline": 3,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 3,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 3,
+            "timeout": 6
+          },
+          "valid": 3,
+          "verdict": "CONFORMS"
+        },
+        "NC": {
+          "marker_counts": {
+            "accepted_mode_0": 27,
+            "accepted_mode_3": 0,
+            "crc_rejection": 0,
+            "offline": 0,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 0,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 0,
+            "timeout": 0
+          },
+          "valid": 3,
+          "verdict": "CONFORMS"
+        }
+      },
+      "issues": [],
+      "source": "research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3/descriptive_condition_summary.json",
+      "source_sha256": "788847F6146624B30968111FF8D3BBCCD479B7C3C6BE881706BBC7E6EF795112"
+    },
+    {
+      "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+      "conditions": {
+        "D090": {
+          "marker_counts": {
+            "accepted_mode_0": 1,
+            "accepted_mode_3": 22,
+            "crc_rejection": 0,
+            "offline": 0,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 0,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 0,
+            "timeout": 0
+          },
+          "valid": 3,
+          "verdict": "CONFORMS"
+        },
+        "D100": {
+          "marker_counts": {
+            "accepted_mode_0": 0,
+            "accepted_mode_3": 0,
+            "crc_rejection": 0,
+            "offline": 3,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 3,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 3,
+            "timeout": 6
+          },
+          "valid": 3,
+          "verdict": "BOUNDARY_UNDETERMINED_CONSISTENT"
+        },
+        "D110": {
+          "marker_counts": {
+            "accepted_mode_0": 2,
+            "accepted_mode_3": 0,
+            "crc_rejection": 0,
+            "offline": 3,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 3,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 3,
+            "timeout": 6
+          },
+          "valid": 3,
+          "verdict": "CONFORMS"
+        },
+        "NC": {
+          "marker_counts": {
+            "accepted_mode_0": 27,
+            "accepted_mode_3": 0,
+            "crc_rejection": 0,
+            "offline": 0,
+            "poll_write_failure": 0,
+            "recovery_after_restore": 0,
+            "recovery_during_exposure": 0,
+            "restart": 0,
+            "restoration_confirmed": 3,
+            "sequence_rejection": 0,
+            "timeout": 0
+          },
+          "valid": 3,
+          "verdict": "CONFORMS"
+        }
+      },
+      "issues": [],
+      "source": "research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/descriptive_condition_summary.json",
+      "source_sha256": "7724BA50B6341E5676C0736C19F41B7A07B0E80AA8D71A45DF765546A854D9C4"
+    }
+  ],
+  "issues": [],
+  "model": "research/icsec2026/formal/models/payload_link.xml",
+  "n0_post": {
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "duration_s": 65.0,
+    "issues": [],
+    "source": "research/icsec2026/runs/n0_post_20260830_0224/validation.json",
+    "source_sha256": "65FA4251D029445DA747E17F8BB6FA68FA99A5DCA916C86B3A9A566BE20380CC",
+    "valid": true
+  },
+  "n0_pre": {
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "duration_s": 65.0,
+    "issues": [],
+    "source": "research/icsec2026/runs/n0_pre_20260830_0205/validation.json",
+    "source_sha256": "61857D9693F4DF5703F4BCC71F23881B6CBFCFD372152051225EEF53C416D66A",
+    "valid": true
+  },
+  "primary_campaign": {
+    "anchors": {
+      "command": "frozen monotonic-clock columns, measured from command send (earlier than the model's clock start)",
+      "confirmation": "recomputed from retained wall-clock stamps of the confirming and the observed serial event (model-comparable)"
+    },
+    "bound_check": {
+      "intervals": 180,
+      "unresolved": 1,
+      "violations_beyond_floor": 0,
+      "within_bound": 179
+    },
+    "bounds_ms": {
+      "falsification_floor": 50,
+      "first_timeout": 605,
+      "offline": 1609,
+      "recovery": 506
+    },
+    "clock_disagreement_ms": {
+      "max": 15.38,
+      "median": 4.4,
+      "n": 180
+    },
+    "issues": [],
+    "per_mode": {
+      "BAD_CRC": {
+        "command_anchored": {
+          "detection": {
+            "max_ms": 531.0,
+            "median_ms": 359.5,
+            "n": 30
+          },
+          "recovery": {
+            "max_ms": 531.0,
+            "median_ms": 359.0,
+            "n": 30
+          }
+        },
+        "confirmation_anchored": {
+          "detection": {
+            "max_ms": 529.7,
+            "median_ms": 296.6,
+            "n": 30
+          },
+          "recovery": {
+            "max_ms": 522.8,
+            "median_ms": 322.3,
+            "n": 30
+          }
+        },
+        "detector_alphabet_ok": 30,
+        "offline_observed": 30,
+        "restart_marker": 0,
+        "rows": 30,
+        "within_bound": {
+          "detection": 30,
+          "recovery": 29
+        }
+      },
+      "DELAYED": {
+        "command_anchored": {
+          "detection": {
+            "max_ms": 610.0,
+            "median_ms": 406.0,
+            "n": 30
+          },
+          "recovery": {
+            "max_ms": 531.0,
+            "median_ms": 296.5,
+            "n": 30
+          }
+        },
+        "confirmation_anchored": {
+          "detection": {
+            "max_ms": 553.4,
+            "median_ms": 384.6,
+            "n": 30
+          },
+          "recovery": {
+            "max_ms": 296.8,
+            "median_ms": 222.3,
+            "n": 30
+          }
+        },
+        "detector_alphabet_ok": 30,
+        "offline_observed": 30,
+        "restart_marker": 0,
+        "rows": 30,
+        "within_bound": {
+          "detection": 30,
+          "recovery": 30
+        }
+      },
+      "SILENT": {
+        "command_anchored": {
+          "detection": {
+            "max_ms": 578.0,
+            "median_ms": 383.0,
+            "n": 30
+          },
+          "recovery": {
+            "max_ms": 516.0,
+            "median_ms": 297.0,
+            "n": 30
+          }
+        },
+        "confirmation_anchored": {
+          "detection": {
+            "max_ms": 549.9,
+            "median_ms": 345.9,
+            "n": 30
+          },
+          "recovery": {
+            "max_ms": 456.3,
+            "median_ms": 243.0,
+            "n": 30
+          }
+        },
+        "detector_alphabet_ok": 30,
+        "offline_observed": 30,
+        "restart_marker": 0,
+        "rows": 30,
+        "within_bound": {
+          "detection": 30,
+          "recovery": 30
+        }
+      }
+    },
+    "rows": 90,
+    "source": "research/icsec2026/runs/full_20260830_seed20260830_n30/results.csv",
+    "source_sha256": "B7266C9DDD989D7B940366C79CB8C24BB6C045411227F784E40D783301CECD42",
+    "unresolved_intervals": [
+      {
+        "bound_ms": 506,
+        "excess_ms": 16.8,
+        "interval": "recovery",
+        "mode": "BAD_CRC",
+        "observed_ms": 522.8,
+        "run_id": "R085_P02"
+      }
+    ]
+  },
+  "schema": "washios.formal.conformance.v1",
+  "timebase": {
+    "host_shorter_by_pct": 0.235,
+    "interpretation": "the mean poll period is below the nominal 500 ms in every window, so the per-poll scheduling overhead the model bounds by JITTER_MS is not consumed on average; the residual difference is a stable MCU-to-host clock-rate ratio",
+    "jitter_bound_ms": 2,
+    "mcu_per_host_range": [
+      1.00208,
+      1.00235
+    ],
+    "mean_overhead_consumed_ms": -1.037,
+    "nominal_poll_period_ms": 500,
+    "windows": {
+      "n0_post": {
+        "clock": "wall",
+        "mcu_per_host": 1.00211,
+        "mean_poll_period_ms": 498.945,
+        "period_uncertainty_ms": 0.26,
+        "polls": 120,
+        "span_s": 59.873
+      },
+      "n0_pre": {
+        "clock": "wall",
+        "mcu_per_host": 1.00208,
+        "mean_poll_period_ms": 498.963,
+        "period_uncertainty_ms": 0.26,
+        "polls": 120,
+        "span_s": 59.876
+      },
+      "observation_605s": {
+        "clock": "monotonic",
+        "mcu_per_host": 1.00235,
+        "mean_poll_period_ms": 498.828,
+        "period_uncertainty_ms": 0.0,
+        "polls": 1200,
+        "span_s": 598.594
+      }
+    }
+  },
+  "total_issues": 0
+}
