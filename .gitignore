@@ -16,6 +16,7 @@ compile_commands.json
 **/outputs/
 deliverables/_*/
 /research/icsec2026/submission/build/
+/research/icsec2026/draft-camera-ready/*/build/
 *.lst
 *.o
 *.obj
