@@ -18,7 +18,8 @@ _Min_Stack_Size = 0x400;
 
 MEMORY
 {
-  RAM    (xrw) : ORIGIN = 0x20000000, LENGTH = 32K
+  RETAINED (rw) : ORIGIN = 0x20000000, LENGTH = 0x500
+  RAM    (xrw) : ORIGIN = 0x20000500, LENGTH = 32K - 0x500
   FLASH  (rx)  : ORIGIN = 0x08012000, LENGTH = 56K
 }
 
@@ -114,6 +115,18 @@ SECTIONS
     . = ALIGN(4);
     _edata = .;
   } >RAM AT> FLASH
+
+  /* State retained across warm resets and shared by WashiBoot and the
+     application. Both images place it at the same fixed addresses, outside the
+     RAM either image initialises: BootMetadata at the start of RETAINED and the
+     fault log at +0x40. */
+  .retained (NOLOAD) :
+  {
+    KEEP(*(.retained.boot_metadata))
+    . = 0x40;
+    KEEP(*(.retained.fault_log))
+    . = ALIGN(8);
+  } >RETAINED
 
   . = ALIGN(8);
   .noinit (NOLOAD) :

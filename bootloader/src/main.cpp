@@ -19,16 +19,19 @@
 #endif
 
 #if defined(__GNUC__)
-#define WASHIBOOT_RETAINED __attribute__((section(".noinit"), aligned(8)))
+/* Shared with the application at fixed addresses; see .retained in bootloader.ld. */
+#define WASHIBOOT_RETAINED_METADATA __attribute__((section(".retained.boot_metadata"), aligned(8)))
+#define WASHIBOOT_RETAINED_FAULT_LOG __attribute__((section(".retained.fault_log"), aligned(8)))
 #else
-#define WASHIBOOT_RETAINED
+#define WASHIBOOT_RETAINED_METADATA
+#define WASHIBOOT_RETAINED_FAULT_LOG
 #endif
 
 namespace
 {
 
-boot::BootMetadata bootMetadata WASHIBOOT_RETAINED;
-core::FaultLog<> systemFaultLog WASHIBOOT_RETAINED;
+boot::BootMetadata bootMetadata WASHIBOOT_RETAINED_METADATA;
+core::FaultLog<> systemFaultLog WASHIBOOT_RETAINED_FAULT_LOG;
 
 bsp::Stm32G4FlashMap flashMap;
 bsp::Stm32G4BootPlatform bootPlatform;
