@@ -1,0 +1,925 @@
+{
+  "run": "20261031T173045Z_B1B2B5_normal-11min",
+  "capture_sha256": "BCCE684A0453E3DDAC6C6C8B503EFE4AFEE5BF0A34349CD7EB1010A3E61AB417",
+  "analyzed_utc": "2026-10-31T17:41:47.528640Z",
+  "signals": {
+    "poll": 1321,
+    "loop": 651925,
+    "status": 265,
+    "write": 2905,
+    "timeout": 1,
+    "accept": 1321,
+    "recovery": 1,
+    "pl_fault": 1
+  },
+  "B1_poll_jitter": {
+    "nominal_poll_period_ms": 500.0,
+    "polls": 1320,
+    "status_reports": 132,
+    "capture_span_s": 660.0,
+    "poll_period_regular": {
+      "n": 1187,
+      "min_ms": 500.03,
+      "p1_ms": 500.064,
+      "median_ms": 500.214,
+      "mean_ms": 500.2172,
+      "p99_ms": 500.406,
+      "max_ms": 500.565,
+      "min_dev_ms": 0.03,
+      "max_dev_ms": 0.565,
+      "max_abs_dev_ms": 0.565
+    },
+    "poll_period_containing_status_report": {
+      "n": 132,
+      "min_ms": 500.079,
+      "p1_ms": 500.08,
+      "median_ms": 500.2095,
+      "mean_ms": 500.2203,
+      "p99_ms": 500.363,
+      "max_ms": 500.4,
+      "min_dev_ms": 0.079,
+      "max_dev_ms": 0.4,
+      "max_abs_dev_ms": 0.4
+    },
+    "poll_period_all": {
+      "n": 1319,
+      "min_ms": 500.03,
+      "p1_ms": 500.069,
+      "median_ms": 500.214,
+      "mean_ms": 500.2175,
+      "p99_ms": 500.405,
+      "max_ms": 500.565,
+      "min_dev_ms": 0.03,
+      "max_dev_ms": 0.565,
+      "max_abs_dev_ms": 0.565
+    },
+    "status_report_period": {
+      "n": 131,
+      "min_ms": 5001.09,
+      "p1_ms": 5001.11,
+      "median_ms": 5002.118,
+      "mean_ms": 5002.1729,
+      "p99_ms": 5003.672,
+      "max_ms": 5003.713
+    },
+    "loop_period": {
+      "n": 651923,
+      "min_ms": 0.988,
+      "p1_ms": 0.993,
+      "median_ms": 1.0,
+      "mean_ms": 1.0124,
+      "p99_ms": 1.012,
+      "max_ms": 10.009
+    },
+    "excluded_polls_near_fault_modes": 0
+  },
+  "B2_status_slip": {
+    "status_span": {
+      "n": 132,
+      "min_ms": 9.665,
+      "p1_ms": 9.75,
+      "median_ms": 9.839,
+      "mean_ms": 9.8332,
+      "p99_ms": 9.844,
+      "max_ms": 9.844
+    },
+    "status_write_span": {
+      "n": 132,
+      "min_ms": 9.644,
+      "p1_ms": 9.729,
+      "median_ms": 9.818,
+      "mean_ms": 9.8121,
+      "p99_ms": 9.823,
+      "max_ms": 9.823
+    },
+    "all_console_writes": {
+      "n": 1452,
+      "min_ms": 3.39,
+      "p1_ms": 3.475,
+      "median_ms": 3.477,
+      "mean_ms": 4.052,
+      "p99_ms": 9.821,
+      "max_ms": 9.823
+    },
+    "writes_at_or_over_10ms_uart_timeout": 0,
+    "next_poll_slip_after_status": {
+      "n": 132,
+      "min_ms": 0.079,
+      "p1_ms": 0.08,
+      "median_ms": 0.2095,
+      "mean_ms": 0.2203,
+      "p99_ms": 0.363,
+      "max_ms": 0.4
+    },
+    "explanation_check": {
+      "median_slip_minus_median_status_ms": -9.6295,
+      "write_share_of_status_span": 0.9979
+    },
+    "per_status_report": [
+      {
+        "status_start_s": 1.030465,
+        "status_ms": 9.665,
+        "write_ms": 9.644,
+        "next_poll_slip_ms": 0.34
+      },
+      {
+        "status_start_s": 6.03324,
+        "status_ms": 9.751,
+        "write_ms": 9.731,
+        "next_poll_slip_ms": 0.219
+      },
+      {
+        "status_start_s": 11.035742,
+        "status_ms": 9.754,
+        "write_ms": 9.732,
+        "next_poll_slip_ms": 0.314
+      },
+      {
+        "status_start_s": 16.038108,
+        "status_ms": 9.753,
+        "write_ms": 9.732,
+        "next_poll_slip_ms": 0.256
+      },
+      {
+        "status_start_s": 21.040503,
+        "status_ms": 9.755,
+        "write_ms": 9.734,
+        "next_poll_slip_ms": 0.278
+      },
+      {
+        "status_start_s": 26.043147,
+        "status_ms": 9.75,
+        "write_ms": 9.729,
+        "next_poll_slip_ms": 0.225
+      },
+      {
+        "status_start_s": 31.045207,
+        "status_ms": 9.752,
+        "write_ms": 9.731,
+        "next_poll_slip_ms": 0.209
+      },
+      {
+        "status_start_s": 36.048327,
+        "status_ms": 9.753,
+        "write_ms": 9.732,
+        "next_poll_slip_ms": 0.277
+      },
+      {
+        "status_start_s": 41.050775,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.357
+      },
+      {
+        "status_start_s": 46.054447,
+        "status_ms": 9.842,
+        "write_ms": 9.822,
+        "next_poll_slip_ms": 0.338
+      },
+      {
+        "status_start_s": 51.057,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.247
+      },
+      {
+        "status_start_s": 56.059199,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.222
+      },
+      {
+        "status_start_s": 61.061393,
+        "status_ms": 9.843,
+        "write_ms": 9.823,
+        "next_poll_slip_ms": 0.201
+      },
+      {
+        "status_start_s": 66.064135,
+        "status_ms": 9.842,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.294
+      },
+      {
+        "status_start_s": 71.06714,
+        "status_ms": 9.841,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.343
+      },
+      {
+        "status_start_s": 76.069905,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.196
+      },
+      {
+        "status_start_s": 81.072721,
+        "status_ms": 9.84,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.245
+      },
+      {
+        "status_start_s": 86.075579,
+        "status_ms": 9.842,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.355
+      },
+      {
+        "status_start_s": 91.078453,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.201
+      },
+      {
+        "status_start_s": 96.080957,
+        "status_ms": 9.836,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.154
+      },
+      {
+        "status_start_s": 101.08355,
+        "status_ms": 9.843,
+        "write_ms": 9.822,
+        "next_poll_slip_ms": 0.4
+      },
+      {
+        "status_start_s": 106.08621,
+        "status_ms": 9.841,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.311
+      },
+      {
+        "status_start_s": 111.089494,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.243
+      },
+      {
+        "status_start_s": 116.092017,
+        "status_ms": 9.84,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.244
+      },
+      {
+        "status_start_s": 121.094045,
+        "status_ms": 9.84,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.137
+      },
+      {
+        "status_start_s": 126.09591,
+        "status_ms": 9.84,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.143
+      },
+      {
+        "status_start_s": 131.098679,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.363
+      },
+      {
+        "status_start_s": 136.101815,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.268
+      },
+      {
+        "status_start_s": 141.103974,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.27
+      },
+      {
+        "status_start_s": 146.106156,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.275
+      },
+      {
+        "status_start_s": 151.108864,
+        "status_ms": 9.841,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.273
+      },
+      {
+        "status_start_s": 156.112049,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.329
+      },
+      {
+        "status_start_s": 161.114566,
+        "status_ms": 9.842,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.272
+      },
+      {
+        "status_start_s": 166.116814,
+        "status_ms": 9.838,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.236
+      },
+      {
+        "status_start_s": 171.118894,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.272
+      },
+      {
+        "status_start_s": 176.120859,
+        "status_ms": 9.838,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.173
+      },
+      {
+        "status_start_s": 181.122831,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.123
+      },
+      {
+        "status_start_s": 186.125231,
+        "status_ms": 9.841,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.324
+      },
+      {
+        "status_start_s": 191.127847,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.223
+      },
+      {
+        "status_start_s": 196.130586,
+        "status_ms": 9.843,
+        "write_ms": 9.822,
+        "next_poll_slip_ms": 0.296
+      },
+      {
+        "status_start_s": 201.134299,
+        "status_ms": 9.842,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.295
+      },
+      {
+        "status_start_s": 206.137575,
+        "status_ms": 9.84,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.267
+      },
+      {
+        "status_start_s": 211.140151,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.247
+      },
+      {
+        "status_start_s": 216.143406,
+        "status_ms": 9.844,
+        "write_ms": 9.823,
+        "next_poll_slip_ms": 0.227
+      },
+      {
+        "status_start_s": 221.146247,
+        "status_ms": 9.842,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.348
+      },
+      {
+        "status_start_s": 226.148738,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.143
+      },
+      {
+        "status_start_s": 231.150805,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.158
+      },
+      {
+        "status_start_s": 236.152794,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.151
+      },
+      {
+        "status_start_s": 241.154587,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.22
+      },
+      {
+        "status_start_s": 246.156004,
+        "status_ms": 9.837,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.113
+      },
+      {
+        "status_start_s": 251.158546,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.325
+      },
+      {
+        "status_start_s": 256.160359,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.122
+      },
+      {
+        "status_start_s": 261.161801,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.122
+      },
+      {
+        "status_start_s": 266.164115,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.162
+      },
+      {
+        "status_start_s": 271.166008,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.23
+      },
+      {
+        "status_start_s": 276.168043,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.201
+      },
+      {
+        "status_start_s": 281.170497,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.248
+      },
+      {
+        "status_start_s": 286.173106,
+        "status_ms": 9.844,
+        "write_ms": 9.823,
+        "next_poll_slip_ms": 0.338
+      },
+      {
+        "status_start_s": 291.175461,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.224
+      },
+      {
+        "status_start_s": 296.177442,
+        "status_ms": 9.836,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.289
+      },
+      {
+        "status_start_s": 301.179175,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.166
+      },
+      {
+        "status_start_s": 306.181376,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.167
+      },
+      {
+        "status_start_s": 311.182868,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.165
+      },
+      {
+        "status_start_s": 316.184776,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.337
+      },
+      {
+        "status_start_s": 321.187076,
+        "status_ms": 9.84,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.21
+      },
+      {
+        "status_start_s": 326.1898,
+        "status_ms": 9.838,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.195
+      },
+      {
+        "status_start_s": 331.19211,
+        "status_ms": 9.843,
+        "write_ms": 9.822,
+        "next_poll_slip_ms": 0.286
+      },
+      {
+        "status_start_s": 336.194793,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.232
+      },
+      {
+        "status_start_s": 341.196911,
+        "status_ms": 9.838,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.187
+      },
+      {
+        "status_start_s": 346.198911,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.202
+      },
+      {
+        "status_start_s": 351.200795,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.269
+      },
+      {
+        "status_start_s": 356.202959,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.278
+      },
+      {
+        "status_start_s": 361.205439,
+        "status_ms": 9.841,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.213
+      },
+      {
+        "status_start_s": 366.207592,
+        "status_ms": 9.836,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.18
+      },
+      {
+        "status_start_s": 371.209466,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.16
+      },
+      {
+        "status_start_s": 376.212038,
+        "status_ms": 9.843,
+        "write_ms": 9.822,
+        "next_poll_slip_ms": 0.312
+      },
+      {
+        "status_start_s": 381.215035,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.356
+      },
+      {
+        "status_start_s": 386.217345,
+        "status_ms": 9.84,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.233
+      },
+      {
+        "status_start_s": 391.220081,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.209
+      },
+      {
+        "status_start_s": 396.221712,
+        "status_ms": 9.835,
+        "write_ms": 9.814,
+        "next_poll_slip_ms": 0.161
+      },
+      {
+        "status_start_s": 401.223185,
+        "status_ms": 9.842,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.1
+      },
+      {
+        "status_start_s": 406.224945,
+        "status_ms": 9.837,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.169
+      },
+      {
+        "status_start_s": 411.22684,
+        "status_ms": 9.837,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.229
+      },
+      {
+        "status_start_s": 416.228564,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.196
+      },
+      {
+        "status_start_s": 421.230289,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.18
+      },
+      {
+        "status_start_s": 426.232173,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.199
+      },
+      {
+        "status_start_s": 431.233925,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.137
+      },
+      {
+        "status_start_s": 436.235854,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.156
+      },
+      {
+        "status_start_s": 441.237592,
+        "status_ms": 9.836,
+        "write_ms": 9.814,
+        "next_poll_slip_ms": 0.08
+      },
+      {
+        "status_start_s": 446.239596,
+        "status_ms": 9.837,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.186
+      },
+      {
+        "status_start_s": 451.241769,
+        "status_ms": 9.839,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.33
+      },
+      {
+        "status_start_s": 456.244217,
+        "status_ms": 9.838,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.175
+      },
+      {
+        "status_start_s": 461.246264,
+        "status_ms": 9.842,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.232
+      },
+      {
+        "status_start_s": 466.248206,
+        "status_ms": 9.839,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.184
+      },
+      {
+        "status_start_s": 471.25022,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.168
+      },
+      {
+        "status_start_s": 476.252472,
+        "status_ms": 9.839,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.205
+      },
+      {
+        "status_start_s": 481.254212,
+        "status_ms": 9.836,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.11
+      },
+      {
+        "status_start_s": 486.256208,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.294
+      },
+      {
+        "status_start_s": 491.258397,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.203
+      },
+      {
+        "status_start_s": 496.260344,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.201
+      },
+      {
+        "status_start_s": 501.262744,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.356
+      },
+      {
+        "status_start_s": 506.265035,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.175
+      },
+      {
+        "status_start_s": 511.266992,
+        "status_ms": 9.836,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.163
+      },
+      {
+        "status_start_s": 516.268473,
+        "status_ms": 9.84,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.283
+      },
+      {
+        "status_start_s": 521.271209,
+        "status_ms": 9.839,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.225
+      },
+      {
+        "status_start_s": 526.273227,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.137
+      },
+      {
+        "status_start_s": 531.274996,
+        "status_ms": 9.835,
+        "write_ms": 9.813,
+        "next_poll_slip_ms": 0.249
+      },
+      {
+        "status_start_s": 536.276512,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.193
+      },
+      {
+        "status_start_s": 541.278038,
+        "status_ms": 9.838,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.152
+      },
+      {
+        "status_start_s": 546.279473,
+        "status_ms": 9.837,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.19
+      },
+      {
+        "status_start_s": 551.281254,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.304
+      },
+      {
+        "status_start_s": 556.282501,
+        "status_ms": 9.837,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.115
+      },
+      {
+        "status_start_s": 561.283626,
+        "status_ms": 9.836,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.079
+      },
+      {
+        "status_start_s": 566.285079,
+        "status_ms": 9.837,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.197
+      },
+      {
+        "status_start_s": 571.287486,
+        "status_ms": 9.843,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.288
+      },
+      {
+        "status_start_s": 576.289314,
+        "status_ms": 9.841,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.13
+      },
+      {
+        "status_start_s": 581.290686,
+        "status_ms": 9.842,
+        "write_ms": 9.821,
+        "next_poll_slip_ms": 0.168
+      },
+      {
+        "status_start_s": 586.292678,
+        "status_ms": 9.841,
+        "write_ms": 9.82,
+        "next_poll_slip_ms": 0.199
+      },
+      {
+        "status_start_s": 591.293788,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.21
+      },
+      {
+        "status_start_s": 596.294878,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.164
+      },
+      {
+        "status_start_s": 601.29638,
+        "status_ms": 9.835,
+        "write_ms": 9.814,
+        "next_poll_slip_ms": 0.112
+      },
+      {
+        "status_start_s": 606.297906,
+        "status_ms": 9.836,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.194
+      },
+      {
+        "status_start_s": 611.300215,
+        "status_ms": 9.837,
+        "write_ms": 9.817,
+        "next_poll_slip_ms": 0.134
+      },
+      {
+        "status_start_s": 616.301897,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.175
+      },
+      {
+        "status_start_s": 621.303835,
+        "status_ms": 9.838,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.22
+      },
+      {
+        "status_start_s": 626.305806,
+        "status_ms": 9.837,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.117
+      },
+      {
+        "status_start_s": 631.306957,
+        "status_ms": 9.836,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.127
+      },
+      {
+        "status_start_s": 636.308147,
+        "status_ms": 9.837,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.091
+      },
+      {
+        "status_start_s": 641.309964,
+        "status_ms": 9.84,
+        "write_ms": 9.819,
+        "next_poll_slip_ms": 0.363
+      },
+      {
+        "status_start_s": 646.31183,
+        "status_ms": 9.837,
+        "write_ms": 9.815,
+        "next_poll_slip_ms": 0.161
+      },
+      {
+        "status_start_s": 651.313737,
+        "status_ms": 9.839,
+        "write_ms": 9.818,
+        "next_poll_slip_ms": 0.181
+      },
+      {
+        "status_start_s": 656.315117,
+        "status_ms": 9.838,
+        "write_ms": 9.816,
+        "next_poll_slip_ms": 0.104
+      }
+    ]
+  },
+  "B5_round_trip": {
+    "poll_to_accept": {
+      "n": 1320,
+      "min_ms": 6.012,
+      "p1_ms": 6.014,
+      "median_ms": 7.015,
+      "mean_ms": 7.0679,
+      "p99_ms": 8.017,
+      "max_ms": 8.021
+    },
+    "polls_without_accept_within_100ms": 0
+  }
+}

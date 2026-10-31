@@ -45,6 +45,18 @@ SETUPS = {
         "D6": "recovery",   # G431 D9  / PC7  toggle per PAYLOAD_RECOVERED
         "D7": "pl_fault",   # G474 D8  / PA9  high while a fault mode is applied
     },
+    # Setup A as actually wired on 2026-11-01: the CH5/CH6 leads went to G431 D7/D8
+    # instead of D8/D7, so D4 carries timeout and D5 carries accept.
+    "A_ch5ch6_swapped": {
+        "D0": "poll",
+        "D1": "loop",
+        "D2": "status",
+        "D3": "write",
+        "D4": "timeout",    # G431 D7 / PA8
+        "D5": "accept",     # G431 D8 / PA9
+        "D6": "recovery",
+        "D7": "pl_fault",
+    },
     # B3: watchdog stall injection.
     "B": {
         "D0": "stall",      # G431 D10 / PB6  rises when the stall begins
