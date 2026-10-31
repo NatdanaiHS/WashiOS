@@ -1,0 +1,63 @@
+{
+  "status": "CLOSED",
+  "test": "B3heartbeat",
+  "label": "stall-heartbeat",
+  "created_utc": "2026-10-31T17:02:30.786963Z",
+  "git_commit": "c5cad2b7fcbf6db817cf2619b9138f67aedb6a03",
+  "git_branch": "lab/hw-tests-B",
+  "git_status_porcelain": "?? research/icsec2026/lab-partB/.cur\n?? research/icsec2026/lab-partB/runs/20261031T165654Z_B3link_stall-payloadlink/",
+  "firmware_sha256_at_create": {
+    "core/.pio/build/nucleo_g431rb_payload_demo_lab/firmware.elf": "656105587D3E19D9E1124D3C146C719BD25738F596506F761D71018D95D2DBD9",
+    "core/.pio/build/nucleo_g431rb_payload_demo_stall_link/firmware.elf": "4E1933F78AA2F6FCFFEBF71C8AC895B7E75B913E26E12734D98BFDD547B422DF",
+    "core/.pio/build/nucleo_g431rb_payload_demo_stall_heartbeat/firmware.elf": "5F000C0091FC3681F67C7234D00002CFD68C4E603639BF6247A62A2886C701CE",
+    "core/.pio/build/nucleo_g431rb_payload_demo_lab_slot_b/firmware.elf": "AD3DA170377A371F96AAA4530D1702D610244148AA6AF8F894D1D8D47527C145",
+    "bootloader/.pio/build/nucleo_g431rb_payload_demo_lab/firmware.elf": "5C814044C0454DB717C26716A13E8D5949C94CF7918F09A7F05CE40CFFF4D4E0",
+    "bootloader/.pio/build/nucleo_g431rb_payload_demo_stall_link/firmware.elf": "84FAC5F626FE9F93B7975B031E9D3BF73FED20C78EBF92E69EE689465F576A1E",
+    "bootloader/.pio/build/nucleo_g431rb_payload_demo_stall_heartbeat/firmware.elf": "7C9F313165D6130B7E09285C9C5DFC82A726E078199E6FCAA7B361B28A948A4E",
+    "demo-payload/.pio/build/nucleo_f411re_payload_lab/firmware.elf": "0958CBA3892912676CB6E955E5F2419FD54D334F2782CA2D96168AA3DEBE8C46"
+  },
+  "flashed": "G431 stall_heartbeat (core+bootloader nucleo_g431rb_payload_demo_stall_heartbeat), no payload board",
+  "notes": [
+    {
+      "utc": "2026-10-31T17:07:32.655597Z",
+      "text": "observed case A: app relaunched by bootloader after every IWDG reset, no beacon, no power cycle"
+    }
+  ],
+  "captures": [
+    {
+      "setup": "B",
+      "channels": {
+        "D0": "stall",
+        "D1": "wdrec",
+        "D2": "nrst",
+        "D3": "led",
+        "D4": "loop"
+      },
+      "samplerate": "1m",
+      "seconds": 300.0,
+      "serial": [
+        "COM10:g431"
+      ],
+      "command": [
+        "C:\\Program Files\\sigrok\\sigrok-cli\\sigrok-cli.exe",
+        "-d",
+        "fx2lafw",
+        "--config",
+        "samplerate=1m",
+        "-C",
+        "D0=stall,D1=wdrec,D2=nrst,D3=led,D4=loop",
+        "--time",
+        "300000",
+        "-O",
+        "vcd",
+        "-o",
+        "C:\\MyOS\\WashiOS-lab\\research\\icsec2026\\lab-partB\\runs\\20261031T170230Z_B3heartbeat_stall-heartbeat\\capture.vcd"
+      ],
+      "start_utc": "2026-10-31T17:02:31.234315Z",
+      "end_utc": "2026-10-31T17:07:31.469879Z",
+      "elapsed_s": 300.235,
+      "sigrok_exit_code": 0
+    }
+  ],
+  "closed_utc": "2026-10-31T17:07:32.655597Z"
+}
