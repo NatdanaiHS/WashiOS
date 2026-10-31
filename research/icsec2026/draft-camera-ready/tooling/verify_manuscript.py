@@ -244,7 +244,9 @@ for value, label in [(bc["within_bound"], "within-bound count (SLIP 0)"), (bc["w
                   if re.search(rf"(?<![\d.]){re.escape(f)}(?![\d]|\.\d)", TEX)), None)
     ok(f"{label} {exact} stated as {shown}") if shown else fail(
         f"{label} {exact} missing from manuscript (accepted forms {sorted(forms)})")
-if bc["unresolved"] == 1 and str(round(prim["unresolved_intervals"][0]["excess_ms"])) in TEX:
+# one decimal, whole token: the rounded integer ("7") would match any unrelated 7 in the text
+_excess = f"{prim['unresolved_intervals'][0]['excess_ms']:.1f}" if prim["unresolved_intervals"] else None
+if bc["unresolved"] == 1 and re.search(rf"(?<![\d.]){re.escape(_excess)}(?![\d])", TEX):
     ok(f"unresolved interval reported ({prim['unresolved_intervals'][0]['run_id']}, "
        f"{prim['unresolved_intervals'][0]['excess_ms']} ms excess)")
 else:
@@ -254,7 +256,8 @@ if sw.exists():
     swr = json.loads(sw.read_text(encoding="utf-8"))
     ok(f"status-window check present: {swr['runs_checked']} runs, {len(swr['hash_mismatches'])} hash mismatches")
 else:
-    warn("status-window check of R085 not run (raw logs from the backup needed); 17 ms remains unresolved")
+    warn(f"status-window check of R085 not run (raw logs from the backup needed); its {_excess} ms excess "
+         "remains unresolved")
 
 # On-target evidence (research/icsec2026/lab-partB). The host-derived read residual and time-base figures
 # were superseded by MCU-side measurement: the residual missed the reader's slowly shifting lag, and the
@@ -266,12 +269,22 @@ for stale, label in [("0.235", "old clock-rate figure"), ("498.83", "old mean po
 LAB = ROOT / "research/icsec2026/lab-partB"
 
 
+def _lab_run(pattern: str, shared: bool = False) -> Path | None:
+    # Exactly one run per pattern: picking the newest would silently switch datasets when a run is added.
+    hits = sorted(p for p in (LAB / "runs").glob(pattern) if p.is_dir() and ("shared-retained" in p.name) == shared)
+    if len(hits) != 1:
+        fail(f"expected exactly one lab run matching {pattern} (shared-retained={shared}), found "
+             f"{[p.name for p in hits]}")
+        return None
+    if not (hits[0] / "INVENTORY.sha256").exists():
+        fail(f"lab run {hits[0].name} not closed")
+    return hits[0]
+
+
 def _run_json(pattern: str, name: str) -> dict:
-    hits = sorted(p for p in (LAB / "runs").glob(pattern) if "shared-retained" not in p.name)
-    if not hits:
-        fail(f"no lab run matching {pattern}")
+    run = _lab_run(pattern)
+    if run is None:
         return {}
-    run = hits[-1]
     if not (run / "INVENTORY.sha256").exists():
         fail(f"lab run {run.name} not closed")
     return json.loads((run / name).read_text(encoding="utf-8"))
@@ -313,6 +326,108 @@ _shown(inj["interval_containing_status"]["mcu"]["max_ms"], "MCU interval with st
 hvm = json.loads((LAB / "analysis/host_vs_mcu_B1.json").read_text(encoding="utf-8"))
 _shown(hvm["mean_period_ms"]["analyzer"], "analyzer mean period", 3)
 _shown(hvm["mean_period_ms"]["host"], "host mean period", 3)
+
+
+# Table tab:hw, row by row: every measured cell (ranges, sample counts, launch counts) is rebuilt from the
+# closed lab runs, including the runs taken after the F5 fix, and must equal the typeset row.
+def _q(value: float, digits: int) -> str:
+    from decimal import ROUND_HALF_UP, Decimal
+    return str(Decimal(str(value)).quantize(Decimal(1).scaleb(-digits), rounding=ROUND_HALF_UP))
+
+
+def _rng(stats: dict, digits: int, n: bool = True) -> str:
+    text = f"{_q(stats['min_ms'], digits)}--{_q(stats['max_ms'], digits)}"
+    return f"{text} ({stats['n']})" if n else text
+
+
+def _b4_launches(run: Path | None) -> dict:
+    """{(scenario, mode, k): [boot outcomes]} from a B4 event log."""
+    out: dict = {}
+    if run is None:
+        return out
+    key = None
+    for line in (run / "b4_events.jsonl").read_text(encoding="utf-8").splitlines():
+        ev = json.loads(line)
+        if ev["event"] == "scenario_start":
+            key = (ev["scenario"], ev["mode"], ev["k"])
+            out[key] = []
+        elif ev["event"] == "boot" and key is not None:
+            out[key].append(ev.get("outcome"))
+        elif ev["event"] == "restore":
+            key = None
+    return out
+
+
+def _until_refused(outcomes: list, slot: str) -> int | None:
+    """launches of `slot` before the first SAFE_LOOP, or None if it is never refused."""
+    if "SAFE_LOOP" not in outcomes:
+        return None
+    return outcomes[:outcomes.index("SAFE_LOOP")].count(f"LAUNCHED_{slot}")
+
+
+hw_table = TEX[TEX.index(r"\label{tab:hw}"):TEX.index(r"\end{tabularx}", TEX.index(r"\label{tab:hw}"))]
+hw_rows = {r.split("&")[0].strip(): r.strip() for r in hw_table.split(r"\\") if "&" in r}
+
+
+def _row(label: str, expected_cells: str) -> None:
+    row = next((v for k, v in hw_rows.items() if k.endswith(label)), None)
+    got = row.split("&", 2)[2].strip() if row else None
+    ok(f"tab:hw row '{label}' matches the lab runs") if got == expected_cells else fail(
+        f"tab:hw row '{label}': manuscript {got!r}, lab runs give {expected_cells!r}")
+
+
+stall = {lbl: _run_json(p, "analysis_B3.json").get("B3_watchdog", {})
+         for p, lbl in (("*_B3link_*", "link"), ("*_B3heartbeat_*", "heartbeat"))}
+shared_stalls = []
+for pattern in ("*_B3link_*", "*_B3heartbeat_*"):
+    run = _lab_run(pattern, shared=True)
+    if run is not None:
+        shared_stalls += [json.loads(x) for x in (run / "stall_trials.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+if b125 and b6 and all(stall.values()):
+    j, b2 = b125["B1_poll_jitter"], b125["B2_status_slip"]
+    _row("Poll period: all; with status",
+         f"{_rng(j['poll_period_all'], 2)}; {_rng(j['poll_period_containing_status_report'], 2)}")
+    _row("Status write blocks link task", _rng(b2["status_span"], 2))
+    _row("Poll to accepted frame$^\\dagger$", _rng(b125["B5_round_trip"]["poll_to_accept"], 2))
+    _row("Fault to first timeout$^\\dagger$", _rng(b6["B6_recovery"]["detection_first_timeout"], 1))
+    _row("NORMAL to recovery$^\\dagger$", _rng(b6["B6_recovery"]["recovery_interval"], 1))
+    _row("Stall to expiry: link; heartbeat",
+         f"{_rng(stall['link']['stall_to_record'], 1)}; {_rng(stall['heartbeat']['stall_to_record'], 1)}")
+    _row("Stall to reset: link; heartbeat",
+         f"{_rng(stall['link']['stall_to_reset'], 1, n=False)}; {_rng(stall['heartbeat']['stall_to_reset'], 1, n=False)}")
+    # expiry-to-reset span over both stall targets (explains why it is below the IWDG minimum)
+    _shown(min(stall[k]["record_to_reset"]["min_ms"] for k in stall), "expiry-to-reset min", 1)
+    _shown(max(stall[k]["record_to_reset"]["max_ms"] for k in stall), "expiry-to-reset max", 1)
+    # "delays no poll by more than 0.40 ms": the poll that follows a status report
+    _shown(b2["next_poll_slip_after_status"]["max_ms"], "poll slip after a status report", 2)
+    relaunched = sum(stall[k]["relaunched_without_power_cycle"] for k in stall)
+    trials = sum(stall[k]["trials"] for k in stall)
+    safe = sum(t["after_stall"] == "BOOTLOADER_SAFE_LOOP" and t["after_warm_reset"] == "BOOTLOADER_SAFE_LOOP"
+               and t["last_fail_name"] == "PriorCriticalFault" for t in shared_stalls)
+    _row("After IWDG reset",
+         f"relaunch {relaunched}/{trials}; fixed: safe loop {safe}/{len(shared_stalls)}, also after warm reset")
+    total = trials + len(shared_stalls)
+    ok(f"stall injection total {total} stated") if re.search(rf"(?<!\d){total} stall injections", TEX) else fail(
+        f"stall injection total {total} not stated as '{total} stall injections'")
+
+fixed = _b4_launches(_lab_run("*_B4_boot-policy-fixed"))
+prefix = _b4_launches(_lab_run("*_B4_boot-policy-prefix"))
+shared_b4 = _b4_launches(_lab_run("*_B4_*", shared=True))
+if fixed and prefix and shared_b4:
+    # B3: before F5 the application run restarts the Pending count (one launch, then fallback to A);
+    # with the fix, and in policy mode, the Pending slot gets 4 launches and is then refused.
+    pre_f5 = fixed.get(("c", "system", 2), [])
+    app_run = pre_f5.count("LAUNCHED_B") if pre_f5 and pre_f5[0] == "LAUNCHED_B" and "SAFE_LOOP" not in pre_f5 else None
+    refused = {_until_refused(fixed.get(("c", "policy", 2), []), "B"), _until_refused(shared_b4.get(("c", "system", 2), []), "B")}
+    _row("Pending slot, resets",
+         f"app run: {app_run} launch, then A; fixed, no app: {refused.pop() if len(refused) == 1 else refused}, then refused")
+    pre = [_until_refused(prefix.get(("d", "policy", k), []), "B") for k in (1, 2, 3)]
+    fix_policy = [_until_refused(fixed.get(("d", "policy", k), []), "B") for k in (1, 2, 3)]
+    fix_system = [_until_refused(shared_b4.get(("d", "system", k), []), "B") for k in (1, 2, 3)]
+    if fix_policy != fix_system:
+        fail(f"F4 fixed launches differ between policy mode {fix_policy} and the shared-retained system run {fix_system}")
+    _row("Fallback after $k{=}1,2,3$ resets",
+         f"pre-fix {', '.join(map(str, pre))}; fixed {', '.join(map(str, fix_policy))}")
 
 # code-level conformance run (draft-camera-ready/code_conformance)
 cc_dirs = sorted(p for p in (DRAFT / "code_conformance/results").iterdir() if p.is_dir())
@@ -426,9 +541,21 @@ if pdf.exists():
         else:
             ok("PDF metadata has no author")
     except ImportError:
-        warn("pypdf not installed; PDF checks skipped")
-else:
+        # The page limit is the check that matters most for a camera-ready build: never skip it silently.
+        try:
+            info = subprocess.run(["pdfinfo", str(pdf)], capture_output=True, text=True, check=True).stdout
+            pages = int(re.search(r"^Pages:\s+(\d+)", info, flags=re.MULTILINE).group(1))
+            ok(f"PDF page count {pages} (pdfinfo)") if 4 <= pages <= ARGS.max_pages else fail(
+                f"PDF page count {pages} outside 4-{ARGS.max_pages}")
+            warn("pypdf not installed; PDF text and metadata checks skipped")
+        except (OSError, subprocess.CalledProcessError, AttributeError):
+            fail("neither pypdf nor pdfinfo available; PDF page count not checked")
+    if pdf.stat().st_mtime < TEX_PATH.stat().st_mtime:
+        fail(f"{pdf} is older than {TEX_PATH.name}; rebuild before trusting the page count")
+elif ANON:
     warn(f"{pdf} not built; PDF checks skipped")
+else:
+    fail(f"{pdf} not built; the camera-ready page limit cannot be checked")
 
 print()
 print(f"{len(failures)} failure(s), {len(warnings)} warning(s)")

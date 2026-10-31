@@ -10,8 +10,8 @@ Branch `lab/hw-tests-B`. Camera-ready deadline 2026-11-05 (IEEE PDF eXpress). Re
 | B1-B6 on hardware | done, evidence in `runs/` (9 closed runs, each with `INVENTORY.sha256`) |
 | Retained-RAM defect F5 | found on hardware, fixed in commit `96a78a2`, re-verified (B3, B4) |
 | Manuscript | rewritten: `../draft-camera-ready/manuscript/main.tex` (the authors' `washi.tex` was identical to it before the rewrite); `references.bib` unchanged |
-| Manuscript gate | `verify_manuscript.py`: 0 failures, 6 warnings (merged verdict-table rows, R085 status-window check, camera-ready mode, PDF not built) |
-| **PDF** | **not built yet: page count unknown.** Needs XeLaTeX or LuaLaTeX (`fontspec`); Overleaf works. The new Section IV-D, Table VI and F5 probably push it past 6 pages; trim or ask the chairs |
+| Manuscript gate | `verify_manuscript.py`: 0 failures, 5 warnings (merged verdict-table rows, R085 status-window check, camera-ready mode). Now checks every Table V (`tab:hw`) row against the closed runs, including the post-F5 `shared-retained` runs, requires exactly one run per pattern, and fails on a missing, stale or over-long PDF (falls back to `pdfinfo` without `pypdf`) |
+| **PDF** | built with `latexmk -xelatex` into `manuscript/build/`: **6 pages**, no overfull boxes. The first build ran to 7 pages; prose was tightened and table columns rebalanced, no result removed |
 | Push | this branch on origin |
 
 ## Results (numbers as in the manuscript; sources in brackets)
@@ -45,6 +45,6 @@ Lab procedure: `RUNBOOK.md`. Tools: `labtool.py` (runs, capture, analysis), `boo
 
 ## Open
 
-1. Build the PDF and fit the page limit (or confirm a 7th page with the chairs).
+1. ~~Build the PDF and fit the page limit~~ done 2026-11-01 (6 pages).
 2. Final read of the manuscript by the authors.
 3. IEEE PDF eXpress, copyright form, submission by 2026-11-05.
