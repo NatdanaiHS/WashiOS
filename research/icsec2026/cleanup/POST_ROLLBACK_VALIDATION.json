@@ -1,0 +1,9 @@
+{
+  "schema": "icsec-cleanup-rollback-validation-v1",
+  "status": "PASS",
+  "protected_repository_rows": 906,
+  "freeze_package_rows": 7,
+  "external_backup_rows": 472,
+  "final_pdf_sha256": "99E4180F4B172C1CC7BABFCF8BE92FCC5442B3868F7AAD1D32A13779849E765D",
+  "issues": []
+}

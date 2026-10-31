@@ -1,0 +1,171 @@
+{
+  "schema": "icsec-submission-readiness-validation-v1",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "extended_nominal_valid",
+      "pass": true,
+      "detail": "valid and no invalid reason"
+    },
+    {
+      "name": "extended_nominal_duration",
+      "pass": true,
+      "detail": "requested=observed=605.0 s"
+    },
+    {
+      "name": "extended_nominal_records",
+      "pass": true,
+      "detail": "121 status records"
+    },
+    {
+      "name": "extended_nominal_online",
+      "pass": true,
+      "detail": "all records ONLINE"
+    },
+    {
+      "name": "extended_nominal_ok",
+      "pass": true,
+      "detail": "ok 1760--2960"
+    },
+    {
+      "name": "extended_nominal_zero_deltas",
+      "pass": true,
+      "detail": "{'crc': 0, 'recovery': 0, 'seq': 0, 'timeout': 0}"
+    },
+    {
+      "name": "extended_nominal_no_prohibited",
+      "pass": true,
+      "detail": "empty prohibited-marker list"
+    },
+    {
+      "name": "bad_crc_both_valid",
+      "pass": true,
+      "detail": "SHORT and SUSTAINED retained"
+    },
+    {
+      "name": "bad_crc_short_order",
+      "pass": true,
+      "detail": "CRC reject precedes timeout; no OFFLINE"
+    },
+    {
+      "name": "bad_crc_sustained_order",
+      "pass": true,
+      "detail": "raw marker order CRC, 1, 2, OFFLINE 3"
+    },
+    {
+      "name": "bad_crc_restore_after_offline",
+      "pass": true,
+      "detail": "uses raw/control-flow order, not derived offline_before_restore"
+    },
+    {
+      "name": "manuscript_contains_separate_605_s_nominal_observation",
+      "pass": true,
+      "detail": "separate 605-s nominal observation"
+    },
+    {
+      "name": "manuscript_contains_121_online_records",
+      "pass": true,
+      "detail": "121 ONLINE records"
+    },
+    {
+      "name": "manuscript_contains_1760_to_2960",
+      "pass": true,
+      "detail": "1760 to 2960"
+    },
+    {
+      "name": "manuscript_contains_offline_marker_at_count_three",
+      "pass": true,
+      "detail": "OFFLINE marker at count three"
+    },
+    {
+      "name": "manuscript_contains_two_physical_f411_pairs_under_the_same_f411_configuration",
+      "pass": true,
+      "detail": "two physical F411 pairs under the same F411 configuration"
+    },
+    {
+      "name": "claim_boundary_absent_cross_configuration",
+      "pass": true,
+      "detail": "Cross-Configuration"
+    },
+    {
+      "name": "claim_boundary_absent_two_configurations",
+      "pass": true,
+      "detail": "two configurations"
+    },
+    {
+      "name": "claim_boundary_absent_offline_before_restore",
+      "pass": true,
+      "detail": "offline_before_restore"
+    },
+    {
+      "name": "anonymous_author",
+      "pass": true,
+      "detail": "empty author fields"
+    },
+    {
+      "name": "anonymous_no_repository_url",
+      "pass": true,
+      "detail": "no identifying repository/path"
+    },
+    {
+      "name": "six_verified_dois_present",
+      "pass": true,
+      "detail": "six DOI-verified references"
+    },
+    {
+      "name": "frozen_refs",
+      "pass": true,
+      "detail": "main=8a47d070c549274c59cdbde2495afa8d353a93b3; origin/main=8a47d070c549274c59cdbde2495afa8d353a93b3; tag=8a47d070c549274c59cdbde2495afa8d353a93b3"
+    },
+    {
+      "name": "frozen_manuscript_pdf",
+      "pass": true,
+      "detail": "immutable evaluated manuscript"
+    },
+    {
+      "name": "frozen_hash_nominal_validation_002.json",
+      "pass": true,
+      "detail": "3119D5994378E00C7ACE945B0FCB96CBA28C5855CDFEA445CD26570FD52A74FD"
+    },
+    {
+      "name": "frozen_hash_bad_crc_results.json",
+      "pass": true,
+      "detail": "F6332F913FFA91432032AA1E5582AE78378F8880FC22D11B921C5B793ADC4E90"
+    },
+    {
+      "name": "frozen_hash_FINAL_MANIFEST.json",
+      "pass": true,
+      "detail": "D8424545495CCF2EBA2BF87BE5B68CDA79D3AA41239217140F54D20BD0DCE91E"
+    },
+    {
+      "name": "pair1_source_backup_inventory",
+      "pass": true,
+      "detail": "95/95 rows in source and backup; issues=0"
+    },
+    {
+      "name": "pair2_source_backup_inventory",
+      "pass": true,
+      "detail": "81/81 rows in source and backup; issues=0"
+    },
+    {
+      "name": "candidate_matches_active_main.tex",
+      "pass": true,
+      "detail": "main.tex"
+    },
+    {
+      "name": "candidate_matches_active_references.bib",
+      "pass": true,
+      "detail": "references.bib"
+    },
+    {
+      "name": "candidate_matches_active_main.pdf",
+      "pass": true,
+      "detail": "main.pdf"
+    },
+    {
+      "name": "candidate_page_count",
+      "pass": true,
+      "detail": "5 pages within ICSEC 4--6 page requirement"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "retained": true,
+  "stage": "initial validator path resolution",
+  "failure": "Repository root was initially resolved one parent too shallow, producing a FileNotFoundError before any evidence was read or modified.",
+  "effect_on_evidence": "none",
+  "resolution": "Corrected the repository-root parent index and reran the same checks; see FINAL_VALIDATION.json."
+}

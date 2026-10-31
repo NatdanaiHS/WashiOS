@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "derivation": "Deterministic field projection from hash-verified frozen JSON; no inferential tests or recomputation of summary statistics.",
+  "generator": {
+    "path": "research/icsec2026/paper/generate_manuscript_tables.py",
+    "sha256": "76EEB277ABEE4BB895AF2F93101D500BFB2C9C2C2652295F9AE348E7989555E1"
+  },
+  "inputs": {
+    "campaign_summary": {
+      "path": "research/icsec2026/runs/full_20260830_seed20260830_n30/summary.json",
+      "sha256": "124554F98A93639B4C2C8C18A708DC14A1D5673823A4CD2F84DB0F563083E1CA"
+    },
+    "campaign_validation": {
+      "path": "research/icsec2026/runs/full_20260830_seed20260830_n30/validation.json",
+      "sha256": "D06426EE043D32B032FA3267E7A8DDAB0AD345FD1F69807E93E9F47507BA84EB"
+    },
+    "pre_n0_validation": {
+      "path": "research/icsec2026/runs/n0_pre_20260830_0205/validation.json",
+      "sha256": "872BA8EFD5E8F3505C6DEC62AFCAAC59A892D1ED407DDE67E7256B631FBEAA12"
+    },
+    "post_n0_validation": {
+      "path": "research/icsec2026/runs/n0_post_20260830_0224/validation.json",
+      "sha256": "B3EF1165183D2EEBB0049B11D006A602D2EE36AE5669BD8EA5E92BA091E095F1"
+    }
+  },
+  "outputs": {
+    "n0_controls.csv": {
+      "path": "research/icsec2026/paper/tables/n0_controls.csv",
+      "sha256": "E02BC3729FBF0CE26C4395938712E3A9E2C6FAE6DC796DDC69E677A719005B03"
+    },
+    "fault_outcomes.csv": {
+      "path": "research/icsec2026/paper/tables/fault_outcomes.csv",
+      "sha256": "C3773C171029F56CAAA1669D7537A40CCE4B71973A2A7CE04FAEEB6DD49EEF98"
+    },
+    "latency_summary.csv": {
+      "path": "research/icsec2026/paper/tables/latency_summary.csv",
+      "sha256": "AA177409EF7D91064EE32EF1DEE6F60DA77AAA4E5E52714E4B93B8AA297486C6"
+    }
+  }
+}

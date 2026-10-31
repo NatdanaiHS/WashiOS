@@ -1,0 +1,19 @@
+Title:           Activation-Confirmed Dual-Channel HIL Fault Injection for Payload-Link Supervision
+Keywords:        hardware-in-the-loop, fault injection, embedded systems, payload link, reproducibility
+Creator:         LaTeX with hyperref
+Producer:        xdvipdfmx (0.1)
+CreationDate:    Sun Aug 30 09:48:23 2026 SE Asia Standard Time
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           4
+Encrypted:       no
+Page size:       612 x 792 pts (letter)
+Page rot:        0
+File size:       61683 bytes
+Optimized:       no
+PDF version:     1.5

@@ -1,0 +1,259 @@
+Evidence-Locked Hardware-in-the-Loop Evaluation
+of Payload-Link Supervision
+Abstract—Payload communication is a narrow but opera- channel before accepting a controller-side detection event.
+tionally important boundary in embedded controllers: a payload After a fixed observation interval, the harness restores normal
+can become silent, return a corrupted response, or answer
+behavior, confirms that restoration, and observes a prede-
+after the controller deadline. This paper presents an evidence-
+fined recovery marker. Every raw serial record retains a host
+locked hardware-in-the-loop (HIL) method for exercising those
+behaviors at a physical UART link and measuring predefined timestamp, exact bytes, and readable rendering. The resulting
+controller markers without modifying the controller during a claim scope is locked before manuscript assembly: quantitative
+trial. One microcontroller board acts as the controller and statements are projected from hash-verified frozen summaries,
+a second as a commandable payload simulator. Independent
+and unsupported extrapolations are excluded.
+host serial channels record the injected mode, controller ob-
+The paper makes three bounded contributions:
+servations, restoration, and recovery with byte-preserving logs
+and host timestamps. The frozen campaign contains two 65-s • a dual-channel HIL procedure that ties each controller
+nominal windows and 90 sequential trials on one board pair, observation to payload-side activation and restoration
+with 30 trials each for silent, bad-CRC, and delayed-response confirmations;
+modes. All 90 trials were valid. For every mode, the predefined
+• a descriptive evaluation of nominal behavior, prede-
+detector and recovery markers were each observed in 30/30
+fined detection/recovery outcomes, and host-observed
+valid trials; the corresponding two-sided exact 95% interval is
+[0.884296692, 1.0]. We report host-observed command-to-marker command-to-marker latency for three payload-link behav-
+latency distributions and explicitly bound the conclusions to this iors; and
+setup. The contribution is the reproducible payload-link HIL • an evidence-locking workflow that connects manuscript
+procedure and its traceable empirical record, not an independent-
+tables to immutable experiment summaries and validation
+device reliability estimate, an internal microcontroller timing
+artifacts.
+measurement, or a comparative baseline result.
+Index Terms—hardware-in-the-loop, fault injection, embedded The study does not compare against a C0 ablation, treat
+systems, payload link, reproducibility sequential trials as independent hardware replicas, or infer
+controller-internal timing. These boundaries are central to the
+I. INTRODUCTION
+interpretation rather than post-hoc qualifications.
+Embedded controllers commonly supervise peripheral or
+II. RELATED WORK
+payload communication by checking whether responses ar-
+rive, whether their integrity fields are valid, and whether a Early physical fault-injection work organized experimental
+previously unavailable peer returns to service. Testing only a validation around explicit fault, activation, readout, and mea-
+healthy peer leaves those paths weakly observed. Conversely, sure sets and demonstrated the approach on hardware/software
+an injection campaign can become diﬀicult to interpret when prototypes [1]. That formulation remains useful here: the
+the experiment records only a sent command, mixes controller payload behavior is the fault set, the confirmed simulator mode
+and injector evidence, or reports host timestamps as if they is activation evidence, controller log markers are readouts, and
+were internal execution times. counts plus host-observed latency summaries are measures.
+Fault injection has long been used to exercise fault-handling The present work does not inject electrical faults or claim
+mechanisms under controlled conditions. Arlat et al. char- physical-fault equivalence; it applies the experimental separa-
+acterize an experiment through faults, activations, readouts, tion at a communication endpoint.
+and measures (the FARM sets) and emphasize the relation- Software-implemented tools explore a different injection
+ship between the injected condition and the resulting ob- boundary. FERRARI uses software mechanisms to inject faults
+servations [1]. Later systems automated different injection or errors and collect dependability measures [2], while Xcep-
+mechanisms, triggers, monitoring, and campaign control [2], tion uses processor debugging and performance-monitoring
+[3], [4]. HIL work also places real controller hardware against facilities to inject and monitor faults with limited applica-
+a controllable environment model to observe behavior under tion interference [3]. NFTAPE separates lightweight injectors,
+abnormal inputs [5]. These principles motivate a deliberately triggers, monitors, logging, and control so campaigns can
+small experiment at a payload communication boundary. compose different mechanisms [4]. The harness in this study
+This paper evaluates one physical controller/payload- similarly separates orchestration, confirmation, controller ob-
+simulator pair. The simulator exposes three commandable servation, and immutable logging, but it commands an external
+behaviors: silence, CRC corruption, and response delay. A payload simulator rather than perturbing processor state or
+host harness confirms the selected behavior on the simulator application memory.
+
+Experimental design also affects what an injection result TABLE I
+can support. Piper et al. show that assessment of AUTOSAR VALIDATED N0 WINDOWS. ONLY WITHIN-WINDOW DELTAS ARE INTERPRETED.
+safety mechanisms depends on deliberate fault-model and
+Phase Status ok first–last TO CRC SEQ REC
+experiment choices [6]. Abboush et al. combine a real ECU
+prototype with a HIL vehicle model and programmatic signal Pre 13 1835–1955 0 0 0 0
+Post 13 3049–3169 0 0 0 0
+faults to study dynamic behavior [5]. In contrast, this study
+narrows HIL to a two-board serial link and three protocol-
+level behaviors. Its distinguishing emphasis is confirmation
+B. Trial Protocol and Outcomes
+on both sides of the link and an evidence-locked distinction
+among directly observed statements, setup-bounded inference,
+Seed 20260830 fixed the order of 90 sequential trials and
+and unsupported claims.
+their pre-injection offsets: 30 trials for each mode. Every trial
+III. SYSTEM AND RESEARCH QUESTIONS used the same physical pair. The protocol first commanded
+NORMAL and observed the precondition, waited the seeded
+A. Payload-Link Supervision
+offset, sent the selected mode, and required the matching
+The setup consists of a NUCLEO-G431RB controller and a
+simulator confirmation. The controller was then observed for
+NUCLEO-G474RE payload simulator connected by a UART
+4 s. The harness sent NORMAL, required the simulator’s
+at 115200 8N1 with common ground. The controller peri-
+NORMAL confirmation, and observed the controller for a
+odically exchanges framed messages with the payload. Its
+further 3 s.
+observable supervision paths include response timeout, CRC
+For SILENT, the predefined detector was the first post-
+rejection, transition to an offline state, and a later recovery
+injection timeout or offline marker. For BAD_CRC, it was the
+marker. Boot and runtime mechanisms provide architectural
+first explicit CRC-rejection marker. For DELAYED, it was the
+context, but the empirical contribution is limited to the payload
+first timeout or offline marker, consistent with the configured
+link.
+delay and inspected deadline. OFFLINE was retained as a
+The payload simulator accepts host commands for NOR-
+secondary observation and was not required for BAD_CRC
+MAL, SILENT, BAD_CRC, and DELAYED modes. SILENT
+detection. Recovery required a controller recovery marker after
+withholds a response. BAD_CRC returns a response with an
+the restore command and a confirmed NORMAL restoration.
+invalid CRC. DELAYED waits 250 ms before responding,
+A restart field recorded only the presence or absence of a post-
+exceeding the inspected 100-ms controller deadline. A second
+injection link-start marker; its absence was not interpreted as
+host serial channel captures the simulator’s exact mode confir-
+independent reset evidence.
+mation. Thus, a sent command alone is insuﬀicient activation
+A trial was valid only when its invalid-reason field was
+evidence.
+empty and both activation and restoration were confirmed on
+B. Locked Research Questions the simulator channel. Machine validation cross-checked 90
+The study asks only the following descriptive questions: plan rows, 90 result rows, and all 180 controller/payload raw
+RQ1: What payload-link status and counter behavior is ob- logs and reported no issues.
+served during the predefined pre- and post-campaign
+nominal (N0) windows?
+C. Measurement and Analysis
+RQ2: For SILENT, BAD_CRC, and DELAYED, in how
+many valid sequential trials are activation, the mode- Detection latency is the host timestamp of the first pre-
+specific detector, NORMAL restoration, and recovery defined controller detector marker minus the host timestamp
+markers observed? at injection-command send. Recovery latency is the host
+RQ3: What are the per-mode distributions of host-observed timestamp of the controller recovery marker minus the host
+command-to-detector-marker and restore-command- timestamp at NORMAL-command send. These intervals in-
+to-recovery-marker latency? clude serial transport, USB, driver buffering, host scheduling,
+N0 denotes a healthy nominal condition; it is not a compar- and timestamping effects; there was no host/MCU clock syn-
+ative or ablation baseline. chronization.
+Analysis is descriptive. Per mode, we report counts, ob-
+IV. EVALUATION METHOD
+served proportions, and two-sided 95% Clopper–Pearson exact
+A. Nominal Windows
+intervals [7] for detection and recovery. Latency summaries
+A 65-s N0 window was captured before the campaign contain sample count, median, inclusive-linear quartiles, in-
+and another after it. A window was valid if it contained terquartile range (IQR), minimum, and maximum. No hy-
+at least 10 controller status records, all records reported pothesis test or between-mode ranking is made. Because the
+ONLINE, the successful-message counter increased strictly, observations are sequential measurements on one setup, the
+timeout/CRC/sequence/recovery counter deltas were zero, and interval is reported as the frozen campaign’s conventional
+no prohibited transition, rejection, recovery, or post-start link- descriptive interval, not as an independent-device reliability
+start marker appeared. estimate.
+
+TABLE II Trial outcomes may therefore share device, thermal, state-
+OBSERVED OUTCOMES BY INJECTED MODE. CI IS THE TWO-SIDED EXACT 95% history, host, and timing conditions. Second, nominal evidence
+INTERVAL FOR EACH 30/30 DETECTION AND RECOVERY PROPORTION.
+is limited to two 65-s windows; it does not establish long-
+duration stability. Third, no fair C0 ablation was constructed,
+Mode Valid Detect Recover Offline Start
+so neither a treatment effect nor comparative superiority is
+SILENT 30/30 30/30 30/30 30/30 0/30
+supported. Fourth, timing is based on host command and
+BAD_CRC 30/30 30/30 30/30 30/30 0/30
+DELAYED 30/30 30/30 30/30 30/30 0/30 serial-receipt timestamps. UART, USB, operating-system, and
+Detection and recovery CI: [0.884296692, 1.0]. scheduling delays are included, and MCU-internal latency is
+unknown.
+Fifth, outcomes are marker based. A recorded detector or re-
+V. RESULTS
+covery marker supports the corresponding protocol definition
+A. RQ1: Nominal Behavior but not every internal state transition. Conversely, absence of
+Both N0 windows were valid. Each lasted 65.0 s and a link-start marker does not independently prove the controller
+contained 13 ONLINE status records. The successful-message never reset. Literal heartbeat or watchdog status strings were
+counter increased strictly from 1835 to 1955 before the cam- not treated as independent health measurements. Sixth, only
+paign and from 3049 to 3169 after it. Within both windows, silence, bad CRC, and one delayed-response setting were
+timeout, CRC, sequence, and recovery counter deltas were exercised under fixed observation windows. Other delay mag-
+zero, and the prohibited-marker list was empty (Table I). The nitudes, corruption patterns, intermittent behavior, concurrent
+different absolute counter levels reflect preceding activity; only loads, and recovery horizons remain untested.
+within-window changes are evaluated. Finally, no environmental stress was applied: tempera-
+ture, vibration, electromagnetic conditions, power transients,
+B. RQ2: Predefined Outcomes and radiation were not varied or measured. The evi-
+All 90 planned trials were retained as valid. Each mode dence therefore provides no environmental robustness, flight-
+had 30 confirmed activations and 30 confirmed NORMAL qualification, mission-assurance, or complete-system valida-
+restorations. The predefined detector and recovery markers tion result. Binary-to-readback agreement strengthens prove-
+were each observed in 30/30 valid trials per mode. Each nance for the evaluated firmware, but it does not add trials or
+observed proportion was 1.0 with a two-sided exact 95% broaden the empirical population.
+interval of [0.884296692, 1.0]. OFFLINE was observed in
+30/30 trials for each mode during the configured fault window, VII. REPRODUCIBILITY AND EVIDENCE LOCK
+including BAD_CRC, where it was not the detection criterion.
+The campaign package retains a fixed seed and run plan,
+No post-injection link-start marker was recorded (Table II);
+per-trial result rows, 180 raw serial logs, validation output,
+this marker absence is not proof that no reset occurred.
+descriptive summaries, firmware, and SHA-256 inventories.
+The raw format records host UTC time, exact received bytes,
+C. RQ3: Host-Observed Latency
+and escaped text. A separate table generator first verifies the
+Table III reports both host-observed intervals. Command-to-
+frozen hashes of the campaign summary, campaign validation,
+detector-marker medians were 383.0 ms for SILENT, 359.5 ms
+and both N0 validations, then deterministically projects the
+for BAD_CRC, and 406.0 ms for DELAYED. Restore-
+manuscript CSV tables. The generator records its own hash
+command-to-recovery-marker medians were 297.0, 359.0, and
+and the input/output hashes.
+296.5 ms, respectively. The IQRs and full observed ranges
+This mechanism supports inspection of how every number
+show substantial within-mode dispersion. These summaries are
+in Tables I–III reaches the manuscript. It also prevents an unno-
+not compared inferentially and do not define internal controller
+ticed change in a source summary from silently producing new
+execution bounds.
+tables. Re-execution on different hardware remains untested,
+VI. DISCUSSION AND LIMITATIONS and anonymous review omits any author-revealing repository
+location. Artifact access can be provided in a non-identifying
+The dual-channel protocol closes a specific evidentiary gap
+form or after review according to venue policy.
+between requesting a behavior and observing that the payload
+simulator entered it. Within the frozen setup, all retained
+VIII. CONCLUSION
+injections produced their predefined controller detector evi-
+dence and were followed by a recovery marker after con- This paper presented an evidence-locked HIL evaluation
+firmed restoration. The N0 windows provide bounded healthy of payload-link supervision using one controller board, one
+observations on both sides of the campaign. Together, these commandable payload-simulator board, and independent host
+records support a repeatable procedure for inspecting payload- observation channels. Two bounded nominal windows and 90
+link supervision on this pair; they do not establish behavior sequential injected trials provide a traceable description of
+on an unobserved device population. predefined detection and recovery markers and host-observed
+The experiment has several deliberate limitations. First, all command-to-marker latency distributions. The principal result
+trials used one physical board pair and occurred sequentially. is methodological and setup bounded: confirmed link-endpoint
+
+TABLE III
+HOST-OBSERVED COMMAND-TO-MARKER LATENCY DISTRIBUTIONS IN MILLISECONDS. QUARTILES USE THE FROZEN INCLUSIVE-LINEAR DEFINITION; IQR IS Q3−Q1.
+Mode Interval n Median IQR Q1 Q3 Min Max
+SILENT command to detector 30 383.0 196.25 288.75 485.0 125.0 578.0
+BAD_CRC command to detector 30 359.5 293.0 171.25 464.25 78.0 531.0
+DELAYED command to detector 30 406.0 215.0 297.0 512.0 156.0 610.0
+SILENT restore to recovery 30 297.0 230.75 144.25 375.0 78.0 516.0
+BAD_CRC restore to recovery 30 359.0 303.5 113.75 417.25 47.0 531.0
+DELAYED restore to recovery 30 296.5 238.25 187.25 425.5 94.0 531.0
+behavior can be connected to controller evidence and im- [3] J. Carreira, H. Madeira, and J. G. Silva, “Xception: A technique for the
+mutable logs without converting repeated observations into experimental evaluation of dependability in modern computers,” IEEE
+Transactions on Software Engineering, vol. 24, no. 2, pp. 125–136, 1998.
+claims about independent devices or internal timing. Future
+[4] D. T. Stott, B. Floering, D. Burke, Z. Kalbarczyk, and R. K. Iyer, “NF-
+work may expand device replication, fault models, observation TAPE: A framework for assessing dependability in distributed systems
+duration, and independent instrumentation; those extensions with lightweight fault injectors,” in Proceedings of the IEEE International
+Computer Performance and Dependability Symposium, 2000, pp. 91–100.
+are not implied by the present dataset.
+[5] M. Abboush, D. Bamal, C. Knieke, and A. Rausch, “Hardware-in-the-
+loop-based real-time fault injection framework for dynamic behavior
+REFERENCES
+analysis of automotive software systems,” Sensors, vol. 22, no. 4, p. 1360,
+2022.
+[1] J. Arlat, M. Aguera, L. Amat, Y. Crouzet, J.-C. Fabre, J.-C. Laprie,
+[6] T. Piper, S. Winter, N. Suri, and T. E. Fuhrman, “On the effective use
+E. Martins, and D. Powell, “Fault injection for dependability validation:
+of fault injection for the assessment of AUTOSAR safety mechanisms,”
+A methodology and some applications,” IEEE Transactions on Software
+in 2015 11th European Dependable Computing Conference, 2015, pp.
+Engineering, vol. 16, no. 2, pp. 166–182, 1990.
+85–96.
+[2] G. A. Kanawati, N. A. Kanawati, and J. A. Abraham, “FERRARI: A flex-
+[7] C. J. Clopper and E. S. Pearson, “The use of confidence or fiducial limits
+ible software-based fault and error injection system,” IEEE Transactions
+illustrated in the case of the binomial,” Biometrika, vol. 26, no. 4, pp.
+on Computers, vol. 44, no. 2, pp. 248–260, 1995.
+404–413, 1934.
