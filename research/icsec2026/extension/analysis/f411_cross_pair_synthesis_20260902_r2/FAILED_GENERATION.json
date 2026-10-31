@@ -1,0 +1,9 @@
+{
+  "schema": "washios.icsec2026.f411_cross_pair_generation_failure.v1",
+  "attempt": 2,
+  "outputs_created_before_stop": 0,
+  "failure": "Pair-1 acquisition_source_state names the acquisition commit acquisition_commit while Pair-2 uses source_commit.",
+  "scientific_data_issue": false,
+  "source_package_modified": false,
+  "resolution": "Resolve either reviewed field name, derive mode-0 boundary-row counts from frozen row validations, and validate both pair derivations before exclusive attempt 3."
+}

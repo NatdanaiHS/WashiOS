@@ -1,0 +1,4 @@
+run_id,fault_id,fault_mode,order_index,pre_injection_offset_s
+R001_P01,P01,SILENT,1,0.312
+R002_P03,P03,DELAYED,2,1.047
+R003_P02,P02,BAD_CRC,3,0.505

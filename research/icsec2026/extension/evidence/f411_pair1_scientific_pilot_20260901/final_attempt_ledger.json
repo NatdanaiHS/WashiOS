@@ -1,0 +1,30 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_scientific_attempt_ledger.final.v1",
+  "entries": [
+    {
+      "record_id": "F411_P1_SCI_PILOT_001_D110_PRECHECK",
+      "kind": "retained precondition gate",
+      "scientific_trial": false,
+      "attempted": true,
+      "valid": true,
+      "evidence": "precondition_validation.json; precondition_boundary_correction.json"
+    },
+    {
+      "run_id": "F411_P1_SCI_PILOT_001_D110",
+      "condition": "DELAYED 110",
+      "scientific_observation": true,
+      "campaign_denominator": false,
+      "attempted": true,
+      "valid": true,
+      "outcome": "ORDERED_TIMEOUT_PATH_TO_OFFLINE",
+      "restored": true,
+      "recovered": true,
+      "post_stabilized": true,
+      "evidence": "pilot_validation.json; raw/F411_P1_SCI_PILOT_001_D110"
+    }
+  ],
+  "scientific_attempt_count": 1,
+  "valid_scientific_pilot_count": 1,
+  "invalid_scientific_pilot_count": 0,
+  "retry_or_replacement_count": 0
+}

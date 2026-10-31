@@ -1,0 +1,43 @@
+{
+  "artifacts": {
+    "firmware.bin": {
+      "byte_count": 20020,
+      "sha256": "7C2C1B646AF312AB6766423D2BC228A5F11CFFB5F9B4BA23521D4610029DFE7F"
+    },
+    "firmware.elf": {
+      "byte_count": 92164,
+      "sha256": "AFC717C4583635AA9B0918A40D369A0C9580308B158B530DBB6FE3B752EA9FDC"
+    }
+  },
+  "commands": [
+    [
+      "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+      "run",
+      "-d",
+      "C:\\WashiOS\\core",
+      "-e",
+      "nucleo_g431rb_payload_demo",
+      "-t",
+      "clean"
+    ],
+    [
+      "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+      "run",
+      "-d",
+      "C:\\WashiOS\\core",
+      "-e",
+      "nucleo_g431rb_payload_demo"
+    ]
+  ],
+  "environment": "nucleo_g431rb_payload_demo",
+  "exit_codes": [
+    0,
+    0
+  ],
+  "finished_host_time": "2026-08-29T19:41:33.751091+00:00",
+  "project": "core",
+  "safety": "Clean and build targets only; no upload/program operation requested.",
+  "schema_version": 1,
+  "started_host_time": "2026-08-29T19:41:27.976933+00:00",
+  "status": "COMPLETE"
+}

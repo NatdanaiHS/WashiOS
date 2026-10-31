@@ -1,0 +1,21 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_postacquisition_crosscheck.v1",
+  "plan_ledger_validation_identity_matches": 12,
+  "row_validations": 12,
+  "valid_pre_stabilizations": 12,
+  "valid_post_stabilizations": 12,
+  "row_identity_order_or_condition_issues": 0,
+  "boundary_ledger_lines": 12,
+  "exposure_timing_definition": "fixed monotonic time.sleep(4.0); UTC labels are host-observed",
+  "host_label_interval_min_s": 3.999907,
+  "host_label_interval_max_s": 4.000644,
+  "json_parse_issues": 0,
+  "master_raw_format_or_render_issues": 0,
+  "controller_master_records": 660,
+  "payload_master_records": 36,
+  "controller_flash_verified_ok_count": 1,
+  "payload_flash_verified_ok_count": 1,
+  "campaign_or_openocd_processes_after_run": 0,
+  "valid": true,
+  "failures": []
+}

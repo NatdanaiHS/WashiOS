@@ -1,0 +1,8 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_backup_plan.v1",
+  "source": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_campaign_20260901_seed20260901_b3",
+  "exclusive_destination": "C:/WashiOS-extension-backup/f411_pair1_campaign_20260901_seed20260901_b3",
+  "destination_must_not_preexist": true,
+  "copy_after_complete_inventory": true,
+  "independent_row_size_and_sha256_verification_required": true
+}

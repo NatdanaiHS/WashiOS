@@ -1,0 +1,30 @@
+[
+  {
+    "byte_count": 11703,
+    "copy": "package_metadata/01_ststm32_platform.json",
+    "sha256": "8C4A890EE07CEEE4A13E79E9BA0CF2679F464DF5917594549A0E7BC716BD0871",
+    "source": "C:\\Users\\wachi\\.platformio\\platforms\\ststm32\\platform.json",
+    "status": "COPIED"
+  },
+  {
+    "byte_count": 543,
+    "copy": "package_metadata/02_framework-stm32cubeg4_package.json",
+    "sha256": "D2956328E7F071EFCD4EE3646B3795B42AFABC94674558C5D25AD61408E10AC1",
+    "source": "C:\\Users\\wachi\\.platformio\\packages\\framework-stm32cubeg4\\package.json",
+    "status": "COPIED"
+  },
+  {
+    "byte_count": 495,
+    "copy": "package_metadata/03_toolchain-gccarmnoneeabi_package.json",
+    "sha256": "7382239FD97C7BFA3D7821659E9C6828527184F7EC8592F80B54D5DA35DB4CEE",
+    "source": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi\\package.json",
+    "status": "COPIED"
+  },
+  {
+    "byte_count": 555,
+    "copy": "package_metadata/04_tool-openocd_package.json",
+    "sha256": "C5E67FA399DFEF4D2646800C923C2B6F8BA272D3DA65D441EA7FE24C3D00EBC0",
+    "source": "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\package.json",
+    "status": "COPIED"
+  }
+]

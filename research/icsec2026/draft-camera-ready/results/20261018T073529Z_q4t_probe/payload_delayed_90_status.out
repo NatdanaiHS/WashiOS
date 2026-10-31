@@ -1,0 +1,336 @@
+
+Verifying formula 1 at payload_delayed_90_status.q:1
+ -- Formula is NOT satisfied.
+ -- States stored : 30465 states
+ -- States explored : 35112 states
+ -- CPU user time used : 207 ms
+ -- Virtual memory used : 65916 KiB
+ -- Resident memory used : 23600 KiB
+
+Verifying formula 2 at payload_delayed_90_status.q:2
+ -- Formula is NOT satisfied.
+ -- States stored : 30465 states
+ -- States explored : 35112 states
+ -- CPU user time used : 220 ms
+ -- Virtual memory used : 66036 KiB
+ -- Resident memory used : 23740 KiB
+
+Verifying formula 3 at payload_delayed_90_status.q:3
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 283 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24164 KiB
+
+Verifying formula 4 at payload_delayed_90_status.q:4
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 279 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24164 KiB
+
+Verifying formula 5 at payload_delayed_90_status.q:5
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 273 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24164 KiB
+
+Verifying formula 6 at payload_delayed_90_status.q:6
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 269 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24164 KiB
+
+Verifying formula 7 at payload_delayed_90_status.q:7
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 269 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24292 KiB
+
+Verifying formula 8 at payload_delayed_90_status.q:8
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 271 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24308 KiB
+
+Verifying formula 9 at payload_delayed_90_status.q:9
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 276 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24344 KiB
+
+Verifying formula 10 at payload_delayed_90_status.q:10
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 270 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24352 KiB
+
+Verifying formula 11 at payload_delayed_90_status.q:11
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 272 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24360 KiB
+
+Verifying formula 12 at payload_delayed_90_status.q:12
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 272 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24368 KiB
+
+Verifying formula 13 at payload_delayed_90_status.q:13
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 273 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24376 KiB
+
+Verifying formula 14 at payload_delayed_90_status.q:14
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 271 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24388 KiB
+
+Verifying formula 15 at payload_delayed_90_status.q:15
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 271 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24400 KiB
+
+Verifying formula 16 at payload_delayed_90_status.q:16
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 273 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24408 KiB
+
+Verifying formula 17 at payload_delayed_90_status.q:17
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 273 ms
+ -- Virtual memory used : 66292 KiB
+ -- Resident memory used : 24416 KiB
+
+Verifying formula 18 at payload_delayed_90_status.q:18
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 275 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24424 KiB
+
+Verifying formula 19 at payload_delayed_90_status.q:19
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 274 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24432 KiB
+
+Verifying formula 20 at payload_delayed_90_status.q:20
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 280 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24440 KiB
+
+Verifying formula 21 at payload_delayed_90_status.q:21
+ -- Formula is NOT satisfied.
+ -- States stored : 32916 states
+ -- States explored : 37563 states
+ -- CPU user time used : 286 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24452 KiB
+
+Verifying formula 22 at payload_delayed_90_status.q:22
+ -- Formula is NOT satisfied.
+ -- States stored : 35264 states
+ -- States explored : 41548 states
+ -- CPU user time used : 312 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24716 KiB
+
+Verifying formula 23 at payload_delayed_90_status.q:23
+ -- Formula is NOT satisfied.
+ -- States stored : 35264 states
+ -- States explored : 41548 states
+ -- CPU user time used : 309 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24716 KiB
+
+Verifying formula 24 at payload_delayed_90_status.q:24
+ -- Formula is NOT satisfied.
+ -- States stored : 35264 states
+ -- States explored : 41548 states
+ -- CPU user time used : 310 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24724 KiB
+
+Verifying formula 25 at payload_delayed_90_status.q:25
+ -- Formula is NOT satisfied.
+ -- States stored : 35264 states
+ -- States explored : 41548 states
+ -- CPU user time used : 316 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24732 KiB
+
+Verifying formula 26 at payload_delayed_90_status.q:26
+ -- Formula is NOT satisfied.
+ -- States stored : 35264 states
+ -- States explored : 41548 states
+ -- CPU user time used : 310 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24748 KiB
+
+Verifying formula 27 at payload_delayed_90_status.q:27
+ -- Formula is NOT satisfied.
+ -- States stored : 35264 states
+ -- States explored : 41548 states
+ -- CPU user time used : 310 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24756 KiB
+
+Verifying formula 28 at payload_delayed_90_status.q:28
+ -- Formula is NOT satisfied.
+ -- States stored : 35264 states
+ -- States explored : 41548 states
+ -- CPU user time used : 312 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24764 KiB
+
+Verifying formula 29 at payload_delayed_90_status.q:29
+ -- Formula is NOT satisfied.
+ -- States stored : 36434 states
+ -- States explored : 43482 states
+ -- CPU user time used : 329 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24860 KiB
+
+Verifying formula 30 at payload_delayed_90_status.q:30
+ -- Formula is NOT satisfied.
+ -- States stored : 36434 states
+ -- States explored : 43482 states
+ -- CPU user time used : 331 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24868 KiB
+
+Verifying formula 31 at payload_delayed_90_status.q:31
+ -- Formula is NOT satisfied.
+ -- States stored : 36434 states
+ -- States explored : 43482 states
+ -- CPU user time used : 331 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24872 KiB
+
+Verifying formula 32 at payload_delayed_90_status.q:32
+ -- Formula is NOT satisfied.
+ -- States stored : 36434 states
+ -- States explored : 43482 states
+ -- CPU user time used : 332 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24880 KiB
+
+Verifying formula 33 at payload_delayed_90_status.q:33
+ -- Formula is NOT satisfied.
+ -- States stored : 36537 states
+ -- States explored : 43877 states
+ -- CPU user time used : 340 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24884 KiB
+
+Verifying formula 34 at payload_delayed_90_status.q:34
+ -- Formula is NOT satisfied.
+ -- States stored : 36537 states
+ -- States explored : 43877 states
+ -- CPU user time used : 338 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24884 KiB
+
+Verifying formula 35 at payload_delayed_90_status.q:35
+ -- Formula is NOT satisfied.
+ -- States stored : 36537 states
+ -- States explored : 43877 states
+ -- CPU user time used : 341 ms
+ -- Virtual memory used : 66424 KiB
+ -- Resident memory used : 24892 KiB
+
+Verifying formula 36 at payload_delayed_90_status.q:36
+ -- Formula is satisfied.
+ -- States stored : 55462 states
+ -- States explored : 73334 states
+ -- CPU user time used : 760 ms
+ -- Virtual memory used : 68552 KiB
+ -- Resident memory used : 26612 KiB
+
+Verifying formula 37 at payload_delayed_90_status.q:37
+ -- Formula is satisfied.
+ -- States stored : 55462 states
+ -- States explored : 73334 states
+ -- CPU user time used : 760 ms
+ -- Virtual memory used : 68552 KiB
+ -- Resident memory used : 26616 KiB
+
+Verifying formula 38 at payload_delayed_90_status.q:38
+ -- Formula is satisfied.
+ -- States stored : 55462 states
+ -- States explored : 73334 states
+ -- CPU user time used : 760 ms
+ -- Virtual memory used : 68552 KiB
+ -- Resident memory used : 26616 KiB
+
+Verifying formula 39 at payload_delayed_90_status.q:39
+ -- Formula is satisfied.
+ -- States stored : 55462 states
+ -- States explored : 73334 states
+ -- CPU user time used : 764 ms
+ -- Virtual memory used : 68552 KiB
+ -- Resident memory used : 26616 KiB
+
+Verifying formula 40 at payload_delayed_90_status.q:40
+ -- Formula is satisfied.
+ -- States stored : 55462 states
+ -- States explored : 73334 states
+ -- CPU user time used : 766 ms
+ -- Virtual memory used : 68552 KiB
+ -- Resident memory used : 26616 KiB
+
+Verifying formula 41 at payload_delayed_90_status.q:41
+ -- Formula is satisfied.
+ -- States stored : 55462 states
+ -- States explored : 73334 states
+ -- CPU user time used : 765 ms
+ -- Virtual memory used : 68552 KiB
+ -- Resident memory used : 26616 KiB
+
+Verifying formula 42 at payload_delayed_90_status.q:42
+ -- Formula is satisfied.
+ -- States stored : 55462 states
+ -- States explored : 73334 states
+ -- CPU user time used : 760 ms
+ -- Virtual memory used : 68552 KiB
+ -- Resident memory used : 26616 KiB

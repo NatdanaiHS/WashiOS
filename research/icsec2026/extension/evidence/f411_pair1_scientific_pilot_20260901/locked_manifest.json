@@ -1,0 +1,41 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_scientific_pilot.v1",
+  "locked": true,
+  "locked_host_time": "2026-09-01T21:50:45.2309906+07:00",
+  "source_branch": "experiment/icsec-extension-20260830",
+  "firmware_source_commit": "0ce8a5cfe12b0dc72df5e8baeee1f8f3bdf19612",
+  "source_worktree_before_acquisition": "director NEXT_TASK plus host-only scientific harness, tests, and this precommitted package; no firmware change from source commit",
+  "run_id": "F411_P1_SCI_PILOT_001_D110",
+  "precondition_id": "F411_P1_SCI_PILOT_001_D110_PRECHECK",
+  "condition": "DELAYED 110",
+  "exposure_s": 4.0,
+  "scientific_observation": true,
+  "campaign_denominator": false,
+  "claim_boundary": "one descriptive scientific pilot on one F411-to-F411 configuration; no pooling, replication count, reliability estimate, population inference, or manuscript use before later review",
+  "controller": {
+    "board_id": "F411-A",
+    "role": "controller",
+    "stlink_serial": "066BFF495051727187053106",
+    "elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78",
+    "bin_sha256": "8686113C4A83E1600EBE66FB3B3F8795853011B4B0E69D91F9E68EBB3FD8FE68"
+  },
+  "payload": {
+    "board_id": "F411-B",
+    "role": "payload",
+    "stlink_serial": "066EFF495051727187053015",
+    "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+    "bin_sha256": "52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB"
+  },
+  "harness": {
+    "path": "research/icsec2026/extension/run_f411_scientific_pilot.py",
+    "sha256": "83F5DCDC2D698EE27AC33C988758842BCE09E6A42534863F330DE48D195D3638",
+    "test_sha256": "0C101CE6504C17A617872A036F5C70C76FDF32AA1393FE7138BABB0C7B67B206"
+  },
+  "immutable_references": {
+    "failed_bringup_package": "../f411_pair1_20260901",
+    "failed_bringup_corrected_inventory_sha256": "A5C8BF48D7FD0E9CC3A120B890F11CA49FD8DBB6086FD594A321F14C778AC6C9",
+    "engineering_diagnostic_package": "../f411_engdiag_20260901",
+    "engineering_diagnostic_inventory_sha256": "98846023F3285F5B9F60C5387E1C54FD6D5EEAA8D5E58A42720795EC9B328DE0"
+  },
+  "replacement_or_retry_allowed": false
+}

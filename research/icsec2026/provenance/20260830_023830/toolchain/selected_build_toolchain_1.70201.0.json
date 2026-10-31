@@ -1,0 +1,62 @@
+{
+  "executables": [
+    {
+      "byte_count": 1822208,
+      "exit_code": 0,
+      "path": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi@1.70201.0\\bin\\arm-none-eabi-gcc.exe",
+      "sha256": "01294637B48631922E972A0DBC9C57107AB7C96D0E37A79D109F6FA204403137",
+      "version_stderr": "",
+      "version_stdout": "arm-none-eabi-gcc.exe (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 7.2.1 20170904 (release) [ARM/embedded-7-branch revision 255204]\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    {
+      "byte_count": 1824768,
+      "exit_code": 0,
+      "path": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi@1.70201.0\\bin\\arm-none-eabi-g++.exe",
+      "sha256": "0B007086D0B2E4A403440C09A907DD9F5DA296A4163378D2CD2E85E35D8C13B5",
+      "version_stderr": "",
+      "version_stdout": "arm-none-eabi-g++.exe (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 7.2.1 20170904 (release) [ARM/embedded-7-branch revision 255204]\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    {
+      "byte_count": 929792,
+      "exit_code": 0,
+      "path": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi@1.70201.0\\bin\\arm-none-eabi-objcopy.exe",
+      "sha256": "E17131191A1896842FDCCF39244E7AD5FEA8247718ADB7AB8F458EF6E58266D0",
+      "version_stderr": "",
+      "version_stdout": "GNU objcopy (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 2.29.51.20171128\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\n"
+    }
+  ],
+  "package_metadata": {
+    "byte_count": 527,
+    "content": {
+      "description": "GNU toolchain for Arm Cortex-M and Cortex-R processors",
+      "homepage": "https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm",
+      "keywords": [
+        "toolchain",
+        "build tools",
+        "compiler",
+        "assembler",
+        "linker",
+        "preprocessor",
+        "arm"
+      ],
+      "license": "GPL-2.0-or-later",
+      "name": "toolchain-gccarmnoneeabi",
+      "repository": {
+        "type": "git",
+        "url": "https://gcc.gnu.org/git/gcc.git"
+      },
+      "system": [
+        "windows_amd64",
+        "windows_arm64",
+        "windows",
+        "windows_x86"
+      ],
+      "version": "1.70201.0"
+    },
+    "path": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi@1.70201.0\\package.json",
+    "sha256": "7F9E905C5E656466E2854677FF994DB0655D81519F054443B6684BB8BB2FF904"
+  },
+  "schema_version": 1,
+  "selection_basis": "PlatformIO clean build logs for both G431 environments report toolchain-gccarmnoneeabi @ 1.70201.0 (7.2.1)",
+  "toolchain_directory": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi@1.70201.0"
+}

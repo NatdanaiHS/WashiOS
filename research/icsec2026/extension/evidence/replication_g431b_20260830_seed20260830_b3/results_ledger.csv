@@ -1,0 +1,13 @@
+run_id,order_index,block,condition,delay_ms,observation_s,attempted,valid,invalid_reason,unexpected_outcome,g431_raw,g474_raw
+RB001_B1_D100,1,1,DELAY,100,4.0,True,True,,,raw/campaign/RB001_B1_D100/g431.log,raw/campaign/RB001_B1_D100/g474.log
+RB002_B1_D090,2,1,DELAY,90,4.0,True,True,,,raw/campaign/RB002_B1_D090/g431.log,raw/campaign/RB002_B1_D090/g474.log
+RB003_B1_D110,3,1,DELAY,110,4.0,True,True,,,raw/campaign/RB003_B1_D110/g431.log,raw/campaign/RB003_B1_D110/g474.log
+RB004_B1_NC,4,1,NC,,4.0,True,True,,,raw/campaign/RB004_B1_NC/g431.log,raw/campaign/RB004_B1_NC/g474.log
+RB005_B2_D090,5,2,DELAY,90,4.0,True,True,,,raw/campaign/RB005_B2_D090/g431.log,raw/campaign/RB005_B2_D090/g474.log
+RB006_B2_D110,6,2,DELAY,110,4.0,True,True,,,raw/campaign/RB006_B2_D110/g431.log,raw/campaign/RB006_B2_D110/g474.log
+RB007_B2_D100,7,2,DELAY,100,4.0,True,True,,,raw/campaign/RB007_B2_D100/g431.log,raw/campaign/RB007_B2_D100/g474.log
+RB008_B2_NC,8,2,NC,,4.0,True,True,,,raw/campaign/RB008_B2_NC/g431.log,raw/campaign/RB008_B2_NC/g474.log
+RB009_B3_NC,9,3,NC,,4.0,True,True,,,raw/campaign/RB009_B3_NC/g431.log,raw/campaign/RB009_B3_NC/g474.log
+RB010_B3_D090,10,3,DELAY,90,4.0,True,True,,,raw/campaign/RB010_B3_D090/g431.log,raw/campaign/RB010_B3_D090/g474.log
+RB011_B3_D110,11,3,DELAY,110,4.0,True,True,,,raw/campaign/RB011_B3_D110/g431.log,raw/campaign/RB011_B3_D110/g474.log
+RB012_B3_D100,12,3,DELAY,100,4.0,True,True,,,raw/campaign/RB012_B3_D100/g431.log,raw/campaign/RB012_B3_D100/g474.log

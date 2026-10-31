@@ -1,0 +1,8 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_backup_plan.v1",
+  "source": "C:/WashiOS/research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3",
+  "exclusive_backup": "C:/WashiOS-extension-backup/f411_pair2_campaign_20260901_seed20260901_b3",
+  "create_only_after_capture_is_closed_and_final_state_recorded": true,
+  "verify_every_inventory_row_in_source_and_backup": true,
+  "pair1_backup_must_not_be_modified": true
+}

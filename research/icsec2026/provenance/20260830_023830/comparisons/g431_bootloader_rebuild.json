@@ -1,0 +1,21 @@
+{
+  "bytes_after_compared_region": 127040,
+  "capture_byte_count": 131072,
+  "capture_file": "research\\icsec2026\\provenance\\20260830_023830\\flash\\g431_full_flash_0x08000000_0x20000.bin",
+  "capture_offset": 0,
+  "capture_sha256": "9D7B9B1439DCA29D434E768237BC78D5BE6737CAF481046C69B90ABA87A3BA1D",
+  "captured_region_sha256": "20FB03F428C980A5D0907E1889AFBA1777B11C6BA5AEA1744F0E716DA1AFA44D",
+  "differences_file": "research\\icsec2026\\provenance\\20260830_023830\\comparisons\\g431_bootloader_rebuild_differences.csv",
+  "differing_byte_count": 0,
+  "differing_range_count": 0,
+  "exact_match": true,
+  "expected_byte_count": 4032,
+  "expected_file": "research\\icsec2026\\provenance\\20260830_023830\\rebuild\\g431_bootloader\\firmware.bin",
+  "expected_sha256": "20FB03F428C980A5D0907E1889AFBA1777B11C6BA5AEA1744F0E716DA1AFA44D",
+  "flash_address_end_exclusive": "0x08000FC0",
+  "flash_address_start": "0x08000000",
+  "label": "G431_rebuilt_payload_demo_bootloader",
+  "non_ff_bytes_after_compared_region": 31906,
+  "non_ff_range_count_after_compared_region": 401,
+  "schema_version": 1
+}

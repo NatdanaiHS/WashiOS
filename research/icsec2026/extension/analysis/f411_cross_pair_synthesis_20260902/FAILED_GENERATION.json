@@ -1,0 +1,9 @@
+{
+  "schema": "washios.icsec2026.f411_cross_pair_generation_failure.v1",
+  "attempt": 1,
+  "outputs_created_before_stop": 0,
+  "failure": "Pair-1 final_validation uses campaign_valid=true while Pair-2 uses valid=true; the initial generator checked only valid.",
+  "scientific_data_issue": false,
+  "source_package_modified": false,
+  "resolution": "Accept either reviewed schema field while still requiring descriptive_condition_summary.campaign_valid=true; rerun in a new exclusive r2 path."
+}

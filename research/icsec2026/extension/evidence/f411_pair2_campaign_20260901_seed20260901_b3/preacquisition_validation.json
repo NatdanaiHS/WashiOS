@@ -1,0 +1,23 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_preacquisition_validation.v1",
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "verified_host_time": "2026-09-01T23:45:59+07:00",
+  "exclusive_package_created_once": true,
+  "plan_rows": 12,
+  "attempt_ledger_rows_planned": 12,
+  "attempted_rows": 0,
+  "plan_sha256": "7C8A60145CDAFB04BC6F1553B42D401FC35532B64B587D90D62942D4947E103F",
+  "pair1_source_and_backup_95_of_95": true,
+  "prior_inventory_file_hashes_unchanged": true,
+  "configuration_only_equivalence_passed": true,
+  "all_required_tests_passed": true,
+  "all_clean_builds_passed": true,
+  "all_four_firmware_hashes_exact": true,
+  "controller_identity_and_vcp": "F411-C 0669FF495051727187053226 COM12",
+  "payload_identity_and_vcp": "F411-D 0663FF495051727187066042 COM6",
+  "human_wiring_confirmation_passed": true,
+  "minimum_90_minutes_confirmation_passed": true,
+  "serial_ports_opened": false,
+  "flash_reset_or_command_sent": false,
+  "ready_for_acquisition_lock_commit": true
+}

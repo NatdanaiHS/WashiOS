@@ -1,0 +1,18 @@
+{
+  "baud": 115200,
+  "condition": "N0_NOMINAL_CONTROL",
+  "finished_host_time": "2026-08-29T19:09:35.225440+00:00",
+  "g431_port": "COM8",
+  "g474_port": "COM7",
+  "literal_status_warning": "heartbeat=OK watchdog=OK are literal strings, not independent measurements",
+  "name": "n0_pre_20260830_0205",
+  "phase": "pre",
+  "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii",
+  "requested_duration_s": 65.0,
+  "schema_version": 1,
+  "started_host_time": "2026-08-29T19:08:30.159148+00:00",
+  "status": "COMPLETE",
+  "validation_file": "validation.json",
+  "window_end_host_time": "2026-08-29T19:09:35.224436+00:00",
+  "window_start_host_time": "2026-08-29T19:08:30.223898+00:00"
+}

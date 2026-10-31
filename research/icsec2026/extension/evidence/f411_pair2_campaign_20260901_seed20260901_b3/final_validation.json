@@ -1,0 +1,16 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_final_validation.v1",
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "disposition": "F411_P2_CAMPAIGN_COMPLETE_AWAITING_REVIEW",
+  "accounting": {"planned":12,"attempted_once":12,"valid":12,"invalid":0,"not_attempted":0,"retry_or_replacement":0},
+  "precheck": {"valid":true,"window_s_monotonic":65.0,"online_status_records":13,"ok_first":10,"ok_last":130,"fault_counter_deltas_zero":true,"prohibited_markers":0},
+  "activation_confirmations": {"D090":3,"D100":3,"D110":3,"NORMAL":25},
+  "stabilization": {"pre_passed":12,"post_passed":12,"restore_confirmed":12},
+  "raw": {"controller_records":657,"payload_records":36,"format_or_render_failures":0,"controller_sha256":"CF4FE0EAC032677381C3180D7B6A4F51073EB731E5C0AC52C020191DACA0B242","payload_sha256":"632A9D31AF48ACC254697C87AF28399F7B422217F6AE60CE0510EBAED2CD6F66"},
+  "firmware_hashes_exact": true,
+  "independent_validator_valid": true,
+  "pair2_separate_dataset": true,
+  "pair1_modified": false,
+  "valid": true,
+  "failures": []
+}

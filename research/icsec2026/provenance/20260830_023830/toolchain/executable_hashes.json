@@ -1,0 +1,32 @@
+[
+  {
+    "byte_count": 108352,
+    "path": "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+    "sha256": "71A2D847BB4BE2089E8CC30E15ECFCB443A25C36DBFB5B2829A207D59B6D3EBB"
+  },
+  {
+    "byte_count": 104952,
+    "path": "C:\\Users\\wachi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "sha256": "4D6F5F81A4BCA11191C4C7C6B43632694D0A4CE74E068619D8FDC161D469859A"
+  },
+  {
+    "byte_count": 1500560,
+    "path": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi\\bin\\arm-none-eabi-gcc.exe",
+    "sha256": "136BF1765B5C6CAE31BC31E147FA97CB6FBE1F972CD46951A67CA7A35EF9EF2A"
+  },
+  {
+    "byte_count": 1503120,
+    "path": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi\\bin\\arm-none-eabi-g++.exe",
+    "sha256": "123CFDA5BA34886C9AC09B305A1D23A035F133465EF806AD31F2E1B3623B7745"
+  },
+  {
+    "byte_count": 1108369,
+    "path": "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi\\bin\\arm-none-eabi-objcopy.exe",
+    "sha256": "FEDB7D36F8D3CC5B88D82852DE77A24438403CF53B2AF3D0E5A4866E9C6F6B50"
+  },
+  {
+    "byte_count": 4490254,
+    "path": "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+    "sha256": "10567F01D37C66A0975537960D66E61F7B4E2A17EB2C9637E2C2CBC569F70C79"
+  }
+]

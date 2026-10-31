@@ -1,0 +1,455 @@
+xPack Open On-Chip Debugger 0.12.0-01004-g9ea7f3d64-dirty (2023-01-30-15:04)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+hla_swd
+Info : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD
+1
+none separate
+
+Info : clock speed 2000 kHz
+Info : STLINK V3J17M11 (API v3) VID:PID 0483:374E
+Info : Target voltage: 3.283875
+Info : [stm32g4x.cpu] Cortex-M4 r0p1 processor detected
+Info : [stm32g4x.cpu] target has 6 breakpoints, 4 watchpoints
+Info : gdb port disabled
+Info : Listening on port 6666 for tcl connections
+Info : telnet server disabled
+Info : accepting 'tcl' connection on tcp/6666
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x61000000 pc: 0x08007892 psp: 0x20002188
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800061a msp: 0x20007fa0
+> halt
+
+pc (/32): 0x0800061a
+
+> capture {reg pc}
+pc (/32): 0x0800061a
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060e msp: 0x20007fa0
+> halt
+
+pc (/32): 0x0800060e
+
+> capture {reg pc}
+pc (/32): 0x0800060e
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060c msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000618 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000618
+
+> capture {reg pc}
+pc (/32): 0x08000618
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000616 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000616
+
+> capture {reg pc}
+pc (/32): 0x08000616
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800061a msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060e msp: 0x20007fa0
+> halt
+
+pc (/32): 0x0800060e
+
+> capture {reg pc}
+pc (/32): 0x0800060e
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060c msp: 0x20007fa0
+> halt
+
+pc (/32): 0x0800060c
+
+> capture {reg pc}
+pc (/32): 0x0800060c
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060e msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000614 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000614
+
+> capture {reg pc}
+pc (/32): 0x08000614
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060c msp: 0x20007fa0
+> halt
+
+pc (/32): 0x0800060c
+
+> capture {reg pc}
+pc (/32): 0x0800060c
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060c msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000612 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000612
+
+> capture {reg pc}
+pc (/32): 0x08000612
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000618 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000618
+
+> capture {reg pc}
+pc (/32): 0x08000618
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000618 msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800061a msp: 0x20007fa0
+> halt
+
+pc (/32): 0x0800061a
+
+> capture {reg pc}
+pc (/32): 0x0800061a
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000612 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000612
+
+> capture {reg pc}
+pc (/32): 0x08000612
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000618 msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000618 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000618
+
+> capture {reg pc}
+pc (/32): 0x08000618
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000612 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000612
+
+> capture {reg pc}
+pc (/32): 0x08000612
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x08000610 msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000612 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000612
+
+> capture {reg pc}
+pc (/32): 0x08000612
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060e msp: 0x20007fa0
+> halt
+
+pc (/32): 0x0800060e
+
+> capture {reg pc}
+pc (/32): 0x0800060e
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060c msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000618 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000618
+
+> capture {reg pc}
+pc (/32): 0x08000618
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000616 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000616
+
+> capture {reg pc}
+pc (/32): 0x08000616
+
+> resume
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800060c msp: 0x20007fa0
+> halt
+
+> mww 0x20000000 0
+
+> mww 0x20000040 0
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x08000610 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000610
+
+> capture {reg pc}
+pc (/32): 0x08000610
+
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+> capture {mdw 0x20000000 13}
+0x20000000: 55aa55aa 1f6b3f4a 00000001 00000000 a6010304 00000002 00000000 a6010304 
+0x20000020: 00000000 00000003 00000000 00000000 b0010003 
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+[stm32g4x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x81000000 pc: 0x08000618 msp: 0x20007fa0
+> halt
+
+pc (/32): 0x08000618
+
+> capture {reg pc}
+pc (/32): 0x08000618
+
+> resume
+
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+Info : Unable to match requested speed 2000 kHz, using 1000 kHz
+> reset run
+
+shutdown command invoked
+> shutdown
+

@@ -1,0 +1,56 @@
+{
+  "controller_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 066BFF495051727187053106",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_engdiag_20260901/firmware/f411_engdiag_controller_fixed.elf verify reset exit"
+    ],
+    "elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78",
+    "exit_code": 0,
+    "log": "flash_controller.log"
+  },
+  "controller_online_host_time": "2026-09-01T14:33:50.523106+00:00",
+  "controller_ready_host_time": "2026-09-01T14:33:45.570573+00:00",
+  "finished_host_time": "2026-09-01T14:33:51.524365+00:00",
+  "invalid_reason": "",
+  "link_active_host_time": "2026-09-01T14:33:45.632616+00:00",
+  "normal_command_host_time": "2026-09-01T14:33:45.571572+00:00",
+  "normal_confirmation_host_time": "2026-09-01T14:33:45.632616+00:00",
+  "payload_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 066EFF495051727187053015",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_engdiag_20260901/firmware/f411_engdiag_payload.elf verify reset exit"
+    ],
+    "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+    "exit_code": 0,
+    "log": "flash_payload.log"
+  },
+  "payload_ready_host_time": "2026-09-01T14:33:44.327115+00:00",
+  "prohibited_markers": [],
+  "run_id": "ENGDIAG_001_FIXCHECK",
+  "started_host_time": "2026-09-01T14:33:43.230693+00:00",
+  "valid": true
+}

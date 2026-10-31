@@ -1,0 +1,102 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1700' height='1060' viewBox='0 0 1700 1060'>
+<defs><marker id='arr' markerWidth='10' markerHeight='10' refX='9' refY='5' orient='auto' markerUnits='strokeWidth'><path d='M0,0 L10,5 L0,10 z' fill='#222'/></marker><marker id='arrRed' markerWidth='10' markerHeight='10' refX='9' refY='5' orient='auto' markerUnits='strokeWidth'><path d='M0,0 L10,5 L0,10 z' fill='#c00000'/></marker></defs>
+<rect width='1700' height='1060' fill='white'/>
+<rect x='40' y='90' width='1620' height='600' rx='14' fill='#f7f9ff' stroke='#999' stroke-dasharray='6 4'/>
+<circle cx='200' cy='330' r='34' fill='#e6f6e6' stroke='#2e7d32' stroke-width='2.5'/>
+<circle cx='200' cy='330' r='28' fill='none' stroke='#2e7d32' stroke-width='1.5'/>
+<circle cx='560' cy='330' r='34' fill='#fde9c9' stroke='#b35c00' stroke-width='2.5'/>
+<circle cx='920' cy='330' r='34' fill='#fde9c9' stroke='#b35c00' stroke-width='2.5'/>
+<circle cx='1540' cy='180' r='40' fill='#e8f0fb' stroke='#1a4d8f' stroke-width='2.5'/>
+<circle cx='1540' cy='500' r='40' fill='#fbe0e0' stroke='#a30000' stroke-width='2.5'/>
+<path d='M234,330 Q380.0,300.0 526,330' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M594,330 Q740.0,300.0 886,330' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M944,306 Q1214.639036111102,208.8016865740276 1502,198' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M952,352 Q1247.0504059506463,362.0627008481203 1508,224' fill='none' stroke='#c00000' stroke-width='2.4' marker-end='url(#arrRed)'/>
+<path d='M946,362 Q1231.8834840541456,388.5825797292724 1506,474' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M586,358 Q1027.033988131201,531.7671468174794 1500,500' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M224,362 Q840.2743427327725,641.3043760654123 1508,532' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M1504,145 Q852.4942632445052,111.31728967734563 228,300' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<path d='M1514,536 Q816.4711918618827,812.2726222726703 224,352' fill='none' stroke='#222' stroke-width='1.8' marker-end='url(#arr)'/>
+<rect x='40' y='710' width='780' height='180' rx='14' fill='#fbfff7' stroke='#999' stroke-dasharray='6 4'/>
+<rect x='860' y='710' width='800' height='180' rx='14' fill='#fffaf3' stroke='#999' stroke-dasharray='6 4'/>
+<rect x='1240' y='914' width='14' height='14' fill='#0b6e4f'/>
+<rect x='1240' y='934' width='14' height='14' fill='#1a4d8f'/>
+<rect x='1240' y='954' width='14' height='14' fill='#8a4b00'/>
+<rect x='1240' y='974' width='14' height='14' fill='#7a2e8f'/>
+<rect x='51.0' y='102.1' width='767.6' height='19.0' fill='#f7f9ff'/>
+<rect x='171.4' y='272.9' width='57.2' height='17.9' fill='white'/>
+<rect x='510.9' y='272.9' width='98.2' height='17.9' fill='white'/>
+<rect x='870.9' y='272.9' width='98.2' height='17.9' fill='white'/>
+<rect x='1485.8' y='116.9' width='108.4' height='17.9' fill='white'/>
+<rect x='1496.0' y='436.9' width='87.9' height='17.9' fill='white'/>
+<rect x='314.6' y='272.3' width='130.8' height='14.6' fill='white'/>
+<rect x='299.0' y='288.3' width='162.0' height='14.6' fill='white'/>
+<rect x='690.2' y='270.3' width='99.6' height='14.6' fill='white'/>
+<rect x='651.2' y='286.3' width='177.6' height='14.6' fill='white'/>
+<rect x='1132.1' y='182.3' width='162.0' height='14.6' fill='white'/>
+<rect x='1128.2' y='198.3' width='169.8' height='14.6' fill='white'/>
+<rect x='1079.5' y='357.0' width='341.4' height='14.6' fill='#fff1f1'/>
+<rect x='954.7' y='373.0' width='591.0' height='14.6' fill='#fff1f1'/>
+<rect x='1046.9' y='421.9' width='349.2' height='14.6' fill='white'/>
+<rect x='1167.8' y='437.9' width='107.4' height='14.6' fill='white'/>
+<rect x='802.0' y='479.3' width='396.0' height='14.6' fill='white'/>
+<rect x='864.4' y='495.3' width='271.2' height='14.6' fill='white'/>
+<rect x='798.1' y='511.3' width='403.8' height='14.6' fill='white'/>
+<rect x='638.5' y='529.3' width='123.0' height='14.6' fill='white'/>
+<rect x='642.4' y='545.3' width='115.2' height='14.6' fill='white'/>
+<rect x='675.4' y='132.4' width='363.8' height='14.6' fill='white'/>
+<rect x='780.2' y='148.4' width='154.2' height='14.6' fill='white'/>
+<rect x='733.0' y='599.6' width='222.3' height='14.6' fill='white'/>
+<rect x='638.3' y='615.6' width='411.6' height='14.6' fill='white'/>
+<rect x='51.0' y='722.1' width='299.8' height='19.0' fill='#fbfff7'/>
+<rect x='871.0' y='722.1' width='212.7' height='19.0' fill='#fffaf3'/>
+<text x='850.0' y='34' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='22' fill='#111' font-weight='bold'>boot_policy.xml — Boot ∥ App ∥ Flash  (untimed; BootPolicy::run on every reset)</text>
+<text x='850' y='60' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#444'>Retained across warm resets: active, stateA, stateB ∈ {Empty, Valid, Pending, Confirmed, Bad}, bootCount, confirmedFlag, retainedCriticalFault.  MAX_UNCONFIRMED = 3.</text>
+<text x='54' y='116' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='17' fill='#333' font-weight='bold'>Boot  (bootloader/include/boot/BootPolicy.hpp run(), BootMetadata.hpp)</text>
+<text x='200' y='336' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='18' fill='#2e7d32' font-weight='bold'>U</text>
+<text x='200' y='286' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Start</text>
+<text x='560' y='336' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='18' fill='#b35c00' font-weight='bold'>C</text>
+<text x='560' y='286' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Recovered</text>
+<text x='920' y='336' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='18' fill='#b35c00' font-weight='bold'>C</text>
+<text x='920' y='286' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>Selecting</text>
+<text x='1540' y='130' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>AppRunning</text>
+<text x='1540' y='450' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='16' fill='#111' font-weight='bold'>SafeLoop</text>
+<text x='380.0' y='283.0' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>¬metadataCorrupt</text>
+<text x='380.0' y='299.0' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>normalizeConfirmed()</text>
+<text x='740.0' y='281.0' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>¬loopLimit ∧</text>
+<text x='740.0' y='297.0' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>¬retainedCriticalFault</text>
+<text x='1213.1188608585753' y='192.94744776930537' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>slotBootable(active)</text>
+<text x='1213.1188608585753' y='208.94744776930537' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>launch(active, false)</text>
+<text x='1250.191270204713' y='367.70582995172146' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>¬slotBootable(active) ∧ slotBootable(other)</text>
+<text x='1250.191270204713' y='383.70582995172146' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#c00000' font-style='italic'>active := other; launch(active, true)   —   bootCount NOT reset: finding F4</text>
+<text x='1221.489328891822' y='432.5533555408912' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>¬slotBootable(active) ∧ ¬slotBootable(other)</text>
+<text x='1221.489328891822' y='448.5533555408912' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>fail(NO_SLOT)</text>
+<text x='1000' y='490' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>loopLimit: state(active) = Pending ∧ bootCount > 3</text>
+<text x='1000' y='506' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>retainedCriticalFault  (two edges)</text>
+<text x='1000' y='522' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>fail(BOOT_LOOP)  |  fail(PRIOR_FAULT)  (finding F2)</text>
+<text x='700' y='540' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#0b6e4f'>metadataCorrupt</text>
+<text x='700' y='556' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>fail(FAULTLOG)</text>
+<text x='857.317740657182' y='143.02540050686505' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#1a4d8f' font-weight='bold'>reset?   (warm: watchdog or software reset)</text>
+<text x='857.317740657182' y='159.02540050686505' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>retained state kept</text>
+<text x='844.147660665837' y='610.2365094623386' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#1a4d8f' font-weight='bold'>coldStart?   (power cycle)</text>
+<text x='844.147660665837' y='626.2365094623386' text-anchor='middle' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#8a4b00'>retained state scrubbed: fault log, bootCount, flags</text>
+<text x='54' y='736' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='17' fill='#333' font-weight='bold'>App  (launched application)</text>
+<text x='60' y='760' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#222'>appRunning ∧ APP_CONFIRMS = 1   →  confirmedFlag := true        (design variant only)</text>
+<text x='60' y='784' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#222'>appRunning                          →  reset!  with retainedCriticalFault := true   (critical stall)</text>
+<text x='60' y='808' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#222'>appRunning                          →  reset!                                                   (clean reset)</text>
+<text x='60' y='832' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#a30000'>Shipped firmware never writes BootMetadata: APP_CONFIRMS = 0  (finding F1).</text>
+<text x='874' y='736' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='17' fill='#333' font-weight='bold'>Flash / environment</text>
+<text x='880' y='760' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#222'>appRunning ∨ safeLoop  →  imageOkA := false  |  imageOkB := false     (corruption)</text>
+<text x='880' y='784' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#222'>appRunning                 →  imageOkB := true, stateB := Pending           (stage an update)</text>
+<text x='880' y='808' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#222'>appRunning                 →  active := SlotB, bootCount := 0                 (switch slot)</text>
+<text x='880' y='832' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#222'>appRunning ∨ safeLoop  →  coldStart!   ;   appRunning → metadataCorrupt := true</text>
+<text x='60' y='915' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='15' fill='#111' font-weight='bold'>Verified:</text>
+<text x='60' y='940' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>• B1/B2  never launch an unvalidated image or a non-bootable slot state      B3  a Pending slot is launched ≤ 4 times in a row</text>
+<text x='60' y='962' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>• B4  both images bad at boot ⇝ SafeLoop      B6  retained critical fault ⇒ never relaunched before a cold start (F2)</text>
+<text x='60' y='984' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='14' fill='#222'>• B7  shipped app: Pending never becomes Confirmed (F1)      B8  limit bypass reachable only via the fallback edge (F4); next warm boot is refused</text>
+<text x='1262' y='925' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>guard (clock or data condition)</text>
+<text x='1262' y='945' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>synchronisation  ch!  sender  /  ch?  receiver</text>
+<text x='1262' y='965' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>update / clock reset</text>
+<text x='1262' y='985' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#333'>location invariant (time may not exceed)</text>
+<text x='1240' y='1013' text-anchor='start' font-family='DejaVu Sans, Arial, sans-serif' font-size='13' fill='#555'>double circle = initial location;  C = committed;  U = urgent</text>
+</svg>

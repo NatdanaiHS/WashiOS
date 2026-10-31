@@ -1,0 +1,38 @@
+{
+  "schema": "washios.icsec2026.f411_engdiag.runtime_hypothesis_validation.v1",
+  "scientific_observation": false,
+  "manuscript_use": "NONE",
+  "hypothesis_tested": 1,
+  "hypothesis": "controller timebase freeze",
+  "confirmed": true,
+  "runtime_probe": {
+    "controller_stlink_serial": "066BFF495051727187053106",
+    "reset_commanded": false,
+    "probe_interval_ms": 2000,
+    "snapshot_1": {
+      "xTickCount_hex": "0x00099CA2",
+      "xTickCount_decimal": 629922,
+      "uwTick": 0,
+      "scheduler_suspended": 0,
+      "current_tcb": "0x20002380",
+      "cfsr": 0,
+      "hfsr": 0,
+      "cpu_mode": "Thread"
+    },
+    "snapshot_2": {
+      "xTickCount_hex": "0x0009A499",
+      "xTickCount_decimal": 631961,
+      "uwTick": 0,
+      "scheduler_suspended": 0,
+      "current_tcb": "0x20002380",
+      "cfsr": 0,
+      "hfsr": 0,
+      "cpu_mode": "Thread"
+    },
+    "rtos_tick_delta": 2039,
+    "hal_tick_delta": 0,
+    "evidence_log": "engdiag_001_runtime_tick_probe_explicit.log"
+  },
+  "causal_explanation": "PayloadLinkTask scheduling decisions use Stm32Timing::getSystemTick(), which returned the frozen HAL tick, while vTaskDelay and the scheduler continued on the advancing FreeRTOS tick. The initial poll occurs at time zero, but later 500 ms polls and the 5 s status can never become due. This exactly explains both retained first-exchange-only signatures.",
+  "stop_rule": "Hypothesis 1 conclusively confirmed; hypotheses 2 and 3 were not tested."
+}

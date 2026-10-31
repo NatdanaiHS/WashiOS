@@ -1,0 +1,55 @@
+{
+  "accepted_response_host_time": "2026-08-30T13:31:46.467707+00:00",
+  "activation_command_host_time": "2026-08-30T13:31:45.914945+00:00",
+  "condition": "DELAY_90_READINESS_ONLY",
+  "exact_activation_confirmation_host_time": "2026-08-30T13:31:45.970437+00:00",
+  "finished_host_time": "2026-08-30T13:31:55.817769+00:00",
+  "g431_port": "COM8",
+  "g474_port": "COM9",
+  "invalid_reason": "",
+  "restore_command_host_time": "2026-08-30T13:31:46.467707+00:00",
+  "restore_confirmation_host_time": "2026-08-30T13:31:46.530300+00:00",
+  "run_id": "PREFLIGHT_POST_NOMINAL_SERIAL_REOPEN",
+  "stabilization": {
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "evaluated_boundary_host_time": "2026-08-30T13:31:50.809183+00:00",
+    "failures": [],
+    "normal_command_host_time": "2026-08-30T13:31:46.530300+00:00",
+    "normal_confirmation_host_time": "2026-08-30T13:31:46.592057+00:00",
+    "pre_baseline_markers": [],
+    "prohibited_markers": [],
+    "serial_boundary_host_time": "2026-08-30T13:31:46.592057+00:00",
+    "status_records": [
+      {
+        "crc": 0,
+        "host_time": "2026-08-30T13:31:50.809183+00:00",
+        "monotonic_s": 6390.609,
+        "ok": 1580,
+        "polls": 1580,
+        "recovery": 0,
+        "seq": 0,
+        "state": "ONLINE",
+        "timeout": 0
+      },
+      {
+        "crc": 0,
+        "host_time": "2026-08-30T13:31:55.797978+00:00",
+        "monotonic_s": 6395.609,
+        "ok": 1590,
+        "polls": 1590,
+        "recovery": 0,
+        "seq": 0,
+        "state": "ONLINE",
+        "timeout": 0
+      }
+    ],
+    "valid": true
+  },
+  "started_host_time": "2026-08-30T13:31:45.910602+00:00",
+  "valid": true
+}

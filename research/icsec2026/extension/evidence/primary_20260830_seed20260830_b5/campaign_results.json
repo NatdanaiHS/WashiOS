@@ -1,0 +1,222 @@
+[
+  {
+    "activation_command_host_time": "2026-08-30T13:43:29.160521+00:00",
+    "activation_confirmation_host_time": "2026-08-30T13:43:29.169418+00:00",
+    "activation_confirmed": true,
+    "block": 1,
+    "condition": "DELAY",
+    "delay_ms": 110,
+    "invalid_reason": "",
+    "observation_s": 4.0,
+    "observations": {
+      "accepted_response_markers": 1,
+      "crc_rejection_markers": 0,
+      "offline_markers": 1,
+      "poll_write_failure_markers": 0,
+      "recovery_markers": 0,
+      "restart_markers": 0,
+      "sequence_rejection_markers": 1,
+      "timeout_markers": 2
+    },
+    "observed_markers": [
+      {
+        "host_time": "2026-08-30T13:43:29.200457+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=2980 mode=0"
+      },
+      {
+        "host_time": "2026-08-30T13:43:29.756747+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+      },
+      {
+        "host_time": "2026-08-30T13:43:29.819867+00:00",
+        "marker": "[OBC] PAYLOAD_REJECT reason=SEQUENCE"
+      },
+      {
+        "host_time": "2026-08-30T13:43:30.254980+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=2"
+      },
+      {
+        "host_time": "2026-08-30T13:43:30.751820+00:00",
+        "marker": "[OBC] PAYLOAD_OFFLINE consecutive=3 heartbeat=OK watchdog=OK"
+      }
+    ],
+    "order_index": 1,
+    "post_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T13:43:34.135380+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T13:43:33.258640+00:00",
+      "normal_confirmation_host_time": "2026-08-30T13:43:33.320048+00:00",
+      "pre_baseline_markers": [
+        {
+          "host_time": "2026-08-30T13:43:33.706412+00:00",
+          "marker": "[OBC] PAYLOAD_RECOVERED recoveries=1"
+        }
+      ],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T13:43:33.320048+00:00",
+      "status_records": [
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T13:43:34.135380+00:00",
+          "monotonic_s": 7093.937,
+          "ok": 2982,
+          "polls": 2990,
+          "recovery": 1,
+          "seq": 8,
+          "state": "ONLINE",
+          "timeout": 8
+        },
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T13:43:39.123416+00:00",
+          "monotonic_s": 7098.921,
+          "ok": 2992,
+          "polls": 3000,
+          "recovery": 1,
+          "seq": 8,
+          "state": "ONLINE",
+          "timeout": 8
+        }
+      ],
+      "valid": true
+    },
+    "pre_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T13:43:24.160556+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T13:43:20.650536+00:00",
+      "normal_confirmation_host_time": "2026-08-30T13:43:20.680902+00:00",
+      "pre_baseline_markers": [],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T13:43:20.680902+00:00",
+      "status_records": [
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T13:43:24.160556+00:00",
+          "monotonic_s": 7083.968,
+          "ok": 2970,
+          "polls": 2970,
+          "recovery": 0,
+          "seq": 0,
+          "state": "ONLINE",
+          "timeout": 0
+        },
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T13:43:29.146887+00:00",
+          "monotonic_s": 7088.953,
+          "ok": 2980,
+          "polls": 2980,
+          "recovery": 0,
+          "seq": 0,
+          "state": "ONLINE",
+          "timeout": 0
+        }
+      ],
+      "valid": true
+    },
+    "restore_command_host_time": "2026-08-30T13:43:33.170260+00:00",
+    "restore_confirmation_host_time": "2026-08-30T13:43:33.258640+00:00",
+    "run_id": "R001_B1_D110",
+    "unexpected_outcome": "",
+    "valid": true
+  },
+  {
+    "activation_command_host_time": "2026-08-30T13:43:49.098932+00:00",
+    "activation_confirmation_host_time": "2026-08-30T13:43:49.124921+00:00",
+    "activation_confirmed": true,
+    "block": 1,
+    "condition": "DELAY",
+    "delay_ms": 500,
+    "invalid_reason": "NORMAL_RESTORE_NOT_CONFIRMED",
+    "observation_s": 4.0,
+    "observations": {
+      "accepted_response_markers": 1,
+      "crc_rejection_markers": 0,
+      "offline_markers": 1,
+      "poll_write_failure_markers": 0,
+      "recovery_markers": 0,
+      "restart_markers": 0,
+      "sequence_rejection_markers": 1,
+      "timeout_markers": 2
+    },
+    "observed_markers": [
+      {
+        "host_time": "2026-08-30T13:43:49.156381+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=3020 mode=0"
+      },
+      {
+        "host_time": "2026-08-30T13:43:49.713099+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+      },
+      {
+        "host_time": "2026-08-30T13:43:50.144689+00:00",
+        "marker": "[OBC] PAYLOAD_REJECT reason=SEQUENCE"
+      },
+      {
+        "host_time": "2026-08-30T13:43:50.206760+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=2"
+      },
+      {
+        "host_time": "2026-08-30T13:43:50.701863+00:00",
+        "marker": "[OBC] PAYLOAD_OFFLINE consecutive=3 heartbeat=OK watchdog=OK"
+      }
+    ],
+    "order_index": 2,
+    "pre_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T13:43:44.110269+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T13:43:39.177128+00:00",
+      "normal_confirmation_host_time": "2026-08-30T13:43:39.216746+00:00",
+      "pre_baseline_markers": [],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T13:43:39.216746+00:00",
+      "status_records": [
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T13:43:44.110269+00:00",
+          "monotonic_s": 7103.921,
+          "ok": 3002,
+          "polls": 3010,
+          "recovery": 1,
+          "seq": 8,
+          "state": "ONLINE",
+          "timeout": 8
+        },
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T13:43:49.096531+00:00",
+          "monotonic_s": 7108.906,
+          "ok": 3012,
+          "polls": 3020,
+          "recovery": 1,
+          "seq": 8,
+          "state": "ONLINE",
+          "timeout": 8
+        }
+      ],
+      "valid": true
+    },
+    "restore_command_host_time": "2026-08-30T13:43:53.125565+00:00",
+    "restore_confirmation_host_time": null,
+    "run_id": "R002_B1_D500",
+    "valid": false
+  }
+]

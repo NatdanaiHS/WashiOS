@@ -1,0 +1,6 @@
+run_id,planned,attempted,serial_valid,scope_observation_status,machine_readable_waveform,valid_timing_trace,disposition,reason
+S001_D110,true,true,true,INTERNAL_SCOPE_SLOT_1_HUMAN_REPORTED_CLEAN_EDGES,false,false,FEASIBILITY_ONLY,"Wave(Binary) saved to Hantek internal memory slot No.1; no USB drive, native/CSV export, or repository screenshot; interval not extracted"
+S002_D110,true,false,false,NOT_ATTEMPTED,false,false,DROPPED_HARD_LAB_STOP,"Quantitative acquisition dropped under stop rule after S001 could not be exported"
+S003_D110,true,false,false,NOT_ATTEMPTED,false,false,DROPPED_HARD_LAB_STOP,"Quantitative acquisition dropped under stop rule after S001 could not be exported"
+S004_D110,true,false,false,NOT_ATTEMPTED,false,false,DROPPED_HARD_LAB_STOP,"Quantitative acquisition dropped under stop rule after S001 could not be exported"
+S005_D110,true,false,false,NOT_ATTEMPTED,false,false,DROPPED_HARD_LAB_STOP,"Quantitative acquisition dropped under stop rule after S001 could not be exported"

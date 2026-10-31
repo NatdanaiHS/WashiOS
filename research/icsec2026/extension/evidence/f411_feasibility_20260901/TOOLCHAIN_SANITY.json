@@ -1,0 +1,31 @@
+{
+  "schema": "washios.icsec2026.f411_toolchain_sanity.v1",
+  "built_at": "2026-09-01T19:56:16+07:00",
+  "source_commit": "0fbd98fe367faaeee7da8aa360755bee807f7a36",
+  "command": "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\platformio.exe run -d C:\\WashiOS\\core -e genericSTM32F411RE",
+  "environment": "genericSTM32F411RE",
+  "experimental_role_binary": false,
+  "platformio_core": "6.1.19",
+  "ststm32_platform": "19.6.0",
+  "framework_stm32cubef4": "1.28.1",
+  "gcc_arm_none_eabi": "7.2.1",
+  "result": "SUCCESS",
+  "duration_seconds": 19.666,
+  "ram_used_bytes": 7748,
+  "ram_total_bytes": 131072,
+  "flash_used_bytes": 15404,
+  "flash_total_bytes": 524288,
+  "artifacts": [
+    {
+      "path": "core/.pio/build/genericSTM32F411RE/firmware.bin",
+      "size_bytes": 15832,
+      "sha256": "B5524BD395023202D096FEF374820F1C0637717CC75698AA27E1E8208AAB9E5A"
+    },
+    {
+      "path": "core/.pio/build/genericSTM32F411RE/firmware.elf",
+      "size_bytes": 155072,
+      "sha256": "F723A3A1BF9EFB1B334C77A97FFB9B2CC3603228BCBC21BBC55C28234933BFBB"
+    }
+  ],
+  "flashed": false
+}

@@ -1,0 +1,287 @@
+{
+  "run": "20261031T165654Z_B3link_stall-payloadlink",
+  "capture_sha256": "BD3A07E4E2730632EF931E64D73C75E801539651811715BB36800156A719E5A6",
+  "analyzed_utc": "2026-10-31T17:01:56.031845Z",
+  "signals": {
+    "stall": 49,
+    "wdrec": 49,
+    "nrst": 49,
+    "led": 759,
+    "loop": 233545
+  },
+  "B3_watchdog": {
+    "trials": 24,
+    "stall_to_record": {
+      "n": 24,
+      "min_ms": 801.389,
+      "p1_ms": 801.389,
+      "median_ms": 801.5505,
+      "mean_ms": 801.555,
+      "p99_ms": 801.785,
+      "max_ms": 801.785
+    },
+    "record_to_reset": {
+      "n": 24,
+      "min_ms": 1873.732,
+      "p1_ms": 1873.732,
+      "median_ms": 1874.1595,
+      "mean_ms": 1874.1766,
+      "p99_ms": 1874.592,
+      "max_ms": 1874.592
+    },
+    "stall_to_reset": {
+      "n": 24,
+      "min_ms": 2675.34,
+      "p1_ms": 2675.34,
+      "median_ms": 2675.7855,
+      "mean_ms": 2675.7316,
+      "p99_ms": 2676.149,
+      "max_ms": 2676.149
+    },
+    "relaunched_without_power_cycle": 24,
+    "per_trial": [
+      {
+        "trial": 1,
+        "stall_s": 0.128753,
+        "stall_to_record_ms": 801.389,
+        "record_to_reset_ms": 1873.969,
+        "stall_to_reset_ms": 2675.358,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.014,
+        "led_median_toggle_gap_after_reset_ms": 24.48
+      },
+      {
+        "trial": 2,
+        "stall_s": 12.833966,
+        "stall_to_record_ms": 801.43,
+        "record_to_reset_ms": 1874.401,
+        "stall_to_reset_ms": 2675.831,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.006,
+        "led_median_toggle_gap_after_reset_ms": 24.472
+      },
+      {
+        "trial": 3,
+        "stall_s": 25.539686,
+        "stall_to_record_ms": 801.641,
+        "record_to_reset_ms": 1874.134,
+        "stall_to_reset_ms": 2675.775,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.022,
+        "led_median_toggle_gap_after_reset_ms": 24.479
+      },
+      {
+        "trial": 4,
+        "stall_s": 38.247952,
+        "stall_to_record_ms": 801.6,
+        "record_to_reset_ms": 1874.179,
+        "stall_to_reset_ms": 2675.779,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.018,
+        "led_median_toggle_gap_after_reset_ms": 24.484
+      },
+      {
+        "trial": 5,
+        "stall_s": 50.955806,
+        "stall_to_record_ms": 801.54,
+        "record_to_reset_ms": 1874.294,
+        "stall_to_reset_ms": 2675.834,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.027,
+        "led_median_toggle_gap_after_reset_ms": 24.482
+      },
+      {
+        "trial": 6,
+        "stall_s": 63.664432,
+        "stall_to_record_ms": 801.474,
+        "record_to_reset_ms": 1874.403,
+        "stall_to_reset_ms": 2675.877,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.018,
+        "led_median_toggle_gap_after_reset_ms": 24.477
+      },
+      {
+        "trial": 7,
+        "stall_s": 76.372973,
+        "stall_to_record_ms": 801.576,
+        "record_to_reset_ms": 1874.398,
+        "stall_to_reset_ms": 2675.974,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.016,
+        "led_median_toggle_gap_after_reset_ms": 24.473
+      },
+      {
+        "trial": 8,
+        "stall_s": 89.081242,
+        "stall_to_record_ms": 801.6,
+        "record_to_reset_ms": 1874.192,
+        "stall_to_reset_ms": 2675.792,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.013,
+        "led_median_toggle_gap_after_reset_ms": 24.477
+      },
+      {
+        "trial": 9,
+        "stall_s": 101.790627,
+        "stall_to_record_ms": 801.604,
+        "record_to_reset_ms": 1873.854,
+        "stall_to_reset_ms": 2675.458,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.035,
+        "led_median_toggle_gap_after_reset_ms": 24.491
+      },
+      {
+        "trial": 10,
+        "stall_s": 114.499146,
+        "stall_to_record_ms": 801.785,
+        "record_to_reset_ms": 1873.732,
+        "stall_to_reset_ms": 2675.517,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.013,
+        "led_median_toggle_gap_after_reset_ms": 24.475
+      },
+      {
+        "trial": 11,
+        "stall_s": 127.207224,
+        "stall_to_record_ms": 801.512,
+        "record_to_reset_ms": 1874.099,
+        "stall_to_reset_ms": 2675.611,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.031,
+        "led_median_toggle_gap_after_reset_ms": 24.489
+      },
+      {
+        "trial": 12,
+        "stall_s": 139.9159,
+        "stall_to_record_ms": 801.465,
+        "record_to_reset_ms": 1873.94,
+        "stall_to_reset_ms": 2675.405,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.027,
+        "led_median_toggle_gap_after_reset_ms": 24.489
+      },
+      {
+        "trial": 13,
+        "stall_s": 152.623775,
+        "stall_to_record_ms": 801.505,
+        "record_to_reset_ms": 1874.577,
+        "stall_to_reset_ms": 2676.082,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.022,
+        "led_median_toggle_gap_after_reset_ms": 24.482
+      },
+      {
+        "trial": 14,
+        "stall_s": 165.333951,
+        "stall_to_record_ms": 801.587,
+        "record_to_reset_ms": 1874.311,
+        "stall_to_reset_ms": 2675.898,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.025,
+        "led_median_toggle_gap_after_reset_ms": 24.483
+      },
+      {
+        "trial": 15,
+        "stall_s": 178.0426,
+        "stall_to_record_ms": 801.566,
+        "record_to_reset_ms": 1873.821,
+        "stall_to_reset_ms": 2675.387,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.029,
+        "led_median_toggle_gap_after_reset_ms": 24.488
+      },
+      {
+        "trial": 16,
+        "stall_s": 190.752046,
+        "stall_to_record_ms": 801.697,
+        "record_to_reset_ms": 1873.944,
+        "stall_to_reset_ms": 2675.641,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.019,
+        "led_median_toggle_gap_after_reset_ms": 24.479
+      },
+      {
+        "trial": 17,
+        "stall_s": 203.460417,
+        "stall_to_record_ms": 801.51,
+        "record_to_reset_ms": 1873.843,
+        "stall_to_reset_ms": 2675.353,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.019,
+        "led_median_toggle_gap_after_reset_ms": 24.476
+      },
+      {
+        "trial": 18,
+        "stall_s": 216.169922,
+        "stall_to_record_ms": 801.725,
+        "record_to_reset_ms": 1874.1,
+        "stall_to_reset_ms": 2675.825,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.019,
+        "led_median_toggle_gap_after_reset_ms": 24.474
+      },
+      {
+        "trial": 19,
+        "stall_s": 228.878685,
+        "stall_to_record_ms": 801.52,
+        "record_to_reset_ms": 1874.14,
+        "stall_to_reset_ms": 2675.66,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.02,
+        "led_median_toggle_gap_after_reset_ms": 24.474
+      },
+      {
+        "trial": 20,
+        "stall_s": 241.58637,
+        "stall_to_record_ms": 801.508,
+        "record_to_reset_ms": 1873.832,
+        "stall_to_reset_ms": 2675.34,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.017,
+        "led_median_toggle_gap_after_reset_ms": 24.476
+      },
+      {
+        "trial": 21,
+        "stall_s": 254.293618,
+        "stall_to_record_ms": 801.521,
+        "record_to_reset_ms": 1874.592,
+        "stall_to_reset_ms": 2676.113,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.01,
+        "led_median_toggle_gap_after_reset_ms": 24.48
+      },
+      {
+        "trial": 22,
+        "stall_s": 267.002014,
+        "stall_to_record_ms": 801.606,
+        "record_to_reset_ms": 1874.543,
+        "stall_to_reset_ms": 2676.149,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.017,
+        "led_median_toggle_gap_after_reset_ms": 24.478
+      },
+      {
+        "trial": 23,
+        "stall_s": 279.710399,
+        "stall_to_record_ms": 801.398,
+        "record_to_reset_ms": 1874.592,
+        "stall_to_reset_ms": 2675.99,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.01,
+        "led_median_toggle_gap_after_reset_ms": 24.474
+      },
+      {
+        "trial": 24,
+        "stall_s": 292.417595,
+        "stall_to_record_ms": 801.561,
+        "record_to_reset_ms": 1874.349,
+        "stall_to_reset_ms": 2675.91,
+        "app_relaunched_after_reset": true,
+        "relaunch_after_reset_ms": 28.023,
+        "led_median_toggle_gap_after_reset_ms": 24.485
+      }
+    ],
+    "compare_with": "W3 952/1652 ms (stall->record), W5/W6 + IWDG max 2170 ms (record->reset)",
+    "beacon_hint": "app heartbeat LED toggles every ~500 ms; a much faster toggle after reset with no loop activity is the bootloader beacon"
+  }
+}

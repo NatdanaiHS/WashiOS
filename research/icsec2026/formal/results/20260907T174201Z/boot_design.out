@@ -1,0 +1,104 @@
+
+Verifying formula 1 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:5
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 34 ms
+ -- Virtual memory used : 64356 KiB
+ -- Resident memory used : 20532 KiB
+
+Verifying formula 2 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:8
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 22 ms
+ -- Virtual memory used : 64740 KiB
+ -- Resident memory used : 20880 KiB
+
+Verifying formula 3 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:11
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 24 ms
+ -- Virtual memory used : 65872 KiB
+ -- Resident memory used : 21992 KiB
+
+Verifying formula 4 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:14
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 22 ms
+ -- Virtual memory used : 65872 KiB
+ -- Resident memory used : 21992 KiB
+
+Verifying formula 5 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:17
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 27 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 6 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:20
+ -- Formula is satisfied.
+ -- States stored : 86 states
+ -- States explored : 33 states
+ -- CPU user time used : 1 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 7 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:21
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 22 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 8 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:24
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 22 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 9 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:28
+ -- Formula is NOT satisfied.
+ -- States stored : 112 states
+ -- States explored : 49 states
+ -- CPU user time used : 1 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 10 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:30
+ -- Formula is satisfied.
+ -- States stored : 112 states
+ -- States explored : 49 states
+ -- CPU user time used : 0 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 11 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:35
+ -- Formula is NOT satisfied.
+ -- States stored : 4492 states
+ -- States explored : 5358 states
+ -- CPU user time used : 7 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 12 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:37
+ -- Formula is satisfied.
+ -- States stored : 12547 states
+ -- States explored : 17543 states
+ -- CPU user time used : 23 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25668 KiB
+
+Verifying formula 13 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/boot_policy.q:40
+ -- Formula is NOT satisfied.
+ -- States stored : 5599 states
+ -- States explored : 6872 states
+ -- CPU user time used : 9 ms
+ -- Virtual memory used : 68600 KiB
+ -- Resident memory used : 25672 KiB

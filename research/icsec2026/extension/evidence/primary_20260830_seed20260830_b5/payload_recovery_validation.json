@@ -1,0 +1,83 @@
+{
+  "controller_link_start_markers": [],
+  "controller_recovery_markers": [
+    {
+      "host_time": "2026-08-30T13:57:04.765763+00:00",
+      "marker": "[OBC] PAYLOAD_RECOVERED recoveries=2"
+    }
+  ],
+  "controller_reset_authorized": false,
+  "finished_host_time": "2026-08-30T13:57:12.204294+00:00",
+  "invalid_reason": "",
+  "normal_command_host_time": "2026-08-30T13:57:04.564611+00:00",
+  "normal_confirmation_host_time": "2026-08-30T13:57:04.627249+00:00",
+  "openocd_exit_code": 0,
+  "payload_ready_host_time": "2026-08-30T13:57:04.564611+00:00",
+  "payload_reset_authorized": true,
+  "payload_stlink_serial": "0041003D3234510F37333934",
+  "purpose": "Exceptional recovery from retained R002 500 ms host-command starvation",
+  "reset_command": [
+    "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+    "-d2",
+    "-s",
+    "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+    "-c",
+    "adapter serial 0041003D3234510F37333934",
+    "-f",
+    "interface/stlink.cfg",
+    "-c",
+    "transport select hla_swd",
+    "-f",
+    "target/stm32g4x.cfg",
+    "-c",
+    "init; reset run; shutdown;"
+  ],
+  "run_id": "PAYLOAD_ONLY_RESET_001",
+  "stabilization": {
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "evaluated_boundary_host_time": "2026-08-30T13:57:07.196883+00:00",
+    "failures": [],
+    "normal_command_host_time": "2026-08-30T13:57:04.627249+00:00",
+    "normal_confirmation_host_time": "2026-08-30T13:57:04.689333+00:00",
+    "pre_baseline_markers": [
+      {
+        "host_time": "2026-08-30T13:57:04.765763+00:00",
+        "marker": "[OBC] PAYLOAD_RECOVERED recoveries=2"
+      }
+    ],
+    "prohibited_markers": [],
+    "serial_boundary_host_time": "2026-08-30T13:57:04.689333+00:00",
+    "status_records": [
+      {
+        "crc": 0,
+        "host_time": "2026-08-30T13:57:07.196883+00:00",
+        "monotonic_s": 7907.0,
+        "ok": 3018,
+        "polls": 4620,
+        "recovery": 2,
+        "seq": 1585,
+        "state": "ONLINE",
+        "timeout": 1602
+      },
+      {
+        "crc": 0,
+        "host_time": "2026-08-30T13:57:12.185608+00:00",
+        "monotonic_s": 7911.984,
+        "ok": 3028,
+        "polls": 4630,
+        "recovery": 2,
+        "seq": 1585,
+        "state": "ONLINE",
+        "timeout": 1602
+      }
+    ],
+    "valid": true
+  },
+  "started_host_time": "2026-08-30T13:57:04.141072+00:00",
+  "valid": true
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_build_test.v1",
+  "verified_host_time": "2026-09-01T23:12:10+07:00",
+  "tests": {
+    "core_native": {"exit_code": 0, "passed": 43, "failed": 0},
+    "payload_native": {"exit_code": 0, "passed": 3, "failed": 0},
+    "extension_host": {"exit_code": 0, "passed": 18, "failed": 0},
+    "pair2_configuration_tests": {"included_in_extension_host": true, "passed": 2, "failed": 0}
+  },
+  "clean_builds": {
+    "controller_clean_exit_code": 0,
+    "controller_build_exit_code": 0,
+    "payload_clean_exit_code": 0,
+    "payload_build_exit_code": 0
+  },
+  "firmware": {
+    "controller_elf": {"size_bytes": 158152, "sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78"},
+    "controller_bin": {"size_bytes": 19832, "sha256": "8686113C4A83E1600EBE66FB3B3F8795853011B4B0E69D91F9E68EBB3FD8FE68"},
+    "payload_elf": {"size_bytes": 143396, "sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493"},
+    "payload_bin": {"size_bytes": 8152, "sha256": "52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB"}
+  },
+  "all_required_tests_passed": true,
+  "all_clean_builds_passed": true,
+  "all_four_fixed_hashes_exact": true
+}

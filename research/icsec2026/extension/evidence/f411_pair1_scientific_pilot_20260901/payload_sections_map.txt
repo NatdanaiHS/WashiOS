@@ -1,0 +1,33 @@
+
+research/icsec2026/extension/evidence/f411_pair1_scientific_pilot_20260901/firmware/f411_p1_payload.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000198  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00001b84  08000198  08000198  00010198  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000208  08001d1c  08001d1c  00011d1c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .ARM.extab    00000000  08001f24  08001f24  000200a0  2**0
+                  CONTENTS
+  4 .ARM          00000008  08001f24  08001f24  00011f24  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  5 .preinit_array 00000000  08001f2c  08001f2c  000200a0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000008  08001f2c  08001f2c  00011f2c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  08001f34  08001f34  00011f34  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         000000a0  20000000  08001f38  00020000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          00000220  200000a0  08001fd8  000200a0  2**2
+                  ALLOC
+ 10 ._user_heap_stack 00000600  200002c0  08001fd8  000202c0  2**0
+                  ALLOC
+ 11 .ARM.attributes 0000002a  00000000  00000000  000200a0  2**0
+                  CONTENTS, READONLY
+ 12 .comment      0000007e  00000000  00000000  000200ca  2**0
+                  CONTENTS, READONLY
+ 13 .debug_frame  000001b0  00000000  00000000  00020148  2**2
+                  CONTENTS, READONLY, DEBUGGING

@@ -1,0 +1,11 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_preacquisition_source_state.v1",
+  "branch": "experiment/icsec-extension-20260830",
+  "lock_and_identity_commit": "cfc6a7bab7cbabad34323119e3a9a8a7af547c99",
+  "lock_and_identity_upstream_commit": "cfc6a7bab7cbabad34323119e3a9a8a7af547c99",
+  "main_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "origin_main_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "initial_lock_commit_synchronized": true,
+  "acquisition_source_commit": null,
+  "note": "The exact clean synchronized acquisition source commit is recorded immediately before/after the one invocation because a file cannot name the commit that first contains itself."
+}

@@ -1,0 +1,144 @@
+[
+  {
+    "command": [
+      "git",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "git version 2.55.0.windows.3\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "PlatformIO Core, version 6.1.19\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+      "system",
+      "info",
+      "--json-output"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "{\"core_version\": {\"title\": \"PlatformIO Core\", \"value\": \"6.1.19\"}, \"python_version\": {\"title\": \"Python\", \"value\": \"3.11.7-final.0\"}, \"system\": {\"title\": \"System Type\", \"value\": \"windows_amd64\"}, \"platform\": {\"title\": \"Platform\", \"value\": \"Windows-10\"}, \"filesystem_encoding\": {\"title\": \"File System Encoding\", \"value\": \"utf-8\"}, \"locale_encoding\": {\"title\": \"Locale Encoding\", \"value\": \"cp1252\"}, \"core_dir\": {\"title\": \"PlatformIO Core Directory\", \"value\": \"C:\\\\Users\\\\wachi\\\\.platformio\"}, \"platformio_exe\": {\"title\": \"PlatformIO Core Executable\", \"value\": \"C:\\\\Users\\\\wachi\\\\.platformio\\\\penv\\\\Scripts\\\\platformio.exe\"}, \"python_exe\": {\"title\": \"Python Executable\", \"value\": \"C:\\\\Users\\\\wachi\\\\.platformio\\\\penv\\\\Scripts\\\\python.exe\"}, \"global_lib_nums\": {\"title\": \"Global Libraries\", \"value\": 0}, \"dev_platform_nums\": {\"title\": \"Development Platforms\", \"value\": 4}, \"package_tool_nums\": {\"title\": \"Tools & Toolchains\", \"value\": 21}}\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+      "pkg",
+      "list",
+      "-d",
+      "C:\\WashiOS\\core"
+    ],
+    "exit_code": 1,
+    "stderr": "UnicodeEncodeError: Traceback (most recent call last):\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 103, in main\n    cli()  # pylint: disable=no-value-for-parameter\n    ^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1514, in __call__\n    return self.main(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1435, in main\n    rv = self.invoke(ctx)\n         ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\cli.py\", line 85, in invoke\n    return super().invoke(ctx)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1902, in invoke\n    return _process_result(sub_ctx.command.invoke(sub_ctx))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1902, in invoke\n    return _process_result(sub_ctx.command.invoke(sub_ctx))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1298, in invoke\n    return ctx.invoke(self.callback, **ctx.params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 853, in invoke\n    return callback(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 56, in package_list_cmd\n    list_project_packages(options)\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 179, in list_project_packages\n    _found = print_project_env_platform_packages(env, options)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 205, in print_project_env_platform_packages\n    print_dependency_tree(\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 99, in print_dependency_tree\n    click.echo(\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 89, in <lambda>\n    click.echo = lambda *args, **kwargs: _safe_echo(0, *args, **kwargs)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 83, in _safe_echo\n    click_echo_origin[origin](*args, **kwargs)\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\utils.py\", line 324, in echo\n    file.write(out)  # type: ignore\n    ^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\python3\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode characters in position 0-2: character maps to <undefined>\n\n============================================================\n\nAn unexpected error occurred. Further steps:\n\n* Verify that you have the latest version of PlatformIO using\n  `python -m pip install -U platformio` command\n\n* Try to find answer in FAQ Troubleshooting section\n  https://docs.platformio.org/page/faq/index.html\n\n* Report this problem to the developers\n  https://github.com/platformio/platformio-core/issues\n\n============================================================\n\n",
+    "stdout": "Resolving genericSTM32F411RE dependencies...\nPlatform ststm32 @ 19.6.0 (required: ststm32)\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+      "pkg",
+      "list",
+      "-d",
+      "C:\\WashiOS\\bootloader"
+    ],
+    "exit_code": 1,
+    "stderr": "UnicodeEncodeError: Traceback (most recent call last):\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 103, in main\n    cli()  # pylint: disable=no-value-for-parameter\n    ^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1514, in __call__\n    return self.main(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1435, in main\n    rv = self.invoke(ctx)\n         ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\cli.py\", line 85, in invoke\n    return super().invoke(ctx)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1902, in invoke\n    return _process_result(sub_ctx.command.invoke(sub_ctx))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1902, in invoke\n    return _process_result(sub_ctx.command.invoke(sub_ctx))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1298, in invoke\n    return ctx.invoke(self.callback, **ctx.params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 853, in invoke\n    return callback(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 56, in package_list_cmd\n    list_project_packages(options)\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 179, in list_project_packages\n    _found = print_project_env_platform_packages(env, options)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 205, in print_project_env_platform_packages\n    print_dependency_tree(\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 99, in print_dependency_tree\n    click.echo(\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 89, in <lambda>\n    click.echo = lambda *args, **kwargs: _safe_echo(0, *args, **kwargs)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 83, in _safe_echo\n    click_echo_origin[origin](*args, **kwargs)\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\utils.py\", line 324, in echo\n    file.write(out)  # type: ignore\n    ^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\python3\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode characters in position 0-2: character maps to <undefined>\n\n============================================================\n\nAn unexpected error occurred. Further steps:\n\n* Verify that you have the latest version of PlatformIO using\n  `python -m pip install -U platformio` command\n\n* Try to find answer in FAQ Troubleshooting section\n  https://docs.platformio.org/page/faq/index.html\n\n* Report this problem to the developers\n  https://github.com/platformio/platformio-core/issues\n\n============================================================\n\n",
+    "stdout": "Resolving nucleo_g431rb dependencies...\nPlatform ststm32 @ 19.6.0 (required: ststm32)\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\penv\\Scripts\\pio.exe",
+      "pkg",
+      "list",
+      "-d",
+      "C:\\WashiOS\\demo-payload"
+    ],
+    "exit_code": 1,
+    "stderr": "UnicodeEncodeError: Traceback (most recent call last):\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 103, in main\n    cli()  # pylint: disable=no-value-for-parameter\n    ^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1514, in __call__\n    return self.main(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1435, in main\n    rv = self.invoke(ctx)\n         ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\cli.py\", line 85, in invoke\n    return super().invoke(ctx)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1902, in invoke\n    return _process_result(sub_ctx.command.invoke(sub_ctx))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1902, in invoke\n    return _process_result(sub_ctx.command.invoke(sub_ctx))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 1298, in invoke\n    return ctx.invoke(self.callback, **ctx.params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\core.py\", line 853, in invoke\n    return callback(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 56, in package_list_cmd\n    list_project_packages(options)\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 179, in list_project_packages\n    _found = print_project_env_platform_packages(env, options)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 205, in print_project_env_platform_packages\n    print_dependency_tree(\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\package\\commands\\list.py\", line 99, in print_dependency_tree\n    click.echo(\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 89, in <lambda>\n    click.echo = lambda *args, **kwargs: _safe_echo(0, *args, **kwargs)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\platformio\\__main__.py\", line 83, in _safe_echo\n    click_echo_origin[origin](*args, **kwargs)\n  File \"C:\\Users\\wachi\\.platformio\\penv\\Lib\\site-packages\\click\\utils.py\", line 324, in echo\n    file.write(out)  # type: ignore\n    ^^^^^^^^^^^^^^^\n  File \"C:\\Users\\wachi\\.platformio\\python3\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode characters in position 0-2: character maps to <undefined>\n\n============================================================\n\nAn unexpected error occurred. Further steps:\n\n* Verify that you have the latest version of PlatformIO using\n  `python -m pip install -U platformio` command\n\n* Try to find answer in FAQ Troubleshooting section\n  https://docs.platformio.org/page/faq/index.html\n\n* Report this problem to the developers\n  https://github.com/platformio/platformio-core/issues\n\n============================================================\n\n",
+    "stdout": "Resolving nucleo_g474re dependencies...\nPlatform ststm32 @ 19.6.0 (required: ststm32)\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "Python 3.12.10\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "-m",
+      "pip",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "pip 25.0.1 from C:\\Users\\wachi\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\pip (python 3.12)\n\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "-m",
+      "pip",
+      "freeze",
+      "--all"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "pip==25.0.1\npyserial==3.5\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi\\bin\\arm-none-eabi-gcc.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "arm-none-eabi-gcc.exe (xPack GNU Arm Embedded GCC x86_64) 12.3.1 20230626\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi\\bin\\arm-none-eabi-g++.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "arm-none-eabi-g++.exe (xPack GNU Arm Embedded GCC x86_64) 12.3.1 20230626\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\toolchain-gccarmnoneeabi\\bin\\arm-none-eabi-objcopy.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "GNU objcopy (xPack GNU Arm Embedded GCC x86_64) 2.40.0.20230627\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\n"
+  },
+  {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "xPack Open On-Chip Debugger 0.12.0+dev-02228-ge5888bda3-dirty (2025-10-04-22:44)\nLicensed under GNU GPL v2\nFor bug reports, read\n\thttp://openocd.org/doc/doxygen/bugs.html\n",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "pwsh",
+      "--version"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "PowerShell 7.6.4\n"
+  }
+]

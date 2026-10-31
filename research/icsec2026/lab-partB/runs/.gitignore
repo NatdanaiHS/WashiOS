@@ -1,0 +1,4 @@
+# Evidence: every file listed in a run's INVENTORY.sha256 is kept, despite the repo-wide ignores.
+!*.bin
+!*.log
+!*.vcd

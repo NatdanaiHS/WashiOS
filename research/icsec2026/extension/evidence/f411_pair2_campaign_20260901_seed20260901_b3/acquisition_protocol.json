@@ -1,0 +1,20 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_campaign_protocol.v1",
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "precheck_id": "F411_P2_CAMPAIGN_20260901_B3_PRECHECK",
+  "continuous_dual_capture": true,
+  "one_flash_verify_reset_sequence": true,
+  "precheck_normal_window_s": 65.0,
+  "exposure_s": 4.0,
+  "poll_ms": 500,
+  "deadline_ms": 100,
+  "offline_after_consecutive_timeouts": 3,
+  "fresh_normal_and_pre_stabilization_each_row": true,
+  "normal_restore_and_post_stabilization_each_row": true,
+  "reset_or_reflash_between_rows": false,
+  "first_invalid_stop": true,
+  "retry_replacement_reorder_or_append": false,
+  "fixed_order_source": "run_plan.csv",
+  "pair1_pooling": false,
+  "hardware_action_performed_at_lock": false
+}

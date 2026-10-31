@@ -1,0 +1,22 @@
+{
+  "schema": "washios.icsec2026.f411_engdiag.final_disposition.v1",
+  "terminal_condition": "ENGINEERING_DIAGNOSTIC_PASS_AWAITING_REVIEW",
+  "scientific_observation": false,
+  "manuscript_use": "NONE",
+  "confirmed_hypothesis": 1,
+  "hypotheses_not_tested_after_stop": [2, 3],
+  "fix_count": 1,
+  "fixcheck_count": 1,
+  "hardware_action_start": "2026-09-01T21:30:25.6843915+07:00",
+  "final_hardware_action_end": "2026-09-01T21:33:51.524365+07:00",
+  "hardware_action_elapsed_s": 205.839974,
+  "hardware_action_limit_s": 1800,
+  "within_time_limit": true,
+  "prior_failed_bringups_reclassified": false,
+  "prior_corrected_inventory_sha256": "A5C8BF48D7FD0E9CC3A120B890F11CA49FD8DBB6086FD594A321F14C778AC6C9",
+  "prior_corrected_inventory_unchanged": true,
+  "scientific_authorization_created": false,
+  "final_controller_state": "running fixed diagnostic firmware; ONLINE status and continuing exchanges observed",
+  "final_payload_state": "running unchanged payload firmware; NORMAL confirmed",
+  "next_action": "research review only; no NORMAL window, fault injection, pilot, campaign, or second-pair work is authorized"
+}

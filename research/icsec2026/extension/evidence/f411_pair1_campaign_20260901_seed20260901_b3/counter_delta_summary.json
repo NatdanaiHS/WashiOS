@@ -1,0 +1,24 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_counter_delta_summary.v1",
+  "definition": "For each row, subtract the final pre-stabilization status counters from the first post-stabilization status counters. These cumulative deltas are reported separately from explicit transition-marker counts.",
+  "rows": [
+    {"run_id":"F411P1_C01_B1_NC","condition":"NC","timeout":0,"crc":0,"seq":0,"recovery":0},
+    {"run_id":"F411P1_C02_B1_D110","condition":"D110","timeout":8,"crc":0,"seq":8,"recovery":1},
+    {"run_id":"F411P1_C03_B1_D090","condition":"D090","timeout":0,"crc":0,"seq":0,"recovery":0},
+    {"run_id":"F411P1_C04_B1_D100","condition":"D100","timeout":8,"crc":0,"seq":8,"recovery":1},
+    {"run_id":"F411P1_C05_B2_D090","condition":"D090","timeout":0,"crc":0,"seq":0,"recovery":0},
+    {"run_id":"F411P1_C06_B2_NC","condition":"NC","timeout":0,"crc":0,"seq":0,"recovery":0},
+    {"run_id":"F411P1_C07_B2_D100","condition":"D100","timeout":8,"crc":0,"seq":8,"recovery":1},
+    {"run_id":"F411P1_C08_B2_D110","condition":"D110","timeout":8,"crc":0,"seq":8,"recovery":1},
+    {"run_id":"F411P1_C09_B3_D100","condition":"D100","timeout":8,"crc":0,"seq":8,"recovery":1},
+    {"run_id":"F411P1_C10_B3_D110","condition":"D110","timeout":8,"crc":0,"seq":8,"recovery":1},
+    {"run_id":"F411P1_C11_B3_NC","condition":"NC","timeout":0,"crc":0,"seq":0,"recovery":0},
+    {"run_id":"F411P1_C12_B3_D090","condition":"D090","timeout":0,"crc":0,"seq":0,"recovery":0}
+  ],
+  "condition_pattern": {
+    "NC": "0/0/0/0 in all three rows",
+    "D090": "0/0/0/0 in all three rows",
+    "D100": "timeout=8, crc=0, seq=8, recovery=1 in all three rows",
+    "D110": "timeout=8, crc=0, seq=8, recovery=1 in all three rows"
+  }
+}

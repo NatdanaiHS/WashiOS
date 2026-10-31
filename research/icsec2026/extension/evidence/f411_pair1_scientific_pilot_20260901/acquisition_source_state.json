@@ -1,0 +1,9 @@
+{
+  "firmware_source_commit": "0ce8a5cfe12b0dc72df5e8baeee1f8f3bdf19612",
+  "locked_harness_and_preacquisition_commit": "482a635",
+  "branch": "experiment/icsec-extension-20260830",
+  "worktree_before_human_confirmation_record": "CLEAN",
+  "run_path_preexisted": false,
+  "preacquisition_inventory_sha256": "0123BCDA3590BF6151A12DF6A0BD1A71FC80F383EB838D44BD38D6B89EBC217D",
+  "preacquisition_inventory_issues": 0
+}

@@ -1,0 +1,15 @@
+{
+  "activation_timeout_s": 3.0,
+  "conditions_ms": [
+    90,
+    100,
+    110
+  ],
+  "gate_timeout_s": 15.0,
+  "normal_controls": 3,
+  "observation_s": 4.0,
+  "offline_threshold_consecutive_timeouts": 3,
+  "poll_period_ms": 500,
+  "post_restore_gate_required": true,
+  "response_deadline_ms": 100
+}

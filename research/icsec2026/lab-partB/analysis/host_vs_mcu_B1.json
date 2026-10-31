@@ -1,0 +1,64 @@
+{
+  "run": "20261031T173045Z_B1B2B5_normal-11min",
+  "capture_sha256": "BCCE684A0453E3DDAC6C6C8B503EFE4AFEE5BF0A34349CD7EB1010A3E61AB417",
+  "serial_sha256": "B1DBA0B6AE128D0E53CC2D0627635E591755B38C1D02F7FDA479CCEF57CB0486",
+  "pairs": 1320,
+  "status_reports": 132,
+  "mean_period_ms": {
+    "analyzer": 500.219,
+    "host": 500.2146
+  },
+  "interval_containing_status": {
+    "host": {
+      "n": 132,
+      "min_ms": 493.01,
+      "median_ms": 496.714,
+      "mean_ms": 498.715,
+      "p99_ms": 556.633,
+      "max_ms": 558.555
+    },
+    "mcu": {
+      "n": 132,
+      "min_ms": 498.084,
+      "median_ms": 500.236,
+      "mean_ms": 500.266,
+      "p99_ms": 501.338,
+      "max_ms": 501.356
+    }
+  },
+  "interval_without_status": {
+    "host": {
+      "n": 1187,
+      "min_ms": 436.055,
+      "median_ms": 497.142,
+      "mean_ms": 500.381,
+      "p99_ms": 559.789,
+      "max_ms": 561.713
+    },
+    "mcu": {
+      "n": 1187,
+      "min_ms": 498.047,
+      "median_ms": 500.265,
+      "mean_ms": 500.214,
+      "p99_ms": 501.333,
+      "max_ms": 502.388
+    }
+  },
+  "host_line_latency_offset_removed": {
+    "n": 1320,
+    "min_ms": 0.0,
+    "median_ms": 39.732,
+    "mean_ms": 39.689,
+    "p99_ms": 75.889,
+    "max_ms": 81.02
+  },
+  "host_latency_first_line_after_status": {
+    "n": 132,
+    "min_ms": 5.736,
+    "median_ms": 41.942,
+    "mean_ms": 41.011,
+    "p99_ms": 73.318,
+    "max_ms": 77.488
+  },
+  "note": "host latency is relative to the smallest observed host-minus-MCU offset; it includes the 75-byte line serialization, ST-LINK VCP and host scheduling"
+}

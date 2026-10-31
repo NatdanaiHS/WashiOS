@@ -1,0 +1,62 @@
+{
+  "status": "COMPLETE_REVIEWED_SCOPE_DOWN",
+  "scope": "G431-A/G474-A, passed NOMINAL_002, three amended blocks at 50/90/100/110/150/250 ms with six NC observations, and SHORT/SUSTAINED BAD_CRC mechanism checks",
+  "source_branch": "experiment/icsec-extension-20260830",
+  "acquisition_source_commit": "cfd4b1b59d5018f498e5cc083ab27e1d230ae85d",
+  "frozen_base_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "board_identity": {
+    "controller": "G431-A NUCLEO-G431RB",
+    "controller_stlink_serial": "005100243032511537333436",
+    "controller_port": "COM8",
+    "payload": "G474-A NUCLEO-G474RE",
+    "payload_stlink_serial": "0041003D3234510F37333934",
+    "payload_port": "COM9"
+  },
+  "wiring": "G431 PC4 TX -> G474 PC5 RX; G431 PC5 RX <- G474 PC4 TX; common GND; 115200 8N1",
+  "firmware_sha256": {
+    "g431_application": "6515796C07D37C19E21B0104B477EA4C6451B66A995EBEF6510725764441E727",
+    "g431_bootloader": "FE591BF7292AD0D40F8FEE4AF5779118AE0D0083FF362F5BE9CCB156ADFE619E",
+    "g474_payload": "5581492429080BD58177A37733981ABA12DA6074BA40EAC0157B86E027B479E7"
+  },
+  "plan": {
+    "seed": 20260830,
+    "original_plan_sha256": "24AD8C20778472BFFC644557D2284D15A481804A1820BDA05A1827D3C88EBBDE",
+    "amended_plan_sha256": "3556D9902DD28DCA8FB86D504AFD5FF3A6C49CC01C49AB6B4FF476E92AFCF0CF"
+  },
+  "accounting": {
+    "original_plan_rows": 45,
+    "attempted_rows": 25,
+    "valid_rows": 24,
+    "invalid_rows": 1,
+    "scope_removed_rows": 20,
+    "valid_per_serviceable_delay": 3,
+    "valid_normal_controls": 6
+  },
+  "invalid_attempts": [
+    {
+      "run_id": "NOMINAL_001",
+      "reason": "G474 serial capture ClearCommError at window close",
+      "replaced": false,
+      "retained": true
+    },
+    {
+      "run_id": "R002_B1_D500",
+      "reason": "NORMAL_RESTORE_NOT_CONFIRMED",
+      "included_in_valid_denominator": false,
+      "retried": false,
+      "retained": true
+    }
+  ],
+  "exceptional_recovery": "One exact-serial payload-only reset after R002; G431 was not reset; recovery and stabilization passed",
+  "nominal": "NOMINAL_002 valid: 605.0 s, 121 ONLINE status records, strictly increasing ok, zero timeout/CRC/sequence/recovery deltas, no prohibited marker",
+  "normal_controls": "Six valid; zero false rejection, timeout, OFFLINE, recovery, restart, or poll-write-failure markers",
+  "bad_crc": {
+    "short": "CRC rejection followed by timeout consecutive=1, no OFFLINE, confirmed restoration and stabilization",
+    "sustained": "CRC rejection, timeout consecutive=1, timeout consecutive=2, OFFLINE consecutive=3, confirmed restoration/recovery and stabilization"
+  },
+  "last_confirmed_payload_state": "NORMAL with passed post-SUSTAINED stabilization gate",
+  "raw_log_format": "utc_iso8601<TAB>raw_hex<TAB>escaped_ascii; raw_hex is authoritative",
+  "timing_definition": "All host-derived intervals are host-observed; no MCU execution-latency inference",
+  "interpretation_boundary": "Sequential observations on one board pair; no independent-device, population, qualification, long-duration, or mission-reliability claim",
+  "validation": "final_validation.json valid=true with zero failures"
+}

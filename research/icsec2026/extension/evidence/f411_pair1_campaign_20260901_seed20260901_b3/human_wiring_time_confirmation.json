@@ -1,0 +1,17 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_human_confirmation.v1",
+  "confirmed_host_time": "2026-09-01T22:40:00+07:00",
+  "controller": {"board_id": "F411-A", "stlink_serial": "066BFF495051727187053106", "vcp": "COM16"},
+  "payload": {"board_id": "F411-B", "stlink_serial": "066EFF495051727187053015", "vcp": "COM11"},
+  "wiring": [
+    "F411-A D8/PA9 -> F411-B D2/PA10",
+    "F411-B D8/PA9 -> F411-A D2/PA10",
+    "GND -> GND"
+  ],
+  "d0_d1_wiring": false,
+  "unchanged_from_successful_pilot": true,
+  "both_boards_powered_and_connected": true,
+  "disconnect_reset_or_power_cycle_during_confirmation": false,
+  "uninterrupted_minutes_remaining_at_least": 90,
+  "ready": true
+}

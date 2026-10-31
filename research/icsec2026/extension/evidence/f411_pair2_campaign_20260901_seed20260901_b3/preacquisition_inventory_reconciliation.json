@@ -1,0 +1,13 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_preinventory_reconciliation.v1",
+  "preacquisition_inventory_rows": 22,
+  "preacquisition_inventory_sha256": "DE4894ED6056B23E1A7E9A191931B754F3098D9D1B82DFD8456D7650B4A1E9BA",
+  "unchanged_rows_after_acquisition": 21,
+  "expected_changed_rows": ["attempt_ledger.json"],
+  "unexpected_missing_size_or_hash_mismatches": 0,
+  "locked_attempt_ledger_sha256": "315A0FEDF1F27639982B158F21B748C3A2338B762763AD6D3B1F3BE22AB3F4FE",
+  "locked_ledger_matches_preacquisition_attempt_ledger_row": true,
+  "final_attempt_ledger_matches_current_attempt_ledger": true,
+  "raw_or_scientific_evidence_loss": false,
+  "note": "The campaign engine intentionally updates attempt_ledger.json. Its exact pristine state is retained separately as locked_attempt_ledger.json; final state is retained as final_attempt_ledger.json."
+}

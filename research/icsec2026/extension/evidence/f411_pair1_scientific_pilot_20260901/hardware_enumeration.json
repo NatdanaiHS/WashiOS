@@ -1,0 +1,22 @@
+{
+  "enumerated_host_time": "2026-09-01T21:52:00+07:00",
+  "controller": {
+    "board_id": "F411-A",
+    "stlink_serial": "066BFF495051727187053106",
+    "vcp": "COM16",
+    "usb_vid_pid": "0483:374B",
+    "usb_location": "1-1:x.2"
+  },
+  "payload": {
+    "board_id": "F411-B",
+    "stlink_serial": "066EFF495051727187053015",
+    "vcp": "COM11",
+    "usb_vid_pid": "0483:374B",
+    "usb_location": "1-2:x.2"
+  },
+  "identities_unique_and_unambiguous": true,
+  "f411_c_or_d_present": false,
+  "physical_wiring_confirmation": "PENDING_HUMAN_ACTION_REQUIRED",
+  "serial_ports_opened": false,
+  "board_reset_or_flash_performed": false
+}
