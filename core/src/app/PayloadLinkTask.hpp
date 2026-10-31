@@ -5,7 +5,9 @@
 
 #include "FixedTextWriter.hpp"
 #include "ITiming.hpp"
+#include "IGPIO.hpp"
 #include "IUart.hpp"
+#include "LabProbe.hpp"
 #include "PayloadLinkController.hpp"
 #include "TaskHealthReporter.hpp"
 #include "WashiTask.hpp"
@@ -23,10 +25,12 @@ public:
                     hal::IUart& consoleTransport,
                     hal::ITiming& timingSource,
                     core::TaskHealthRegistry<>& registry,
-                    core::TaskId taskId)
+                    core::TaskId taskId,
+                    hal::IGPIO* timeoutMarkerPin = nullptr)
         : payloadUart(payloadTransport),
           consoleUart(consoleTransport),
-          timing(timingSource)
+          timing(timingSource),
+          timeoutMarker(timeoutMarkerPin)
     {
         healthReporter.configure(&registry, &timingSource, taskId);
     }
@@ -37,6 +41,9 @@ protected:
         logLiteral("[OBC] PAYLOAD_LINK_START baud=115200\r\n");
         for (;;)
         {
+            clearTimeoutMarker();
+            lab::toggle(lab::Probe::Loop);
+            lab::stallIfDue(lab::StallTarget::PayloadLink);
             const uint32_t nowMs = static_cast<uint32_t>(timing.getSystemTick());
             receiveFrames(nowMs);
             serviceController(nowMs);
@@ -51,6 +58,7 @@ private:
     hal::IUart& payloadUart;
     hal::IUart& consoleUart;
     hal::ITiming& timing;
+    hal::IGPIO* timeoutMarker;
     core::TaskHealthReporter<> healthReporter;
     comms::PayloadLinkController controller;
     comms::PayloadFrameDecoder decoder;
@@ -59,6 +67,26 @@ private:
     comms::PayloadValidationResult lastRejection =
         comms::PayloadValidationResult::Ok;
     bool pollWriteFailureLogged = false;
+    bool timeoutMarkerHigh = false;
+
+    void clearTimeoutMarker()
+    {
+        if (timeoutMarker != nullptr && timeoutMarkerHigh)
+        {
+            timeoutMarker->setLow();
+            timeoutMarkerHigh = false;
+        }
+    }
+
+    void markTimeoutDetection()
+    {
+        if (timeoutMarker != nullptr)
+        {
+            /* Rising edge follows the timeout state update and precedes logging. */
+            timeoutMarker->setHigh();
+            timeoutMarkerHigh = true;
+        }
+    }
 
     void receiveFrames(uint32_t nowMs)
     {
@@ -80,9 +108,12 @@ private:
                     controller.acceptResponse(decoder.frameData(), comms::PayloadWireSize, nowMs);
                 if (result == comms::PayloadValidationResult::Ok)
                 {
+                    lab::toggle(lab::Probe::Accept);
                     lastRejection = comms::PayloadValidationResult::Ok;
+                    logAccepted();
                     if (previousState == comms::PayloadLinkState::Offline)
                     {
+                        lab::toggle(lab::Probe::Recovery);
                         logRecovery();
                     }
                     else if (previousState == comms::PayloadLinkState::Starting)
@@ -111,6 +142,7 @@ private:
         controller.service(nowMs);
         if (controller.stats().timeouts != previousTimeouts)
         {
+            markTimeoutDetection();
             if (previousState != comms::PayloadLinkState::Offline &&
                 controller.state() == comms::PayloadLinkState::Offline)
             {
@@ -128,6 +160,7 @@ private:
         uint8_t request[comms::PayloadWireSize] = {};
         if (controller.preparePoll(nowMs, request, sizeof(request)))
         {
+            lab::toggle(lab::Probe::Poll);
             const bool sent = payloadUart.writeBuffer(request, sizeof(request), UartTimeoutMs);
             if (!sent && !pollWriteFailureLogged)
             {
@@ -157,6 +190,7 @@ private:
             return;
         }
 
+        lab::high(lab::Probe::Status);
         const comms::PayloadLinkStats& stats = controller.stats();
         core::FixedTextWriter<192U> line;
         (void)line.append("[OBC] PAYLOAD_STATUS state=");
@@ -176,6 +210,7 @@ private:
         (void)line.append(" heartbeat=OK watchdog=OK\r\n");
         writeLine(line);
         nextStatusMs = nowMs + StatusPeriodMs;
+        lab::low(lab::Probe::Status);
     }
 
     void logOnline()
@@ -190,6 +225,17 @@ private:
         (void)line.appendI32(telemetry.simulatedSensorMilliunits);
         (void)line.append(" mode=");
         (void)line.appendU32(static_cast<uint32_t>(telemetry.mode));
+        (void)line.append("\r\n");
+        writeLine(line);
+    }
+
+    void logAccepted()
+    {
+        core::FixedTextWriter<88U> line;
+        (void)line.append("[OBC] PAYLOAD_ACCEPTED seq=");
+        (void)line.appendU32(controller.awaitedSequence());
+        (void)line.append(" mode=");
+        (void)line.appendU32(static_cast<uint32_t>(controller.latestTelemetry().mode));
         (void)line.append("\r\n");
         writeLine(line);
     }
@@ -273,7 +319,9 @@ private:
     template<std::size_t Capacity>
     void writeLine(const core::FixedTextWriter<Capacity>& line)
     {
+        lab::high(lab::Probe::Write);
         (void)consoleUart.writeBuffer(line.data(), line.size(), UartTimeoutMs);
+        lab::low(lab::Probe::Write);
     }
 
     void logLiteral(const char* text)

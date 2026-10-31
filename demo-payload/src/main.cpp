@@ -12,8 +12,15 @@ namespace
 constexpr uint32_t BaudRate = 115200U;
 constexpr uint32_t UartTimeoutMs = 10U;
 constexpr uint32_t ButtonDebounceMs = 50U;
-constexpr uint32_t DelayedResponseMs = 250U;
+constexpr uint32_t DefaultDelayedResponseMs = 250U;
 constexpr uint32_t LinkStatusPeriodMs = 1000U;
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+constexpr uint16_t ScopeEndpointMarkerPin = GPIO_PIN_8; /* NUCLEO D7 / PA8 */
+#endif
+#if defined(WASHIOS_LAB_GPIO)
+/* High while a fault mode is applied; each edge is a confirmed mode change. */
+constexpr uint16_t LabFaultModeMarkerPin = GPIO_PIN_9; /* NUCLEO D8 / PA9 */
+#endif
 constexpr std::size_t LinkReceiveBufferCapacity = 128U;
 constexpr std::size_t DebugReceiveBufferCapacity = 64U;
 constexpr std::size_t MaxDebugBytesPerCycle = 32U;
@@ -22,6 +29,7 @@ UART_HandleTypeDef debugUart = {};
 UART_HandleTypeDef linkUart = {};
 comms::PayloadFrameDecoder requestDecoder;
 comms::PayloadMode currentMode = comms::PayloadMode::Normal;
+uint32_t delayedResponseMs = DefaultDelayedResponseMs;
 uint32_t sampleCounter = 0U;
 uint8_t linkReceiveBuffer[LinkReceiveBufferCapacity] = {};
 uint8_t debugReceiveBuffer[DebugReceiveBufferCapacity] = {};
@@ -98,6 +106,25 @@ void initializeGpio()
     gpio.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &gpio);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+    gpio = {};
+    gpio.Pin = ScopeEndpointMarkerPin;
+    gpio.Mode = GPIO_MODE_OUTPUT_PP;
+    gpio.Pull = GPIO_NOPULL;
+    gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init(GPIOA, &gpio);
+    HAL_GPIO_WritePin(GPIOA, ScopeEndpointMarkerPin, GPIO_PIN_RESET);
+#endif
+#if defined(WASHIOS_LAB_GPIO)
+    gpio = {};
+    gpio.Pin = LabFaultModeMarkerPin;
+    gpio.Mode = GPIO_MODE_OUTPUT_PP;
+    gpio.Pull = GPIO_NOPULL;
+    gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(GPIOA, &gpio);
+    HAL_GPIO_WritePin(GPIOA, LabFaultModeMarkerPin, GPIO_PIN_RESET);
+#endif
 
     gpio = {};
     gpio.Pin = GPIO_PIN_13;
@@ -185,14 +212,28 @@ void logMode()
     core::FixedTextWriter<64U> line;
     (void)line.append("[PAYLOAD] MODE=");
     (void)line.append(modeName(currentMode));
+    if (currentMode == comms::PayloadMode::Delayed)
+    {
+        (void)line.append(" delay_ms=");
+        (void)line.appendU32(delayedResponseMs);
+    }
     (void)line.append("\r\n");
     writeDebug(line);
+}
+
+void markModeApplied()
+{
+#if defined(WASHIOS_LAB_GPIO)
+    HAL_GPIO_WritePin(GPIOA, LabFaultModeMarkerPin,
+                      currentMode == comms::PayloadMode::Normal ? GPIO_PIN_RESET : GPIO_PIN_SET);
+#endif
 }
 
 void cycleMode()
 {
     currentMode = static_cast<comms::PayloadMode>(
         (static_cast<uint8_t>(currentMode) + 1U) % 4U);
+    markModeApplied();
     logMode();
 }
 
@@ -219,11 +260,14 @@ void serviceHostCommands()
         }
 
         comms::PayloadMode selectedMode = currentMode;
+        uint32_t selectedDelayMs = delayedResponseMs;
         const HostModeCommandParser::Event event =
-            hostCommandParser.consume(byte, selectedMode);
+            hostCommandParser.consume(byte, selectedMode, selectedDelayMs);
         if (event == HostModeCommandParser::Event::ModeSelected)
         {
             currentMode = selectedMode;
+            delayedResponseMs = selectedDelayMs;
+            markModeApplied();
             logMode();
         }
         else if (event == HostModeCommandParser::Event::InvalidCommand)
@@ -298,7 +342,17 @@ void handleRequest(const uint8_t* requestData)
     {
         return;
     }
-    if (currentMode == comms::PayloadMode::Delayed) HAL_Delay(DelayedResponseMs);
+    if (currentMode == comms::PayloadMode::Delayed)
+    {
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+        /* Rising edge: decoded-poll endpoint begins its configured delay. */
+        HAL_GPIO_WritePin(GPIOA, ScopeEndpointMarkerPin, GPIO_PIN_SET);
+#endif
+        HAL_Delay(delayedResponseMs);
+#if defined(ICSEC_SCOPE_INSTRUMENTATION)
+        HAL_GPIO_WritePin(GPIOA, ScopeEndpointMarkerPin, GPIO_PIN_RESET);
+#endif
+    }
 
     const comms::PayloadTelemetry telemetry = {
         HAL_GetTick(), sampleCounter, simulatedSensorValue(), currentMode

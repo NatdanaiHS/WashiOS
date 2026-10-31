@@ -1,0 +1,14 @@
+{
+  "accounting": {
+    "attempted": 12,
+    "invalid": 0,
+    "not_attempted_after_stop": 0,
+    "planned": 12,
+    "valid": 12
+  },
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "campaign_is_separate_from_pilot": true,
+  "disposition": "F411_P2_CAMPAIGN_COMPLETE_AWAITING_REVIEW",
+  "finished_host_time": "2026-09-01T16:52:32.081768+00:00",
+  "second_pair_or_manuscript_authorized": false
+}

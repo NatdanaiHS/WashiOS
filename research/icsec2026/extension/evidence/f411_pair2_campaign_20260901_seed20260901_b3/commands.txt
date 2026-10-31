@@ -1,0 +1,13 @@
+Required tests completed before hardware action:
+C:\Users\wachi\.platformio\penv\Scripts\platformio.exe test -e native -d core
+C:\Users\wachi\.platformio\penv\Scripts\platformio.exe test -e native -d demo-payload
+python -m unittest test_primary_extension.py test_g431b_replication.py test_f411_pair1.py test_f411_scientific_pilot.py test_f411_campaign.py test_f411_pair2_campaign.py
+
+Clean builds completed before hardware action:
+C:\Users\wachi\.platformio\penv\Scripts\platformio.exe run -d core -t clean -e nucleo_f411re_payload_controller
+C:\Users\wachi\.platformio\penv\Scripts\platformio.exe run -d core -e nucleo_f411re_payload_controller
+C:\Users\wachi\.platformio\penv\Scripts\platformio.exe run -d demo-payload -t clean -e nucleo_f411re_payload
+C:\Users\wachi\.platformio\penv\Scripts\platformio.exe run -d demo-payload -e nucleo_f411re_payload
+
+Authorized one-time acquisition only after fresh C/D identity enumeration, exact wiring confirmation, time confirmation, acquisition-lock inventory, and clean synchronized commit:
+python research/icsec2026/extension/run_f411_pair2_campaign.py acquire --package research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3 --controller-port <fresh F411-C VCP> --payload-port <fresh F411-D VCP> --controller-elf research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/firmware/f411_p2_fixed_controller.elf --payload-elf research/icsec2026/extension/evidence/f411_pair2_campaign_20260901_seed20260901_b3/firmware/f411_p2_payload.elf

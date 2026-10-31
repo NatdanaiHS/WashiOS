@@ -1,0 +1,22 @@
+{
+  "schema": "washios.icsec2026.f411_engdiag.source_validation.v1",
+  "base_commit": "600272edf9460191cbb7c7c6080ce503ffad1f17",
+  "single_fix_file": "core/src/bsp/f4/Stm32Timing.cpp",
+  "pre_fix_git_blob": "a60f9f7258531313da439243ab76c5d66c932015",
+  "fixed_worktree_sha256": "10692DCF169E25DBE2B3682CB2C6120EE8B96C8F81C21218BDF0C2E255E83A13",
+  "fix_scope": "use FreeRTOS scheduler tick after scheduler start; preserve HAL tick before scheduler start",
+  "common_semantic_blobs_unchanged": {
+    "core/include/comms/PayloadProtocol.hpp": "f798a54503c8af93960bb629e305c043da7b4328",
+    "core/include/comms/PayloadLinkController.hpp": "e2b6c9e9bb4af62afa32daa455479575eebff19a",
+    "core/src/app/PayloadLinkTask.hpp": "2770ff49478de096ab84df5db4a02ae71465e90a",
+    "demo-payload/src/HostModeCommandParser.hpp": "e8bb022387c88b7bf80ceb162988722a47e83662"
+  },
+  "supervision_semantics_preserved": {
+    "baud_115200_8n1": true,
+    "poll_period_ms_500": true,
+    "response_deadline_ms_100": true,
+    "offline_threshold_three_timeouts": true,
+    "activation_restoration_and_evidence_gates": true,
+    "physical_uart_mapping": true
+  }
+}

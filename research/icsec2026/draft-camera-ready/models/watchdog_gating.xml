@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+<declaration>// WashiOS task-health-gated independent watchdog (IWDG), timed-automata model.
+// Sources: core/include/core/TaskHealth.hpp, core/include/core/Watchdog.hpp,
+// core/include/core/WatchdogRunner.hpp, core/src/main.cpp (G431 build).
+// Time unit: 1 ms.
+
+const int HB = 0;   // HeartbeatTask (critical)
+const int PL = 1;   // PayloadLinkTask (critical; TaskId aliases TelemetryTaskId)
+
+const int PERIOD[2]   = { 500, 100 };    // HeartbeatTask vTaskDelay; PayloadLinkTask::HealthPeriodMs
+const int DEADLINE[2] = { 1500, 800 };   // HeartbeatDeadlineMs; TelemetryDeadlineMs
+const int WD_POLL_MS  = 100;   // WatchdogPollPeriodMs (WatchdogRunner::runOnce)
+const int WD_TASK_MS  = 50;    // WatchdogTaskDelayMs (WatchdogTask loop)
+const int JITTER_MS   = 2;     // RTOS wakeup jitter bound (assumption A1)
+
+// IWDG: prescaler 16, reload 3999 -> 4000 * 16 / f_LSI. STM32G431 datasheet DS12589 Rev 6 (Oct 2021),
+// Table 44: f_LSI = 29.5 .. 34 kHz over VDD 1.62-3.6 V and -40..125 C (32 kHz nominal -> 2000 ms).
+// Period bracket (assumption A3): 64000/34 = 1882.35 ms (floor 1882) .. 64000/29.5 = 2169.49 ms plus one
+// LSI period of APB/LSI phasing uncertainty (Table 79 note 2, at most 0.034 ms) -> ceil 2170.
+const int IWDG_NOMINAL_MS = 2000;
+const int IWDG_MIN_MS     = 1882;
+const int IWDG_MAX_MS     = 2170;
+
+// SCENARIO 0: no stall ever (spurious-reset check). SCENARIO 1: one stall may be injected.
+const int SCENARIO = SCENARIO_SELECT;
+
+// Shared state
+clock since[2];             // time since last check-in of each task (TaskHealthEntry.lastCheckInMs)
+bool  healthy[2] = { true, true };   // TaskHealthEntry.healthy
+bool  stalled[2] = { false, false };
+bool  criticalFailed = false;        // WatchdogTimeout + SafeFail recorded (once)
+bool  refreshedAfterFailure = false;
+bool  resetHappened = false;
+
+chan stall[2];
+chan kick;                  // HAL_IWDG_Refresh
+</declaration>
+
+<template>
+<name>Task</name>
+<parameter>const int id</parameter>
+<declaration>clock t;</declaration>
+<location id="t0" x="0" y="0">
+<name x="-30" y="-40">Running</name>
+<label kind="invariant" x="-60" y="20">t &lt;= PERIOD[id] + JITTER_MS</label>
+</location>
+<location id="t1" x="300" y="0">
+<name x="270" y="-40">Stalled</name>
+</location>
+<init ref="t0"/>
+<!-- periodic check-in (TaskHealthRegistry::checkIn, TaskHealth.hpp:69-80) -->
+<transition>
+<source ref="t0"/><target ref="t0"/>
+<label kind="guard" x="-120" y="-100">t &gt;= PERIOD[id]</label>
+<label kind="assignment" x="-120" y="-80">t = 0, since[id] = 0, healthy[id] = true</label>
+</transition>
+<!-- stall injection: the task never checks in again -->
+<transition>
+<source ref="t0"/><target ref="t1"/>
+<label kind="synchronisation" x="100" y="-70">stall[id]?</label>
+<label kind="assignment" x="100" y="-50">stalled[id] = true</label>
+</transition>
+</template>
+
+<template>
+<name>Supervisor</name>
+<declaration>clock w;   // WatchdogRunner period clock
+
+void markFailure(bool hbExpired, bool plExpired) {
+    // TaskHealthRegistry::evaluate (TaskHealth.hpp:96-115): expired entries become
+    // unhealthy; the first newly reported failure makes Watchdog::poll record
+    // WatchdogTimeout and SafeFail (Watchdog.hpp:42-58).
+    if (hbExpired) healthy[HB] = false;
+    if (plExpired) healthy[PL] = false;
+    criticalFailed = true;
+}
+void refresh() {
+    // Watchdog::poll refresh gate (Watchdog.hpp:61-65)
+    if (criticalFailed) refreshedAfterFailure = true;
+}
+</declaration>
+<location id="s0" x="0" y="0">
+<name x="-30" y="-40">Polling</name>
+<label kind="invariant" x="-60" y="20">w &lt;= WD_POLL_MS + WD_TASK_MS + JITTER_MS</label>
+</location>
+<init ref="s0"/>
+<!-- Expiry test is 'deltaMs > deadlineMs' (TaskHealth.hpp:103). Four mutually
+     exclusive edges cover the combinations; only the all-healthy edge refreshes. -->
+<transition>
+<source ref="s0"/><target ref="s0"/>
+<label kind="guard" x="-260" y="-140">w &gt;= WD_POLL_MS &amp;&amp; since[HB] &lt;= DEADLINE[HB] &amp;&amp; since[PL] &lt;= DEADLINE[PL] &amp;&amp; healthy[HB] &amp;&amp; healthy[PL]</label>
+<label kind="synchronisation" x="-260" y="-120">kick!</label>
+<label kind="assignment" x="-260" y="-100">w = 0, refresh()</label>
+</transition>
+<transition>
+<source ref="s0"/><target ref="s0"/>
+<label kind="guard" x="-260" y="60">w &gt;= WD_POLL_MS &amp;&amp; since[HB] &lt;= DEADLINE[HB] &amp;&amp; since[PL] &lt;= DEADLINE[PL] &amp;&amp; !(healthy[HB] &amp;&amp; healthy[PL])</label>
+<label kind="assignment" x="-260" y="80">w = 0</label>
+</transition>
+<transition>
+<source ref="s0"/><target ref="s0"/>
+<label kind="guard" x="120" y="-140">w &gt;= WD_POLL_MS &amp;&amp; since[HB] &gt; DEADLINE[HB] &amp;&amp; since[PL] &lt;= DEADLINE[PL]</label>
+<label kind="assignment" x="120" y="-120">w = 0, markFailure(true, false)</label>
+</transition>
+<transition>
+<source ref="s0"/><target ref="s0"/>
+<label kind="guard" x="120" y="-60">w &gt;= WD_POLL_MS &amp;&amp; since[HB] &lt;= DEADLINE[HB] &amp;&amp; since[PL] &gt; DEADLINE[PL]</label>
+<label kind="assignment" x="120" y="-40">w = 0, markFailure(false, true)</label>
+</transition>
+<transition>
+<source ref="s0"/><target ref="s0"/>
+<label kind="guard" x="120" y="40">w &gt;= WD_POLL_MS &amp;&amp; since[HB] &gt; DEADLINE[HB] &amp;&amp; since[PL] &gt; DEADLINE[PL]</label>
+<label kind="assignment" x="120" y="60">w = 0, markFailure(true, true)</label>
+</transition>
+</template>
+
+<template>
+<name>Iwdg</name>
+<declaration>clock d;   // time since last hardware refresh</declaration>
+<location id="i0" x="0" y="0">
+<name x="-30" y="-40">Counting</name>
+<label kind="invariant" x="-60" y="20">d &lt;= IWDG_MAX_MS</label>
+</location>
+<location id="i1" x="300" y="0">
+<name x="270" y="-40">Reset</name>
+</location>
+<init ref="i0"/>
+<transition>
+<source ref="i0"/><target ref="i0"/>
+<label kind="synchronisation" x="-120" y="-90">kick?</label>
+<label kind="assignment" x="-120" y="-70">d = 0</label>
+</transition>
+<transition>
+<source ref="i0"/><target ref="i1"/>
+<label kind="guard" x="100" y="-70">d &gt;= IWDG_MIN_MS</label>
+<label kind="assignment" x="100" y="-50">resetHappened = true</label>
+</transition>
+<!-- After reset the processor restarts; the kick channel must stay receivable so the
+     supervisor is never blocked in the model. -->
+<transition>
+<source ref="i1"/><target ref="i1"/>
+<label kind="synchronisation" x="330" y="-90">kick?</label>
+</transition>
+</template>
+
+<template>
+<name>Env</name>
+<declaration>clock e;</declaration>
+<location id="e0" x="0" y="0">
+<name x="-30" y="-40">Healthy</name>
+</location>
+<location id="e1" x="300" y="0">
+<name x="270" y="-40">Injected</name>
+</location>
+<init ref="e0"/>
+<!-- One stall of one task at an arbitrary time after a 3 s warm-up (SCENARIO 1 only). -->
+<transition>
+<source ref="e0"/><target ref="e1"/>
+<label kind="guard" x="60" y="-110">SCENARIO == 1 &amp;&amp; e &gt;= 3000</label>
+<label kind="synchronisation" x="60" y="-90">stall[HB]!</label>
+</transition>
+<transition>
+<source ref="e0"/><target ref="e1"/>
+<label kind="guard" x="60" y="40">SCENARIO == 1 &amp;&amp; e &gt;= 3000</label>
+<label kind="synchronisation" x="60" y="60">stall[PL]!</label>
+</transition>
+</template>
+
+<system>S  = Supervisor();
+T0 = Task(HB);
+T1 = Task(PL);
+W  = Iwdg();
+E  = Env();
+system S, T0, T1, W, E;
+</system>
+
+<queries>
+<query><formula>A[] not deadlock</formula><comment>Model sanity.</comment></query>
+</queries>
+</nta>

@@ -1,0 +1,13 @@
+{
+  "minimum_sample_rate": "1 MSa/s",
+  "recommended_timebase": "20 ms/div or equivalent window showing at least 20 ms pre-trigger and 130 ms post-trigger",
+  "recommended_vertical": "1 V/div, DC coupling, actual probe attenuation recorded",
+  "required_edges": [
+    "CH1 rising",
+    "CH2 rising"
+  ],
+  "scope_settings_status": "PENDING_HUMAN_RECORD",
+  "trigger": "single acquisition on CH1 rising near 1.65 V",
+  "uncertainty": "derive from actual sample interval and scope cursor/export resolution; do not infer MCU execution latency",
+  "valid_trace": "Both clean edges present, CH2 rising occurs within the same CH1 high pulse, native waveform and screenshot retained, serial trial valid"
+}

@@ -1,0 +1,27 @@
+{
+  "disposition": "MANUSCRIPT_EXTENSION_ACCEPTED_AWAITING_FINAL_REVIEW",
+  "changed_at": "2026-09-02T00:48:29+07:00",
+  "authorized_replacements": [
+    {
+      "location": "Introduction contribution list",
+      "before": "pair-specific protocol-level reproduction on two separate F411 configurations",
+      "after": "pair-specific protocol-level reproduction on two separate physical F411 controller/payload pairs under one fixed F411 implementation"
+    },
+    {
+      "location": "Discussion and Limitations",
+      "before": "protocol-level physical reproduction across two configurations",
+      "after": "protocol-level physical reproduction on two separate physical pairs under one fixed F411 implementation"
+    }
+  ],
+  "other_manuscript_source_changes": 0,
+  "experimental_numbers_changed": false,
+  "tables_changed": false,
+  "denominators_changed": false,
+  "datasets_changed": false,
+  "empirical_interpretation_changed": false,
+  "corrected_main_tex_sha256": "BD2963900E834BD2623958776476EF4B4576983B8F2926D4FEDA27509D496924",
+  "corrected_main_pdf_sha256": "D346C39253B8BC44B96968A4509BED14369F0632742352ACA7EE5B8027F42ED3",
+  "references_sha256": "B936C7F6AF1E173CEB771D5BB430F3652846B759C494E71B674D3071D387AC00",
+  "pages": 5,
+  "friday_quantitative_scope_campaign": "NO-GO"
+}

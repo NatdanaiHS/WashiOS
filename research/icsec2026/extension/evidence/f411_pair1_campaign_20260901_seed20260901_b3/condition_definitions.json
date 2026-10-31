@@ -1,0 +1,20 @@
+{
+  "D090": {
+    "delay_ms": 90,
+    "payload_mode": "DELAYED"
+  },
+  "D100": {
+    "delay_ms": 100,
+    "payload_mode": "DELAYED"
+  },
+  "D110": {
+    "delay_ms": 110,
+    "payload_mode": "DELAYED"
+  },
+  "NC": {
+    "delay_ms": null,
+    "interpretation": "healthy Normal Control, not C0 or ablation",
+    "payload_mode": "NORMAL"
+  },
+  "exposure_s": 4.0
+}

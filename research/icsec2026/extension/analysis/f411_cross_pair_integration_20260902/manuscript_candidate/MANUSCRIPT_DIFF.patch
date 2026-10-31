@@ -1,0 +1,82 @@
+diff --git a/research/icsec2026/manuscript/main.tex b/research/icsec2026/extension/manuscript_candidate_f411_20260902/main.tex
+index 7bd9b56..f4a0b7b 100644
+--- a/research/icsec2026/manuscript/main.tex
++++ b/research/icsec2026/extension/manuscript_candidate_f411_20260902/main.tex
+@@ -31,7 +31,7 @@
+ \maketitle
+ 
+ \begin{abstract}
+-Payload communication is an important fault boundary in embedded controllers: a payload can become silent, return a corrupted response, or answer after a deadline. This paper presents an activation-confirmed hardware-in-the-loop (HIL) method that exercises those behaviors on a physical UART link. A host orchestrates a controller board and a commandable payload-simulator board through independent serial-observation channels. A trial is accepted only after payload-side confirmation of both fault activation and NORMAL restoration; controller-side markers then define detection and recovery. The campaign comprises two 65-s nominal windows and 90 sequential trials on one board pair, with 30 trials per fault mode. All 90 trials were valid, and the predefined detector and recovery markers were each observed in 30/30 valid trials for every mode. Host-observed command-to-marker medians ranged from 359.5 to 406.0~ms for detection and from 296.5 to 359.0~ms for recovery. The contribution is a dual-channel protocol that distinguishes requested, activated, detected, restored, and recovered events, supported by a hash-locked empirical record. Results are bounded to the evaluated setup and are not a device-population reliability or controller-internal timing estimate.
++Payload communication is an important fault boundary in embedded controllers: a payload can become silent, return a corrupted response, or answer after a deadline. This paper presents an activation-confirmed hardware-in-the-loop (HIL) method that exercises those behaviors on a physical UART link. A host orchestrates a controller board and a commandable payload-simulator board through independent serial-observation channels. A trial is accepted only after payload-side confirmation of both fault activation and NORMAL restoration; controller-side markers then define detection and recovery. The primary campaign comprises two 65-s nominal windows and 90 sequential trials on one board pair, with 30 trials per fault mode. All 90 trials were valid, and the predefined detector and recovery markers were each observed in 30/30 valid trials for every mode. Host-observed command-to-marker medians ranged from 359.5 to 406.0~ms for detection and from 296.5 to 359.0~ms for recovery. A separate F411 extension used the same predefined 12-row protocol on each of two physical pairs; reported separately, both pairs showed clean normal controls, accepted 90-ms responses without fault transitions, and timeout/sequence-rejection/OFFLINE behavior with restoration and recovery at 100 and 110~ms. The contribution is a dual-channel protocol that distinguishes requested, activated, detected, restored, and recovered events, supported by hash-locked empirical records. Results are bounded to the evaluated setups and are not a device-population reliability or controller-internal timing estimate.
+ \end{abstract}
+ 
+ \begin{IEEEkeywords}
+@@ -50,7 +50,7 @@ The paper makes three bounded contributions:
+ 
+ \begin{itemize}
+   \item an activation-confirmed dual-channel HIL procedure that separates requested, activated, detected, restored, and recovered events;
+-  \item a descriptive evaluation of nominal behavior, predefined detection/recovery outcomes, and host-observed command-to-marker latency for three payload-link behaviors; and
++  \item a descriptive evaluation of nominal behavior, predefined detection/recovery outcomes, host-observed command-to-marker latency, and pair-specific protocol-level reproduction on two separate F411 configurations; and
+   \item an evidence-locking workflow that connects manuscript tables to immutable experiment summaries and validation artifacts.
+ \end{itemize}
+ 
+@@ -151,6 +151,10 @@ Detection latency is the host timestamp of the first predefined controller detec
+ 
+ Analysis is descriptive. Per mode, we report detection and recovery counts and observed proportions. Latency summaries contain sample count, median, inclusive-linear quartiles, interquartile range (IQR), minimum, and maximum. No confidence interval, hypothesis test, or between-mode ranking is reported. The observations are sequential measurements on one setup, not independent device replicates; device-population uncertainty cannot be estimated from this single board pair.
+ 
++\subsection{Cross-Configuration Extension}
++
++Two separate F411 controller/payload pairs each executed an identical, predefined 12-row campaign: three normal controls and three observations at each of 90, 100, and 110~ms. Both pairs used the same fixed F411 implementation, firmware hashes, order, four-second exposure, confirmation gates, and validity rules. Each pair is analyzed with its own denominator of three per condition. Rows and counters are not pooled across pairs, and this extension does not compare binary images or timing with the primary G431/G474 setup.
++
+ \subsection{Construct Validity and Controls}
+ 
+ The intervention construct is a confirmed endpoint behavior, not merely a host command. The payload channel had to report the requested mode after injection and NORMAL after restoration; otherwise the trial was invalid. This supports temporal attribution within the protocol but does not make silence, CRC corruption, or delay equivalent to an electrical, environmental, or radiation-induced fault. The response construct is likewise operational: detection and recovery mean that the predefined controller marker appeared in the permitted observation phase. They do not expose every internal state transition.
+@@ -224,11 +228,32 @@ DELAYED & Rec. & 296.5 & 187.25 & 425.5 & 238.25 & 94--531 \\
+ \end{tabular}
+ \end{table}
+ 
++\subsection{Cross-Configuration Protocol-Level Reproduction}
++
++Table~\ref{tab:f411} reports the two F411 pairs separately. Each campaign retained 12/12 valid rows. For each pair, all three normal controls had zero adverse markers; all three 90-ms rows accepted delayed responses without timeout, rejection, or OFFLINE; and all three rows at both 100 and 110~ms showed timeout, sequence rejection, and OFFLINE followed by confirmed NORMAL restoration and recovery. Neither 100- nor 110-ms condition accepted a mode-3 response. Thus, under the identical predefined protocol and fixed F411 implementation, the same condition-level supervision pattern was observed on each of two separate physical F411 controller/payload pairs.
++
++\begin{table}[t]
++\caption{Separate F411 pair outcomes; each cell retains its own denominator and no cross-pair pooling is performed.}
++\label{tab:f411}
++\centering
++\scriptsize
++\begin{tabular}{lccccc}
++\toprule
++Pair & Valid & NC clean & 90-ms accept & 100-ms F/R & 110-ms F/R \\
++\midrule
++Pair-1 & 12/12 & 3/3 & 3/3 & 3/3 & 3/3 \\
++Pair-2 & 12/12 & 3/3 & 3/3 & 3/3 & 3/3 \\
++\bottomrule
++\end{tabular}
++\end{table}
++
++Here F/R denotes the predefined timeout/sequence-rejection/OFFLINE pattern with restoration and recovery, not a pooled success metric. Post-activation mode-0 accepts were retained as boundary/pipeline observations in four Pair-1 rows and three Pair-2 rows; subsequent markers remained attributable to the planned conditions. In every 100- and 110-ms row, cumulative status-counter deltas (timeout 8 and sequence 8) exceeded the two explicit timeout-transition and one explicit sequence-rejection markers, so these quantities are reported separately.
++
+ \section{Discussion and Limitations}
+ 
+-The dual-channel protocol closes a specific evidentiary gap between requesting a behavior and observing that the payload simulator entered it. Within the frozen setup, all retained injections produced their predefined controller detector evidence and were followed by a recovery marker after confirmed restoration. The N0 windows provide bounded healthy observations on both sides of the campaign. Together, these records support a repeatable procedure for inspecting payload-link supervision on this pair. They do not establish behavior on an unobserved device population, and population-level uncertainty cannot be estimated from one physical pair.
++The dual-channel protocol closes a specific evidentiary gap between requesting a behavior and observing that the payload simulator entered it. Within the primary frozen setup, all retained injections produced their predefined controller detector evidence and were followed by a recovery marker after confirmed restoration. The N0 windows provide bounded healthy observations on both sides of that campaign. The separate F411 campaigns add protocol-level physical reproduction across two configurations without changing the one-pair interpretation of the primary results. They do not establish behavior on an unobserved device population, and population-level uncertainty is not estimated from two purposively evaluated pairs.
+ 
+-The experiment has several deliberate limitations. First, all trials used one physical board pair and occurred sequentially. Trial outcomes may therefore share device, thermal, state-history, host, and timing conditions. Second, nominal evidence is limited to two 65-s windows; it does not establish long-duration stability. Third, no fair C0 ablation was constructed, so neither a treatment effect nor comparative superiority is supported. Fourth, timing is based on host command and serial-receipt timestamps. UART, USB, operating-system, and scheduling delays are included, and MCU-internal latency is unknown.
++The experiment has several deliberate limitations. First, the primary 90 trials used one physical board pair and occurred sequentially; each 12-row F411 campaign was likewise sequential within its own pair. Trial outcomes may therefore share device, thermal, state-history, host, and timing conditions. Second, nominal evidence is limited to two 65-s primary windows and one 65-s gate per F411 pair; it does not establish long-duration stability. Third, no fair C0 ablation was constructed, so neither a treatment effect nor comparative superiority is supported. Fourth, timing is based on host command and serial-receipt timestamps. UART, USB, operating-system, and scheduling delays are included, and MCU-internal latency is unknown.
+ 
+ Fifth, outcomes are marker based. A recorded detector or recovery marker supports the corresponding protocol definition but not every internal state transition. Conversely, absence of a link-start marker does not independently prove the controller never reset. Literal heartbeat or watchdog status strings were not treated as independent health measurements. Sixth, only silence, bad CRC, and one delayed-response setting were exercised under fixed observation windows. Other delay magnitudes, corruption patterns, intermittent behavior, concurrent loads, and recovery horizons remain untested.
+ 
+@@ -238,11 +263,11 @@ Finally, no environmental stress was applied: temperature, vibration, electromag
+ 
+ The campaign package retains a fixed seed and run plan, per-trial result rows, 180 raw serial logs, validation output, descriptive summaries, firmware, and SHA-256 inventories. The raw format records host UTC time, exact received bytes, and escaped text. A separate table generator first verifies the frozen hashes of the campaign summary, campaign validation, and both N0 validations, then deterministically projects the manuscript CSV tables. The generator records its own hash and the input/output hashes.
+ 
+-This mechanism supports inspection of how every number in Tables~\ref{tab:n0}--\ref{tab:latency} reaches the manuscript. It also prevents an unnoticed change in a source summary from silently producing new tables. Re-execution on different hardware remains untested, and anonymous review omits any author-revealing repository location. Artifact access can be provided in a non-identifying form or after review according to venue policy.
++This mechanism supports inspection of how every number in Tables~\ref{tab:n0}--\ref{tab:latency} reaches the manuscript. A separate provenance-checked generator verifies both F411 source and backup inventories and projects Table~\ref{tab:f411} without pooling. These checks prevent an unnoticed source change from silently producing new tables. Replication beyond the two evaluated F411 pairs remains untested, and anonymous review omits any author-revealing repository location. Artifact access can be provided in a non-identifying form or after review according to venue policy.
+ 
+ \section{Conclusion}
+ 
+-This paper presented activation-confirmed dual-channel HIL fault injection for payload-link supervision using one controller board, one commandable payload-simulator board, and independent host observation channels. Two bounded nominal windows and 90 sequential injected trials provide a traceable description of predefined detection and recovery markers and host-observed command-to-marker latency distributions. The methodological result is setup bounded: confirmed link-endpoint behavior can be connected to controller evidence and immutable logs without converting repeated observations into claims about independent devices or internal timing. Future work may expand device replication, fault models, observation duration, and independent instrumentation; those extensions are not implied by the present dataset.
++This paper presented activation-confirmed dual-channel HIL fault injection for payload-link supervision using a controller board, a commandable payload-simulator board, and independent host observation channels. Two bounded nominal windows and 90 sequential primary trials provide a traceable description of predefined detection and recovery markers and host-observed command-to-marker latency distributions. Under an identical predefined F411 protocol, the same condition-level supervision pattern was separately observed on each of two physical controller/payload pairs. The methodological result remains setup bounded: confirmed link-endpoint behavior can be connected to controller evidence and immutable logs without converting repeated observations into population, reliability, MCU-equivalence, or internal-timing claims. Future work may expand fault models, observation duration, and independent instrumentation; those extensions are not implied by the present datasets.
+ 
+ \balance
+ \bibliographystyle{IEEEtran}

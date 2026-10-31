@@ -1,0 +1,19 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_preacquisition.v1",
+  "exclusive_package_created_once": true,
+  "plan_rows": 12,
+  "plan_sha256": "88EDD7D47C40354D1C9DF8B0F7EC9A083198B4A6E5CBF4D453E947AD9B88BF45",
+  "harness_sha256": "B6E3E244053E43C639AFF091FA0DF2880C8CAA7B8D5F16B5AF8A716A91A8F8AF",
+  "harness_test_sha256": "90B98F389C05C95C040D7C0210DB0FAF6936AC77F1C4661B90E42C2E8E136009",
+  "independent_validator_sha256": "C23EC424B42ECF186F79D66750CF2D059921D3E54CF533D1E6219426DADD2468",
+  "all_required_tests_passed": true,
+  "all_clean_builds_passed": true,
+  "all_four_firmware_hashes_exact": true,
+  "prior_inventories_unchanged": true,
+  "hardware_enumeration_pending": true,
+  "human_wiring_confirmation_pending": true,
+  "minimum_90_minutes_confirmation_pending": true,
+  "serial_ports_opened": false,
+  "hardware_action_performed": false,
+  "ready_for_lock_commit": true
+}

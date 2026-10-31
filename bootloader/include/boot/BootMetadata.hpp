@@ -265,6 +265,12 @@ inline void noteBootAttempt(BootMetadata& metadata, BootSlot slot)
     commitBootMetadata(metadata);
 }
 
+inline void resetBootAttempts(BootMetadata& metadata)
+{
+    metadata.boot_count = 0U;
+    commitBootMetadata(metadata);
+}
+
 inline void noteBootFailure(BootMetadata& metadata, uint32_t reason)
 {
     metadata.last_fail_reason = reason;

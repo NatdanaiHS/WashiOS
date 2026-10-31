@@ -1,0 +1,144 @@
+{
+  "activation_command_host_time": "2026-09-01T15:06:52.699382+00:00",
+  "activation_confirmation_host_time": "2026-09-01T15:06:52.710393+00:00",
+  "campaign_denominator": false,
+  "delayed_command_sent": true,
+  "disposition": "F411_P1_SCI_PILOT_PASS_AWAITING_REVIEW",
+  "exposure_duration_s": 4.0,
+  "exposure_serial_failure_markers": [],
+  "failures": [],
+  "finished_host_time": "2026-09-01T15:07:02.556040+00:00",
+  "outcome": {
+    "all_markers": [
+      {
+        "host_time": "2026-09-01T15:06:52.725633+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=150 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:53.266218+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+      },
+      {
+        "host_time": "2026-09-01T15:06:53.316969+00:00",
+        "marker": "[OBC] PAYLOAD_REJECT reason=SEQUENCE"
+      },
+      {
+        "host_time": "2026-09-01T15:06:53.751062+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=2"
+      },
+      {
+        "host_time": "2026-09-01T15:06:54.250722+00:00",
+        "marker": "[OBC] PAYLOAD_OFFLINE consecutive=3 heartbeat=OK watchdog=OK"
+      }
+    ],
+    "attributable_markers": [
+      {
+        "host_time": "2026-09-01T15:06:53.266218+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+      },
+      {
+        "host_time": "2026-09-01T15:06:53.316969+00:00",
+        "marker": "[OBC] PAYLOAD_REJECT reason=SEQUENCE"
+      },
+      {
+        "host_time": "2026-09-01T15:06:53.751062+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=2"
+      },
+      {
+        "host_time": "2026-09-01T15:06:54.250722+00:00",
+        "marker": "[OBC] PAYLOAD_OFFLINE consecutive=3 heartbeat=OK watchdog=OK"
+      }
+    ],
+    "classification": "ORDERED_TIMEOUT_PATH_TO_OFFLINE",
+    "offline_observed": true,
+    "rejection_count": 1,
+    "timeout_count": 2,
+    "valid": true
+  },
+  "post_stabilization": {
+    "accepted_exchanges": [
+      {
+        "host_time": "2026-09-01T15:06:57.648108+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=160 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:58.143392+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=161 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:58.641412+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=162 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:59.139522+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=163 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:59.634836+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=164 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:07:00.069683+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=165 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:07:00.565503+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=166 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:07:01.064181+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=167 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:07:01.563581+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=168 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:07:02.058057+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=169 mode=0"
+      }
+    ],
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "failures": [],
+    "prohibited_markers": [],
+    "status_records": [
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T15:06:57.597582+00:00",
+        "monotonic_s": 184902.171,
+        "ok": 152,
+        "polls": 160,
+        "recovery": 1,
+        "seq": 8,
+        "state": "ONLINE",
+        "timeout": 8
+      },
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T15:07:02.533670+00:00",
+        "monotonic_s": 184907.109,
+        "ok": 162,
+        "polls": 170,
+        "recovery": 1,
+        "seq": 8,
+        "state": "ONLINE",
+        "timeout": 8
+      }
+    ],
+    "valid": true
+  },
+  "precondition_id": "F411_P1_SCI_PILOT_001_D110_PRECHECK",
+  "recovery_host_time": "2026-09-01T15:06:57.163898+00:00",
+  "restore_command_host_time": "2026-09-01T15:06:56.710570+00:00",
+  "restore_command_sent": true,
+  "restore_confirmation_host_time": "2026-09-01T15:06:56.743818+00:00",
+  "run_id": "F411_P1_SCI_PILOT_001_D110",
+  "scientific_observation": true,
+  "started_host_time": "2026-09-01T15:05:36.197404+00:00",
+  "valid": true
+}

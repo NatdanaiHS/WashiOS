@@ -1,0 +1,10 @@
+variant=design states=2 boots=2 launches=0 safeLoops=2
+B1 unvalidated launch: 0
+B2 non-bootable launch: 0
+B3 >4 consecutive Pending launches: 0 (max run 0)
+B4 no intact image but not safe loop: 0
+B6 launch despite retained critical fault: 0
+B8 Pending launched over the limit: 0 (fallback path 0, primary path 0)
+B9 not exactly one outcome: 0
+F1 slot B Confirmed reachable: no
+SAFETY(B1,B2,B4,B6,B9)=HOLD LIMIT(B3,B8)=HOLD

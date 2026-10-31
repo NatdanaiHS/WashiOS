@@ -1,0 +1,14 @@
+{
+  "files": 1675,
+  "classifications": {
+    "KEEP": 39,
+    "GENERATED": 729,
+    "PROTECTED": 785,
+    "MOVE": 13,
+    "ARCHIVE": 109
+  },
+  "planned_move_files": 122,
+  "planned_deletions": 0,
+  "protected_planned_moves": 121,
+  "duplicate_hash_groups": 262
+}

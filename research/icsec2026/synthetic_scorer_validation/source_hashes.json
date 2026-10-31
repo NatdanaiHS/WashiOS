@@ -1,0 +1,106 @@
+{
+  "all_sources_unchanged": true,
+  "baseline_run_id": "R005_P02",
+  "frozen_90_trial_summary_sha256": "124554F98A93639B4C2C8C18A708DC14A1D5673823A4CD2F84DB0F563083E1CA",
+  "post_execution": {
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/SHA256SUMS.csv": {
+      "bytes": 28602,
+      "expected_sha256": "DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\SHA256SUMS.csv",
+      "sha256": "DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/manifest.json": {
+      "bytes": 96745,
+      "expected_sha256": "10D966EE6F43BB70EAAFA713723F9C56EEDA51757E605BEB80A8578E0ABEE67F",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\manifest.json",
+      "sha256": "10D966EE6F43BB70EAAFA713723F9C56EEDA51757E605BEB80A8578E0ABEE67F"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/raw/R005_P02/g431.log": {
+      "bytes": 1576,
+      "expected_sha256": "E73BA0A35F6F048A6C77A2422E9DCF5FBB190426E84EC66A2A31191A08C8D5C4",
+      "resolved_path": "C:\\WashiOS-baseline-recovery\\source_transfer_20260901_5BC8B2B1\\WashiOS_EVIDENCE_TRANSFER_20260901\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\raw\\R005_P02\\g431.log",
+      "sha256": "E73BA0A35F6F048A6C77A2422E9DCF5FBB190426E84EC66A2A31191A08C8D5C4"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/raw/R005_P02/g474.log": {
+      "bytes": 321,
+      "expected_sha256": "0B720C6913A8961EEE331CDBAC9B574685818FDE7D2CFF6E309C21935A9C9C30",
+      "resolved_path": "C:\\WashiOS-baseline-recovery\\source_transfer_20260901_5BC8B2B1\\WashiOS_EVIDENCE_TRANSFER_20260901\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\raw\\R005_P02\\g474.log",
+      "sha256": "0B720C6913A8961EEE331CDBAC9B574685818FDE7D2CFF6E309C21935A9C9C30"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/results.csv": {
+      "bytes": 29986,
+      "expected_sha256": "770FB1FEF5BFD6B529906B35CBA67D9BAC2887DED241EA38D8CB914A157478CE",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\results.csv",
+      "sha256": "770FB1FEF5BFD6B529906B35CBA67D9BAC2887DED241EA38D8CB914A157478CE"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/run_plan.csv": {
+      "bytes": 2806,
+      "expected_sha256": "08BCBDD505DA95460ABFADE719411409501DE7B6F40BE648B30CB4E986F051B7",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\run_plan.csv",
+      "sha256": "08BCBDD505DA95460ABFADE719411409501DE7B6F40BE648B30CB4E986F051B7"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/summary.json": {
+      "bytes": 3901,
+      "expected_sha256": "124554F98A93639B4C2C8C18A708DC14A1D5673823A4CD2F84DB0F563083E1CA",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\summary.json",
+      "sha256": "124554F98A93639B4C2C8C18A708DC14A1D5673823A4CD2F84DB0F563083E1CA"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/validation.json": {
+      "bytes": 328,
+      "expected_sha256": "D06426EE043D32B032FA3267E7A8DDAB0AD345FD1F69807E93E9F47507BA84EB",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\validation.json",
+      "sha256": "D06426EE043D32B032FA3267E7A8DDAB0AD345FD1F69807E93E9F47507BA84EB"
+    }
+  },
+  "pre_execution": {
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/SHA256SUMS.csv": {
+      "bytes": 28602,
+      "expected_sha256": "DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\SHA256SUMS.csv",
+      "sha256": "DC7A2CD54F1CF1E3DA9E3F35DCACFD921E2F5D8828BF2411C4F7874252C5CCCD"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/manifest.json": {
+      "bytes": 96745,
+      "expected_sha256": "10D966EE6F43BB70EAAFA713723F9C56EEDA51757E605BEB80A8578E0ABEE67F",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\manifest.json",
+      "sha256": "10D966EE6F43BB70EAAFA713723F9C56EEDA51757E605BEB80A8578E0ABEE67F"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/raw/R005_P02/g431.log": {
+      "bytes": 1576,
+      "expected_sha256": "E73BA0A35F6F048A6C77A2422E9DCF5FBB190426E84EC66A2A31191A08C8D5C4",
+      "resolved_path": "C:\\WashiOS-baseline-recovery\\source_transfer_20260901_5BC8B2B1\\WashiOS_EVIDENCE_TRANSFER_20260901\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\raw\\R005_P02\\g431.log",
+      "sha256": "E73BA0A35F6F048A6C77A2422E9DCF5FBB190426E84EC66A2A31191A08C8D5C4"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/raw/R005_P02/g474.log": {
+      "bytes": 321,
+      "expected_sha256": "0B720C6913A8961EEE331CDBAC9B574685818FDE7D2CFF6E309C21935A9C9C30",
+      "resolved_path": "C:\\WashiOS-baseline-recovery\\source_transfer_20260901_5BC8B2B1\\WashiOS_EVIDENCE_TRANSFER_20260901\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\raw\\R005_P02\\g474.log",
+      "sha256": "0B720C6913A8961EEE331CDBAC9B574685818FDE7D2CFF6E309C21935A9C9C30"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/results.csv": {
+      "bytes": 29986,
+      "expected_sha256": "770FB1FEF5BFD6B529906B35CBA67D9BAC2887DED241EA38D8CB914A157478CE",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\results.csv",
+      "sha256": "770FB1FEF5BFD6B529906B35CBA67D9BAC2887DED241EA38D8CB914A157478CE"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/run_plan.csv": {
+      "bytes": 2806,
+      "expected_sha256": "08BCBDD505DA95460ABFADE719411409501DE7B6F40BE648B30CB4E986F051B7",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\run_plan.csv",
+      "sha256": "08BCBDD505DA95460ABFADE719411409501DE7B6F40BE648B30CB4E986F051B7"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/summary.json": {
+      "bytes": 3901,
+      "expected_sha256": "124554F98A93639B4C2C8C18A708DC14A1D5673823A4CD2F84DB0F563083E1CA",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\summary.json",
+      "sha256": "124554F98A93639B4C2C8C18A708DC14A1D5673823A4CD2F84DB0F563083E1CA"
+    },
+    "research/icsec2026/runs/full_20260830_seed20260830_n30/validation.json": {
+      "bytes": 328,
+      "expected_sha256": "D06426EE043D32B032FA3267E7A8DDAB0AD345FD1F69807E93E9F47507BA84EB",
+      "resolved_path": "C:\\WashiOS\\research\\icsec2026\\runs\\full_20260830_seed20260830_n30\\validation.json",
+      "sha256": "D06426EE043D32B032FA3267E7A8DDAB0AD345FD1F69807E93E9F47507BA84EB"
+    }
+  },
+  "schema": "washios.icsec2026.synthetic_replay_source_hashes.v1"
+}

@@ -1,0 +1,45 @@
+{
+  "baseline_run_id": "R005_P02",
+  "events": [
+    {
+      "event_id": "fault_requested",
+      "kind": "fault_request",
+      "mode": "BAD_CRC",
+      "relative_ms": 0.0,
+      "source": "HOST"
+    },
+    {
+      "event_id": "detector_marker",
+      "kind": "detector_marker",
+      "marker": "[OBC] PAYLOAD_REJECT reason=CRC",
+      "relative_ms": 476.65,
+      "source": "CONTROLLER"
+    },
+    {
+      "event_id": "restore_requested",
+      "kind": "restore_request",
+      "mode": "NORMAL",
+      "relative_ms": 4055.525,
+      "source": "HOST"
+    },
+    {
+      "event_id": "restoration_confirmed",
+      "kind": "payload_mode_confirmation",
+      "mode": "NORMAL",
+      "relative_ms": 4121.477,
+      "source": "PAYLOAD"
+    },
+    {
+      "event_id": "recovery_marker",
+      "kind": "recovery_marker",
+      "marker": "[OBC] PAYLOAD_RECOVERED",
+      "relative_ms": 4466.092,
+      "source": "CONTROLLER"
+    }
+  ],
+  "fault_mode": "BAD_CRC",
+  "mutation": "remove the matching BAD_CRC payload confirmation",
+  "schema": "washios.icsec2026.synthetic_trace_mutation.v1",
+  "synthetic": true,
+  "trace_id": "missing_activation_confirmation"
+}

@@ -6,6 +6,7 @@
 #include "task.h"
 #include "IGPIO.hpp"
 #include "ITiming.hpp"
+#include "LabProbe.hpp"
 #include "TaskHealthReporter.hpp"
 #include "WashiTask.hpp"
 
@@ -38,6 +39,7 @@ protected:
     {
         for (;;)
         {
+            lab::stallIfDue(lab::StallTarget::Heartbeat);
             ++heartbeatCounter;
             toggleLed();
             checkIn();

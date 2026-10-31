@@ -1,0 +1,139 @@
+{
+  "campaign_id": "F411_P1_CAMPAIGN_20260901_B3",
+  "fixed_planned_denominator": 12,
+  "replacement_or_retry_allowed": false,
+  "rows": [
+    {
+      "attempted": false,
+      "block": 1,
+      "condition": "NC",
+      "delay_ms": null,
+      "invalid_reason": null,
+      "row": 1,
+      "run_id": "F411P1_C01_B1_NC",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 1,
+      "condition": "D110",
+      "delay_ms": 110,
+      "invalid_reason": null,
+      "row": 2,
+      "run_id": "F411P1_C02_B1_D110",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 1,
+      "condition": "D090",
+      "delay_ms": 90,
+      "invalid_reason": null,
+      "row": 3,
+      "run_id": "F411P1_C03_B1_D090",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 1,
+      "condition": "D100",
+      "delay_ms": 100,
+      "invalid_reason": null,
+      "row": 4,
+      "run_id": "F411P1_C04_B1_D100",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 2,
+      "condition": "D090",
+      "delay_ms": 90,
+      "invalid_reason": null,
+      "row": 5,
+      "run_id": "F411P1_C05_B2_D090",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 2,
+      "condition": "NC",
+      "delay_ms": null,
+      "invalid_reason": null,
+      "row": 6,
+      "run_id": "F411P1_C06_B2_NC",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 2,
+      "condition": "D100",
+      "delay_ms": 100,
+      "invalid_reason": null,
+      "row": 7,
+      "run_id": "F411P1_C07_B2_D100",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 2,
+      "condition": "D110",
+      "delay_ms": 110,
+      "invalid_reason": null,
+      "row": 8,
+      "run_id": "F411P1_C08_B2_D110",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 3,
+      "condition": "D100",
+      "delay_ms": 100,
+      "invalid_reason": null,
+      "row": 9,
+      "run_id": "F411P1_C09_B3_D100",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 3,
+      "condition": "D110",
+      "delay_ms": 110,
+      "invalid_reason": null,
+      "row": 10,
+      "run_id": "F411P1_C10_B3_D110",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 3,
+      "condition": "NC",
+      "delay_ms": null,
+      "invalid_reason": null,
+      "row": 11,
+      "run_id": "F411P1_C11_B3_NC",
+      "status": "PLANNED",
+      "valid": null
+    },
+    {
+      "attempted": false,
+      "block": 3,
+      "condition": "D090",
+      "delay_ms": 90,
+      "invalid_reason": null,
+      "row": 12,
+      "run_id": "F411P1_C12_B3_D090",
+      "status": "PLANNED",
+      "valid": null
+    }
+  ]
+}

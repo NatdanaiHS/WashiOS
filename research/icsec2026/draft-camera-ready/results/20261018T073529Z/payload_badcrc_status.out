@@ -1,0 +1,152 @@
+
+Verifying formula 1 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:9
+ -- Formula is satisfied.
+ -- States stored : 8662 states
+ -- States explored : 11110 states
+ -- CPU user time used : 150 ms
+ -- Virtual memory used : 63564 KiB
+ -- Resident memory used : 21692 KiB
+
+Verifying formula 2 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:12
+ -- Formula is satisfied.
+ -- States stored : 8727 states
+ -- States explored : 11290 states
+ -- CPU user time used : 135 ms
+ -- Virtual memory used : 64092 KiB
+ -- Resident memory used : 22148 KiB
+
+Verifying formula 3 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:15
+ -- Formula is satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 131 ms
+ -- Virtual memory used : 64092 KiB
+ -- Resident memory used : 22152 KiB
+
+Verifying formula 4 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:17
+ -- Formula is NOT satisfied.
+ -- States stored : 240 states
+ -- States explored : 220 states
+ -- CPU user time used : 1 ms
+ -- Virtual memory used : 64092 KiB
+ -- Resident memory used : 22152 KiB
+
+Verifying formula 5 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:20
+ -- Formula is satisfied.
+ -- States stored : 8327 states
+ -- States explored : 10892 states
+ -- CPU user time used : 131 ms
+ -- Virtual memory used : 64092 KiB
+ -- Resident memory used : 22152 KiB
+
+Verifying formula 6 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:22
+ -- Formula is NOT satisfied.
+ -- States stored : 668 states
+ -- States explored : 742 states
+ -- CPU user time used : 3 ms
+ -- Virtual memory used : 64092 KiB
+ -- Resident memory used : 22152 KiB
+
+Verifying formula 7 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:25
+ -- Formula is satisfied.
+ -- States stored : 8727 states
+ -- States explored : 11278 states
+ -- CPU user time used : 141 ms
+ -- Virtual memory used : 64092 KiB
+ -- Resident memory used : 22152 KiB
+
+Verifying formula 8 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:27
+ -- Formula is NOT satisfied.
+ -- States stored : 4538 states
+ -- States explored : 5185 states
+ -- CPU user time used : 49 ms
+ -- Virtual memory used : 64092 KiB
+ -- Resident memory used : 22152 KiB
+
+Verifying formula 9 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:30
+ -- Formula is satisfied.
+ -- States stored : 8662 states
+ -- States explored : 11110 states
+ -- CPU user time used : 164 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 10 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:33
+ -- Formula is satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 132 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 11 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:36
+ -- Formula is satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 130 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 12 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:39
+ -- Formula is satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 135 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 13 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:42
+ -- Formula is satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 132 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 14 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:45
+ -- Formula is satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 131 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 15 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:49
+ -- Formula is NOT satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 131 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 16 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:50
+ -- Formula is NOT satisfied.
+ -- States stored : 8323 states
+ -- States explored : 10831 states
+ -- CPU user time used : 133 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 17 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:53
+ -- Formula is satisfied.
+ -- States stored : 8319 states
+ -- States explored : 10770 states
+ -- CPU user time used : 133 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 18 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:57
+ -- Formula is satisfied.
+ -- States stored : 8662 states
+ -- States explored : 11110 states
+ -- CPU user time used : 388 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB
+
+Verifying formula 19 at /home/icy/Documents/WashiOS/research/icsec2026/draft-camera-ready/models/payload_link.q:58
+ -- Formula is satisfied.
+ -- States stored : 8662 states
+ -- States explored : 11110 states
+ -- CPU user time used : 230 ms
+ -- Virtual memory used : 64604 KiB
+ -- Resident memory used : 22948 KiB

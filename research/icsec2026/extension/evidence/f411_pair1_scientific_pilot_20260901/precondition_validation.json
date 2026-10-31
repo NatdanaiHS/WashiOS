@@ -1,0 +1,322 @@
+{
+  "controller_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 066BFF495051727187053106",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_scientific_pilot_20260901/firmware/f411_p1_fixed_controller.elf verify reset exit"
+    ],
+    "elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78",
+    "exit_code": 0,
+    "log": "flash_controller.log"
+  },
+  "controller_ready_host_time": "2026-09-01T15:05:38.588653+00:00",
+  "failures": [],
+  "fresh_normal_command_host_time": "2026-09-01T15:06:43.654819+00:00",
+  "fresh_normal_confirmation_host_time": "2026-09-01T15:06:43.715203+00:00",
+  "initial_normal_command_host_time": "2026-09-01T15:05:38.604216+00:00",
+  "initial_normal_confirmation_host_time": "2026-09-01T15:05:38.608727+00:00",
+  "link_active_host_time": "2026-09-01T15:05:38.608727+00:00",
+  "normal_counter_deltas": {
+    "crc": 0,
+    "recovery": 0,
+    "seq": 0,
+    "timeout": 0
+  },
+  "normal_prohibited_markers": [],
+  "normal_status_count": 13,
+  "normal_status_records": [
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:05:43.545593+00:00",
+      "monotonic_s": 184828.093,
+      "ok": 10,
+      "polls": 10,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:05:48.486202+00:00",
+      "monotonic_s": 184833.046,
+      "ok": 20,
+      "polls": 20,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:05:53.423629+00:00",
+      "monotonic_s": 184837.984,
+      "ok": 30,
+      "polls": 30,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:05:58.362968+00:00",
+      "monotonic_s": 184842.921,
+      "ok": 40,
+      "polls": 40,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:03.299576+00:00",
+      "monotonic_s": 184847.859,
+      "ok": 50,
+      "polls": 50,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:08.236289+00:00",
+      "monotonic_s": 184852.796,
+      "ok": 60,
+      "polls": 60,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:13.172618+00:00",
+      "monotonic_s": 184857.734,
+      "ok": 70,
+      "polls": 70,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:18.111449+00:00",
+      "monotonic_s": 184862.671,
+      "ok": 80,
+      "polls": 80,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:23.045991+00:00",
+      "monotonic_s": 184867.609,
+      "ok": 90,
+      "polls": 90,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:27.980926+00:00",
+      "monotonic_s": 184872.546,
+      "ok": 100,
+      "polls": 100,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:32.916311+00:00",
+      "monotonic_s": 184877.484,
+      "ok": 110,
+      "polls": 110,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:37.852231+00:00",
+      "monotonic_s": 184882.421,
+      "ok": 120,
+      "polls": 120,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    },
+    {
+      "crc": 0,
+      "host_time": "2026-09-01T15:06:42.791911+00:00",
+      "monotonic_s": 184887.359,
+      "ok": 130,
+      "polls": 130,
+      "recovery": 0,
+      "seq": 0,
+      "state": "ONLINE",
+      "timeout": 0
+    }
+  ],
+  "normal_window_duration_s": 65.0,
+  "normal_window_end_host_time": "2026-09-01T15:06:52.692469+00:00",
+  "normal_window_start_host_time": "2026-09-01T15:05:38.670543+00:00",
+  "online_transition_host_time": "2026-09-01T15:05:38.670543+00:00",
+  "payload_flash": {
+    "command": [
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\bin\\openocd.exe",
+      "-d2",
+      "-s",
+      "C:\\Users\\wachi\\.platformio\\packages\\tool-openocd\\openocd\\scripts",
+      "-c",
+      "adapter serial 066EFF495051727187053015",
+      "-f",
+      "interface/stlink.cfg",
+      "-c",
+      "transport select hla_swd",
+      "-f",
+      "target/stm32f4x.cfg",
+      "-c",
+      "program C:/WashiOS/research/icsec2026/extension/evidence/f411_pair1_scientific_pilot_20260901/firmware/f411_p1_payload.elf verify reset exit"
+    ],
+    "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+    "exit_code": 0,
+    "log": "flash_payload.log"
+  },
+  "payload_link_start_host_time": "2026-09-01T15:05:38.604216+00:00",
+  "payload_ready_host_time": "2026-09-01T15:05:37.369698+00:00",
+  "pre_stabilization": {
+    "accepted_exchanges": [
+      {
+        "host_time": "2026-09-01T15:06:43.838197+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=132 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:44.332979+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=133 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:44.829411+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=134 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:45.264442+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=135 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:45.758005+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=136 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:46.254239+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=137 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:46.749570+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=138 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:47.245755+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=139 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:47.788352+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=140 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:48.224005+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=141 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:48.718550+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=142 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:49.216086+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=143 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:49.708486+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=144 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:50.206499+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=145 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:50.705630+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=146 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:51.201531+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=147 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:51.698775+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=148 mode=0"
+      },
+      {
+        "host_time": "2026-09-01T15:06:52.195537+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=149 mode=0"
+      }
+    ],
+    "counter_deltas": {
+      "crc": 0,
+      "recovery": 0,
+      "seq": 0,
+      "timeout": 0
+    },
+    "failures": [],
+    "prohibited_markers": [],
+    "status_records": [
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T15:06:47.728654+00:00",
+        "monotonic_s": 184892.296,
+        "ok": 140,
+        "polls": 140,
+        "recovery": 0,
+        "seq": 0,
+        "state": "ONLINE",
+        "timeout": 0
+      },
+      {
+        "crc": 0,
+        "host_time": "2026-09-01T15:06:52.662631+00:00",
+        "monotonic_s": 184897.234,
+        "ok": 150,
+        "polls": 150,
+        "recovery": 0,
+        "seq": 0,
+        "state": "ONLINE",
+        "timeout": 0
+      }
+    ],
+    "valid": true
+  },
+  "record_id": "F411_P1_SCI_PILOT_001_D110_PRECHECK",
+  "scientific_trial": false,
+  "valid": true
+}

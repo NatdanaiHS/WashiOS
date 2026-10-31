@@ -1,0 +1,28 @@
+{
+  "schema": "washios.icsec2026.f411_engdiag.build_test_validation.v1",
+  "tests": {
+    "core_native_sitl_and_f411_ring": {"passed": 43, "failed": 0, "log": "test_core_native.log"},
+    "payload_parser": {"passed": 3, "failed": 0, "log": "test_payload_native.log"},
+    "extension_and_legacy_host": {"passed": 9, "failed": 0, "log": "test_extension_host.log"}
+  },
+  "clean_builds": {
+    "controller": {
+      "environment": "nucleo_f411re_payload_controller",
+      "result": "SUCCESS",
+      "bin_size_bytes": 19832,
+      "bin_sha256": "8686113C4A83E1600EBE66FB3B3F8795853011B4B0E69D91F9E68EBB3FD8FE68",
+      "elf_size_bytes": 158152,
+      "elf_sha256": "9AA52D103E977A8B18968A0B7F3D69E74361AC5E5FFDFA6B3CBC49A3AD722D78"
+    },
+    "payload": {
+      "environment": "nucleo_f411re_payload",
+      "result": "SUCCESS",
+      "bin_size_bytes": 8152,
+      "bin_sha256": "52F145488CAD9D3A9711F77DF1DFB9F76DFEAE6660FE9E1FBD5560AA738BFBBB",
+      "elf_size_bytes": 143396,
+      "elf_sha256": "0BC0EAAA7830B001CD31F1805C1002275E62FAF8DE6BC8C1AF44ABF5A2005493",
+      "unchanged_from_failed_bringup_package": true
+    }
+  },
+  "all_required_validation_passed": true
+}

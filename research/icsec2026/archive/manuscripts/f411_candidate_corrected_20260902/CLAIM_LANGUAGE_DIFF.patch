@@ -1,0 +1,22 @@
+diff --git a/research/icsec2026/extension/manuscript_candidate_f411_20260902/main.tex b/research/icsec2026/extension/manuscript_candidate_f411_20260902_corrected/main.tex
+index 544ad9d..02d5853 100644
+--- a/research/icsec2026/extension/manuscript_candidate_f411_20260902/main.tex
++++ b/research/icsec2026/extension/manuscript_candidate_f411_20260902_corrected/main.tex
+@@ -50,7 +50,7 @@ The paper makes three bounded contributions:
+ 
+ \begin{itemize}
+   \item an activation-confirmed dual-channel HIL procedure that separates requested, activated, detected, restored, and recovered events;
+-  \item a descriptive evaluation of nominal behavior, predefined detection/recovery outcomes, host-observed command-to-marker latency, and pair-specific protocol-level reproduction on two separate F411 configurations; and
++  \item a descriptive evaluation of nominal behavior, predefined detection/recovery outcomes, host-observed command-to-marker latency, and pair-specific protocol-level reproduction on two separate physical F411 controller/payload pairs under one fixed F411 implementation; and
+   \item an evidence-locking workflow that connects manuscript tables to immutable experiment summaries and validation artifacts.
+ \end{itemize}
+ 
+@@ -251,7 +251,7 @@ Here F/R denotes the predefined timeout/sequence-rejection/OFFLINE pattern with
+ 
+ \section{Discussion and Limitations}
+ 
+-The dual-channel protocol closes a specific evidentiary gap between requesting a behavior and observing that the payload simulator entered it. Within the primary frozen setup, all retained injections produced their predefined controller detector evidence and were followed by a recovery marker after confirmed restoration. The N0 windows provide bounded healthy observations on both sides of that campaign. The separate F411 campaigns add protocol-level physical reproduction across two configurations without changing the one-pair interpretation of the primary results. They do not establish behavior on an unobserved device population, and population-level uncertainty is not estimated from two purposively evaluated pairs.
++The dual-channel protocol closes a specific evidentiary gap between requesting a behavior and observing that the payload simulator entered it. Within the primary frozen setup, all retained injections produced their predefined controller detector evidence and were followed by a recovery marker after confirmed restoration. The N0 windows provide bounded healthy observations on both sides of that campaign. The separate F411 campaigns add protocol-level physical reproduction on two separate physical pairs under one fixed F411 implementation without changing the one-pair interpretation of the primary results. They do not establish behavior on an unobserved device population, and population-level uncertainty is not estimated from two purposively evaluated pairs.
+ 
+ The experiment has several deliberate limitations. First, the primary 90 trials used one physical board pair and occurred sequentially; each 12-row F411 campaign was likewise sequential within its own pair. Trial outcomes may therefore share device, thermal, state-history, host, and timing conditions. Second, nominal evidence is limited to two 65-s primary windows and one 65-s gate per F411 pair; it does not establish long-duration stability. Third, no fair C0 ablation was constructed, so neither a treatment effect nor comparative superiority is supported. Fourth, timing is based on host command and serial-receipt timestamps. UART, USB, operating-system, and scheduling delays are included, and MCU-internal latency is unknown.
+ 

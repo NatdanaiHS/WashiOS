@@ -1,0 +1,14 @@
+{
+  "firmware_source_commit": "0ce8a5cfe12b0dc72df5e8baeee1f8f3bdf19612",
+  "base_comparison_commit": "600272edf9460191cbb7c7c6080ce503ffad1f17",
+  "firmware_behavior_diff_files": ["core/src/bsp/f4/Stm32Timing.cpp"],
+  "expected_adapter_change_only": true,
+  "common_blobs": {
+    "core/include/comms/PayloadProtocol.hpp": "f798a54503c8af93960bb629e305c043da7b4328",
+    "core/include/comms/PayloadLinkController.hpp": "e2b6c9e9bb4af62afa32daa455479575eebff19a",
+    "core/src/app/PayloadLinkTask.hpp": "2770ff49478de096ab84df5db4a02ae71465e90a",
+    "demo-payload/src/HostModeCommandParser.hpp": "e8bb022387c88b7bf80ceb162988722a47e83662"
+  },
+  "matches_engineering_diagnostic_semantic_record": true,
+  "firmware_source_modified_in_this_milestone": false
+}

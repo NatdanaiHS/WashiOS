@@ -1,0 +1,43 @@
+{
+  "schema": "washios.icsec2026.f411_pair1.reconstructed_validation.v1",
+  "run_id": "BRINGUP_001",
+  "reconstructed_at": "2026-09-01T21:16:52+07:00",
+  "provenance": "post hoc reconstruction from retained raw UART and OpenOCD logs; not the original harness validation",
+  "valid": false,
+  "scientific_observation": false,
+  "raw_hashes": {
+    "controller.log": "0D8E1CB85B4733791D677B98F6D2E23F4CE7E9D8320109983CBC4A6111C18DBC",
+    "payload.log": "9C7568A22CFDF48900161092E2EBAF0765FD895258EA8EFD4C546532640FA0E3",
+    "flash_controller.log": "4DC3CAF17693576CEFF8B72D6329F049801A3423DB1CF82352933B9DAD35CEF1",
+    "flash_payload.log": "91D8D9BE844BB6CC78B0637F4ABFDE27722D7A3DFA251000B4F548E5B3AE675D"
+  },
+  "raw_record_counts": {
+    "controller": 4,
+    "payload": 3
+  },
+  "observed_markers": {
+    "controller_ready": true,
+    "payload_link_start": true,
+    "payload_accepted": true,
+    "payload_online_transition": true,
+    "controller_periodic_status": false,
+    "payload_ready": true,
+    "payload_normal_confirmation": true,
+    "payload_link_active": true,
+    "subsequent_link_exchange": false,
+    "uart_error_or_overflow": false
+  },
+  "flash_evidence": {
+    "controller_programming_finished": true,
+    "controller_verified_ok": true,
+    "payload_programming_finished": true,
+    "payload_verified_ok": true,
+    "exact_elf_hash_independently_recoverable": false,
+    "limitation": "The OpenOCD output records target programming and verification but not the programmed file path or file hash; the original per-run command metadata was not retained."
+  },
+  "invalid_reason": [
+    "CONTROLLER_ONLINE_STATUS_MISSING",
+    "NO_SUBSEQUENT_LINK_TRAFFIC",
+    "RUNTIME_OR_RESET_AMBIGUITY"
+  ]
+}

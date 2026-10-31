@@ -1,0 +1,20 @@
+{
+  "schema": "washios.icsec2026.f411_pair1.corrected_disposition.v1",
+  "recorded_at": "2026-09-01T21:16:52+07:00",
+  "terminal_condition": "PAIR1_PILOT_FAIL",
+  "physical_bringup_attempts": 2,
+  "valid_bringup_attempts": 0,
+  "invalid_bringup_attempts": 2,
+  "normal_attempts": 0,
+  "pilot_attempts": 0,
+  "valid_scientific_observations": 0,
+  "no_retry_rule_satisfied": false,
+  "scientific_use": "NONE",
+  "engineering_observation": "Both retained physical attempts reached one attributable bidirectional exchange and PAYLOAD_ONLINE after verified programming, then retained neither a periodic controller status record nor subsequent link traffic.",
+  "integrity_limitation": "BRINGUP_001 was initially misclassified and its original per-run derived validation is not retained; BRINGUP_002 consequently occurred contrary to the reviewed no-retry rule.",
+  "normal_not_attempted_reason": "No valid bring-up acceptance gate was achieved.",
+  "pilot_not_attempted_reason": "No valid bring-up or NORMAL gate was achieved.",
+  "superseding_record": "ACCOUNTING_CORRECTION_20260901.json",
+  "raw_evidence_unchanged": true,
+  "further_hardware_activity_after_discovery": false
+}

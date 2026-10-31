@@ -1,0 +1,23 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_scientific_attempt_ledger.v1",
+  "entries": [
+    {
+      "record_id": "F411_P1_SCI_PILOT_001_D110_PRECHECK",
+      "kind": "retained precondition gate",
+      "planned": true,
+      "scientific_trial": false,
+      "status": "PLANNED_NOT_STARTED"
+    },
+    {
+      "run_id": "F411_P1_SCI_PILOT_001_D110",
+      "kind": "fresh scientific pilot",
+      "condition": "DELAYED 110",
+      "planned": true,
+      "scientific_observation": true,
+      "campaign_denominator": false,
+      "status": "PLANNED_NOT_STARTED"
+    }
+  ],
+  "maximum_scientific_attempts": 1,
+  "retry_or_replacement_allowed": false
+}

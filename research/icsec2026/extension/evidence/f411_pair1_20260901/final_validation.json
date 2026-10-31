@@ -1,0 +1,32 @@
+{
+  "validated_at": "2026-09-01T21:12:55+07:00",
+  "terminal_condition": "PAIR1_PILOT_FAIL",
+  "valid_scientific_observations": 0,
+  "pre_attempt_aborts_retained": 1,
+  "physical_bringup_attempts": 1,
+  "valid_bringup_attempts": 0,
+  "invalid_bringup_attempts": 1,
+  "normal_attempts": 0,
+  "pilot_attempts": 0,
+  "controller_raw_records": 4,
+  "payload_raw_records": 3,
+  "controller_raw_log_failures": [],
+  "payload_raw_log_failures": [],
+  "controller_status_records": 0,
+  "controller_flash_verified_marker_count": 1,
+  "payload_flash_verified_marker_count": 1,
+  "controller_firmware_hash_matches_lock": true,
+  "payload_firmware_hash_matches_lock": true,
+  "json_files_valid_before_inventory": 9,
+  "normal_raw_files": 0,
+  "pilot_raw_files": 0,
+  "open_experiment_processes": 0,
+  "frozen_and_reviewed_inventory_hashes_unchanged": true,
+  "failures": [
+    "BRINGUP_002:CONTROLLER_ONLINE_STATUS_MISSING",
+    "BRINGUP_002:NO_SUBSEQUENT_LINK_TRAFFIC",
+    "BRINGUP_002:RUNTIME_OR_RESET_AMBIGUITY"
+  ],
+  "valid": false,
+  "evidence_complete_for_failed_milestone": true
+}

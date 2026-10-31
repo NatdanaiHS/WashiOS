@@ -1,0 +1,14 @@
+{
+  "run_id": "BRINGUP_001",
+  "disposition": "PRE_ATTEMPT_HARNESS_ABORT",
+  "detected_host_time": "2026-09-01T21:09:00+07:00",
+  "reason": "exclusive run directory already existed empty before attach_logs",
+  "serial_ports_opened_then_closed": true,
+  "capture_attached": false,
+  "flash_started": false,
+  "board_reset_commanded": false,
+  "firmware_changed": false,
+  "hardware_behavior_observed": false,
+  "scientific_attempt": false,
+  "replacement_policy": "directory and abort retained; first actual bring-up uses distinct BRINGUP_002 identifier"
+}

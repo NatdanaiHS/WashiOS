@@ -1,0 +1,17 @@
+{
+  "branch": "experiment/icsec-extension-20260830",
+  "instrumented_source_commit": "d110b4687386d39ed7173dddc9b033503c150ea8",
+  "source_status_at_S001_capture": "CLEAN",
+  "frozen_base_commit": "8a47d070c549274c59cdbde2495afa8d353a93b3",
+  "instrumented_files": [
+    "demo-payload/src/main.cpp",
+    "demo-payload/platformio.ini",
+    "core/src/app/PayloadLinkTask.hpp",
+    "core/src/main.cpp",
+    "core/platformio.ini",
+    "bootloader/platformio.ini",
+    "research/icsec2026/extension/run_scope_capture.py"
+  ],
+  "semantic_boundary": "GPIO instrumentation only; no change to response deadline, poll cadence, UART protocol, delay scheduling, controller state logic, or serial marker definitions",
+  "test_status": "core native/SITL 38/38; payload parser 3/3; instrumented G474/G431/bootloader builds successful"
+}

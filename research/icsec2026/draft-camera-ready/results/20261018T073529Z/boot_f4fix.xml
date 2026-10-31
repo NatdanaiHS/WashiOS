@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
+<nta>
+<declaration>// WashiBoot A/B boot policy, untimed finite-state model in UPPAAL.
+// Sources: bootloader/include/boot/BootPolicy.hpp, bootloader/include/boot/BootMetadata.hpp,
+// bootloader/src/main.cpp, core/src/main.cpp (application never confirms a boot).
+
+const int MAX_UNCONFIRMED = 3;   // boot::MaxUnconfirmedBootAttempts
+const int FALLBACK_RESETS = 1;   // 0 = shipped (F4 present), 1 = fixed: resetBootAttempts() on activation
+const int APP_CONFIRMS = 0;   // 0 = shipped application (never confirms), 1 = design intent
+
+// FirmwareSlotState
+const int EMPTY = 0; const int VALID = 1; const int PENDING = 2; const int CONFIRMED = 3; const int BAD = 4;
+// BootSlot
+const int SLOT_A = 0; const int SLOT_B = 1;
+
+// Retained metadata (survives warm reset; scrubbed by cold start)
+int[0,1] active = SLOT_A;
+int[0,4] stateA = CONFIRMED;    // provisioned default: Slot A confirmed with baked CRC
+int[0,4] stateB = EMPTY;
+int[0,5] bootCount = 0;
+bool confirmedFlag = false;     // BootMetadataConfirmed; the application never sets it
+bool retainedCriticalFault = false;   // FaultLog holds TaskCheckinFailure/WatchdogTimeout
+bool metadataCorrupt = false;
+
+// Flash image validity, chosen by the environment (vector table + CRC together)
+bool imageOkA = true;
+bool imageOkB = false;
+
+// Observables
+int[0,1] launchedSlot = SLOT_A;
+bool launchedInvalid = false;
+bool safeLoop = false;
+bool appRunning = false;   // Boot is in AppRunning (mirrors the location for use in guards)
+int[0,5] pendingLaunches = 0;    // consecutive launches of a Pending slot (reset by a non-Pending launch, re-staging, or cold start)
+bool launchedOverLimit = false;  // a Pending slot was launched although bootCount already exceeded MAX_UNCONFIRMED
+bool fallbackLaunch = false;     // the most recent launch went through the fallback path
+bool overLimitNonFallback = false;   // an over-limit Pending launch happened on the primary (non-fallback) path
+bool lastLaunchOverLimit = false;    // the most recent launch was an over-limit Pending launch
+int  safeReason = 0;   // Detail codes, abbreviated
+const int R_FAULTLOG = 1; const int R_LOOP = 2; const int R_PRIOR = 3; const int R_NOSLOT = 6;
+
+broadcast chan reset, coldStart;
+
+bool bootable(int st) { return st == VALID || st == PENDING || st == CONFIRMED; }
+int  stateOf(int slot) { return slot == SLOT_A ? stateA : stateB; }
+bool imageOf(int slot) { return slot == SLOT_A ? imageOkA : imageOkB; }
+</declaration>
+
+<template>
+<name>Boot</name>
+<declaration>
+void normalizeConfirmed() {
+    // BootMetadata.hpp:243-258
+    if (confirmedFlag) {
+        bootCount = 0; confirmedFlag = false;
+        if (active == SLOT_A) stateA = CONFIRMED; else stateB = CONFIRMED;
+    }
+}
+bool loopLimit() {
+    // BootPolicy.hpp:126-131
+    return stateOf(active) == PENDING &amp;&amp; bootCount &gt; MAX_UNCONFIRMED;
+}
+bool slotBootable(int slot) {
+    // BootPolicy.hpp isSlotBootable: state, vector table, CRC (abstracted as imageOf)
+    return bootable(stateOf(slot)) &amp;&amp; imageOf(slot);
+}
+void launch(int slot, bool viaFallback) {
+    // noteBootAttempt (BootMetadata.hpp:261-266) then jump
+    lastLaunchOverLimit = false;
+    if (stateOf(slot) == PENDING) {
+        if (bootCount &gt; MAX_UNCONFIRMED) {
+            launchedOverLimit = true;
+            lastLaunchOverLimit = true;
+            if (!viaFallback) overLimitNonFallback = true;
+        }
+        if (pendingLaunches &lt; 5) pendingLaunches++;
+    } else {
+        pendingLaunches = 0;
+    }
+    if (bootCount &lt; 5) bootCount++;
+    launchedSlot = slot;
+    launchedInvalid = !imageOf(slot);
+    fallbackLaunch = viaFallback;
+    appRunning = true;
+}
+void activateFallback() {
+    // BootPolicy.hpp:86-92. The fix inserts resetBootAttempts() before activateBootSlot(),
+    // so the newly activated image starts its own attempt budget.
+    active = 1 - active;
+    if (FALLBACK_RESETS == 1) bootCount = 0;
+}
+void fail(int reason) { safeLoop = true; safeReason = reason; appRunning = false; }
+</declaration>
+<location id="b0" x="0" y="0"><name x="-30" y="-40">Start</name><urgent/></location>
+<location id="b1" x="250" y="0"><name x="220" y="-40">Recovered</name><committed/></location>
+<location id="b2" x="500" y="0"><name x="470" y="-40">Selecting</name><committed/></location>
+<location id="b3" x="750" y="-120"><name x="720" y="-160">AppRunning</name></location>
+<location id="b4" x="750" y="120"><name x="720" y="140">SafeLoop</name></location>
+<init ref="b0"/>
+<!-- recover retained state: corrupt fault log -> safe loop (BootPolicy.hpp:50-57) -->
+<transition>
+<source ref="b0"/><target ref="b4"/>
+<label kind="guard" x="60" y="140">metadataCorrupt</label>
+<label kind="assignment" x="60" y="160">fail(R_FAULTLOG)</label>
+</transition>
+<transition>
+<source ref="b0"/><target ref="b1"/>
+<label kind="guard" x="60" y="-90">!metadataCorrupt</label>
+<label kind="assignment" x="60" y="-70">normalizeConfirmed()</label>
+</transition>
+<!-- boot-loop limit (line 64-67) and prior critical fault (line 70-73) -->
+<transition>
+<source ref="b1"/><target ref="b4"/>
+<label kind="guard" x="300" y="120">loopLimit()</label>
+<label kind="assignment" x="300" y="140">fail(R_LOOP)</label>
+</transition>
+<transition>
+<source ref="b1"/><target ref="b4"/>
+<label kind="guard" x="300" y="180">!loopLimit() &amp;&amp; retainedCriticalFault</label>
+<label kind="assignment" x="300" y="200">fail(R_PRIOR)</label>
+</transition>
+<transition>
+<source ref="b1"/><target ref="b2"/>
+<label kind="guard" x="300" y="-70">!loopLimit() &amp;&amp; !retainedCriticalFault</label>
+</transition>
+<!-- active slot bootable -> launch (line 78-83) -->
+<transition>
+<source ref="b2"/><target ref="b3"/>
+<label kind="guard" x="560" y="-120">slotBootable(active)</label>
+<label kind="assignment" x="560" y="-100">launch(active, false)</label>
+</transition>
+<!-- fallback slot bootable -> activate and launch (line 86-92) -->
+<transition>
+<source ref="b2"/><target ref="b3"/>
+<label kind="guard" x="560" y="-60">!slotBootable(active) &amp;&amp; slotBootable(1 - active)</label>
+<label kind="assignment" x="560" y="-40">activateFallback(), launch(active, true)</label>
+</transition>
+<!-- neither slot -> safe loop (line 94-96) -->
+<transition>
+<source ref="b2"/><target ref="b4"/>
+<label kind="guard" x="560" y="60">!slotBootable(active) &amp;&amp; !slotBootable(1 - active)</label>
+<label kind="assignment" x="560" y="80">fail(R_NOSLOT)</label>
+</transition>
+<!-- warm reset (watchdog or software) re-enters the policy with retained state -->
+<transition>
+<source ref="b3"/><target ref="b0"/>
+<label kind="synchronisation" x="400" y="-200">reset?</label>
+<label kind="assignment" x="400" y="-180">appRunning = false</label>
+</transition>
+<!-- cold start scrubs retained state -->
+<transition>
+<source ref="b3"/><target ref="b0"/>
+<label kind="synchronisation" x="400" y="-240">coldStart?</label>
+<label kind="assignment" x="400" y="-220">retainedCriticalFault = false, confirmedFlag = false, bootCount = 0, safeLoop = false, appRunning = false, pendingLaunches = 0, launchedOverLimit = false, lastLaunchOverLimit = false</label>
+</transition>
+<transition>
+<source ref="b4"/><target ref="b0"/>
+<label kind="synchronisation" x="400" y="240">coldStart?</label>
+<label kind="assignment" x="400" y="260">retainedCriticalFault = false, confirmedFlag = false, bootCount = 0, safeLoop = false, metadataCorrupt = false, pendingLaunches = 0, launchedOverLimit = false, lastLaunchOverLimit = false</label>
+</transition>
+<!-- a warm reset from the safe loop changes nothing: the beacon loops forever -->
+</template>
+
+<template>
+<name>App</name>
+<declaration>// APP_CONFIRMS = 0 models the shipped application (core/src/main.cpp never
+// writes BootMetadata). APP_CONFIRMS = 1 is the intended design for comparison.
+</declaration>
+<location id="a0" x="0" y="0"><name x="-30" y="-40">Idle</name></location>
+<init ref="a0"/>
+<!-- application runs; it may (design) confirm, may hit a critical stall, or may be reset -->
+<transition>
+<source ref="a0"/><target ref="a0"/>
+<label kind="guard" x="-160" y="-100">appRunning &amp;&amp; APP_CONFIRMS == 1</label>
+<label kind="assignment" x="-160" y="-80">confirmedFlag = true</label>
+</transition>
+<transition>
+<source ref="a0"/><target ref="a0"/>
+<label kind="guard" x="-160" y="40">appRunning</label>
+<label kind="synchronisation" x="-160" y="60">reset!</label>
+<label kind="assignment" x="-160" y="80">retainedCriticalFault = true</label>
+</transition>
+<transition>
+<source ref="a0"/><target ref="a0"/>
+<label kind="guard" x="120" y="40">appRunning</label>
+<label kind="synchronisation" x="120" y="60">reset!</label>
+</transition>
+</template>
+
+<template>
+<name>Flash</name>
+<declaration>// Environment may corrupt either image or stage a Pending image in Slot B
+// before a reset. It never repairs an image silently (no in-field rewrite of
+// Slot A/B is modelled; that mirrors docs/flight_provisioning.md).
+</declaration>
+<location id="f0" x="0" y="0"><name x="-30" y="-40">Any</name></location>
+<init ref="f0"/>
+<transition><source ref="f0"/><target ref="f0"/>
+<label kind="guard" x="-200" y="-100">appRunning || safeLoop</label>
+<label kind="assignment" x="-200" y="-80">imageOkA = false</label></transition>
+<transition><source ref="f0"/><target ref="f0"/>
+<label kind="guard" x="-200" y="-40">appRunning || safeLoop</label>
+<label kind="assignment" x="-200" y="-20">imageOkB = false</label></transition>
+<transition><source ref="f0"/><target ref="f0"/>
+<label kind="guard" x="-200" y="20">appRunning</label>
+<label kind="assignment" x="-200" y="40">imageOkB = true, stateB = PENDING</label></transition>
+<transition><source ref="f0"/><target ref="f0"/>
+<label kind="guard" x="-200" y="80">appRunning</label>
+<label kind="assignment" x="-200" y="100">active = SLOT_B, bootCount = 0, pendingLaunches = 0, lastLaunchOverLimit = false</label></transition>
+<transition><source ref="f0"/><target ref="f0"/>
+<label kind="guard" x="-200" y="140">safeLoop || appRunning</label>
+<label kind="synchronisation" x="-200" y="160">coldStart!</label></transition>
+<transition><source ref="f0"/><target ref="f0"/>
+<label kind="guard" x="-200" y="200">appRunning</label>
+<label kind="assignment" x="-200" y="220">metadataCorrupt = true</label></transition>
+</template>
+
+<system>B = Boot();
+A = App();
+F = Flash();
+system B, A, F;
+</system>
+
+<queries>
+<query><formula>A[] not deadlock</formula><comment>Model sanity.</comment></query>
+</queries>
+</nta>

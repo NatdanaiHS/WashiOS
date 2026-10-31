@@ -376,6 +376,42 @@ void test_slot_a_invalid_vector_falls_back_to_slot_b()
                              metadata.active_slot);
 }
 
+void test_fallback_into_pending_slot_resets_attempt_budget()
+{
+    // F4 regression. Slot A is Confirmed so the limit check above it is skipped, but its
+    // image is corrupt; slot B is Pending and the boot count has already accumulated
+    // while A was running. The fallback must launch B with a fresh budget: before the
+    // fix the launch inherited the count and left B over the limit, so the next warm
+    // boot refused it and a Pending fallback image got one attempt instead of four.
+    fillSlot(slotA, 0x40U);
+    fillSlot(slotB, 0xA0U);
+    MockFlashMap flashMap;
+    MockBootPlatform platform;
+    MockBeacon beacon;
+    boot::BootMetadata metadata = {};
+    core::FaultLog<> faultLog;
+    faultLog.clear();
+    configureMetadata(metadata,
+                      boot::BootSlot::SlotA,
+                      slotCrc(slotA) ^ 0x1UL,
+                      slotCrc(slotB));
+    metadata.slot_b_state = static_cast<uint32_t>(boot::FirmwareSlotState::Pending);
+    metadata.boot_count = boot::MaxUnconfirmedBootAttempts;
+    boot::commitBootMetadata(metadata);
+
+    boot::BootPolicy policy(flashMap, platform, beacon, metadata, faultLog, 0U);
+    policy.run();
+
+    TEST_ASSERT_EQUAL_UINT32(static_cast<uint32_t>(boot::BootSlot::SlotB),
+                             metadata.active_slot);
+    TEST_ASSERT_EQUAL_UINT64(
+        static_cast<uint64_t>(flashMap.slotBase(hal::FirmwareSlot::SlotB)),
+        static_cast<uint64_t>(platform.jumpedVector));
+    // the launch counts as the fallback image's first attempt, not the previous slot's next
+    TEST_ASSERT_EQUAL_UINT32(1U, metadata.boot_count);
+    TEST_ASSERT_TRUE(metadata.boot_count <= boot::MaxUnconfirmedBootAttempts);
+}
+
 void test_both_slots_fail_enter_safe_loop_and_record_fault()
 {
     fillSlot(slotA, 0x40U);
@@ -422,6 +458,7 @@ int main()
     RUN_TEST(test_stale_slot_a_crc_adopts_matching_default_image);
     RUN_TEST(test_slot_a_crc_failure_falls_back_to_slot_b);
     RUN_TEST(test_slot_a_invalid_vector_falls_back_to_slot_b);
+    RUN_TEST(test_fallback_into_pending_slot_resets_attempt_budget);
     RUN_TEST(test_both_slots_fail_enter_safe_loop_and_record_fault);
     return UNITY_END();
 }

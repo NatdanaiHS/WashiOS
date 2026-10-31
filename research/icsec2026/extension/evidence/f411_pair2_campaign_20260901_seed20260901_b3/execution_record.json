@@ -1,0 +1,14 @@
+{
+  "schema": "washios.icsec2026.f411_pair2_execution.v1",
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "source_commit": "eb3c15a2396eb80e327ebf8cd142f1f4298430e2",
+  "invocation_count": 1,
+  "retry_replacement_or_second_invocation": false,
+  "controller": {"board_id": "F411-C", "stlink_serial": "0669FF495051727187053226", "vcp": "COM12"},
+  "payload": {"board_id": "F411-D", "stlink_serial": "0663FF495051727187066042", "vcp": "COM6"},
+  "continuous_capture_opened_once": true,
+  "flash_verify_reset_sequences": 1,
+  "intermediate_reset_reflash_port_reopen_or_plan_change": false,
+  "process_exit_code": 0,
+  "finished_host_time": "2026-09-01T16:52:32.081768+00:00"
+}

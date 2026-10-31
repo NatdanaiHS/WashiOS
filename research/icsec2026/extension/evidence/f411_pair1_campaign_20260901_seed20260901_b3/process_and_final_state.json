@@ -1,0 +1,11 @@
+{
+  "schema": "washios.icsec2026.f411_pair1_campaign_final_state.v1",
+  "controller_port_closed": true,
+  "payload_port_closed": true,
+  "python_or_openocd_processes_after_run": 0,
+  "final_payload_state": "NORMAL confirmed at 2026-09-01T15:49:01.527250+00:00",
+  "final_controller_state": "ONLINE in final complete status at 2026-09-01T15:49:07.294141+00:00 with stable post-row counters",
+  "final_complete_status_counters": {"polls":610,"ok":562,"timeout":48,"crc":0,"seq":48,"recovery":6},
+  "hardware_action_after_acquisition": false,
+  "additional_campaign_or_second_pair_authorized": false
+}

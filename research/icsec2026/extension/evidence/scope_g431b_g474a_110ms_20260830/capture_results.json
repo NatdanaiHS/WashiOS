@@ -1,0 +1,140 @@
+[
+  {
+    "activation_command_host_time": "2026-08-30T15:23:16.936778+00:00",
+    "activation_confirmation_host_time": "2026-08-30T15:23:16.945998+00:00",
+    "activation_confirmed": true,
+    "block": 1,
+    "condition": "DELAY",
+    "delay_ms": 110,
+    "invalid_reason": "",
+    "observation_s": 4.0,
+    "observations": {
+      "accepted_delayed_response_markers": 0,
+      "accepted_normal_response_markers": 1,
+      "accepted_response_markers": 1,
+      "crc_rejection_markers": 0,
+      "offline_markers": 1,
+      "poll_write_failure_markers": 0,
+      "recovery_markers": 0,
+      "restart_markers": 0,
+      "sequence_rejection_markers": 1,
+      "timeout_markers": 2
+    },
+    "observed_markers": [
+      {
+        "host_time": "2026-08-30T15:23:16.977306+00:00",
+        "marker": "[OBC] PAYLOAD_ACCEPTED seq=4380 mode=0"
+      },
+      {
+        "host_time": "2026-08-30T15:23:17.529500+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=1"
+      },
+      {
+        "host_time": "2026-08-30T15:23:17.593220+00:00",
+        "marker": "[OBC] PAYLOAD_REJECT reason=SEQUENCE"
+      },
+      {
+        "host_time": "2026-08-30T15:23:18.027404+00:00",
+        "marker": "[OBC] PAYLOAD_TIMEOUT consecutive=2"
+      },
+      {
+        "host_time": "2026-08-30T15:23:18.523262+00:00",
+        "marker": "[OBC] PAYLOAD_OFFLINE consecutive=3 heartbeat=OK watchdog=OK"
+      }
+    ],
+    "order_index": 1,
+    "post_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T15:23:21.918745+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T15:23:21.037685+00:00",
+      "normal_confirmation_host_time": "2026-08-30T15:23:21.100449+00:00",
+      "pre_baseline_markers": [
+        {
+          "host_time": "2026-08-30T15:23:21.473845+00:00",
+          "marker": "[OBC] PAYLOAD_RECOVERED recoveries=1"
+        }
+      ],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T15:23:21.100449+00:00",
+      "status_records": [
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T15:23:21.918745+00:00",
+          "monotonic_s": 13081.718,
+          "ok": 4382,
+          "polls": 4390,
+          "recovery": 1,
+          "seq": 8,
+          "state": "ONLINE",
+          "timeout": 8
+        },
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T15:23:26.918500+00:00",
+          "monotonic_s": 13086.718,
+          "ok": 4392,
+          "polls": 4400,
+          "recovery": 1,
+          "seq": 8,
+          "state": "ONLINE",
+          "timeout": 8
+        }
+      ],
+      "valid": true
+    },
+    "pre_stabilization": {
+      "counter_deltas": {
+        "crc": 0,
+        "recovery": 0,
+        "seq": 0,
+        "timeout": 0
+      },
+      "evaluated_boundary_host_time": "2026-08-30T15:23:11.917326+00:00",
+      "failures": [],
+      "normal_command_host_time": "2026-08-30T15:23:08.961534+00:00",
+      "normal_confirmation_host_time": "2026-08-30T15:23:09.018015+00:00",
+      "pre_baseline_markers": [],
+      "prohibited_markers": [],
+      "serial_boundary_host_time": "2026-08-30T15:23:09.018015+00:00",
+      "status_records": [
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T15:23:11.917326+00:00",
+          "monotonic_s": 13071.718,
+          "ok": 4370,
+          "polls": 4370,
+          "recovery": 0,
+          "seq": 0,
+          "state": "ONLINE",
+          "timeout": 0
+        },
+        {
+          "crc": 0,
+          "host_time": "2026-08-30T15:23:16.917592+00:00",
+          "monotonic_s": 13076.718,
+          "ok": 4380,
+          "polls": 4380,
+          "recovery": 0,
+          "seq": 0,
+          "state": "ONLINE",
+          "timeout": 0
+        }
+      ],
+      "valid": true
+    },
+    "restore_command_host_time": "2026-08-30T15:23:20.946752+00:00",
+    "restore_confirmation_host_time": "2026-08-30T15:23:21.037685+00:00",
+    "run_id": "S001_D110",
+    "scope_files_status": "PENDING_HUMAN_SAVE",
+    "source_commit": "d110b4687386d39ed7173dddc9b033503c150ea8",
+    "source_status": "",
+    "unexpected_outcome": "",
+    "valid": true
+  }
+]

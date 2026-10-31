@@ -1,0 +1,25 @@
+{
+  "enumerated_at": "2026-09-01T21:08:36+07:00",
+  "controller": {
+    "role": "F411-P1-C",
+    "board": "F411-A",
+    "stlink_serial": "066BFF495051727187053106",
+    "vcp": "COM16",
+    "mass_storage_drive_at_enumeration": "E:"
+  },
+  "payload": {
+    "role": "F411-P1-P",
+    "board": "F411-B",
+    "stlink_serial": "066EFF495051727187053015",
+    "vcp": "COM11",
+    "mass_storage_drive_at_enumeration": "D:"
+  },
+  "wiring_human_confirmed": {
+    "controller_d8_pa9_tx_to_payload_d2_pa10_rx": true,
+    "payload_d8_pa9_tx_to_controller_d2_pa10_rx": true,
+    "common_ground": true,
+    "jumper_count": 3,
+    "solder_changes": false
+  },
+  "identity_basis": "durable ST-LINK serial; drive and COM numbers are observations only"
+}

@@ -1,0 +1,30 @@
+{
+  "recorded_before_serial_capture": true,
+  "human_action": {
+    "identity_method": "disconnecting the board labeled A removed COM16 while COM11 remained",
+    "controller": {
+      "board_id": "F411-A",
+      "stlink_serial": "066BFF495051727187053106",
+      "vcp_after_reconnect": "COM16"
+    },
+    "payload": {
+      "board_id": "F411-B",
+      "stlink_serial": "066EFF495051727187053015",
+      "vcp_after_reconnect": "COM11"
+    },
+    "wiring": [
+      "F411-A D8/PA9 to F411-B D2/PA10",
+      "F411-B D8/PA9 to F411-A D2/PA10",
+      "common GND"
+    ],
+    "d0_d1_wiring_present": false,
+    "pre_capture_disconnect_reconnect": true
+  },
+  "software_reenumeration_after_reconnect": {
+    "controller_serial_vcp_match": true,
+    "payload_serial_vcp_match": true,
+    "identities_unambiguous": true
+  },
+  "scientific_capture_started": false,
+  "interpretation": "The human identity check power-cycled F411-A before scientific capture. It is precondition provenance, not a scientific observation or in-run reset."
+}

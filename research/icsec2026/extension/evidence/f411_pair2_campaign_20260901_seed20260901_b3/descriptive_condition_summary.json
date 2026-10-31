@@ -1,0 +1,95 @@
+{
+  "attempted": 12,
+  "campaign_id": "F411_P2_CAMPAIGN_20260901_B3",
+  "campaign_valid": true,
+  "conditions": {
+    "D090": {
+      "attempted": 3,
+      "invalid": 0,
+      "not_attempted_after_stop": 0,
+      "planned": 3,
+      "valid": 3,
+      "valid_row_marker_counts": {
+        "accepted_mode_0": 1,
+        "accepted_mode_3": 22,
+        "crc_rejection": 0,
+        "offline": 0,
+        "poll_write_failure": 0,
+        "recovery_after_restore": 0,
+        "recovery_during_exposure": 0,
+        "restart": 0,
+        "restoration_confirmed": 3,
+        "sequence_rejection": 0,
+        "timeout": 0
+      }
+    },
+    "D100": {
+      "attempted": 3,
+      "invalid": 0,
+      "not_attempted_after_stop": 0,
+      "planned": 3,
+      "valid": 3,
+      "valid_row_marker_counts": {
+        "accepted_mode_0": 0,
+        "accepted_mode_3": 0,
+        "crc_rejection": 0,
+        "offline": 3,
+        "poll_write_failure": 0,
+        "recovery_after_restore": 3,
+        "recovery_during_exposure": 0,
+        "restart": 0,
+        "restoration_confirmed": 3,
+        "sequence_rejection": 3,
+        "timeout": 6
+      }
+    },
+    "D110": {
+      "attempted": 3,
+      "invalid": 0,
+      "not_attempted_after_stop": 0,
+      "planned": 3,
+      "valid": 3,
+      "valid_row_marker_counts": {
+        "accepted_mode_0": 2,
+        "accepted_mode_3": 0,
+        "crc_rejection": 0,
+        "offline": 3,
+        "poll_write_failure": 0,
+        "recovery_after_restore": 3,
+        "recovery_during_exposure": 0,
+        "restart": 0,
+        "restoration_confirmed": 3,
+        "sequence_rejection": 3,
+        "timeout": 6
+      }
+    },
+    "NC": {
+      "attempted": 3,
+      "invalid": 0,
+      "not_attempted_after_stop": 0,
+      "planned": 3,
+      "valid": 3,
+      "valid_row_marker_counts": {
+        "accepted_mode_0": 27,
+        "accepted_mode_3": 0,
+        "crc_rejection": 0,
+        "offline": 0,
+        "poll_write_failure": 0,
+        "recovery_after_restore": 0,
+        "recovery_during_exposure": 0,
+        "restart": 0,
+        "restoration_confirmed": 3,
+        "sequence_rejection": 0,
+        "timeout": 0
+      }
+    }
+  },
+  "harness_exception": null,
+  "invalid": 0,
+  "not_attempted_after_stop": 0,
+  "planned": 12,
+  "population_interval_or_reliability_estimate": null,
+  "precheck_valid": true,
+  "terminal_disposition": "F411_P2_CAMPAIGN_COMPLETE_AWAITING_REVIEW",
+  "valid": 12
+}

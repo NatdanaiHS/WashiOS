@@ -1,0 +1,12 @@
+{
+  "run_id": "ENGDIAG_001_FIXCHECK",
+  "run_family": "ENGDIAG_001",
+  "kind": "single engineering-only liveness check",
+  "scientific_observation": false,
+  "manuscript_use": "NONE",
+  "campaign_denominator": false,
+  "replacement_for_prior_bringup": false,
+  "normal_window": false,
+  "fault_injection": false,
+  "pilot": false
+}

@@ -1,0 +1,9 @@
+physical_pair,condition,planned,attempted,valid,invalid,accepted_delayed_response_rows,accepted_mode3_markers,explicit_timeout_markers,explicit_crc_rejection_markers,explicit_sequence_rejection_markers,offline_rows,normal_restoration_confirmed_rows,recovery_confirmed_rows,adverse_nc_rows,full_timeout_sequence_offline_restore_recovery_pattern_rows,cumulative_timeout_delta,cumulative_crc_delta,cumulative_sequence_delta,cumulative_recovery_delta
+Pair-1,NC,3,3,3,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0
+Pair-1,D090,3,3,3,0,3,21,0,0,0,0,3,0,0,0,0,0,0,0
+Pair-1,D100,3,3,3,0,0,0,6,0,3,3,3,3,0,3,24,0,24,3
+Pair-1,D110,3,3,3,0,0,0,6,0,3,3,3,3,0,3,24,0,24,3
+Pair-2,NC,3,3,3,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0
+Pair-2,D090,3,3,3,0,3,22,0,0,0,0,3,0,0,0,0,0,0,0
+Pair-2,D100,3,3,3,0,0,0,6,0,3,3,3,3,0,3,24,0,24,3
+Pair-2,D110,3,3,3,0,0,0,6,0,3,3,3,3,0,3,24,0,24,3

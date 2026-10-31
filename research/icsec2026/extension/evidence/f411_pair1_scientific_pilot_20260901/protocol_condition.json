@@ -1,0 +1,18 @@
+{
+  "deployment": "standalone applications at 0x08000000; no bootloader",
+  "host_observation_control": "independent USART2 PA2/PA3 ST-LINK VCP on each board",
+  "interboard_link": "USART1 PA9/PA10 AF7; F411-A D8 TX to F411-B D2 RX; F411-B D8 TX to F411-A D2 RX; common GND",
+  "solder_change": false,
+  "baud": 115200,
+  "data_bits": 8,
+  "parity": "NONE",
+  "stop_bits": 1,
+  "poll_period_ms": 500,
+  "response_deadline_ms": 100,
+  "offline_threshold_consecutive_timeouts": 3,
+  "condition": "MODE DELAYED 110",
+  "activation_confirmation": "MODE=DELAYED delay_ms=110",
+  "exposure_s": 4.0,
+  "restore_command_count": 1,
+  "normal_precondition_window_s": 65.0
+}

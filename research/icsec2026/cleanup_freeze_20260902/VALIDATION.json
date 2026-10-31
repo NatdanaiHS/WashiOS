@@ -1,0 +1,8 @@
+{
+  "schema": "icsec-cleanup-protection-validation-v1",
+  "status": "PASS",
+  "repository_rows_checked": 906,
+  "external_backup_rows_checked": 472,
+  "final_pdf_sha256": "99E4180F4B172C1CC7BABFCF8BE92FCC5442B3868F7AAD1D32A13779849E765D",
+  "issues": []
+}

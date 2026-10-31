@@ -1,0 +1,30 @@
+{
+  "scope": {
+    "manufacturer": "Hantek",
+    "model": "DSO4254C",
+    "serial_or_asset_id": null
+  },
+  "channels": {
+    "CH1": "G474-A D7/PA8 endpoint-delay marker",
+    "CH2": "G431-B D7/PA8 timeout marker"
+  },
+  "ground_reference": "shared G431-B/G474-A/scope ground",
+  "probe_attenuation": "10X",
+  "coupling": "DC",
+  "ch1_scale_v_per_div": 1.0,
+  "ch2_scale_v_per_div": 1.0,
+  "timebase_ms_per_div": 20.0,
+  "trigger": {
+    "channel": "CH1",
+    "edge": "rising",
+    "level_v": 1.64,
+    "mode": "SINGLE"
+  },
+  "memory_depth": "32K maximum selectable",
+  "actual_sample_rate_samples_per_s": 12500,
+  "sample_interval_us": 80.0,
+  "initial_ch1": "LOW",
+  "initial_ch2": "LOW",
+  "settings_source": "human physical setup report",
+  "resolution_note": "The actual 12.50 kSa/s setting yields an 80 us sample interval. No interval is extracted because waveform data could not be exported. This setup must not be interpreted as microsecond-resolution MCU execution timing."
+}

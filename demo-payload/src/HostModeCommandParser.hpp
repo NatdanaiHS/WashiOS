@@ -15,7 +15,9 @@ public:
         InvalidCommand
     };
 
-    Event consume(uint8_t byte, comms::PayloadMode& selectedMode)
+    Event consume(uint8_t byte,
+                  comms::PayloadMode& selectedMode,
+                  uint32_t& selectedDelayMs)
     {
         if (byte == static_cast<uint8_t>('\r'))
         {
@@ -23,7 +25,7 @@ public:
         }
         if (byte == static_cast<uint8_t>('\n'))
         {
-            return finishLine(selectedMode);
+            return finishLine(selectedMode, selectedDelayMs);
         }
         if (used >= Capacity - 1U)
         {
@@ -41,7 +43,7 @@ private:
     std::size_t used = 0U;
     bool overflowed = false;
 
-    Event finishLine(comms::PayloadMode& selectedMode)
+    Event finishLine(comms::PayloadMode& selectedMode, uint32_t& selectedDelayMs)
     {
         if (used == 0U && !overflowed)
         {
@@ -68,6 +70,12 @@ private:
         else if (!overflowed && equals("MODE DELAYED"))
         {
             selectedMode = comms::PayloadMode::Delayed;
+            selectedDelayMs = 250U;
+            event = Event::ModeSelected;
+        }
+        else if (!overflowed && parseDelayed(selectedDelayMs))
+        {
+            selectedMode = comms::PayloadMode::Delayed;
             event = Event::ModeSelected;
         }
 
@@ -88,5 +96,39 @@ private:
             ++index;
         }
         return index == used && expected[index] == '\0';
+    }
+
+    bool parseDelayed(uint32_t& selectedDelayMs) const
+    {
+        static constexpr char Prefix[] = "MODE DELAYED ";
+        std::size_t index = 0U;
+        while (Prefix[index] != '\0')
+        {
+            if (index >= used || line[index] != Prefix[index])
+            {
+                return false;
+            }
+            ++index;
+        }
+        if (index >= used)
+        {
+            return false;
+        }
+
+        uint32_t value = 0U;
+        for (; index < used; ++index)
+        {
+            if (line[index] < '0' || line[index] > '9')
+            {
+                return false;
+            }
+            value = (value * 10U) + static_cast<uint32_t>(line[index] - '0');
+            if (value > 10000U)
+            {
+                return false;
+            }
+        }
+        selectedDelayMs = value;
+        return true;
     }
 };

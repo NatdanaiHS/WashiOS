@@ -1,0 +1,17 @@
+{
+  "validated_host_time": "2026-09-01T21:50:45.2309906+07:00",
+  "failed_bringup_inventory": {"rows": 38, "issues": 0, "sha256_match": true},
+  "engineering_diagnostic_inventory": {"rows": 30, "issues": 0, "sha256_match": true},
+  "firmware_diff_from_600272": ["core/src/bsp/f4/Stm32Timing.cpp"],
+  "semantic_blobs_match_diagnostic_record": true,
+  "required_tests": {
+    "core_native_sitl_f411_ring": "43/43 PASS",
+    "payload_parser": "3/3 PASS",
+    "extension_legacy_host": "9/9 PASS",
+    "scientific_harness_focused": "3/3 PASS"
+  },
+  "exclusive_package_preexisted": false,
+  "serial_ports_opened": false,
+  "hardware_action_started": false,
+  "valid_so_far": true
+}

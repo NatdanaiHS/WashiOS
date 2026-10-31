@@ -1,0 +1,11 @@
+Processing nucleo_f411re_payload_controller (board: nucleo_f411re; platform: ststm32; framework: stm32cube)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+Removing .pio\build\nucleo_f411re_payload_controller
+Done cleaning
+========================= [SUCCESS] Took 1.64 seconds =========================
+
+Environment                       Status    Duration
+--------------------------------  --------  ------------
+nucleo_f411re_payload_controller  SUCCESS   00:00:01.643
+========================= 1 succeeded in 00:00:01.643 =========================

@@ -1,0 +1,88 @@
+
+Verifying formula 1 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:6
+ -- Formula is satisfied.
+ -- States stored : 859 states
+ -- States explored : 4937 states
+ -- CPU user time used : 93 ms
+ -- Virtual memory used : 63320 KiB
+ -- Resident memory used : 21704 KiB
+
+Verifying formula 2 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:9
+ -- Formula is NOT satisfied.
+ -- States stored : 526 states
+ -- States explored : 1420 states
+ -- CPU user time used : 12 ms
+ -- Virtual memory used : 63452 KiB
+ -- Resident memory used : 21760 KiB
+
+Verifying formula 3 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:10
+ -- Formula is NOT satisfied.
+ -- States stored : 260 states
+ -- States explored : 659 states
+ -- CPU user time used : 3 ms
+ -- Virtual memory used : 63452 KiB
+ -- Resident memory used : 21508 KiB
+
+Verifying formula 4 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:13
+ -- Formula is satisfied.
+ -- States stored : 572 states
+ -- States explored : 4455 states
+ -- CPU user time used : 58 ms
+ -- Virtual memory used : 63452 KiB
+ -- Resident memory used : 21716 KiB
+
+Verifying formula 5 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:17
+ -- Formula is satisfied.
+ -- States stored : 575 states
+ -- States explored : 4540 states
+ -- CPU user time used : 58 ms
+ -- Virtual memory used : 63452 KiB
+ -- Resident memory used : 21720 KiB
+
+Verifying formula 6 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:18
+ -- Formula is satisfied.
+ -- States stored : 626 states
+ -- States explored : 4661 states
+ -- CPU user time used : 79 ms
+ -- Virtual memory used : 63452 KiB
+ -- Resident memory used : 21732 KiB
+
+Verifying formula 7 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:20
+ -- Formula is NOT satisfied.
+ -- States stored : 260 states
+ -- States explored : 659 states
+ -- CPU user time used : 6 ms
+ -- Virtual memory used : 63452 KiB
+ -- Resident memory used : 21748 KiB
+
+Verifying formula 8 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:23
+ -- Formula is satisfied.
+ -- States stored : 859 states
+ -- States explored : 4937 states
+ -- CPU user time used : 492 ms
+ -- Virtual memory used : 67220 KiB
+ -- Resident memory used : 26200 KiB
+
+Verifying formula 9 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:26
+ -- Formula is satisfied.
+ -- States stored : 815 states
+ -- States explored : 6449 states
+ -- CPU user time used : 160 ms
+ -- Virtual memory used : 67220 KiB
+ -- Resident memory used : 26224 KiB
+
+Verifying formula 10 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:27
+ -- Formula is satisfied.
+ -- States stored : 637 states
+ -- States explored : 5528 states
+ -- CPU user time used : 75 ms
+ -- Virtual memory used : 67220 KiB
+ -- Resident memory used : 26224 KiB
+
+Verifying formula 11 at /home/icy/Documents/WashiOS/research/icsec2026/formal/models/watchdog_gating.q:30
+ -- Formula is satisfied.
+ -- States stored : 572 states
+ -- States explored : 4455 states
+ -- CPU user time used : 57 ms
+ -- Virtual memory used : 67220 KiB
+ -- Resident memory used : 26224 KiB
