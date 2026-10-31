@@ -1,3 +1,0 @@
-Recording 250 s at 1m into C:\MyOS\WashiOS-lab\research\icsec2026\lab-partB\runs\20261031T181621Z_B3heartbeat_stall-heartbeat-shared-retained\capture.vcd
-Do not unplug the analyzer. Ctrl+C stops early (the file is kept).
-sigrok-cli exit code 0; captured 1929970 bytes
