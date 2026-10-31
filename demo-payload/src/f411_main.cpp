@@ -87,6 +87,13 @@ void initializeGpio()
     gpio.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &gpio);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+#if defined(WASHIOS_LAB_GPIO)
+    /* D7 / PA8: high while a fault mode is applied; each edge is a confirmed mode change. */
+    gpio.Pin = GPIO_PIN_8;
+    gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(GPIOA, &gpio);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+#endif
 }
 
 template<std::size_t Capacity>
@@ -147,6 +154,10 @@ void serviceHostCommands()
         {
             currentMode = selectedMode;
             delayedResponseMs = selectedDelayMs;
+#if defined(WASHIOS_LAB_GPIO)
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8,
+                              currentMode == comms::PayloadMode::Normal ? GPIO_PIN_RESET : GPIO_PIN_SET);
+#endif
             logMode();
         }
         else if (event == HostModeCommandParser::Event::InvalidCommand)

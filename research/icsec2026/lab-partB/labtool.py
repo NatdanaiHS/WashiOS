@@ -64,6 +64,7 @@ FIRMWARE = [
     "bootloader/.pio/build/nucleo_g431rb_payload_demo_stall_link/firmware.elf",
     "bootloader/.pio/build/nucleo_g431rb_payload_demo_stall_heartbeat/firmware.elf",
     "demo-payload/.pio/build/nucleo_g474re_lab/firmware.elf",
+    "demo-payload/.pio/build/nucleo_f411re_payload_lab/firmware.elf",
 ]
 
 SIGROK_CANDIDATES = [

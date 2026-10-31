@@ -41,6 +41,15 @@ PIO_HOME = Path(os.environ.get("PLATFORMIO_CORE_DIR", Path.home() / ".platformio
 OPENOCD = PIO_HOME / "packages" / "tool-openocd" / "bin" / "openocd.exe"
 OPENOCD_SCRIPTS = PIO_HOME / "packages" / "tool-openocd" / "openocd" / "scripts"
 NM = PIO_HOME / "packages" / "toolchain-gccarmnoneeabi" / "bin" / "arm-none-eabi-nm.exe"
+OBJCOPY = PIO_HOME / "packages" / "toolchain-gccarmnoneeabi" / "bin" / "arm-none-eabi-objcopy.exe"
+
+# OpenOCD's flash routine would otherwise run at 0x20000000, on top of the retained
+# BootMetadata/FaultLog under test. Move it clear of both and of the stack.
+WORK_AREA = (0x20004000, 0x2000)
+# A `b .` instruction the core is parked on before every reset: with the HLA ST-LINK
+# transport the core can run briefly before a reset takes effect, and it must not
+# execute application startup code (which copies .data over the retained RAM).
+PARK = 0x20007000
 
 SLOT_A_BASE = 0x08004000
 SLOT_B_BASE = 0x08012000
@@ -100,6 +109,15 @@ def symbol_address(elf: Path, fragment: str) -> int:
     raise SystemExit(f"symbol {fragment} not found in {elf}")
 
 
+def symbol_size(elf: Path, fragment: str) -> int:
+    out = subprocess.run([str(NM), "-S", str(elf)], capture_output=True, text=True, check=True).stdout
+    for line in out.splitlines():
+        parts = line.split()
+        if len(parts) == 4 and fragment in parts[3]:
+            return int(parts[1], 16)
+    raise SystemExit(f"size of {fragment} not found in {elf}")
+
+
 class OpenOcd:
     def __init__(self, log: Path, serial: str | None):
         transport = "swd"
@@ -110,6 +128,8 @@ class OpenOcd:
         if serial:
             command += ["-c", f"adapter serial {serial}"]
         command += ["-c", f"transport select {transport}", "-f", "target/stm32g4x.cfg",
+                    "-c", f"stm32g4x.cpu configure -work-area-phys 0x{WORK_AREA[0]:08x} "
+                          f"-work-area-size 0x{WORK_AREA[1]:x} -work-area-backup 1",
                     "-c", "reset_config none", "-c", "gdb_port disabled",
                     "-c", "telnet_port disabled", "-c", "tcl_port 6666", "-c", "init"]
         self.log = log.open("a", encoding="utf-8")
@@ -167,6 +187,9 @@ class Bench:
         self.run = run
         self.events = run / "b4_events.jsonl"
         self.meta_addr = symbol_address(boot_elf, "bootMetadataE")
+        fault_log = symbol_address(boot_elf, "systemFaultLogE")
+        # BootMetadata through the end of the bootloader's FaultLog (its .noinit window).
+        self.retained = (self.meta_addr, fault_log + symbol_size(boot_elf, "systemFaultLogE") - self.meta_addr)
         self.ocd = OpenOcd(run / "openocd.log", serial)
 
     def record(self, kind: str, **data: object) -> dict:
@@ -192,13 +215,44 @@ class Bench:
         self.ocd.cmd(f"dump_image {{{path.as_posix()}}} 0x{address:08x} {length}")
         return path.read_bytes()
 
+    def park_and_reset_halt(self) -> None:
+        """Halt at the bootloader reset vector with the retained RAM exactly as it was.
+
+        On this ST-LINK (HLA) `reset halt` sometimes lets the core run for a few
+        microseconds after reset before halting, enough for the bootloader to begin
+        rewriting its FaultLog. The retained window (BootMetadata + FaultLog) is
+        therefore snapshotted while halted and written back after the halt.
+        """
+        ocd = self.ocd
+        ocd.cmd("halt")
+        snapshot = self.run / "_retained_snapshot.bin"
+        start, length = self.retained
+        ocd.cmd(f"dump_image {{{snapshot.as_posix()}}} 0x{start:08x} {length}")
+        ocd.cmd(f"mwh 0x{PARK:08x} 0xe7fe")
+        ocd.cmd(f"reg pc 0x{PARK:08x}")
+        ocd.cmd("reset halt")
+        expected = ocd.words(0x08000004, 1)[0] & ~1
+        pc = ocd.pc()
+        if pc != expected:
+            raise SystemExit(f"reset halt stopped at 0x{pc:08x}, expected bootloader reset 0x{expected:08x}")
+        ocd.cmd(f"load_image {{{snapshot.as_posix()}}} 0x{start:08x} bin")
+        restored = self.dump(start, length, "_retained_readback.bin")
+        if restored != snapshot.read_bytes():
+            raise SystemExit("retained RAM could not be restored after reset")
+
     def program(self, data: bytes, address: int, name: str) -> None:
+        """Erase/write one page from a clean reset-halt state, then read it back."""
         path = self.run / name
         path.write_bytes(data)
-        reply = self.ocd.cmd(f"flash write_image erase {{{path.as_posix()}}} 0x{address:08x} bin")
-        verify = self.ocd.cmd(f"verify_image {{{path.as_posix()}}} 0x{address:08x} bin")
-        if "error" in (reply + verify).lower() or "mismatch" in verify.lower():
-            raise SystemExit(f"flash write failed:\n{reply}\n{verify}")
+        for attempt in range(1, 4):
+            self.park_and_reset_halt()
+            self.ocd.cmd(f"flash write_image erase {{{path.as_posix()}}} 0x{address:08x} bin")
+            if self.dump(address, len(data), f"readback_{name}") == data:
+                if attempt > 1:
+                    self.record("flash_retry_ok", name=name, attempt=attempt)
+                return
+            self.record("flash_readback_mismatch", name=name, attempt=attempt)
+        raise SystemExit(f"flash write of {name} at 0x{address:08x} did not read back after 3 attempts")
 
     def reset_vector(self, base: int) -> int | None:
         value = self.ocd.words(base + 4, 1)[0]
@@ -207,7 +261,7 @@ class Bench:
     def boot_once(self, label: str, stage: dict[str, int] | None, mode: str,
                   app_seconds: float, timeout_s: float = 3.0) -> dict:
         ocd = self.ocd
-        ocd.cmd("reset halt")
+        self.park_and_reset_halt()
         before = self.read_meta()
         if stage is not None:
             self.write_meta(stage)
@@ -247,18 +301,20 @@ class Bench:
         return row
 
     # -- slot images -------------------------------------------------------
-    def save_originals(self) -> None:
-        for slot, base in (("A", SLOT_A_BASE), ("B", SLOT_B_BASE)):
-            name = f"original_slot_{slot}_page.bin"
-            if not (self.run / name).exists():
-                self.ocd.cmd("halt")
-                self.dump(base + CORRUPT_OFFSET, PAGE, name)
+    def image_page(self, slot: str) -> bytes:
+        """The page as built (from the ELF), so a restore never depends on a board dump."""
+        path = self.run / f"original_slot_{slot}_page.bin"
+        if not path.exists():
+            elf = APP_A_ELF if slot == "A" else APP_B_ELF
+            image = self.run / f"image_slot_{slot}.bin"
+            subprocess.run([str(OBJCOPY), "-O", "binary", str(elf), str(image)], check=True)
+            data = image.read_bytes()[CORRUPT_OFFSET:CORRUPT_OFFSET + PAGE]
+            path.write_bytes(data + bytes([0xFF]) * (PAGE - len(data)))
+        return path.read_bytes()
 
     def corrupt(self, slot: str) -> None:
         base = SLOT_A_BASE if slot == "A" else SLOT_B_BASE
-        self.save_originals()
-        self.ocd.cmd("halt")
-        page = bytearray((self.run / f"original_slot_{slot}_page.bin").read_bytes())
+        page = bytearray(self.image_page(slot))
         page[16] ^= 0xFF
         self.program(bytes(page), base + CORRUPT_OFFSET, f"corrupt_slot_{slot}_page.bin")
         self.record("corrupt", slot=slot, address=f"0x{base + CORRUPT_OFFSET + 16:08x}")
@@ -266,14 +322,12 @@ class Bench:
 
     def restore(self) -> None:
         for slot, base in (("A", SLOT_A_BASE), ("B", SLOT_B_BASE)):
-            original = self.run / f"original_slot_{slot}_page.bin"
-            if original.exists():
-                self.ocd.cmd("halt")
-                current = self.dump(base + CORRUPT_OFFSET, PAGE, f"check_slot_{slot}_page.bin")
-                if current != original.read_bytes():
-                    self.program(original.read_bytes(), base + CORRUPT_OFFSET, f"restore_slot_{slot}_page.bin")
-                    self.record("restore", slot=slot)
-                    print(f"  restored slot {slot}")
+            original = self.image_page(slot)
+            current = self.dump(base + CORRUPT_OFFSET, PAGE, f"check_slot_{slot}_page.bin")
+            if current != original:
+                self.program(original, base + CORRUPT_OFFSET, f"restore_slot_{slot}_page.bin")
+                self.record("restore", slot=slot)
+                print(f"  restored slot {slot}")
 
     def slot_b_crc(self) -> int:
         self.ocd.cmd("halt")
@@ -293,9 +347,12 @@ def run_scenario(bench: Bench, name: str, mode: str, k: int, resets: int, app_se
     bench.restore()
     # Invalid metadata makes the bootloader re-initialise it from its provisioned
     # slot A CRC; read that CRC back from the boot it then performs.
-    bench.ocd.cmd("reset halt")
+    bench.park_and_reset_halt()
     bench.ocd.cmd(f"mww 0x{bench.meta_addr:08x} 0")
     seed = bench.boot_once("seed (fresh metadata)", None, "policy", 0)
+    if seed["outcome"] != "LAUNCHED_A":
+        raise SystemExit("slot A does not boot from a clean state; reflash the lab firmware "
+                         "and run prepare-slot-b again (RUNBOOK 1.1) before any scenario")
     a_crc = seed["after"]["slot_a_crc32"]
     b_crc = bench.slot_b_crc()
     bench.record("scenario_start", scenario=name, mode=mode, k=k, a_crc=f"0x{a_crc:08x}", b_crc=f"0x{b_crc:08x}")
@@ -349,7 +406,7 @@ def cmd_flash(run: Path, which: str, serial: str | None) -> None:
     if not elf.exists():
         raise SystemExit(f"not built: {elf}")
     ocd = OpenOcd(run / "openocd.log", serial)
-    reply = ocd.cmd(f"program {{{elf.as_posix()}}} verify")
+    reply = ocd.cmd(f"program {{{elf.as_posix()}}} verify reset")
     ocd.close()
     if "error" in reply.lower():
         raise SystemExit(reply)
@@ -411,7 +468,7 @@ def main(argv: list[str] | None = None) -> int:
                          sha256=labtool.sha256_file(boot_elf), metadata_address=f"0x{bench.meta_addr:08x}")
             run_scenario(bench, args.arg, args.mode, args.k, args.resets, args.app_seconds)
     finally:
-        bench.ocd.cmd("resume")
+        bench.ocd.cmd("reset run")
         bench.ocd.close()
     return 0
 
