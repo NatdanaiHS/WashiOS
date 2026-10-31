@@ -17,6 +17,10 @@ constexpr uint32_t LinkStatusPeriodMs = 1000U;
 #if defined(ICSEC_SCOPE_INSTRUMENTATION)
 constexpr uint16_t ScopeEndpointMarkerPin = GPIO_PIN_8; /* NUCLEO D7 / PA8 */
 #endif
+#if defined(WASHIOS_LAB_GPIO)
+/* High while a fault mode is applied; each edge is a confirmed mode change. */
+constexpr uint16_t LabFaultModeMarkerPin = GPIO_PIN_9; /* NUCLEO D8 / PA9 */
+#endif
 constexpr std::size_t LinkReceiveBufferCapacity = 128U;
 constexpr std::size_t DebugReceiveBufferCapacity = 64U;
 constexpr std::size_t MaxDebugBytesPerCycle = 32U;
@@ -111,6 +115,15 @@ void initializeGpio()
     gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     HAL_GPIO_Init(GPIOA, &gpio);
     HAL_GPIO_WritePin(GPIOA, ScopeEndpointMarkerPin, GPIO_PIN_RESET);
+#endif
+#if defined(WASHIOS_LAB_GPIO)
+    gpio = {};
+    gpio.Pin = LabFaultModeMarkerPin;
+    gpio.Mode = GPIO_MODE_OUTPUT_PP;
+    gpio.Pull = GPIO_NOPULL;
+    gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(GPIOA, &gpio);
+    HAL_GPIO_WritePin(GPIOA, LabFaultModeMarkerPin, GPIO_PIN_RESET);
 #endif
 
     gpio = {};
@@ -208,10 +221,19 @@ void logMode()
     writeDebug(line);
 }
 
+void markModeApplied()
+{
+#if defined(WASHIOS_LAB_GPIO)
+    HAL_GPIO_WritePin(GPIOA, LabFaultModeMarkerPin,
+                      currentMode == comms::PayloadMode::Normal ? GPIO_PIN_RESET : GPIO_PIN_SET);
+#endif
+}
+
 void cycleMode()
 {
     currentMode = static_cast<comms::PayloadMode>(
         (static_cast<uint8_t>(currentMode) + 1U) % 4U);
+    markModeApplied();
     logMode();
 }
 
@@ -245,6 +267,7 @@ void serviceHostCommands()
         {
             currentMode = selectedMode;
             delayedResponseMs = selectedDelayMs;
+            markModeApplied();
             logMode();
         }
         else if (event == HostModeCommandParser::Event::InvalidCommand)

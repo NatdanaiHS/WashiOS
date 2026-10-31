@@ -7,6 +7,7 @@
 #include "ITiming.hpp"
 #include "IGPIO.hpp"
 #include "IUart.hpp"
+#include "LabProbe.hpp"
 #include "PayloadLinkController.hpp"
 #include "TaskHealthReporter.hpp"
 #include "WashiTask.hpp"
@@ -41,6 +42,8 @@ protected:
         for (;;)
         {
             clearTimeoutMarker();
+            lab::toggle(lab::Probe::Loop);
+            lab::stallIfDue(lab::StallTarget::PayloadLink);
             const uint32_t nowMs = static_cast<uint32_t>(timing.getSystemTick());
             receiveFrames(nowMs);
             serviceController(nowMs);
@@ -105,10 +108,12 @@ private:
                     controller.acceptResponse(decoder.frameData(), comms::PayloadWireSize, nowMs);
                 if (result == comms::PayloadValidationResult::Ok)
                 {
+                    lab::toggle(lab::Probe::Accept);
                     lastRejection = comms::PayloadValidationResult::Ok;
                     logAccepted();
                     if (previousState == comms::PayloadLinkState::Offline)
                     {
+                        lab::toggle(lab::Probe::Recovery);
                         logRecovery();
                     }
                     else if (previousState == comms::PayloadLinkState::Starting)
@@ -155,6 +160,7 @@ private:
         uint8_t request[comms::PayloadWireSize] = {};
         if (controller.preparePoll(nowMs, request, sizeof(request)))
         {
+            lab::toggle(lab::Probe::Poll);
             const bool sent = payloadUart.writeBuffer(request, sizeof(request), UartTimeoutMs);
             if (!sent && !pollWriteFailureLogged)
             {
@@ -184,6 +190,7 @@ private:
             return;
         }
 
+        lab::high(lab::Probe::Status);
         const comms::PayloadLinkStats& stats = controller.stats();
         core::FixedTextWriter<192U> line;
         (void)line.append("[OBC] PAYLOAD_STATUS state=");
@@ -203,6 +210,7 @@ private:
         (void)line.append(" heartbeat=OK watchdog=OK\r\n");
         writeLine(line);
         nextStatusMs = nowMs + StatusPeriodMs;
+        lab::low(lab::Probe::Status);
     }
 
     void logOnline()
@@ -311,7 +319,9 @@ private:
     template<std::size_t Capacity>
     void writeLine(const core::FixedTextWriter<Capacity>& line)
     {
+        lab::high(lab::Probe::Write);
         (void)consoleUart.writeBuffer(line.data(), line.size(), UartTimeoutMs);
+        lab::low(lab::Probe::Write);
     }
 
     void logLiteral(const char* text)

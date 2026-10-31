@@ -17,6 +17,7 @@
 #include "Watchdog.hpp"
 #include "WatchdogRunner.hpp"
 #include "app/HeartbeatTask.hpp"
+#include "app/LabProbe.hpp"
 #if defined(WASHIOS_PAYLOAD_DEMO)
 #include "app/PayloadLinkTask.hpp"
 #endif
@@ -81,6 +82,8 @@ constexpr uint32_t WatchdogTaskDelayMs = 50U;
 
 void targetSafeFail(void* context)
 {
+    /* Called right after the WATCHDOG_TIMEOUT record; the IWDG reset follows. */
+    lab::high(lab::Probe::WatchdogRecord);
     core::FaultLog<>* const faultLog = static_cast<core::FaultLog<>*>(context);
     if (faultLog != nullptr)
     {
@@ -212,6 +215,7 @@ int main(void)
     HAL_Init();
     SystemClock_Config();
     Board_GPIO_Init();
+    lab::initialize();
 #if defined(STM32G431xx)
     if (!bsp::initializeG4DebugUart(&huart2))
     {
