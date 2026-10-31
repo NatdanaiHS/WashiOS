@@ -1,0 +1,55 @@
+{
+  "lab_run": "20261031T174203Z_B6_recovery-15trials",
+  "campaign": "labB6_g431_f411_s20261101",
+  "capture_sha256": "7EBED633B5C6429D3411C57CC05CA9F305EC736CB543E663168640DAFB00E5CC",
+  "reader": "run_payload_campaign.py SerialCapture: read(64), timeout 0.05 s, stamped at line assembly",
+  "analyzer_to_utc_skew_s": 0.153,
+  "accepted_lines": 158,
+  "paired_within_0_90ms": 158,
+  "interval_containing_status": {
+    "host": {
+      "n": 13,
+      "min_ms": 496.45,
+      "median_ms": 516.544,
+      "max_ms": 552.991
+    },
+    "mcu": {
+      "n": 13,
+      "min_ms": 498.126,
+      "median_ms": 500.251,
+      "max_ms": 501.239
+    }
+  },
+  "interval_without_status": {
+    "host": {
+      "n": 129,
+      "min_ms": 491.657,
+      "median_ms": 497.609,
+      "max_ms": 558.693
+    },
+    "mcu": {
+      "n": 129,
+      "min_ms": 498.102,
+      "median_ms": 500.247,
+      "max_ms": 501.365
+    }
+  },
+  "stamp_latency_relative_to_fastest_ms": {
+    "n": 158,
+    "min_ms": 0.0,
+    "median_ms": 44.135,
+    "max_ms": 63.839
+  },
+  "abs_latency_step_across_status_ms": {
+    "n": 13,
+    "min_ms": 1.201,
+    "median_ms": 16.293,
+    "max_ms": 51.752
+  },
+  "abs_latency_step_across_plain_poll_ms": {
+    "n": 129,
+    "min_ms": 0.275,
+    "median_ms": 2.944,
+    "max_ms": 59.458
+  }
+}

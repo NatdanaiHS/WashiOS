@@ -234,7 +234,6 @@ for value, label in [(bc["within_bound"], "within-bound count (SLIP 0)"), (bc["w
                      (bc["intervals"], "interval count"),
                      (disagree["max"], "monotonic-tick disagreement max"),
                      (prim["bounds_ms"]["falsification_floor"], "falsification floor"),
-                     (raw["host_read_residual_ms"]["max"], "host read residual max"),
                      (raw["status_slip_ms"]["min"], "status slip min"), (raw["status_slip_ms"]["max"], "status slip max"),
                      (raw["status_slip_ms"]["median"], "status slip median"), (raw["status_slip_ms"]["n"], "status reports measured")]:
     # DRAFT: whole-token match only, and a non-integer value may not be shown as a bare integer -- the
@@ -257,14 +256,63 @@ if sw.exists():
 else:
     warn("status-window check of R085 not run (raw logs from the backup needed); 17 ms remains unresolved")
 
-# the measured time base: steady-state median period and the MCU/host rate it implies
-ss = raw["steady_state"]
-for value, label in [(round(ss["median_poll_period_host_ms"], 1), "steady-state median poll period"),
-                     (round(ss["mcu_fast_by_at_least_pct"], 2), "MCU fast by at least (%)")]:
-    shown = re.search(rf"(?<![\d.]){re.escape(str(value))}(?![\d])", TEX)
-    ok(f"{label} {value} stated") if shown else fail(f"{label} {value} missing from manuscript")
-for stale, label in [("0.235", "old clock-rate figure"), ("498.83", "old mean poll period")]:
-    fail(f"{label} {stale} still in manuscript") if stale in TEX else ok(f"{label} {stale} removed")
+# On-target evidence (research/icsec2026/lab-partB). The host-derived read residual and time-base figures
+# were superseded by MCU-side measurement: the residual missed the reader's slowly shifting lag, and the
+# median-based rate was biased by it.
+for stale, label in [("0.235", "old clock-rate figure"), ("498.83", "old mean poll period"),
+                     ("0.84", "host-median MCU rate"), ("495.9", "host-median poll period"),
+                     ("8.6", "host read residual")]:
+    fail(f"{label} {stale} still in manuscript") if re.search(rf"(?<![\d.]){re.escape(stale)}(?![\d])", TEX) else ok(f"{label} {stale} removed")
+LAB = ROOT / "research/icsec2026/lab-partB"
+
+
+def _run_json(pattern: str, name: str) -> dict:
+    hits = sorted(p for p in (LAB / "runs").glob(pattern) if "shared-retained" not in p.name)
+    if not hits:
+        fail(f"no lab run matching {pattern}")
+        return {}
+    run = hits[-1]
+    if not (run / "INVENTORY.sha256").exists():
+        fail(f"lab run {run.name} not closed")
+    return json.loads((run / name).read_text(encoding="utf-8"))
+
+
+def _shown(value: float, label: str, digits: int) -> None:
+    # round half up on the decimal value as recorded (500.565 -> 500.57), not on its binary float
+    from decimal import ROUND_HALF_UP, Decimal
+    text = str(Decimal(str(value)).quantize(Decimal(1).scaleb(-digits), rounding=ROUND_HALF_UP))
+    ok(f"{label} {text} stated") if re.search(rf"(?<![\d.]){re.escape(text)}(?![\d])", TEX) else fail(
+        f"{label} {text} missing from manuscript")
+
+
+b125 = _run_json("*_B1B2B5_*", "analysis_B1_B2_B5.json")
+if b125:
+    j = b125["B1_poll_jitter"]
+    _shown(j["poll_period_all"]["min_ms"], "poll period min", 2)
+    _shown(j["poll_period_all"]["max_ms"], "poll period max", 2)
+    _shown(j["poll_period_all"]["max_abs_dev_ms"], "poll period excess", 2)
+    _shown(j["poll_period_containing_status_report"]["max_dev_ms"], "status-period excess", 2)
+    _shown(b125["B2_status_slip"]["status_span"]["max_ms"], "status write max", 2)
+    _shown(b125["B5_round_trip"]["poll_to_accept"]["min_ms"], "poll-to-accept min", 2)
+    _shown(b125["B5_round_trip"]["poll_to_accept"]["max_ms"], "poll-to-accept max", 2)
+b6 = _run_json("*_B6_*", "analysis_B6.json")
+if b6:
+    _shown(b6["B6_recovery"]["recovery_interval"]["max_ms"], "MCU-timed recovery max", 1)
+    _shown(b6["B6_recovery"]["detection_first_timeout"]["max_ms"], "MCU-timed first-timeout max", 1)
+for pattern, label in (("*_B3link_*", "link"), ("*_B3heartbeat_*", "heartbeat")):
+    b3 = _run_json(pattern, "analysis_B3.json")
+    if b3:
+        w = b3["B3_watchdog"]
+        _shown(w["stall_to_record"]["min_ms"], f"{label} stall-to-expiry min", 1)
+        _shown(w["stall_to_record"]["max_ms"], f"{label} stall-to-expiry max", 1)
+        _shown(w["stall_to_reset"]["max_ms"], f"{label} stall-to-reset max", 1)
+inj = json.loads((LAB / "analysis/injector_latency_B6.json").read_text(encoding="utf-8"))
+_shown(inj["stamp_latency_relative_to_fastest_ms"]["max_ms"], "reader stamp lag range", 1)
+_shown(inj["interval_containing_status"]["host"]["max_ms"], "host interval with status max", 1)
+_shown(inj["interval_containing_status"]["mcu"]["max_ms"], "MCU interval with status max", 1)
+hvm = json.loads((LAB / "analysis/host_vs_mcu_B1.json").read_text(encoding="utf-8"))
+_shown(hvm["mean_period_ms"]["analyzer"], "analyzer mean period", 3)
+_shown(hvm["mean_period_ms"]["host"], "host mean period", 3)
 
 # code-level conformance run (draft-camera-ready/code_conformance)
 cc_dirs = sorted(p for p in (DRAFT / "code_conformance/results").iterdir() if p.is_dir())
