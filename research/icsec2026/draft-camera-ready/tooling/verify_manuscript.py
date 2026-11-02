@@ -152,10 +152,11 @@ if results:
         f"stale formula/verdict count(s) in manuscript: {sorted(stale)} (retained total {total})")
     n_cfg = len(outs)
     word = WORD_NUMBERS.get(n_cfg, str(n_cfg))
-    if f"{n_cfg} configurations" in TEX and word in TEX:
-        ok(f"configuration count {n_cfg} stated as digits and as '{word}'")
+    # IEEE style writes numbers >= 10 as digits (advisor F-9, 2026-11-02), so the word form must be gone.
+    if f"{n_cfg} configurations" in TEX and word not in TEX:
+        ok(f"configuration count {n_cfg} stated as digits, word form '{word}' absent")
     else:
-        fail(f"configuration count {n_cfg} not stated consistently (expected '{n_cfg} configurations' and '{word}')")
+        fail(f"configuration count {n_cfg} not stated consistently (expected '{n_cfg} configurations' and no '{word}')")
 
     # Table rows "<label> & <states> &" are checked against the retained "States stored" maxima. Labels are
     # the camera-ready verdict table's; a configuration the table does not list is not checked here.
@@ -358,6 +359,22 @@ def _b4_launches(run: Path | None) -> dict:
     return out
 
 
+def _b4_counts(run: Path | None) -> tuple[dict, int, int]:
+    """({(scenario, mode, k): scenario runs}, total scenario runs, flash-page corruptions) of a B4 event log."""
+    per: dict = {}
+    corrupt = 0
+    if run is None:
+        return per, 0, 0
+    for line in (run / "b4_events.jsonl").read_text(encoding="utf-8").splitlines():
+        ev = json.loads(line)
+        if ev["event"] == "scenario_start":
+            key = (ev["scenario"], ev["mode"], ev["k"])
+            per[key] = per.get(key, 0) + 1
+        elif ev["event"] == "corrupt":
+            corrupt += 1
+    return per, sum(per.values()), corrupt
+
+
 def _until_refused(outcomes: list, slot: str) -> int | None:
     """launches of `slot` before the first SAFE_LOOP, or None if it is never refused."""
     if "SAFE_LOOP" not in outcomes:
@@ -426,8 +443,19 @@ if fixed and prefix and shared_b4:
     fix_system = [_until_refused(shared_b4.get(("d", "system", k), []), "B") for k in (1, 2, 3)]
     if fix_policy != fix_system:
         fail(f"F4 fixed launches differ between policy mode {fix_policy} and the shared-retained system run {fix_system}")
+    # n per k (advisor R2-2): every F4 cell is one scenario run per k and bootloader.
+    b4_runs = [_lab_run("*_B4_boot-policy-prefix"), _lab_run("*_B4_boot-policy-fixed"), _lab_run("*_B4_*", shared=True)]
+    b4_counts = [_b4_counts(r) for r in b4_runs]
+    n_per_k = {b4_counts[i][0].get(("d", "policy", k)) for i in (0, 1) for k in (1, 2, 3)}
+    each = f" ({n_per_k.pop()} each)" if len(n_per_k) == 1 else f" (n differs per k: {sorted(map(str, n_per_k))})"
     _row("Fallback after $k{=}1,2,3$ resets",
-         f"pre-fix {', '.join(map(str, pre))}; fixed {', '.join(map(str, fix_policy))}")
+         f"pre-fix {', '.join(map(str, pre))}; fixed {', '.join(map(str, fix_policy))}{each}")
+    # Contribution (4) quotes the SWD boot-fault totals over the three B4 runs that Table V cites.
+    n_scen = sum(c[1] for c in b4_counts)
+    n_corrupt = sum(c[2] for c in b4_counts)
+    claim = f"{n_scen} boot-fault scenarios ({n_corrupt} flash-page corruptions)"
+    ok(f"SWD boot-fault totals stated: {claim}") if claim in TEX else fail(
+        f"SWD boot-fault totals not stated as '{claim}'")
 
 # code-level conformance run (draft-camera-ready/code_conformance)
 cc_dirs = sorted(p for p in (DRAFT / "code_conformance/results").iterdir() if p.is_dir())
@@ -472,8 +500,25 @@ for line in table.splitlines():
 SUFFIXES = ("", "T", "a", "b", "c", "r", "1", "2")
 body = TEX[TEX.index(r"\section{Introduction}"):]
 used = {i for i in re.findall(r"\b([QWB]\d+[a-zA-Z]?)\b", body)}
+# The properties caption may name ids it omits ("Q6, Q10, W7 omitted") and gaps in the artifact's
+# numbering ("no W4"); each must be true of the query files, so the declaration cannot hide a typo.
+caption = table[:table.index(r"\begin{tabularx}")] if r"\begin{tabularx}" in table else ""
+cap_m = re.search(r"\(no ([^)]*)\);\s*([^.}]*?) omitted", TEX[TEX.rindex(r"\caption{", 0, TEX.index(r"\label{tab:props}")):TEX.index(r"\label{tab:props}")])
+artifact_ids = set(re.findall(r"^//\s*([QWB]\d+)\b", "\n".join(
+    q.read_text(encoding="utf-8") for q in (DRAFT / "models").glob("*.q")), flags=re.M))
+gaps = set(re.findall(r"[QWB]\d+", cap_m.group(1))) if cap_m else set()
+omitted = set(re.findall(r"[QWB]\d+", cap_m.group(2))) if cap_m else set()
+if gaps & artifact_ids:
+    fail(f"properties caption says {sorted(gaps & artifact_ids)} do not exist, but the query files define them")
+if omitted - artifact_ids:
+    fail(f"properties caption omits {sorted(omitted - artifact_ids)}, which the query files do not define")
+if omitted & defined:
+    fail(f"properties caption omits {sorted(omitted & defined)}, which the table defines")
+if cap_m:
+    ok(f"properties caption: gaps {sorted(gaps)} absent from and omitted {sorted(omitted)} present in the query files")
 undefined = sorted(i for i in used
-                   if not any(i == base + suffix for base in defined for suffix in SUFFIXES))
+                   if i not in gaps | omitted
+                   and not any(i == base + suffix for base in defined for suffix in SUFFIXES))
 if undefined:
     fail(f"property identifiers used but not defined in Table I: {undefined}")
 else:
