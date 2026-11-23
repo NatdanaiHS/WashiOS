@@ -1,4 +1,11 @@
 \documentclass[conference,a4paper]{IEEEtran}
+% Page geometry of the IEEE MS-Word A4 conference template (ICSEC editor, 2026-11-23): left/right
+% 44.65 pt, top 54 pt, bottom at least 72 pt, column gap 18 pt. The text height is 706 pt
+% (\topskip + 58 baselines) so the columns stay on IEEEtran's 12 pt line grid; that leaves a
+% bottom margin of about 82 pt, never less than the template's 72 pt. Columns end ragged, as in
+% Word, instead of stretching paragraph gaps to fill the column.
+\usepackage[top=54pt,left=44.65pt,right=44.65pt,textheight=706pt,columnsep=18pt,headheight=0pt,headsep=0pt]{geometry}
+\raggedbottom
 
 \usepackage{fontspec}
 \setmainfont{texgyretermes-regular.otf}[
