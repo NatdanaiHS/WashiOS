@@ -50,13 +50,16 @@
 \renewcommand{\IEEEkeywordsname}{Keywords}
 % Table captions on one centered small-caps line, "TABLE I.<tab>Title" (Word "table head" style:
 % list number "TABLE %1." then a tab to the 54 pt stop, emulated by a 54 pt label box),
-% instead of IEEEtran's "TABLE I" stacked above the title. Figure captions are unchanged.
-\let\WashiIEEEmakecaption\@makecaption
+% instead of IEEEtran's "TABLE I" stacked above the title. Figure captions follow the Word "figure
+% caption" style: "Fig. 1." then a tab to the 26.65 pt stop (a 26.65 pt label box), justified text.
 \long\def\@makecaption#1#2{%
 \ifx\@captype\@IEEEtablestring%
 \footnotesize\bgroup\par\centering\@IEEEtabletopskipstrut{\normalfont\footnotesize\scshape\makebox[54pt][l]{#1.}#2}\par\addvspace{0.5\baselineskip}\egroup%
 \@IEEEtablecaptionsepspace
-\else\WashiIEEEmakecaption{#1}{#2}\fi}
+\else
+\@IEEEfigurecaptionsepspace
+\parbox[t]{\hsize}{\normalfont\footnotesize\noindent\makebox[26.65pt][l]{#1.}#2}%
+\fi}
 \makeatother
 
 \ifanon
