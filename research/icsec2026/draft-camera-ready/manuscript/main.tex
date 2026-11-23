@@ -24,15 +24,10 @@
 % ---------------------------------------------------------------------------------------
 % ICSEC 2026 requires DOUBLE-ANONYMOUS review submissions, so the review build carries
 % placeholder author blocks with no real names or affiliations; the block count matches the
-% camera-ready author count (six). Set \anonfalse for the camera-ready build.
+% camera-ready author count (five). Set \anonfalse for the camera-ready build.
 % ---------------------------------------------------------------------------------------
 \newif\ifanon
 \anonfalse
-% Camera-ready only: author contributions, funding and conflict-of-interest statements requested by the
-% advisor on 2026-09-22. They add about eight lines and push the camera-ready build to seven pages, so they
-% stay off until the conference's camera-ready page allowance is confirmed. Must remain false while \anontrue.
-\newif\ifcontrib
-\contribfalse
 
 % IEEEtran V1.8b has no \linebreakand; this is the definition the IEEE conference template
 % supplies for starting a second row of author blocks.
@@ -74,12 +69,7 @@ anonymous4@anonymous.edu}
 \textit{Anonymous Faculty}\\
 \textit{Anonymous University}\\
 anonymous5@anonymous.edu}
-\and
-\IEEEauthorblockN{Anonymous Author 6}
-\IEEEauthorblockA{\textit{Anonymous Department} \\
-\textit{Anonymous Faculty}\\
-\textit{Anonymous University}\\
-anonymous6@anonymous.edu}}
+}
 \else
 \author{\IEEEauthorblockN{Borworntat Dendumrongkul}
 \IEEEauthorblockA{\textit{Department of Computer Engineering} \\
@@ -99,12 +89,6 @@ Bangkok, Thailand \\
 Bangkok, Thailand \\
 6632102421@student.chula.ac.th}
 \linebreakand
-\IEEEauthorblockN{Pana Wanitchollakit}
-\IEEEauthorblockA{\textit{Department of Computer Engineering} \\
-\textit{Chulalongkorn University}\\
-Bangkok, Thailand \\
-6970210021@student.chula.ac.th}
-\and
 \IEEEauthorblockN{Phongsatorn Saisutjarit}
 \IEEEauthorblockA{\textit{Department of Mechanical} \\
 \textit{and Aerospace Engineering}\\
@@ -432,9 +416,6 @@ The authors thank the institute that provided hardware and technical consultatio
 We thank the International Institute of Space Technology for Economic Development (INSTED) for providing hardware and technical consultation for this work.
 \fi
 The authors used Claude and ChatGPT only to translate the original Thai text into English and to refine grammar, not for the research, models, verification or analysis. All content, data and conclusions are the authors' own; they reviewed and approved the final text and take full responsibility for its accuracy and integrity.
-\ifcontrib
-\textit{Author contributions:} B.~Dendumrongkul developed the UPPAAL models, specified the properties and ran the verification; N.~Hirunsirikul led the HIL fault-injection campaign and trace analysis; T.~Sriwaranon and P.~Wanitchollakit contributed to the STM32 firmware and its tests; P.~Saisutjarit provided aerospace-engineering guidance and CubeSat system context; P.~Kanongchaiyos supervised the research and directed the model-checking methodology. \textit{Funding:} the work received no external funding. The authors declare no conflicts of interest.
-\fi
 
 \balance
 \bibliographystyle{IEEEtran}
