@@ -48,12 +48,13 @@
 % ICSEC editor (2026-11-23): follow the IEEE MS-Word template wording and caption style.
 % Keywords line reads "Keywords---" instead of IEEEtran's "Index Terms---".
 \renewcommand{\IEEEkeywordsname}{Keywords}
-% Table captions on one centered small-caps line, "TABLE I. Title" (Word "table head" style),
+% Table captions on one centered small-caps line, "TABLE I.<tab>Title" (Word "table head" style:
+% list number "TABLE %1." then a tab to the 54 pt stop, emulated by a 54 pt label box),
 % instead of IEEEtran's "TABLE I" stacked above the title. Figure captions are unchanged.
 \let\WashiIEEEmakecaption\@makecaption
 \long\def\@makecaption#1#2{%
 \ifx\@captype\@IEEEtablestring%
-\footnotesize\bgroup\par\centering\@IEEEtabletopskipstrut{\normalfont\footnotesize\scshape #1.\nobreakspace #2}\par\addvspace{0.5\baselineskip}\egroup%
+\footnotesize\bgroup\par\centering\@IEEEtabletopskipstrut{\normalfont\footnotesize\scshape\makebox[54pt][l]{#1.}#2}\par\addvspace{0.5\baselineskip}\egroup%
 \@IEEEtablecaptionsepspace
 \else\WashiIEEEmakecaption{#1}{#2}\fi}
 \makeatother
